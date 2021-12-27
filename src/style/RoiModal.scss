@@ -1,0 +1,16 @@
+.modal-roi {
+  .modal-dialog {
+    max-width: 350px !important;
+  }
+
+  td {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  @media (min-width: 992px) {
+    .modal-dialog-centered {
+      margin-left: calc(((100% - 350px) / 2) + 128px) !important;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.modal-insufficient-balance {
+  .modal-dialog {
+    max-width: 550px;
+  }
+
+  .btn a {
+    color: $white !important;
+    text-decoration: none !important
+  }
+
+  @media (min-width: 992px) {
+    .modal-dialog-centered {
+      margin-left: calc(((100% - 550px) / 2) + 128px) !important;
+    }
+  }
+}

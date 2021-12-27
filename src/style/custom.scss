@@ -1,0 +1,112 @@
+$body-bg: #fafcfd;
+
+$theme-colors: ("primary": $azure-primary);
+
+@import "~bootstrap/scss/bootstrap";
+@import 'assets/fonts/stylesheet.css';
+
+a:hover {
+  color: theme-color("primary");
+}
+
+.btn {
+  padding: 8px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 2px !important;
+
+  &:active:enabled {
+    transform: translateY(1px);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:hover {
+    opacity: 0.65 !important;
+  }
+
+  &-primary {
+    color: $white !important;
+    background-color: $azure-primary !important;
+    border-color: $azure-primary !important;
+  }
+
+  &-secondary {
+    color: $azure-primary !important;
+    background-color: $white !important;
+    border-color: $azure-primary !important;
+  }
+
+  &-transparent {
+    color: $azure-primary !important;
+    background-color: transparent !important;
+    padding: 0;
+  }
+
+  &-icon {
+    background-color: transparent !important;
+    width: 32px;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+  }
+}
+
+.card {
+  border-radius: 40px !important;
+
+  &-header {
+    background-color: #f0f5f8 !important;
+  }
+
+  &-footer {
+    background-color: $white !important;
+  }
+}
+
+.form-control {
+  border-radius: 2px !important;
+}
+
+.modal {
+  &-content {
+    border-radius: 2px !important;
+  }
+
+  &-title {
+    font-weight: bold;
+    color: $blue-dark;
+  }
+}
+
+.jumbotron {
+  padding: 2rem 0;
+  background-color: transparent;
+
+  h1 {
+    color: $azure-primary !important;
+    font-weight: 600 !important;
+  }
+
+  h5 {
+    color: $blue-dark !important;
+    font-weight: 600 !important;
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

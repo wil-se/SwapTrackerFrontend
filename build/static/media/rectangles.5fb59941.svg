@@ -1,0 +1,18 @@
+<svg width="82" height="355" viewBox="0 0 82 355" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 18 Copy 7">
+<path id="Rectangle Copy 45" d="M0.983445 195.647L158.364 100.264L315.745 195.647L158.364 286.176L0.983445 195.647Z" stroke="url(#paint0_linear)"/>
+<path id="Rectangle Copy 46" d="M0.983445 158.353L158.364 62.9694L315.745 158.353L158.364 248.881L0.983445 158.353Z" stroke="url(#paint1_linear)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear" x1="66.5926" y1="99.5176" x2="67.4737" y2="285.682" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E1F6FB"/>
+<stop offset="0.475689" stop-color="#DEE1E9"/>
+<stop offset="1" stop-color="#E1F5FA"/>
+</linearGradient>
+<linearGradient id="paint1_linear" x1="66.5926" y1="62.2234" x2="67.4737" y2="248.388" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E1F6FB"/>
+<stop offset="0.475689" stop-color="#DEE1E9"/>
+<stop offset="1" stop-color="#E1F5FA"/>
+</linearGradient>
+</defs>
+</svg>

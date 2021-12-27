@@ -1,0 +1,7 @@
+.modal-claim {
+  @media (min-width: 992px) {
+    .modal-dialog-centered {
+      margin-left: calc(((100% - 300px) / 2) + 128px) !important;
+    }
+  }
+}

@@ -1,0 +1,132 @@
+.sidebar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 256px !important;
+  height: 100vh;
+
+  .sidebar {
+    height: 100%;
+    font-size: 11px;
+    font-family: AvenirNext-DemiBold, sans-serif;
+    background-color: $white;
+    border-right: 1px solid #0000001f;
+
+    &::before {
+      content: url('../assets/images/rectangles.svg');
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      @media only screen and (max-width: 1280px) {
+        overflow: hidden;
+        width: 50px;
+      }
+    }
+
+    &::after {
+      content: url('../assets/images/rectangles.svg');
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      transform: rotate(180deg);
+      z-index: 1;
+
+      @media only screen and (max-width: 1460px) {
+        overflow: hidden;
+        width: 45px;
+        bottom: -15px;
+      }
+
+      @media only screen and (max-width: 1280px) {
+        overflow: hidden;
+        width: 50px;
+      }
+    }
+  }
+
+  .logo {
+    padding: 25px 50px;
+  }
+
+  .link-container {
+    a {
+      color: $blue-dark !important;
+      text-decoration: none;
+    }
+  }
+
+  .menu {
+    padding: 32px;
+
+    &-item {
+      display: flex;
+      height: 48px;
+      vertical-align: middle;
+
+      a {
+        color: $gray !important;
+        line-height: 16px;
+        letter-spacing: 1px;
+        cursor: pointer !important;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      svg {
+        width: 20px !important;
+        height: 20px !important;
+      }
+
+      &.active {
+        svg {
+          fill: $azure-primary !important;
+        }
+
+        a {
+          color: $blue-dark !important;
+        }
+      }
+    }
+
+  }
+
+  .footer {
+    padding: 25px;
+
+    .address {
+      font-family: InterUI-Bold, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: $blue-dark;
+    }
+
+    .btn {
+      height: 36px;
+    }
+
+    .btn-logout {
+      color: $gray;
+      font-size: 11px;
+      border-color: #0000001f;
+    }
+
+    &-icon {
+      color: #a7b7c7 !important;
+      width: 14px !important;
+      height: 14px !important;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .sidebar-container {
+    display: none;
+  }
+}

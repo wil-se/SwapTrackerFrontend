@@ -1,0 +1,72 @@
+@import "./variables";
+@import "custom";
+@import "Sidebar";
+@import "TopNavbar";
+@import "MainContainer";
+@import "CardsSection";
+@import "PoolCard";
+@import "RoiModal";
+@import "StakeModal";
+@import "ClaimModal";
+@import "InsufficientBalanceModal";
+@import "animations";
+
+body {
+  font-family: Avenir Next, Roboto, Helvetica Neue, sans-serif;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.font-12 {
+  font-size: 12px;
+}
+
+.font-14 {
+  font-size: 14px;
+}
+
+.font-medium {
+  font-family: AvenirNext-Medium;
+}
+
+.text-value {
+  color: $blue-dark !important
+}
+
+.text-primary {
+  color: $azure-primary !important;
+}
+
+.text-secondary {
+  color: $azure-secondary !important;
+}
+
+.text-disabled {
+  color: $gray-disabled;
+}
+
+input.border-none {
+  text-align: right;
+  border: none;
+  padding: 0;
+  box-shadow: none !important;
+}
+
+svg.icon {
+  width: 16px;
+  height: 16px;
+}
+
+h1.page-title {
+  color: $blue-dark !important;
+  font-weight: 500 !important;
+  text-align: center;
+}
+
+@media (min-width: 992px) {
+  body {
+    overflow: hidden;
+  }
+}

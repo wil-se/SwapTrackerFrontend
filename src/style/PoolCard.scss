@@ -1,0 +1,62 @@
+.pool.card {
+  // color: #101617;
+  border: none !important;
+
+
+  .card-header {
+    color: $white !important;
+    background-color: $azure-primary !important;
+    font-family: AvenirNext-Medium;
+    border-color: $azure-primary !important;
+    border-top-left-radius:20px;
+    border-top-right-radius:20px;
+  }
+
+  .card-body {
+    border: 1px solid #00000020;
+    border-bottom: none !important;
+  }
+
+  .card-footer {
+    font-family: AvenirNext-Medium;
+    border: 1px solid #00000020;
+    border-bottom-left-radius:20px;
+    border-bottom-right-radius:20px;
+  }
+
+  .row-apr {
+    line-height: 2.25rem;
+  }
+
+  .apy {
+    text-decoration: underline dotted;
+    text-underline-offset: 0.1em;
+  }
+
+  .row-tvl {
+    line-height: 1.25rem;
+  }
+
+  .btn-apr {
+    color: $azure-primary !important;
+  }
+
+  .btn-claim {
+    width: 94px;
+    border-radius:20px;
+  }
+
+  .btn-stake {
+    font-size: 1.25rem;
+    padding: 4px 10px;
+    border-width: 2px;
+  }
+
+  .btn-details {
+    color: $azure-primary !important;
+    font-family: AvenirNext, sans-serif;
+  }
+  .btn-primary{
+    border-radius: 20px!important;
+  }
+}
