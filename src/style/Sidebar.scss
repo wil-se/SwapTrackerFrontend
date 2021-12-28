@@ -13,7 +13,6 @@
     border-right: 1px solid #0000001f;
 
     &::before {
-      content: url('../assets/images/rectangles.svg');
       position: absolute;
       top: 0;
       right: 0;
@@ -25,7 +24,6 @@
     }
 
     &::after {
-      content: url('../assets/images/rectangles.svg');
       position: absolute;
       bottom: 40px;
       left: 0;
