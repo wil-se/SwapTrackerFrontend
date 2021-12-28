@@ -2,16 +2,15 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 256px !important;
+  width: 315px;
   height: 100vh;
 
   .sidebar {
     height: 100%;
     font-size: 11px;
     font-family: AvenirNext-DemiBold, sans-serif;
-    background-color: $white;
-    border-right: 1px solid #0000001f;
-
+    background-color: #FBFFFF;
+    
     &::before {
       position: absolute;
       top: 0;
@@ -44,83 +43,147 @@
   }
 
   .logo {
-    padding: 25px 50px;
+    padding-top:36px;
+    margin-left:35px;
+    width:176px;
+    height:35px;
   }
 
-  .link-container {
-    a {
-      color: $blue-dark !important;
-      text-decoration: none;
-    }
-  }
 
   .menu {
     padding: 32px;
 
     &-item {
       display: flex;
-      height: 48px;
+      width:250px;
+      height: 61.2px;
       vertical-align: middle;
 
-      a {
-        color: $gray !important;
-        line-height: 16px;
-        letter-spacing: 1px;
+      .link {
+        color:#8DA0B0 !important;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 25px;
+        display: flex;
+        align-items: center;
         cursor: pointer !important;
-
+        vertical-align: middle;
         &:hover {
           text-decoration: none;
+          font-weight: 800;
+          font-size: 19px;
+          line-height: 26px;
+          color: #FBFFFF !important;
         }
       }
 
       svg {
-        width: 20px !important;
+        width: 50px !important;
         height: 20px !important;
       }
 
-      &.active {
-        svg {
-          fill: $azure-primary !important;
-        }
-
-        a {
-          color: $blue-dark !important;
-        }
+      &:active {
+        border-radius: 10px;
+        background-color:#B6D7E4;
+        box-shadow: 0px 0px 23px -2px rgba(171, 194, 214, 0.6);
+      }
+      &:hover{
+        border-radius: 10px;
+        background-color:#B6D7E4;
+        box-shadow: 0px 0px 23px -2px rgba(171, 194, 214, 0.6);
+        color: #FBFFFF !important;
+        
+     
       }
     }
 
   }
 
+  .logoBig {  
+    width:374px;
+    height:374px;
+    overflow:hidden;
+  }
+
   .footer {
-    padding: 25px;
-
-    .address {
-      font-family: InterUI-Bold, sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      color: $blue-dark;
+    position:absolute;
+    bottom:0.02%;
+    left:0;
+    background-color:#FBFFFF;
+    width:305px;
+    height:165px;
+    justify-content:center;
+    align-items:center;
+    text-align: center;
+    .addressSection {
+      align-items:center;
+      position:relative;
+      top:20px;
+      left:20%;
+      img{
+        margin-right: 5px;
+        width:30px;
+        height:30px;
+      }
+      .address {
+        font-family: InterUI-Bold, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: $blue-dark;
+      }
+    }
+  
+    .tierSection{
+      position:relative;
+      top:30px;
+      left:45%;
+      width:58px;
+      height:19px;
+      align-items:center;
+      justify-content:center;
+    
     }
 
-    .btn {
-      height: 36px;
+    .address-under-line{
+      position:relative;
+      top:32px;
+      width:233.25px;
+      border: 1px solid #ABC2D6;
     }
 
-    .btn-logout {
-      color: $gray;
-      font-size: 11px;
-      border-color: #0000001f;
-    }
+    .logoutSection{
+      cursor:pointer;
+      position:relative;
+      top:40px;
+      left:40%;
+      width:100%;
+      img{
+        width:18px;
+        height:18px;
+        margin-right:5px;
+      }
+      .logout-text{
+        width:54px;
+        height:21.53px;
+        font-weight: 800;
+        font-size: 14px;
+        font-style:normal;
+        line-height: 19.12px;
+        color: #8DA0B0;
 
-    &-icon {
-      color: #a7b7c7 !important;
-      width: 14px !important;
-      height: 14px !important;
+      }
     }
   }
+}
+
+.logo-under-line {
+  width:233.25px;
+  border: 1px solid #ABC2D6;
 }
 
 @media (max-width: 991px) {
