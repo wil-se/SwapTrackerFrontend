@@ -50,6 +50,11 @@ function App() {
             </Row>
           </Col>
         </Row>
+        <Row className="d-flex justify-content-center mt-5">
+          <Col md={9}>
+            <h5 className="text-uppercase text-center font-weight-bold" style={{color: '#889db3'}}><a style={{color: '#889db3'}} href="https://bit.ly/stakingtutorial" target="_blank" rel="noreferrer">How to stake SWPT</a></h5>
+          </Col>
+        </Row>
       </MainContainer>
     </>
   );
