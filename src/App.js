@@ -9,6 +9,7 @@ import TopNavbar from 'components/TopNavbar';
 import MainContainer from 'components/MainContainer';
 import CardsSection from 'components/CardsSection';
 import PoolCard from 'components/PoolCard';
+import SideBar from 'components/SideBar';
 
 // This config is required for number formatting
 BigNumber.config({
@@ -31,6 +32,7 @@ function App() {
   return (
     <>
       <TopNavbar></TopNavbar>
+      <SideBar/>
       <MainContainer>
         <a href="https://swaptracker.io/">
           <img src="./images/logo.svg" alt="SwapTracker" width="100%" height="110px" style={{ display: 'none' }}></img>
