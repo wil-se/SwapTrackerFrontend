@@ -70,9 +70,9 @@ const SideBar = () => {
                     </Link>
                 </Row>
                 <Row className="menu-item">
-                    <Link to="stacking" className="link">
+                    <Link to="staking" className="link">
                         <Icon.Stack/>
-                        Stacking
+                        Staking
                     </Link>
                 </Row>
                 <Row className="menu-item">

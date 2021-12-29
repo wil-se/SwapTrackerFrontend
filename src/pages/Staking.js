@@ -5,7 +5,6 @@ import { Col, Row } from 'react-bootstrap';
 import { usePools } from 'store/hooks';
 import { useFetchPublicData, useFetchPriceList } from 'store/hooks';
 import useEagerConnect from 'hooks/useEagerConnect';
-import TopNavbar from 'components/TopNavbar';
 import MainContainer from 'components/MainContainer';
 import CardsSection from 'components/CardsSection';
 import PoolCard from 'components/PoolCard';
@@ -15,7 +14,7 @@ BigNumber.config({
     DECIMAL_PLACES: 80,
   });
 
-const Stacking = () => {
+const Staking = () => {
     useEagerConnect();
     useFetchPublicData();
     useFetchPriceList();
@@ -47,4 +46,4 @@ const Stacking = () => {
     )
 }
 
-export default Stacking
+export default Staking

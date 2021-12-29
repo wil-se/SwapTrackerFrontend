@@ -1,11 +1,9 @@
 import React from 'react';
+import { Routes, Route } from "react-router-dom";
 import SideBar from 'components/SideBar';
-
-// This config is required for number formatting
-BigNumber.config({
-  EXPONENTIAL_AT: 1000,
-  DECIMAL_PLACES: 80,
-});
+import TopNavbar from 'components/TopNavbar';
+import Staking from 'pages/Staking';
+import Trade from 'pages/Trade';
 
 import 'style/App.scss';
 
@@ -15,7 +13,10 @@ function App() {
     <>
       <TopNavbar></TopNavbar>
       <SideBar/>
-      
+      <Routes>
+        <Route path="/staking" element={<Staking/>}/>
+        <Route path="/trade" element={<Trade/>}/>
+      </Routes>
       
     </>
   );
