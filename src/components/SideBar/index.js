@@ -10,11 +10,16 @@ import * as Icon from 'react-bootstrap-icons'
 //icons
 import { useWeb3React } from '@web3-react/core';
 import useAuth from 'hooks/useAuth';
+import { useFacebookPixel } from 'hooks/useFacebookPixel';
+import { useGoogleAnalytics } from 'hooks/useGoogleAnalytics';
 
 const SideBar = () => {
+    useGoogleAnalytics();
     const { account } = useWeb3React();
     const {logout} = useAuth()
     const [tiers,setTiers] = useState(0);
+    const pixel = useFacebookPixel();
+    const ga = useGoogleAnalytics();
 
     const sideBarRows = [
         {title:"Dashboard",id:"dashboard", icon:require('../../assets/icons/logOutIcon.png')},
@@ -28,10 +33,9 @@ const SideBar = () => {
         return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
     }
     
-
     useEffect(()=>{
-
-        
+        pixel.track('ViewContent', { content_name: window.location.pathname });
+        ga.send({ hitType: "pageview", page: window.location.pathname });
     },[])
 
     return (
