@@ -10,30 +10,31 @@ import * as Icon from 'react-bootstrap-icons'
 //icons
 import { useWeb3React } from '@web3-react/core';
 import useAuth from 'hooks/useAuth';
+import useEagerConnect from 'hooks/useEagerConnect';
+import {callPost} from 'utils/swapTrackerServiceConnection'
 
 const SideBar = () => {
+    useEagerConnect()
     const { account } = useWeb3React();
     const {logout} = useAuth()
-    const [tiers,setTiers] = useState(0);
+    const [user,setUser] = useState({})
 
-    const sideBarRows = [
-        {title:"Dashboard",id:"dashboard", icon:require('../../assets/icons/logOutIcon.png')},
-        {title:"Wallet",id:"wallet"},
-        {title:"History",id:"history"},
-        {title:"Trade",id:"trade"},
-        {title:"Stacking",id:"stacking"},
-        {title:"Tiers",id:"tiers"}
-    ];
     const getShrunkWalletAddress = (addr) => {
         return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
     }
+
+    useEffect(() =>{
+        if(account){ 
+            let userI = {address:account && account,lastLogin:new Date()}
+            setUser(userI)
+            callPost("createOrUpdateUser",userI).then((resp)=>{console.log(resp)})
+        }
+    },[account])
     
 
-    useEffect(()=>{
-
+   
         
-    },[])
-
+   
     return (
         <Container fluid className="sidebar-container">
             <div className="sidebar">

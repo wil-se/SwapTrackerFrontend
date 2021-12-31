@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
+import { useWeb3React, UnsupportedChainIdError,handleAccountsChanged } from '@web3-react/core';
 import { NoEthereumProviderError, UserRejectedRequestError } from '@web3-react/injected-connector';
 import { ConnectorNames, connectorsByName } from 'utils/web3React';
 import { setupNetwork } from 'utils/wallet';
@@ -32,6 +32,7 @@ const useAuth = () => {
 
   const login = useCallback(() => {
     activate(connector, async error => {
+      
       if (isBrowserTabActiveRef) {
         if (error instanceof UnsupportedChainIdError) {
           const hasSetup = await setupNetwork();
@@ -48,6 +49,7 @@ const useAuth = () => {
       }
     })
     .then(() => {
+   
       pixel.trackCustom('walled_connected');
     });
 

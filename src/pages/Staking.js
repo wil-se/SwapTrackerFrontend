@@ -15,7 +15,6 @@ BigNumber.config({
   });
 
 const Staking = () => {
-    useEagerConnect();
     useFetchPublicData();
     useFetchPriceList();
   
