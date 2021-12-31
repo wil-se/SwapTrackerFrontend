@@ -10,34 +10,38 @@ import * as Icon from 'react-bootstrap-icons'
 //icons
 import { useWeb3React } from '@web3-react/core';
 import useAuth from 'hooks/useAuth';
+import useEagerConnect from 'hooks/useEagerConnect';
+import {callPost} from 'utils/swapTrackerServiceConnection'
 import { useFacebookPixel } from 'hooks/useFacebookPixel';
 import { useGoogleAnalytics } from 'hooks/useGoogleAnalytics';
 
 const SideBar = () => {
+  
+    useEagerConnect()
     useGoogleAnalytics();
     const { account } = useWeb3React();
     const {logout} = useAuth()
+    const [user,setUser] = useState({})
     const [tiers,setTiers] = useState(0);
     const pixel = useFacebookPixel();
     const ga = useGoogleAnalytics();
 
-    const sideBarRows = [
-        {title:"Dashboard",id:"dashboard", icon:require('../../assets/icons/logOutIcon.png')},
-        {title:"Wallet",id:"wallet"},
-        {title:"History",id:"history"},
-        {title:"Trade",id:"trade"},
-        {title:"Stacking",id:"stacking"},
-        {title:"Tiers",id:"tiers"}
-    ];
     const getShrunkWalletAddress = (addr) => {
         return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
     }
-    
-    useEffect(()=>{
+
+    useEffect(() =>{
         pixel.track('ViewContent', { content_name: window.location.pathname });
         ga.send({ hitType: "pageview", page: window.location.pathname });
-    },[])
-
+        if(account){ 
+            let userI = {address:account && account,lastLogin:new Date()}
+            setUser(userI)
+            callPost("createOrUpdateUser",userI).then((resp)=>{
+              console.log(resp)
+            });
+        }
+    },[account])
+  
     return (
         <Container fluid className="sidebar-container">
             <div className="sidebar">
@@ -74,9 +78,9 @@ const SideBar = () => {
                     </Link>
                 </Row>
                 <Row className="menu-item">
-                    <Link to="stacking" className="link">
+                    <Link to="staking" className="link">
                         <Icon.Stack/>
-                        Stacking
+                        Staking
                     </Link>
                 </Row>
                 <Row className="menu-item">
