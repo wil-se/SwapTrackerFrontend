@@ -17,7 +17,6 @@ function App() {
         <Route path="/staking" element={<Staking/>}/>
         <Route path="/trade" element={<Trade/>}/>
       </Routes>
-      
     </>
   );
 }
