@@ -6,7 +6,7 @@ import bep20Abi from 'config/abi/erc20.json';
 import lpTokenABI from 'config/abi/lpToken.json';
 import StakePoolABI from 'config/abi/StakePool.json';
 
-const getContract = (abi, address, web3) => {
+export const getContract = (abi, address, web3) => {
   const _web3 = web3 ?? web3NoAccount;
   return new _web3.eth.Contract(abi, address);
 };
