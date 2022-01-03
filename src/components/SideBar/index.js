@@ -11,9 +11,9 @@ import * as Icon from 'react-bootstrap-icons'
 import { useWeb3React } from '@web3-react/core';
 import useAuth from 'hooks/useAuth';
 import useEagerConnect from 'hooks/useEagerConnect';
-import {callPost} from 'utils/swapTrackerServiceConnection'
 import { useFacebookPixel } from 'hooks/useFacebookPixel';
 import { useGoogleAnalytics } from 'hooks/useGoogleAnalytics';
+import useAuthService from 'hooks/useAuthService';
 
 const SideBar = () => {
   
@@ -21,7 +21,7 @@ const SideBar = () => {
     useGoogleAnalytics();
     const { account } = useWeb3React();
     const {logout} = useAuth()
-    const [user,setUser] = useState({})
+    const {createOrUpdateUser} = useAuthService()
     const [tiers,setTiers] = useState(0);
     const pixel = useFacebookPixel();
     const ga = useGoogleAnalytics();
@@ -34,11 +34,8 @@ const SideBar = () => {
         pixel.track('ViewContent', { content_name: window.location.pathname });
         ga.send({ hitType: "pageview", page: window.location.pathname });
         if(account){ 
-            let userI = {address:account && account,lastLogin:new Date()}
-            setUser(userI)
-            callPost("createOrUpdateUser",userI).then((resp)=>{
-              console.log(resp)
-            });
+            let user = {address:account && account,lastLogin:new Date()}
+            createOrUpdateUser(user)
         }
     },[account])
   

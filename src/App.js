@@ -6,6 +6,7 @@ import Staking from 'pages/Staking';
 import Trade from 'pages/Trade';
 
 import 'style/App.scss';
+import Wallet from 'pages/Wallet';
 
 function App() {
  
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/staking" element={<Staking/>}/>
         <Route path="/trade" element={<Trade/>}/>
+        <Route path="/wallet" element={<Wallet/>}/>
       </Routes>
     </>
   );

@@ -20,7 +20,7 @@ const Trade = () => {
 
     const swap = () => {
         console.log("vediamo ", chainId)
-       callPost("createOrUpdateUserTokenList",user).then(resp=>{console.log(resp)});
+       callPost("updateUserTokenList",user).then(resp=>{console.log(resp)});
         
     }
 
