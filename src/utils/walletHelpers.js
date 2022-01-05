@@ -7,8 +7,10 @@ const getTokenBalance = async (tokenContract,user) => {
     let decimals =  await tokenContract.methods.decimals().call()
     let balance = await tokenContract.methods.balanceOf(user.address).call({from:user.address})
     let balanceFormatted = new BigNumber(balance).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(parseInt(decimals));
-    let price = await getBusdOut(tokenContract._address,balanceFormatted,parseInt(decimals))
-    return new BigNumber(price).shiftedBy(-1*18).toNumber().toFixed(decimals);
+    if(Number(balanceFormatted) > 0){
+        let price = await getBusdOut(tokenContract._address,balanceFormatted,parseInt(decimals))
+        return new BigNumber(price).shiftedBy(-1*18).toNumber().toFixed(decimals);
+    } else return balanceFormatted
 }
 
 const getFlatBalance = async (tokenContract,user) => {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Dropdown, Row, Col } from 'react-bootstrap';
 
 const TopNavbar = function () {
   return (
@@ -6,50 +7,22 @@ const TopNavbar = function () {
       <nav className="navbar navbar-expand-md bg-faded cripto_nav">
         <div className="container">
 
-          <a className="navbar-brand" href="#">
-            <img src="images/logo.svg" className="logo-swaptracker" alt="logo" />
-          </a>
-          <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <i className="fas fa-bars"></i>
-          </button>
+        {/* <Dropdown>
+          <Dropdown.Toggle variant="primary" id="dropdown-basic">
+            Dropdown Button
+          </Dropdown.Toggle>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <a href="https://swaptracker.io/#header-05" className="nav-link">Home</a>
-              </li>
-              <li className="nav-item">
-                <a href="https://bit.ly/SWPTpcs" target="_blank" className="nav-link" rel="noreferrer">Buy Now</a>
-              </li>
-              <li className="nav-item">
-                <a href="#" target="_blank" className="nav-link active" rel="noreferrer">Staking</a>
-              </li>
-              <li className="nav-item">
-                <a href="https://swaptracker.io/#features" className="nav-link"> Features</a>
-              </li>
-              <li className="nav-item">
-                <a href="https://swaptracker.io/#roadmap_05" className="nav-link">Roadmap</a>
-              </li>
-              <li className="nav-item">
-                <a href="https://swaptracker.io/#tokenomics" className="nav-link">Tokenomics</a>
-              </li>
-              <li className="nav-item">
-                <a
-                  href="https://www.swaptracker.io/pdf/litepaper-swaptracker.pdf"
-                  target="_blank"
-                  className="nav-link"
-                  rel="noreferrer"
-                >
-                  Litepaper
-                </a>
-              </li>
-              <li className="nav-item">
-                <a href="https://swaptracker.io/#team_membar_02" className="nav-link">Team</a>
-              </li>
-            </ul>
-          </div>
+          <Dropdown.Menu>
+          <Row>
+            <Col><Dropdown.Item href="#/action-1">Action</Dropdown.Item></Col>
+            <Col><Dropdown.Item href="#/action-2">Another action</Dropdown.Item></Col>
+            <Col><Dropdown.Item href="#/action-3">Something else</Dropdown.Item></Col>
+          </Row>
+          
+            
+          </Dropdown.Menu>
+        </Dropdown> */}
+          
         </div>
       </nav>
     </div>

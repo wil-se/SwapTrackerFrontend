@@ -4,6 +4,8 @@ import { Button } from 'react-bootstrap';
 import useAuthService from 'hooks/useAuthService'
 import useWeb3 from 'hooks/useWeb3';
 import {walletDistribution,getWalletTVL} from 'utils/walletHelpers'
+import { Card, Row, Col } from 'react-bootstrap';
+
 
 const Wallet = () => {
     const [walletTVL,setWalletTVL] = useState(0)
@@ -17,8 +19,28 @@ const Wallet = () => {
     return (
         <MainContainer>
 
-           <Button onClick={wlltDist}>Wallet Distribution</Button>
-           <Button onClick={getWlltTVL}>TVL</Button>
+            <Card>
+                <Card.Body>    
+                    <Row>
+                        <Col>
+                            test
+                            <Button onClick={wlltDist}>Wallet Distribution</Button>
+                            <Button onClick={getWlltTVL}>TVL</Button>
+                        </Col>
+                            
+                        <Col>
+                            sa
+                        </Col>
+                        
+                        <Col>
+                            prova
+                        </Col>
+                        
+                    </Row>
+                </Card.Body>
+            </Card>
+
+        
         </MainContainer>
     )
 }
