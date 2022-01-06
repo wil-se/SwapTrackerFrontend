@@ -1,0 +1,165 @@
+
+.trade-card-container{
+    position:absolute;
+    left: 785px;
+    top: 183px;
+    
+}
+
+.trade-main-card{
+    width:515px;
+    height:584px;
+    border-radius:10px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 23px -2px rgba(171, 194, 214, 0.6);
+}
+
+.trade-main-card-header{
+    width:100%;
+    height:117px;
+    background-color: #ACD8E6;
+    border-radius: 10px 10px 0px 0px;
+    &-items{
+        display:flex;
+        padding:36px 51px 29px 51px;
+        flex-direction:row;
+        justify-content:space-between;
+        vertical-align:middle;
+        .info-section{
+            display:flex;
+            flex-direction: column;
+            vertical-align:middle;
+            .ex-section{
+                height:33px;
+                display:flex;
+                flex-direction: row;
+                vertical-align:middle;
+                .title-section{
+                    font-style: normal;
+                    font-weight: 900;
+                    font-size: 24px;
+                    line-height: 33px;
+                    color: #FBFFFF;
+                    padding-right: 13px;        
+                }
+                img{
+                    margin-top:9px;
+                    cursor:pointer;
+                }
+            }
+            .trade-token-section{
+                font-style: normal;
+                font-weight: 800;
+                font-size: 14px;
+                line-height: 19px;
+                color: #FBFFFF;
+            }
+            
+        }
+        svg{
+            margin-top:15px;
+            cursor:pointer;
+        }
+    }
+
+}
+
+.trade-inputs-section{
+    margin-top: 46px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .trade-input-section{
+        width: 412px;
+        background: rgba(171, 194, 214, 0.17);
+        box-shadow: inset 0px 0px 8px #ABC2D6;
+        border-radius: 10px;
+        padding: 12px 16px 12px 16px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .label-section{
+            width: 370px;
+            font-style: normal;
+            font-weight: 800;
+            font-size: 14px;
+            line-height: 19px;
+            color: #3B434A;
+            
+        }
+        
+        .trade-input-position{
+            margin-top: 12px;
+            width: 370px;
+            display: flex;
+            justify-content: space-between;
+            input{
+                all:unset;
+                font-style: normal;
+                font-weight: 900;
+                font-size: 24px;
+                line-height: 33px;
+                color: #8DA0B0;
+            }
+            button{
+                all: unset;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                font-style: normal;
+                font-weight: 800;
+                font-size: 14px;
+                line-height: 19px;
+                color: #3B434A;
+                cursor:pointer;
+
+                .arrow{
+                    margin-left:8px;
+                }
+                .icon-coin{
+                    margin-right:8px;
+                    width:16px;
+                    height:16px;
+                }
+            }
+
+        }
+
+        
+    }
+    .arrow-switch-pair{
+        cursor:pointer;
+        margin-top:40px;
+        display:flex;
+        vertical-align: middle;
+        margin-bottom:22px;
+        
+    }
+}
+
+.confirm-section{
+    display:flex;
+    margin-top:57px;
+    align-items: center;
+    justify-content:center;
+    .confirm-button{
+        all:unset;
+        cursor:pointer;
+        width:412px;
+        height: 57px;
+        background: #ACD8E6;
+        border-radius: 5px;
+        text-align: center;
+        text-transform: uppercase;
+        color:#FFFFFF;
+        font-style: normal;
+        font-weight: 800;
+        font-size: 14px;
+        line-height: 19px;
+    }
+}
+
+

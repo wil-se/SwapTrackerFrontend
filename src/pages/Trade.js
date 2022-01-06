@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core';
-import MainContainer from 'components/MainContainer';
 import {callPost} from 'utils/swapTrackerServiceConnection'
-import { Button } from 'react-bootstrap';
 import useWeb3 from 'hooks/useWeb3';
+
+import MainContainer from 'components/MainContainer';
+import TradeCard from 'components/TradeCard';
 
 const Trade = () => {
     const {chainId} = useWeb3()
@@ -26,7 +27,8 @@ const Trade = () => {
 
     return (
         <MainContainer>
-            <Button onClick={swap}>Swap</Button>
+            <h1 className="subheader-title">Trade</h1>
+            <TradeCard/>
         </MainContainer>
     )
 }

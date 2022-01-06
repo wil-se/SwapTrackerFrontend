@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import MainContainer from 'components/MainContainer'
 import { Button } from 'react-bootstrap';
 import useAuthService from 'hooks/useAuthService'
@@ -14,7 +14,15 @@ const Wallet = () => {
     const {user} = useAuthService()
     const wlltDist = async ()=>{let wlltDist =  await walletDistribution(user,walletTVL,web3,chainId); setWalletDistributions(wlltDist)}
     const getWlltTVL = async ()=>{let wlltTVL = await getWalletTVL(user,web3,chainId); setWalletTVL(wlltTVL)}
- 
+    
+    useEffect(() => {
+       if(user && chainId){
+           getWlltTVL()
+           if(walletTVL){
+               wlltDist()
+           }
+       }
+    }, [user,walletTVL])
 
     return (
         <MainContainer>
@@ -23,7 +31,7 @@ const Wallet = () => {
                 <Card.Body>    
                     <Row>
                         <Col>
-                            test
+                            {walletTVL}
                             <Button onClick={wlltDist}>Wallet Distribution</Button>
                             <Button onClick={getWlltTVL}>TVL</Button>
                         </Col>
