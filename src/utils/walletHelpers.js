@@ -4,7 +4,7 @@ import {getBusdOut} from 'utils/getBusdOut'
 
 
 const getTokenBalance = async (tokenContract,user) => {
-    let decimals =  await tokenContract.methods.decimals().call()
+    let decimals = await tokenContract.methods.decimals().call();
     let balance = await tokenContract.methods.balanceOf(user.address).call({from:user.address})
     let balanceFormatted = new BigNumber(balance).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(parseInt(decimals));
     if(Number(balanceFormatted) > 0){
@@ -23,7 +23,7 @@ export const walletDistribution = async (user,walletTVL,web3,chainId) => {
     let balance = {}
     await Promise.all(
         
-        user.tokenList[chainId].map(async (tokenAddress)=>{
+        user?.tokenList[chainId].map(async (tokenAddress)=>{
             let tokenContract = getBep20Contract(String(tokenAddress).toLocaleLowerCase(),web3)
             let singleBalance = await getFlatBalance(tokenContract,user)   
             let singleTokenBusdBalance = await getTokenBalance(tokenContract,user)
@@ -39,12 +39,11 @@ export const walletDistribution = async (user,walletTVL,web3,chainId) => {
 export const getWalletTVL = async (user,web3,chainId) => {
     let tvl = 0;
     await Promise.all(
-        user.tokenList[chainId].map(async (tokenAddress)=>{
+        user?.tokenList[chainId].map(async (tokenAddress)=>{
             let tokenContract = getBep20Contract(String(tokenAddress).toLocaleLowerCase(),web3)
             let bal = await getTokenBalance(tokenContract,user)
             tvl += parseFloat(bal);
         })
-
-    ) 
+    )            
     return tvl;
 }
