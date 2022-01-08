@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState,useEffect } from 'react'
 import MainContainer from 'components/MainContainer'
 import { Button } from 'react-bootstrap';
 import useAuthService from 'hooks/useAuthService'
@@ -19,21 +19,15 @@ const Wallet = () => {
     const {user} = useAuthService()
     const wlltDist = async ()=>{let wlltDist =  await walletDistribution(user,walletTVL,web3,chainId); setWalletDistributions(wlltDist)}
     const getWlltTVL = async ()=>{let wlltTVL = await getWalletTVL(user,web3,chainId); setWalletTVL(wlltTVL)}
-    const { account } = useWeb3React();
-
-    const getShrunkWalletAddress = (addr) => {
-        return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
-    }
-
+    
     useEffect(() => {
-        if(user && chainId){
-            getWlltTVL()
-            if(walletTVL){
-                wlltDist()
-
-            }
-        }
-      }, [user, walletTVL]);
+       if(user && chainId){
+           getWlltTVL()
+           if(walletTVL){
+               wlltDist()
+           }
+       }
+    }, [user,walletTVL])
 
     return (
         <MainContainer>
