@@ -2,16 +2,20 @@ import React,{useState} from 'react'
 import TradeHeader from './TradeHeader'
 import PropTypes from 'prop-types';
 import arrowIcon from '../../assets/icons/arrowIcon.png';
-import btc from 'cryptocurrency-icons/svg/color/btc.svg';
-import eth from 'cryptocurrency-icons/svg/color/eth.svg';
-import * as Icon from 'react-bootstrap-icons'
+import * as Icon from 'react-bootstrap-icons';
+import CryptoIcon from 'assets/icons/';
+import TradeModalTokenList from '../TradeModalTokenList';
+import TradeModalSettings from '../TradeModalSettings';
 
-const TradeMainCard = ({openSettingPanel}) => {
+const TradeMainCard = () => {
+    let eth = '_eth'
     const [switchPair,setSwitchPair] = useState(false)
+    const [openTokenListModal,setOpenTokenListModal] = useState(false)
+    const [openSettingsModal,setOpenSettingsModal] = useState(false)
     return (
         <div>
             <div className="trade-main-card">
-                <TradeHeader openSettingPanel={openSettingPanel}  />
+                <TradeHeader setOpenSettingsModal={setOpenSettingsModal} />
                 <div className="trade-inputs-section">
                     <div className="trade-input-section">
                         <div className="label-section">From</div>
@@ -28,8 +32,8 @@ const TradeMainCard = ({openSettingPanel}) => {
                                 maxLength="79"
                                 spellCheck="false"
                             />
-                            <button>
-                                <img className="icon-coin" src={btc} />
+                            <button onClick={()=>setOpenTokenListModal(!openTokenListModal)}>
+                                <img className="icon-coin" src={CryptoIcon['_btc']} />
                                 BTC
                                 <img className="arrow" src={arrowIcon}/>
                             </button>
@@ -53,8 +57,8 @@ const TradeMainCard = ({openSettingPanel}) => {
                                 maxLength="79"
                                 spellCheck="false"
                             />
-                            <button>
-                                <img className="icon-coin" src={eth} />
+                            <button onClick={()=>setOpenTokenListModal(!openTokenListModal)}>
+                                <img className="icon-coin" src={CryptoIcon[eth]} />
                                 ETH
                                 <img className="arrow" src={arrowIcon}/>
                             </button>
@@ -67,6 +71,14 @@ const TradeMainCard = ({openSettingPanel}) => {
                     </button>
                 </div>            
             </div>
+            {openTokenListModal?
+                <TradeModalTokenList setOpenTokenListModal={setOpenTokenListModal}/>
+                :null
+            }
+            {openSettingsModal?
+                <TradeModalSettings setOpenSettingsModal={setOpenSettingsModal}/>
+                :null
+            }
         </div>
     )
 }

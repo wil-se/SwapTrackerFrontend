@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import * as Icon from 'react-bootstrap-icons'
 import infoIcon from '../../assets/icons/infoIcon.png';
-const TradeHeader = ({openSettingPanel}) => {
+const TradeHeader = ({setOpenSettingsModal}) => {
     return (
         <div className="trade-main-card-header">
             <div className="trade-main-card-header-items">
@@ -15,7 +15,7 @@ const TradeHeader = ({openSettingPanel}) => {
                     Trade tokens in an instant 
                     </div>
                 </div>
-                <div onClick={openSettingPanel}>
+                <div onClick={()=>setOpenSettingsModal(true)}>
                 <Icon.Gear color="#FFFFFF" size={24}/>
                 </div>
             </div>
@@ -24,8 +24,8 @@ const TradeHeader = ({openSettingPanel}) => {
 }
 
 TradeHeader.propTypes = {
-    
-    openSettingPanel:PropTypes.func,
+    setOpenSettingsModal: PropTypes.func,
 };
+
 
 export default TradeHeader

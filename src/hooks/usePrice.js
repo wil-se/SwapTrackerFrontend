@@ -28,10 +28,7 @@ const usePrice = tokenAddress => {
     setToken1Reserve(getBalanceAmount(reserves[0]).toNumber());
     setToken2Reserve(getBalanceAmount(reserves[1]).toNumber());
     setTotalSupply(getBalanceAmount(totalSupply).toNumber());
-    var out = await getBusdOut("0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82", 1);
-    // console.log(out);
-    var token_decimals = 18;
-    var parsed = new BigNumber(out).shiftedBy(-1*token_decimals).toNumber().toFixed(token_decimals);
+    
   }, [tokenContract]);
 
   useEffect(() => {

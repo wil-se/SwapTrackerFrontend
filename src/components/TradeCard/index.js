@@ -7,6 +7,7 @@ const TradeCard = () => {
      return (
         <div className="trade-card-container"> 
             <TradeMainCard openSettingPanel={openSettingPanel}/>
+            
         </div>
     )
 }
