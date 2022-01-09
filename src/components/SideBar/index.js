@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import  {Container,Row} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Container, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 //icons
 import logoGrande from '../../assets/icons/logoGrandeSidebar.png';
 import addressAvatar from '../../assets/icons/addressAvatar.png';
 import tierPro from '../../assets/icons/tierPro.png';
 import logOutIcon from '../../assets/icons/logOutIcon.png';
-import * as Icon from 'react-bootstrap-icons'
+import * as Icon from 'react-bootstrap-icons';
 //icons
 import { useWeb3React } from '@web3-react/core';
 import useAuth from 'hooks/useAuth';
@@ -16,8 +16,7 @@ import { useGoogleAnalytics } from 'hooks/useGoogleAnalytics';
 import useAuthService from 'hooks/useAuthService';
 
 const SideBar = () => {
-  
-    useEagerConnect()
+    useEagerConnect();
     useGoogleAnalytics();
     const { account } = useWeb3React();
     const {logout} = useAuth()

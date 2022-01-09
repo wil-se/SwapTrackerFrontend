@@ -8,25 +8,90 @@ import { Card, Row, Col } from 'react-bootstrap';
 import { useWeb3React } from '@web3-react/core';
 import addressAvatarBig from '../assets/icons/addressAvatarBig.png';
 import "./WalletStyles.css"
-import { WalletChart } from 'components/Wallet/WalletChart';
+// import { WalletChart } from 'components/Wallet/WalletChart';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip)
 
 
 const Wallet = () => {
     const [walletTVL,setWalletTVL] = useState(0)
     const [walletDistributions,setWalletDistributions] = useState({})
+    const [chartData, setChartData] = useState({
+        labels: [],
+        datasets: [
+          {
+            label: '# of Votes',
+            data: [],
+          },
+        ],
+    })
     
     const {chainId,web3} = useWeb3()
     const {user} = useAuthService()
-    const wlltDist = async ()=>{let wlltDist =  await walletDistribution(user,walletTVL,web3,chainId); setWalletDistributions(wlltDist)}
+    const wlltDist = async ()=>{
+        let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
+        setWalletDistributions(wlltDist);
+        const cLabels = [];
+        const cData = [];
+        console.log(wlltDist);
+
+        for (const [key, value] of Object.entries(wlltDist)) {
+            console.log(key, value);
+            cLabels.push(value[3].toUpperCase());
+            cData.push(value[0]);
+        }
+
+        setChartData({
+            labels: cLabels,
+            datasets: [
+              {
+                label: '# of Votes',
+                data: cData,
+                backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)',
+                ],
+                borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)',
+                ],
+                borderWidth: 0,
+                offset: 20,
+                radius: 80,
+              },
+            ],
+        })
+
+        
+    }
     const getWlltTVL = async ()=>{let wlltTVL = await getWalletTVL(user,web3,chainId); setWalletTVL(wlltTVL)}
+    const { account } = useWeb3React();
+
+    const getShrunkWalletAddress = (addr) => {
+        return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
+    }
     
     useEffect(() => {
-       if(user && chainId){
-           getWlltTVL()
-           if(walletTVL){
-               wlltDist()
-           }
-       }
+        console.log(user);
+        if(user && chainId){
+            getWlltTVL()
+            if(walletTVL){
+                wlltDist()
+            }
+        }
+
+
+        
     }, [user,walletTVL])
 
     return (
@@ -61,7 +126,7 @@ const Wallet = () => {
                         </Col>
                             
                         <Col xs={3}>
-                            <WalletChart></WalletChart>
+                            <Doughnut data={chartData} />
                         </Col>
                         
                         <Col>

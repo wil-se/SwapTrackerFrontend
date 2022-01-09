@@ -33,7 +33,6 @@ export const walletDistribution = async (user,walletTVL,web3,chainId) => {
             
         })
     )
-    console.log(balance)
     return balance;
 }
 
