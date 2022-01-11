@@ -5,7 +5,7 @@ import { Container } from 'react-bootstrap';
 const MainContainer = function ({ children }) {
   return (
     <Container className="main-container">
-      <Container className="content">
+      <Container className="content" style={{minWidth: 1400}}>
         {children}
       </Container>
     </Container>
