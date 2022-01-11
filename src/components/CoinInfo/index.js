@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import * as CoingeckoTokens from '../../config/constants/coingeckoTokens';
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
+import '../../style/WalletOverview.scss'
 
 
 
@@ -39,7 +40,7 @@ export function CoinInfo(props) {
   }, [])
 
   return(
-    <Card>
+    <Card className="wallet-overview-card">
       <Card.Body>
         <Row>
           <Col xs={2}>

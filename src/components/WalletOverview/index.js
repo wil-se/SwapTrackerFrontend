@@ -9,6 +9,7 @@ import useWeb3 from 'hooks/useWeb3';
 import useAuthService from 'hooks/useAuthService'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useWeb3React } from '@web3-react/core';
+import '../../style/WalletOverview.scss'
 
 
 export function WalletOverview(){
@@ -78,7 +79,7 @@ export function WalletOverview(){
             ],
             borderWidth: 0,
             offset: 20,
-            radius: 80,
+            radius: 120,
           },
         ],
     })  
@@ -96,7 +97,7 @@ export function WalletOverview(){
   
   return(
     <Row>
-    <Card style={{width: "100%", marginBottom: 20}}>
+    <Card style={{width: "100%", marginBottom: 20, padding: 40}} className="wallet-overview-card">
       <Card.Body>    
           <Row>
               <Col className="border-right">
