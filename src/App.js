@@ -4,9 +4,11 @@ import SideBar from 'components/SideBar';
 import TopNavbar from 'components/TopNavbar';
 import Staking from 'pages/Staking';
 import Trade from 'pages/Trade';
+import Tier from 'pages/Tier';
+import Wallet from 'pages/Wallet';
+
 
 import 'style/App.scss';
-import Wallet from 'pages/Wallet';
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
         <Route path="/staking" element={<Staking />} />
         <Route path="/trade" element={<Trade />} />
         <Route path="/wallet" element={<Wallet />} />
+        <Route path="/tiers" element={<Tier />} />
       </Routes>
     </>
   );
