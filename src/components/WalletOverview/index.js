@@ -1,4 +1,3 @@
-
 import React, { useState,useEffect } from 'react'
 import { Card, Row, Col } from 'react-bootstrap';
 import addressAvatarBig from '../../assets/icons/addressAvatarBig.png';
@@ -10,6 +9,10 @@ import useAuthService from 'hooks/useAuthService'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useWeb3React } from '@web3-react/core';
 import '../../style/WalletOverview.scss'
+import { WalletOverviewCoinInfo } from 'components/WalletOverviewCoinInfo';
+import * as CoingeckoTokens from '../../config/constants/coingeckoTokens';
+const CoinGecko = require('coingecko-api');
+const CoinGeckoClient = new CoinGecko();
 
 
 export function WalletOverview(){
@@ -21,11 +24,11 @@ export function WalletOverview(){
     return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
   }
 
-  const [coin0, setCoin0] = useState({symbol: "", perc: ""})
-  const [coin1, setCoin1] = useState({symbol: "", perc: ""})
-  const [coin2, setCoin2] = useState({symbol: "", perc: ""})
-  const [coin3, setCoin3] = useState({symbol: "", perc: ""})
-  const [coin4, setCoin4] = useState({symbol: "", perc: ""})
+  const [coin0, setCoin0] = useState({symbol: "", name: "", perc: ""})
+  const [coin1, setCoin1] = useState({symbol: "", name: "", perc: ""})
+  const [coin2, setCoin2] = useState({symbol: "", name: "", perc: ""})
+  const [coin3, setCoin3] = useState({symbol: "", name: "", perc: ""})
+  const [coin4, setCoin4] = useState({symbol: "", name: "", perc: ""})
   const [walletTVL,setWalletTVL] = useState(0)
   const [chartData, setChartData] = useState({
       labels: [],
@@ -44,14 +47,19 @@ export function WalletOverview(){
     const cLabels = [];
     const cData = [];
     let count = 0;
+    
     for (const [key, value] of Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0];})) {
         cLabels.push(value[3].toUpperCase());
         cData.push(value[0]);
-        if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2)})}
-        if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2)})}
-        if(count === 2) {setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2)})}
-        if(count === 3) {setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2)})}
-        if(count === 4) {setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2)})}
+        let coingeckoId = CoingeckoTokens.default[value[3].toLowerCase()];
+        let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
+        console.log(data.data.name);
+
+        if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name})}
+        if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name})}
+        if(count === 2) {setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name})}
+        if(count === 3) {setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name})}
+        if(count === 4) {setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name})}
         count++;
     }
 
@@ -77,9 +85,10 @@ export function WalletOverview(){
               'rgba(153, 102, 255, 1)',
               'rgba(255, 159, 64, 1)',
             ],
-            borderWidth: 0,
+            borderWidth: 1,
             offset: 20,
-            radius: 120,
+            radius: 100,
+            cutout: 90,
           },
         ],
     })  
@@ -97,27 +106,36 @@ export function WalletOverview(){
   
   return(
     <Row>
-    <Card style={{width: "100%", marginBottom: 20, padding: 40}} className="wallet-overview-card">
+    <Card style={{width: "100%", marginBottom: 20, padding: 15, paddingBottom: 0}} className="wallet-overview-card">
       <Card.Body>    
           <Row>
-              <Col className="border-right">
-                  <Row className="addressSection align-items-center" style={{marginLeft: 5}}>
+                <Col className="border-right" xs={4}>
+                  <Row className="addressSection align-items-center" style={{marginLeft: 0, marginBottom: 30}}>
+                      <Col style={{paddingRight: 0}} xs={3}>
                       <img src={addressAvatarBig} className="avatar"/>
-                      <div className="address font-weight-bold" style={{marginLeft: 20, fontSize: 20}}>
+                      </Col>
+                      <Col style={{paddingLeft: 0}}>
+                      <div style={{marginLeft: 20, fontSize: 24, fontWeight: 900}}>
                           {getShrunkWalletAddress(account)}
                       </div>
+                      <div style={{marginLeft: 20, fontSize: 11, fontWeight: 100, color: "#8DA0B0"}}>
+                          {getShrunkWalletAddress(account)}
+                      </div>
+                      </Col>
                   </Row>
                   <hr/>
-                  <Row style={{marginLeft: 5}} className="secondary">
-                      CURRENT BALANCE
+                  <div style={{paddingLeft: 40}}>
+                  <Row style={{marginTop: 30}}>
+                      <h6 style={{fontStyle: "normal", fontWeight: 800, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
                   </Row>
 
-                  <Row style={{marginLeft: 5}}>
-                      <h1 className="font-weight-bold"> $ {walletTVL.toFixed(2)} </h1>
+                  <Row>
+                      <h1 style={{fontSize: 48, fontWeight: 900}}> $ {walletTVL.toFixed(2)} </h1>
                   </Row>
-                  <Row style={{marginLeft: 5}}>
-                      234,567.43 BNB
+                  <Row>
+                      <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>234,567.43 BNB</h6>
                   </Row>
+                  </div>
               </Col>
               <Col xs={3}>
                   <Doughnut data={chartData} />
@@ -126,48 +144,23 @@ export function WalletOverview(){
                   <div style={{width: "100%"}}>
                       <Row> 
                           <Col style={{margin: 10}}>
-                              {
-                                  coin0.symbol === "" ? ""
-                                  : CryptoIcons.default['_'+coin0.symbol.toLowerCase()] === undefined ?
-                                  <div><img src={CryptoIcons.default['_generic']} style={{width: 40, height: 40, marginRight: 10}} /> {coin0.symbol} {coin0.perc}%</div>
-                                  : <div><img src={CryptoIcons.default['_'+coin0.symbol.toLowerCase()]} style={{width: 40, height: 40, marginRight: 10}} /> {coin0.symbol} {coin0.perc}%</div>
-                              }
+                              <WalletOverviewCoinInfo coin={coin0} />
                           </Col>
                           <Col style={{margin: 10}}>
-                              {
-                                  coin1.symbol === "" ? ""
-                                  : CryptoIcons.default['_'+coin1.symbol.toLowerCase()] === undefined ?
-                                  <div><img src={CryptoIcons.default['_generic']} style={{width: 40, height: 40, marginRight: 10}} /> {coin1.symbol} {coin1.perc}%</div>
-                                  : <div><img src={CryptoIcons.default['_'+coin1.symbol.toLowerCase()]} style={{width: 40, height: 40, marginRight: 10}} /> {coin1.symbol} {coin1.perc}%</div>
-                              }
+                          <WalletOverviewCoinInfo coin={coin1} />
                           </Col>
                       </Row>
                       <Row>
                           <Col style={{margin: 10}}>
-                              {
-                                  coin2.symbol === "" ? ""
-                                  : CryptoIcons.default['_'+coin2.symbol.toLowerCase()] === undefined ?
-                                  <div><img src={CryptoIcons.default['_generic']} style={{width: 40, height: 40, marginRight: 10}} /> {coin2.symbol} {coin2.perc}%</div>
-                                  : <div><img src={CryptoIcons.default['_'+coin2.symbol.toLowerCase()]} style={{width: 40, height: 40, marginRight: 10}} /> {coin2.symbol} {coin2.perc}%</div>
-                              }
+                          <WalletOverviewCoinInfo coin={coin2} />
                           </Col>
                           <Col style={{margin: 10}}>
-                              {
-                                  coin3.symbol === "" ? ""
-                                  : CryptoIcons.default['_'+coin3.symbol.toLowerCase()] === undefined ?
-                                  <div><img src={CryptoIcons.default['_generic']} style={{width: 40, height: 40, marginRight: 10}} /> {coin3.symbol} {coin3.perc}%</div>
-                                  : <div><img src={CryptoIcons.default['_'+coin3.symbol.toLowerCase()]} style={{width: 40, height: 40, marginRight: 10}} /> {coin3.symbol} {coin3.perc}%</div>
-                              }
+                          <WalletOverviewCoinInfo coin={coin3} />
                           </Col>
                       </Row>
                       <Row>
                           <Col style={{margin: 10}}>
-                              {
-                                  coin4.symbol === "" ? ""
-                                  : CryptoIcons.default['_'+coin4.symbol.toLowerCase()] === undefined ?
-                                  <div><img src={CryptoIcons.default['_generic']} style={{width: 40, height: 40, marginRight: 10}} /> {coin4.symbol} {coin4.perc}%</div>
-                                  : <div><img src={CryptoIcons.default['_'+coin4.symbol.toLowerCase()]} style={{width: 40, height: 40, marginRight: 10}} /> {coin4.symbol} {coin4.perc}%</div>
-                              }
+                          <WalletOverviewCoinInfo coin={coin4} />
                           </Col>
                           <Col style={{margin: 10}}>
                               {

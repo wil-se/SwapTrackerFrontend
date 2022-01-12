@@ -4,8 +4,8 @@ import { Container } from 'react-bootstrap';
 
 const MainContainer = function ({ children }) {
   return (
-    <Container className="main-container">
-      <Container className="content" style={{minWidth: 1400}}>
+    <Container className="main-container" style={{marginLeft: 320}}>
+      <Container className="content" style={{minWidth: 1440}}>
         {children}
       </Container>
     </Container>

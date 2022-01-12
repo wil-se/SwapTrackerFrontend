@@ -52,6 +52,7 @@
     "web3": "^1.3.5"
   },
   "devDependencies": {
+    "css-font-family": "^1.0.7",
     "eslint": "^7.26.0",
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0"
