@@ -11,6 +11,8 @@ import { useWeb3React } from '@web3-react/core';
 import '../../style/WalletOverview.scss'
 import { WalletOverviewCoinInfo } from 'components/WalletOverviewCoinInfo';
 import * as CoingeckoTokens from '../../config/constants/coingeckoTokens';
+import { WalletOverviewOtherInfo } from 'components/WalletOverviewOtherInfo'; 
+
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
@@ -29,6 +31,8 @@ export function WalletOverview(){
   const [coin2, setCoin2] = useState({symbol: "", name: "", perc: ""})
   const [coin3, setCoin3] = useState({symbol: "", name: "", perc: ""})
   const [coin4, setCoin4] = useState({symbol: "", name: "", perc: ""})
+  const [other, setOther] = useState(0)
+  
   const [walletTVL,setWalletTVL] = useState(0)
   const [chartData, setChartData] = useState({
       labels: [],
@@ -47,21 +51,24 @@ export function WalletOverview(){
     const cLabels = [];
     const cData = [];
     let count = 0;
+    let other = 100;
     
     for (const [key, value] of Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0];})) {
         cLabels.push(value[3].toUpperCase());
         cData.push(value[0]);
         let coingeckoId = CoingeckoTokens.default[value[3].toLowerCase()];
         let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
-        console.log(data.data.name);
+        console.log(value[0]);
 
-        if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name})}
-        if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name})}
-        if(count === 2) {setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name})}
-        if(count === 3) {setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name})}
-        if(count === 4) {setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name})}
+        if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
+        if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
+        if(count === 2) {setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
+        if(count === 3) {setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
+        if(count === 4) {setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
         count++;
     }
+
+    setOther(other.toFixed(2));
 
     setChartData({
         labels: cLabels,
@@ -106,11 +113,11 @@ export function WalletOverview(){
   
   return(
     <Row>
-    <Card style={{width: "100%", marginBottom: 20, padding: 15, paddingBottom: 0}} className="wallet-overview-card">
-      <Card.Body>    
+    <Card style={{width: "100%", marginBottom: 20, padding: 15}} className="wallet-overview-card">
+      <Card.Body>
           <Row>
-                <Col className="border-right" xs={4}>
-                  <Row className="addressSection align-items-center" style={{marginLeft: 0, marginBottom: 30}}>
+                <Col style={{borderRight: "1px solid #ABC2D6", paddingRight: 50}} xs={4}>
+                  <Row className="addressSection align-items-center" style={{marginLeft: 0, marginBottom: 30, paddingTop: 30, borderBottom: "1px solid #ABC2D6", paddingBottom: 20}}>
                       <Col style={{paddingRight: 0}} xs={3}>
                       <img src={addressAvatarBig} className="avatar"/>
                       </Col>
@@ -123,7 +130,6 @@ export function WalletOverview(){
                       </div>
                       </Col>
                   </Row>
-                  <hr/>
                   <div style={{paddingLeft: 40}}>
                   <Row style={{marginTop: 30}}>
                       <h6 style={{fontStyle: "normal", fontWeight: 800, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
@@ -162,10 +168,12 @@ export function WalletOverview(){
                           <Col style={{margin: 10}}>
                           <WalletOverviewCoinInfo coin={coin4} />
                           </Col>
-                          <Col style={{margin: 10}}>
-                              {
-                                  coin4.symbol === "" ? "" : "OTHER"
-                              }
+                          <Col style={{margin: 10, border: "1px solid #ACD8E6", borderRadius: 10}}>
+                                {
+                                  coin4.symbol === "" ?
+                                  "" :
+                                  <WalletOverviewOtherInfo otherPerc={other} />
+                                }
                           </Col>
                       </Row>
                   </div>
