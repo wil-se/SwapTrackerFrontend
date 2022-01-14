@@ -11,7 +11,6 @@ const coinInfoStyle = {
 
 
 export function WalletOverviewCoinInfo(props){
-  console.log(props.coin.name);  
   return(
     <div>
     {
@@ -28,8 +27,8 @@ export function WalletOverviewCoinInfo(props){
                 <a style={{fontSize: 12, fontWeight: 400, opacity: 0.5}}>{props.coin.name}</a>
               </Col>
               <Col>
-              <Row className="align-bottom">
-                <a>{props.coin.perc}%</a>
+              <Row style={{position: "relative"}}>
+              <span style={{position: "absolute", top: 0, fontSize: 14, fontWeight: 800}}>{props.coin.perc} %</span>
               </Row>
               </Col>
               
@@ -37,7 +36,21 @@ export function WalletOverviewCoinInfo(props){
           </div>
           : 
           <div>
-            <img src={CryptoIcons.default['_'+props.coin.symbol.toLowerCase()]} style={coinInfoStyle} /> {props.coin.symbol} {props.coin.perc}%
+            <Row className="addressSection align-items-center">
+              <Col xs={2}>
+                <img src={CryptoIcons.default['_'+props.coin.symbol.toLowerCase()]} style={coinInfoStyle} />
+              </Col>
+              <Col xs={6}>
+                <a style={{fontSize: 14, fontWeight: 800}}>{props.coin.symbol}</a><br></br>
+                <a style={{fontSize: 12, fontWeight: 400, opacity: 0.5}}>{props.coin.name}</a>
+              </Col>
+              <Col>
+              <Row style={{position: "relative"}}>
+              <span style={{position: "absolute", top: 0, fontSize: 14, fontWeight: 800}}>{props.coin.perc} %</span>
+              </Row>
+              </Col>
+              
+            </Row>
           </div>
     }
     </div>

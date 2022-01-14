@@ -21,7 +21,7 @@ ChartJS.register(ArcElement, Tooltip)
 const Wallet = () => {
     return (
         <MainContainer>
-            <div>
+            <div >
             <h1 className="subheader-title" style={{marginLeft: -15}}>Wallet</h1>
                 <WalletOverview />
                 <CoinInfoList />

@@ -4,8 +4,7 @@ import TradeMainCard from './TradeMainCard'
 const TradeCard = () => {
      return (
         <div className="trade-card-container"> 
-            <TradeMainCard/>
-            
+            <TradeMainCard openSettingPanel={openSettingPanel}/>
         </div>
     )
 }

@@ -20,13 +20,34 @@ export function CoinInfoList(){
   
   const [walletDistributions,setWalletDistributions] = useState({})
   const [walletTVL,setWalletTVL] = useState(0)
-  
+  const [coinList, setCoinList] = useState([])
+
+
   const wlltDist = async ()=>{
     let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
     setWalletDistributions(wlltDist);
     console.log(wlltDist);
+
+    let wlltDistList = []
+
+    const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
+
+    for (let i=0; i<dst.length; i++) {
+      wlltDistList.push(
+        <Col xs={12} md={6} style={{paddingLeft: 8, paddingRight: 8}}>
+          <CoinInfo holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} />
+        </Col>
+      )
+    }
+
+    setCoinList(wlltDistList);
+    console.log(wlltDistList);
+
   }
+
+
   const getWlltTVL = async ()=>{let wlltTVL = await getWalletTVL(user,web3,chainId); setWalletTVL(wlltTVL)}
+
 
   useEffect(() => {
     if(user && chainId){
@@ -35,21 +56,17 @@ export function CoinInfoList(){
             wlltDist()
         }
     }
+
   }, [user,walletTVL])
   
   return (
+      <div>
       <Row>
-      <Col xs={6} style={{paddingLeft: 0, paddingRight: 8}}>
-          <CoinInfo holdingValue={1000} symbol={"ADA"} />
-      </Col>
-      <Col xs={6} style={{paddingRight: 0, paddingLeft: 8}}>
-          <Card style={{width: "100%"}}>
-              <Card.Body>
-              aaaaaaaaaaaa
-              </Card.Body>
-          </Card>
-      </Col>
-  </Row>
+        {coinList}
+      </Row>
 
+
+      
+      </div>
   )
 }
