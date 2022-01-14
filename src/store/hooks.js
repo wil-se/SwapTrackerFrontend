@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect,useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'store';
 import { fetchPrices } from './prices';
@@ -65,3 +65,92 @@ export const usePools = account => {
 
   return pools;
 };
+
+function toCallKey(call) {
+  
+  return `${call.address}-${call.callData}`
+}
+
+function parseCallKey(callKey) {
+  const pcs = callKey.split('-')
+  return {
+    address: pcs[0],
+    callData: pcs[1],
+  }
+}
+
+export const useCallsData = (calls,options) => {
+  const chainId = 56
+  const serializedCallKeys = useMemo(
+    () =>
+      JSON.stringify(
+        calls
+          ?.map(toCallKey)
+          ?.sort() ?? [],
+      ),
+    [calls],
+  )
+
+  useEffect(() => {
+    const callKeys = JSON.parse(serializedCallKeys)
+    if (!chainId || callKeys.length === 0) return undefined
+    const calls = callKeys.map((key) => parseCallKey(key))
+    
+  }, [chainId, options, serializedCallKeys])
+
+  return useMemo(
+    () =>
+      calls.map((call) => {
+        if (!chainId || !call) return null;
+        let result;
+        let data
+        if (result?.data && result?.data !== '0x') {
+          // eslint-disable-next-line prefer-destructuring
+          data = result.data
+        }
+
+        return { valid: true, data, blockNumber: result?.blockNumber }
+      }),
+    [calls, chainId],
+  )
+
+
+
+}
+
+export function toCallState(
+  callResult,
+  contractInterface,
+  fragment,
+  latestBlockNumber
+) {
+  if (!callResult) return;
+  const { valid, data, blockNumber } = callResult
+  if (!valid) return;
+  if (valid && !blockNumber) return;
+  if (!contractInterface || !fragment || !latestBlockNumber) return;
+  const success = data && data.length > 2
+  const syncing = (blockNumber ?? 0) < latestBlockNumber
+  let result;
+  if (success && data) {
+    try {
+      result = contractInterface.decodeFunctionResult(fragment, data)
+    } catch (error) {
+      console.debug('Result data parsing failed', fragment, data)
+      return {
+        valid: true,
+        loading: false,
+        error: true,
+        syncing,
+        result,
+      }
+    }
+  }
+  return {
+    valid: true,
+    loading: false,
+    syncing,
+    result,
+    error: !success,
+  }
+}

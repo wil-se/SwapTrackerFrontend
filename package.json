@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@ethersproject/abi": "^5.1.2",
+    "@pancakeswap/sdk": "^2.4.0",
     "@reduxjs/toolkit": "^1.5.1",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
@@ -34,7 +35,11 @@
     "cryptocurrency-icons": "^0.18.0",
     "dotenv": "^10.0.0",
     "ethers": "^5.1.4",
+<<<<<<< HEAD
     "jquery": "^3.6.0",
+=======
+    "lodash": "^4.17.21",
+>>>>>>> origin/components/Trade
     "mongodb": "^4.2.2",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
