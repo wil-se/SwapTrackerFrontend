@@ -28,7 +28,6 @@ export function CoinInfo(props) {
 
   const getCoingeckoStats = async ()=>{
     let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
-    console.log(data);
     setPrice(data.data.market_data.current_price.usd);
     setPriceVariation(data.data.market_data.price_change_percentage_24h);
     setName(data.data.name)

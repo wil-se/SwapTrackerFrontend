@@ -16,7 +16,6 @@ const useAuthService = () => {
     
     const createOrUpdateUser = (body) => {
         callPost("createOrUpdateUser",body).then((resp)=>{
-            console.log("allora ",resp.data.data)
            setUser(resp.data.data)
         });
     }

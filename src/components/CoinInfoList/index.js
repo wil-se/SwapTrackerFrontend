@@ -26,7 +26,6 @@ export function CoinInfoList(){
   const wlltDist = async ()=>{
     let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
     setWalletDistributions(wlltDist);
-    console.log(wlltDist);
 
     let wlltDistList = []
 
@@ -34,14 +33,13 @@ export function CoinInfoList(){
 
     for (let i=0; i<dst.length; i++) {
       wlltDistList.push(
-        <Col xs={12} md={6} style={{paddingLeft: 8, paddingRight: 8}}>
-          <CoinInfo holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} />
+        <Col key={i} xs={12} md={6} style={{paddingLeft: 8, paddingRight: 8}}>
+          <CoinInfo key={i} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} />
         </Col>
       )
     }
 
     setCoinList(wlltDistList);
-    console.log(wlltDistList);
 
   }
 

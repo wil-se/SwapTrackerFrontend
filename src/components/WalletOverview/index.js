@@ -58,7 +58,6 @@ export function WalletOverview(){
         cData.push(value[0]);
         let coingeckoId = CoingeckoTokens.default[value[3].toLowerCase()];
         let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
-        console.log(value[0]);
 
         if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
         if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}

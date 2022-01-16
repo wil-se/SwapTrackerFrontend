@@ -35,7 +35,6 @@ const usePairs = (currencies) => {
                 
 
           let pairAddr = tokenA && tokenB && !tokenA.equals(tokenB) ? Pair.getAddress(tokenA, tokenB) : undefined;
-          console.log("allora??",tokenA,tokenB,pairAddr)
           return pairAddr
 
             

@@ -36,15 +36,12 @@ const TradeMainCard = () => {
         setAmountIn(e.target.value)
         e.preventDefault()
 
-        console.log(path)
         let amount = e.target.value
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedIn.decimals);
-        console.log(amountInShifted,pancakeRouterContract)
         if(amountInShifted>0){
             let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted,path).call().catch((e)=>console.log("vedimamo ",e))
             let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(5);
             let allowance = await erc20Contract.methods.allowance(account,pancakeRouterContract._address).call();
-            console.log(allowance)
             setAllowanceTokenIn(allowance)
             setAmountOut(amoutOutFormatted) 
 
@@ -55,10 +52,8 @@ const TradeMainCard = () => {
     const getTokenAmountIn = async (e) => {
         setAmountOut(e.target.value)
         e.preventDefault()
-        console.log(e.target.value,tokenSelectedIn.address,tokenSelectedOut.address)
         let amount = e.target.value
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedOut.decimals);
-        console.log(amountInShifted,pancakeRouterContract)
         if(amountInShifted>0){
             let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted,path).call().catch((e)=>console.log("vedimamo ",e))
             let amoutInFormatted = new BigNumber(amIn[amIn.length-2]).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(5);
@@ -74,23 +69,18 @@ const TradeMainCard = () => {
     const swap = async () => {
         if(tokenSelectedIn.symbol === "BNB"){
 
-            console.log("entro qui??")
             let amountOutMin = amountOut - (amountOut * (slippageAmount/100))
             let amountOutMinFormatted = new BigNumber(amountOutMin).shiftedBy(tokenSelectedOut.decimals);
             let amountInFormatted = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
             
             
-            console.log(amountOutMinFormatted.toNumber(),amountInFormatted.toNumber(),JSON.stringify(path))
             const txSwap = await swapTrackerMediator.methods.swapExactETHForTokens(amountOutMinFormatted.toString(),path).send({from:account,value:amountInFormatted.toString()})
         }
         else if (tokenSelectedIn.symbol !== "BNB"){
-            console.log(swapTrackerMediator)
             let amountOutMin = amountOut - (amountOut * (slippageAmount/100))
             let amountOutMinFormatted = new BigNumber(amountOutMin).shiftedBy(tokenSelectedOut.decimals);
             let amountInFormatted = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
-
-            console.log(amountOutMinFormatted.toNumber(),amountInFormatted.toNumber(),JSON.stringify(path))
             const txSwap = await swapTrackerMediator.methods.swapExactTokensForTokens(amountInFormatted.toString(),amountOutMinFormatted.toString(),path).send({from:account});
         }
     }

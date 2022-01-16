@@ -16,6 +16,7 @@
 
 body {
   font-family: Avenir Next, Roboto, Helvetica Neue, sans-serif;
+  background-color: #EEF3F4;
 }
 
 .bold {
@@ -50,6 +51,11 @@ body {
   color: $gray-disabled;
 }
 
+.dropdownitemcurrency:hover{
+  background-color: transparent;
+  border-color: black;
+}
+
 input.border-none {
   text-align: right;
   border: none;
@@ -68,3 +74,14 @@ h1.page-title {
   text-align: center;
 }
 
+.modal-content {
+  border-radius: 10px !important;
+}
+
+.modal-header {
+  background-color: #3B434A;
+}
+
+.close {
+  color: #FFFFFF;
+}

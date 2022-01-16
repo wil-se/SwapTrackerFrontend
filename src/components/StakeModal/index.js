@@ -25,7 +25,6 @@ const StakeModal = function ({ pool, action, stakingMax, stakingTokenPrice, show
       stakingToken.decimals,
       stakingToken.decimals,
     );
-    console.log('amountToStake:', amountToStake, amountToStake.toString());
     setStakeAmount(amountToStake);
   };
 

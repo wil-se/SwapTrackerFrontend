@@ -13,7 +13,8 @@ a:hover {
   padding: 8px 15px;
   font-size: 14px;
   font-weight: 600;
-  border-radius: 5px !important;
+  border-radius: 10px !important;
+  background-color: #FBFFFF;
 
   &:active:enabled {
     transform: translateY(1px);
@@ -33,6 +34,12 @@ a:hover {
     background-color: $azure-primary !important;
     border-color: $azure-primary !important;
   }
+
+  &-currency {
+    color: #000000;
+    background-color: #FBFFFF;
+    border-color: #FBFFFF;
+  }  
 
   &-secondary {
     color: $azure-primary !important;
@@ -109,4 +116,17 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.dropdown-toggle::after{
+  color: #000000;
+}
+
+.dropdownmenucurrencies{
+  margin-top: 10;
+  width: 500;
+  border-radius: 10;
+  box-shadow: 0px 0px 26px -8px rgba(171, 194, 214, 0.66);
+  border-color: #FFFFFF;
+  background: #FFFFFF;
 }

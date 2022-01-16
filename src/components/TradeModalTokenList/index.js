@@ -14,7 +14,6 @@ const TradeModalTokenList = ({setOpenTokenListModalIn,setOpenTokenListModalOut, 
     }, [])
 
     const getTokenSelected = (token) => {
-        console.log(JSON.stringify(token))
         openTokenListModalIn ? (setTokenSelectedIn(token), setOpenTokenListModalIn(!openTokenListModalIn)) : (setTokenSelectedOut(token), setOpenTokenListModalOut(!openTokenListModalOut));
         
     }
