@@ -104,19 +104,19 @@ const TradeMainCard = () => {
             setDisabledButton(false);
             setTrade(txSwap,path)
 
-            
-
-            
         }
         else if (tokenSelectedIn.symbol !== "BNB"){
             console.log(swapTrackerMediator)
-            let amountOutMin = amountOut - (amountOut * (slippageAmount/100))
-            let amountOutMinFormatted = new BigNumber(amountOutMin).shiftedBy(tokenSelectedOut.decimals);
-            let amountInFormatted = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
+            let amountOutBN = new BigNumber(amountOut);
+            //let amountOutMin = amountOut - (amountOut * (slippageAmount/100))
+            let amountOutMinBN = amountOut.multipliedBy(100-slippageAmount).dividedBy(100);
+            //let amountOutMinFormatted = new BigNumber(amountOutMin).shiftedBy(tokenSelectedOut.decimals);
+            let amountOutMinFormattedBN = amountOutMinBN.shiftedBy(tokenSelectedOut.decimals);
+            //let amountInFormatted = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
+            let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
-
-            console.log(amountOutMinFormatted.toNumber(),amountInFormatted.toNumber(),JSON.stringify(path))
-            const txSwap = await swapTrackerMediator.methods.swapExactTokensForTokens(amountInFormatted.toString(),amountOutMinFormatted.toString(),path).send({from:account});
+            console.log(amountOutMinFormattedBN.toString(), amountInFormattedBN.toString(), JSON.stringify(path))
+            const txSwap = await swapTrackerMediator.methods.swapExactTokensForTokens(amountInFormattedBN.toString(), amountOutMinFormattedBN.toString(),path).send({from:account});
             console.log(txSwap)
             txSwap && getNotification(txSwap.status)
             setDisabledButton(false);
