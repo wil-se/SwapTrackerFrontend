@@ -48,7 +48,6 @@ export function CoinInfo(props) {
                 <img className="img-fluid" src={CryptoIcons.default['_generic']} style={{width: 60, height: 60, marginLeft: 15}} />
                 : <img className="img-fluid" src={CryptoIcons.default['_'+props.symbol.toLowerCase()]} style={{width: 60, height: 60, marginLeft: 15}} />
               }
-                <p className="font-weight-bold text-center pt-2 mb-0"> {props.symbol.toUpperCase()} </p>
           </Col>
             
           <Col md={4} className="pt-3">
@@ -70,7 +69,8 @@ export function CoinInfo(props) {
 
         <Row className="justify-content-end">
 
-            
+        <Col md={2}><p className="font-weight-bold text-center pt-2 mb-0"> {props.symbol.toUpperCase()} </p></Col>
+      
         <Col md={4}>
           <span className="text-decoration-none" style={{color: "#8DA0B0", fontSize: 11}}>CURRENT PRICE</span>
             <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>$ {price}</h5> 
