@@ -11,9 +11,9 @@ import TradeModalSettings from '../TradeModalSettings';
 import {usePancakeRouter,useERC20} from 'hooks/useContract';
 import {useSwapInfo} from 'hooks/useSwapInfo'
 import {approve} from 'utils/callHelpers';
-import {Token } from '@pancakeswap/sdk'
 import { useSwapTrackerMediator } from 'hooks/useContract';
-
+import useNotification from 'hooks/useNotification'
+import useTrade from 'hooks/useTrade';
 
 const TradeMainCard = () => {
     const { account } = useWeb3React();
@@ -26,11 +26,14 @@ const TradeMainCard = () => {
     const [tokenSelectedIn,setTokenSelectedIn] = useState({decimals:18,name:"BNB",symbol:"BNB",projectLink:"https://s2.coinmarketcap.com/static/img/coins/200x200/1839.png",address:"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"})
     const [tokenSelectedOut,setTokenSelectedOut] = useState()
     const [allowanceTokenIn,setAllowanceTokenIn] = useState(0)
-    const [slippageAmount,setSlippageAmount] = useState(0.1)
+    const [slippageAmount,setSlippageAmount] = useState(5.0)
     const [deadlineAmount,setDeadlineAmount] = useState(20)
+    const [disabledButton,setDisabledButton] = useState(false);
     const path = useSwapInfo(tokenSelectedIn,tokenSelectedOut)
     const erc20Contract = useERC20(tokenSelectedIn?.address)
     const swapTrackerMediator = useSwapTrackerMediator()
+    const {getNotification} = useNotification()
+    const {setTrade} = useTrade()
 
     const getTokenAmountOut = async (e) => {
         setAmountIn(e.target.value)
@@ -62,11 +65,14 @@ const TradeMainCard = () => {
     }
 
     const setAllowance = async () => {
-        await approve(erc20Contract,pancakeRouterContract._address,account);
+        await approve(erc20Contract,swapTrackerMediator._address,account);
         setAllowanceTokenIn(ethers.constants.MaxUint256)
+        getNotification(true)
     }
 
     const swap = async () => {
+        setDisabledButton(true);
+        
         if(tokenSelectedIn.symbol === "BNB"){
 
             let amountOutMin = amountOut - (amountOut * (slippageAmount/100))
@@ -75,6 +81,10 @@ const TradeMainCard = () => {
             
             
             const txSwap = await swapTrackerMediator.methods.swapExactETHForTokens(amountOutMinFormatted.toString(),path).send({from:account,value:amountInFormatted.toString()})
+            console.log(txSwap)
+            txSwap && getNotification(txSwap.status)
+            setDisabledButton(false);
+            setTrade(txSwap,path)
         }
         else if (tokenSelectedIn.symbol !== "BNB"){
             let amountOutMin = amountOut - (amountOut * (slippageAmount/100))
@@ -82,6 +92,10 @@ const TradeMainCard = () => {
             let amountInFormatted = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
             const txSwap = await swapTrackerMediator.methods.swapExactTokensForTokens(amountInFormatted.toString(),amountOutMinFormatted.toString(),path).send({from:account});
+            console.log(txSwap)
+            txSwap && getNotification(txSwap.status)
+            setDisabledButton(false);
+            setTrade(txSwap,path)
         }
     }
     return (
@@ -182,7 +196,7 @@ const TradeMainCard = () => {
                         :
                         parseFloat(allowanceTokenIn) >=amountIn ?
                         (
-                        <button className="confirm-button" onClick={swap}>
+                        <button className="confirm-button" id="confirmButton" onClick={swap} disabled={disabledButton}>
                             confirm
                         </button>
                         )
