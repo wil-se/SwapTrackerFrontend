@@ -2,14 +2,16 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 315px;
+  width: 305px;
   height: 100vh;
+  
+  background-color: #FBFFFF;
 
   .sidebar {
     height: 100%;
+    
     font-size: 11px;
     font-family: AvenirNext-DemiBold, sans-serif;
-    background-color: #FBFFFF;
     
     &::before {
       position: absolute;

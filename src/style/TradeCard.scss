@@ -166,6 +166,11 @@
         font-size: 14px;
         line-height: 19px;
     }
+    button.confirm-button:disabled,
+    button.confirm-button[disabled] {
+        opacity:0.5;
+        cursor:not-allowed;
+    } 
 }
 
 
