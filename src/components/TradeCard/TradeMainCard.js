@@ -81,17 +81,32 @@ const TradeMainCard = () => {
         if(tokenSelectedIn.symbol === "BNB"){
 
             console.log("entro qui??")
-            let amountOutMin = amountOut - (amountOut * (slippageAmount/100))
-            let amountOutMinFormatted = new BigNumber(amountOutMin).shiftedBy(tokenSelectedOut.decimals);
-            let amountInFormatted = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
+            let amountOutBN = new BigNumber(amountOut);
+            let amountOutMinBN = amountOutBN.multipliedBy(100-slippageAmount).dividedBy(100);
+            //let amountOutMin = amountOut * (1 - (slippageAmount / 100))
+            let amountOutMinFormattedBN = amountOutMinBN.shiftedBy(tokenSelectedOut.decimals);
+            //let amountOutMinFormatted = new BigNumber(amountOutMin).shiftedBy(tokenSelectedOut.decimals);
+            let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
+            //let amountInFormatted = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
+
+            console.log("amountOut: %s", amountOutBN.toString());
+            console.log("AmountOutMin: %s", amountOutMinBN.toString());
+            console.log("amountOutMinFormatted: %s", amountOutMinFormattedBN.toString());
+            console.log("amountInFormatted: %s", amountInFormattedBN.toString());
+
             
-            
-            console.log(amountOutMinFormatted.toNumber(),amountInFormatted.toNumber(),JSON.stringify(path))
-            const txSwap = await swapTrackerMediator.methods.swapExactETHForTokens(amountOutMinFormatted.toString(),path).send({from:account,value:amountInFormatted.toString()})
+            const txSwap = await swapTrackerMediator.methods.swapExactETHForTokens(amountOutMinFormattedBN.toString(), path).send({
+                from: account,
+                value: amountInFormattedBN.toString()
+            })
             console.log(txSwap)
             txSwap && getNotification(txSwap.status)
             setDisabledButton(false);
             setTrade(txSwap,path)
+
+            
+
+            
         }
         else if (tokenSelectedIn.symbol !== "BNB"){
             console.log(swapTrackerMediator)
