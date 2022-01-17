@@ -76,7 +76,7 @@ const TradeMainCard = () => {
     }
 
     const swap = async () => {
-        setDisabledButton(true);
+        setDisabledButton(true); 
         
         if(tokenSelectedIn.symbol === "BNB"){
 
