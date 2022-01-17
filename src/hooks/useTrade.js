@@ -1,6 +1,7 @@
 import {callPost} from 'utils/swapTrackerServiceConnection'
 import { getBep20Contract } from 'utils/contractHelpers';
 import {getBusdOut} from 'utils/getBusdOut' 
+import TradeModalSettings from 'components/TradeModalSettings';
 
 const useTrade = () => {
 
@@ -39,6 +40,8 @@ const useTrade = () => {
         {
             trades = trades?.data?.data;
         })
+
+        return trades;
     }
 
     return {setTrade,getTrades}
