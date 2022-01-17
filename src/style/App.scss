@@ -52,7 +52,7 @@ body {
 }
 
 .dropdownitemcurrency:hover{
-  background-color: transparent;
+  // background-color: transparent;
   border-color: black;
 }
 
@@ -90,4 +90,9 @@ h1.page-title {
 hr{
   border: 1px solid #ABC2D6;
   margin: 15px 20px 0px 20px;
+}
+
+.currencies-row {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }

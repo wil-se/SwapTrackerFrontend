@@ -4,17 +4,35 @@ import * as CurrenciesIcons from '../../assets/icons/currencies';
 import { DropdownItemCurrency } from '../DropdownItemCurrency';
 import BscLogo from '../../assets/icons/BSC.png'
 import { WalletModal } from 'components/WalletModal';
+import { useWeb3React } from '@web3-react/core';
+import WalletConnect from "@walletconnect/client";
+import QRCodeModal from "@walletconnect/qrcode-modal";
+import { ConnectorNames, connectorsByName } from 'utils/web3React';
+import useWalletConnectAuth from 'hooks/useWalletConnectAuth'
+import useRefresh from 'hooks/useRefresh';
 
 
 const TopNavbar = function () {
+  const { slowRefresh } = useRefresh();
   const [currency, setCurrency] = useState("USD");
   const [network, setNetwork] = useState("BSC");
   const [modalShow, setModalShow] = useState(false);
-  
+  const [metamaskConnected, setMetamaskConnected ] = useState(false)
+  const [walletConnectConnected, setWalletConnectConnected ] = useState(false)
 
   const handleCurrencyClick = (symbol) => {
     setCurrency(symbol);
   }
+
+  const { active, } = useWeb3React()
+
+  const getMetamaskConnector = async () => {console.log(connectorsByName[ConnectorNames.INJECTED].connected); connectorsByName[ConnectorNames.INJECTED].connected === undefined ? undefined : setMetamaskConnected(true)};
+  const getWalletConnectConnector = () => {new WalletConnect({bridge: "https://bridge.walletconnect.org",}).connected ? setWalletConnectConnected(true) : setWalletConnectConnected(false)};
+
+  useEffect(() => {
+    getMetamaskConnector();
+    getWalletConnectConnector();
+  }, [slowRefresh]);
 
 
   return (
@@ -22,8 +40,7 @@ const TopNavbar = function () {
       <nav className="navbar navbar-expand-md bg-faded cripto_nav">
         
         <Row className="pr-4 d-flex flex-row-reverse w-100">
-        
-        <Button className="ml-3" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
+        <Button className="ml-3" variant="primary" onClick={() => active || walletConnectConnected ? undefined : setModalShow(true)}>{active || walletConnectConnected ? "Disconnect Wallet" : "Connect Wallet"} </Button>
 
           <Dropdown className="ml-3">
             <Dropdown.Toggle variant="currency" style={{borderRadius: 10, }}>

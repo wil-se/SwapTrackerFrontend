@@ -13,9 +13,11 @@ const connector = new WalletConnect({
 
 const useWalletConnectAuth = () => {
   const { activate, deactivate } = useWeb3React();
-  const walletConnectLogin = useCallback(() =>{
-    console.log("haloo");
+  
 
+  const walletConnectLogin = useCallback(() =>{
+    console.log("logging in");
+    console.log(connector);
     activate(connector, async error => {
        // Check if connection is already established
        console.log(connector);
@@ -53,7 +55,10 @@ const useWalletConnectAuth = () => {
     })
   })
 
-  return { walletConnectLogin }
+  const walletConnectLogout = useCallback(() => deactivate(), [deactivate]);
+
+
+  return { walletConnectLogin, walletConnectLogout }
 }
 
 export default useWalletConnectAuth;
