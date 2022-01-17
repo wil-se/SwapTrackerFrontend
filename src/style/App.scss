@@ -80,8 +80,14 @@ h1.page-title {
 
 .modal-header {
   background-color: #3B434A;
+  border-radius: 8px 8px 0px 0px !important;
 }
 
 .close {
   color: #FFFFFF;
+}
+
+hr{
+  border: 1px solid #ABC2D6;
+  margin: 15px 20px 0px 20px;
 }
