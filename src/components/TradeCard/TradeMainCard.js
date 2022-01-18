@@ -43,8 +43,9 @@ const TradeMainCard = () => {
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedIn.decimals);
         if(amountInShifted>0){
             let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted,path).call().catch((e)=>console.log("vedimamo ",e))
-            let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(5);
-            let allowance = await erc20Contract.methods.allowance(account,pancakeRouterContract._address).call();
+            let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber().toFixed(parseInt(tokenSelectedOut.decimals));
+            let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
+            console.log(allowance)
             setAllowanceTokenIn(allowance)
             setAmountOut(amoutOutFormatted) 
 
@@ -75,27 +76,79 @@ const TradeMainCard = () => {
         
         if(tokenSelectedIn.symbol === "BNB"){
 
-            let amountOutMin = amountOut - (amountOut * (slippageAmount/100))
-            let amountOutMinFormatted = new BigNumber(amountOutMin).shiftedBy(tokenSelectedOut.decimals);
-            let amountInFormatted = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
+            console.log("entro qui??")
+            let amountOutBN = new BigNumber(amountOut);
+            let amountOutMinBN = amountOutBN.multipliedBy(100-slippageAmount).dividedBy(100);
+            let amountOutMinFormattedBN = amountOutMinBN.shiftedBy(-1*tokenSelectedOut.decimals);
+            let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
             
             
-            const txSwap = await swapTrackerMediator.methods.swapExactETHForTokens(amountOutMinFormatted.toString(),path).send({from:account,value:amountInFormatted.toString()})
-            console.log(txSwap)
-            txSwap && getNotification(txSwap.status)
-            setDisabledButton(false);
-            setTrade(txSwap,path)
-        }
-        else if (tokenSelectedIn.symbol !== "BNB"){
-            let amountOutMin = amountOut - (amountOut * (slippageAmount/100))
-            let amountOutMinFormatted = new BigNumber(amountOutMin).shiftedBy(tokenSelectedOut.decimals);
-            let amountInFormatted = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
+            console.log(amountInFormattedBN.toNumber(),amountOutMinFormattedBN.toNumber(),JSON.stringify(path))
+            const txSwap = await swapTrackerMediator.methods
+                            .swapExactETHForTokens(amountOutMinFormattedBN.toString(),path)
+                            .send({from:account,value:amountInFormattedBN.toString()})
+                            .catch((e)=>{
+                                setDisabledButton(false)
+                                console.warn(e)
 
-            const txSwap = await swapTrackerMediator.methods.swapExactTokensForTokens(amountInFormatted.toString(),amountOutMinFormatted.toString(),path).send({from:account});
-            console.log(txSwap)
-            txSwap && getNotification(txSwap.status)
-            setDisabledButton(false);
-            setTrade(txSwap,path)
+                            })
+            //console.log(txSwap)
+            console.log("allora ", txSwap)
+            
+            getNotification(txSwap?.status || false)
+             if(!disabledButton && txSwap){
+                 setDisabledButton(false);
+                 setTrade(txSwap,path,amountOutMinBN)
+             }               
+        }
+        else if (tokenSelectedIn.symbol !== "BNB" && tokenSelectedOut.symbol !== "BNB"){
+            
+            let amountOutBN = new BigNumber(amountOut);
+            let amountOutMinBN = amountOutBN.multipliedBy(100-parseInt(slippageAmount)).dividedBy(100);
+            console.log(amountOutMinBN.toNumber())
+            let amountOutMinFormattedBN = amountOutMinBN.shiftedBy(tokenSelectedOut.decimals);
+            let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
+
+            console.log(amountOut, amountOutMinFormattedBN.toNumber(),amountInFormattedBN.toNumber(),JSON.stringify(path))
+            const txSwap = await swapTrackerMediator.methods
+                            .swapExactTokensForTokens(amountInFormattedBN.toString(),amountOutMinFormattedBN.toString(),path)
+                            .send({from:account})
+                            .catch((e)=>{
+                                setDisabledButton(false)
+                                console.warn(e)
+
+                            })
+            console.log("allora ", txSwap)
+            
+            getNotification(txSwap?.status || false)
+             if(!disabledButton && txSwap){
+                 setDisabledButton(false);
+                 setTrade(txSwap,path,amountOutMinBN)
+             }               
+        }
+        else if (tokenSelectedOut.symbol === "BNB") {
+            
+            let amountOutBN = new BigNumber(amountOut);
+            let amountOutMinBN = amountOutBN.multipliedBy(100-slippageAmount).dividedBy(100);
+            let amountOutMinFormattedBN = amountOutMinBN.shiftedBy(tokenSelectedOut.decimals);
+            let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
+
+            console.log(amountOutMinFormattedBN.toNumber(),amountInFormattedBN.toNumber(),JSON.stringify(path))
+            const txSwap = await swapTrackerMediator.methods
+                            .swapExactTokensForETH(amountInFormattedBN.toString(),amountOutMinFormattedBN.toString(),path)
+                            .send({from:account})
+                            .catch((e)=>{
+                                setDisabledButton(false) 
+                                console.warn(e)
+
+                            })
+            getNotification(txSwap?.status || false)
+             if(!disabledButton && txSwap){
+                 setDisabledButton(false);
+                 setTrade(txSwap,path,amountOutMinBN)
+
+             }               
+        
         }
     }
     return (
