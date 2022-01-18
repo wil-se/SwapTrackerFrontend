@@ -29,5 +29,5 @@ export const usePancakePair = (address) => {
 
 export const useSwapTrackerMediator = () => {
   const {web3} = useWeb3();
-  return useMemo(()=> getSwapTrackerMediator("0xc246084Ea460960b33f5C7e5Bfbb1569B17c0ac5".toLowerCase(),web3), [web3]);
+  return useMemo(()=> getSwapTrackerMediator("0x8c49D29cfb875E14Ff9814a574c15aC5c711EB26".toLowerCase(),web3), [web3]);
 }
