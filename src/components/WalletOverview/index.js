@@ -21,6 +21,7 @@ export function WalletOverview(){
   const { chainId, web3 } = useWeb3()
   const { user } = useAuthService()
   const { account } = useWeb3React();
+  const [address, setAddress] = useState("0x")
 
   const getShrunkWalletAddress = (addr) => {
     return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
@@ -102,10 +103,9 @@ export function WalletOverview(){
 
   useEffect(() => {
     if(user && chainId){
-        getWlltTVL()
-        if(walletTVL){
-            wlltDist()
-        }
+      getWlltTVL()
+      wlltDist()
+      setAddress(user.address);
     }
   }, [user,walletTVL])
 
@@ -122,10 +122,10 @@ export function WalletOverview(){
                       </Col>
                       <Col style={{paddingLeft: 0}}>
                       <div style={{marginLeft: 20, fontSize: 24, fontWeight: 900}}>
-                          {getShrunkWalletAddress(account)}
+                          {getShrunkWalletAddress(address)}
                       </div>
                       <div style={{marginLeft: 20, fontSize: 11, fontWeight: 100, color: "#8DA0B0"}}>
-                          {getShrunkWalletAddress(account)}
+                          {getShrunkWalletAddress(address)}
                       </div>
                       </Col>
                   </Row>

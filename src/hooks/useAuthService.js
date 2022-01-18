@@ -1,17 +1,27 @@
 import React, { useState,useEffect } from 'react'
 import {callPost} from 'utils/swapTrackerServiceConnection'
 import { useWeb3React } from '@web3-react/core';
+import useWalletConnectAuth from 'hooks/useWalletConnectAuth'
+
+
 const useAuthService = () => {
     const {account} = useWeb3React();
     const [user,setUser] = useState()
+    const { connector } = useWalletConnectAuth()
+
 
     useEffect(() => {
        if(account){
            callPost("createOrUpdateUser",{address:account, lastLogin:new Date()}).then((resp)=>{
                setUser(resp.data.data)
            })
+       } else if(connector.connected) {
+            callPost("createOrUpdateUser",{address:connector._accounts[0], lastLogin:new Date()}).then((resp)=>{
+                setUser(resp.data.data);
+            })
+            // console.log(user)
        }
-    }, [account])
+    }, [account, connector])
 
     
     const createOrUpdateUser = (body) => {

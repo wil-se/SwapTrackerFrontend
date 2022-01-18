@@ -17,22 +17,30 @@ const TopNavbar = function () {
   const [currency, setCurrency] = useState("USD");
   const [network, setNetwork] = useState("BSC");
   const [modalShow, setModalShow] = useState(false);
-  const [metamaskConnected, setMetamaskConnected ] = useState(false)
-  const [walletConnectConnected, setWalletConnectConnected ] = useState(false)
+  const [walletButtonText, setWalletButtonText] = useState("Connect")
 
   const handleCurrencyClick = (symbol) => {
     setCurrency(symbol);
   }
-
-  const { active, } = useWeb3React()
-
-  const getMetamaskConnector = async () => {console.log(connectorsByName[ConnectorNames.INJECTED].connected); connectorsByName[ConnectorNames.INJECTED].connected === undefined ? undefined : setMetamaskConnected(true)};
-  const getWalletConnectConnector = () => {new WalletConnect({bridge: "https://bridge.walletconnect.org",}).connected ? setWalletConnectConnected(true) : setWalletConnectConnected(false)};
+  
+  const { active, deactivate } = useWeb3React()
+  const { connector } = useWalletConnectAuth()
+  
+  
+  const disconnect = () => {
+    if (connector.connected) {
+      connector.killSession()
+    }
+  }
 
   useEffect(() => {
-    getMetamaskConnector();
-    getWalletConnectConnector();
-  }, [slowRefresh]);
+    if(connector.connected){
+      setWalletButtonText("Disconnect")
+    } else if (active) {
+      setWalletButtonText("Connected")
+    }
+  }, [active]);
+
 
 
   return (
@@ -40,7 +48,7 @@ const TopNavbar = function () {
       <nav className="navbar navbar-expand-md bg-faded cripto_nav">
         
         <Row className="pr-4 d-flex flex-row-reverse w-100">
-        <Button className="ml-3" variant="primary" onClick={() => active || walletConnectConnected ? undefined : setModalShow(true)}>{active || walletConnectConnected ? "Disconnect Wallet" : "Connect Wallet"} </Button>
+        <Button className="ml-3" variant="primary" onClick={() => connector.connected || active ? disconnect() : setModalShow(true)}>{walletButtonText} </Button>
 
           <Dropdown className="ml-3">
             <Dropdown.Toggle variant="currency" style={{borderRadius: 10, }}>
