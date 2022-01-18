@@ -142,7 +142,7 @@ const TradeMainCard = () => {
                             .swapExactTokensForETH(amountInFormattedBN.toString(),amountOutMinFormattedBN.toString(),path)
                             .send({from:account})
                             .catch((e)=>{
-                                setDisabledButton(false)
+                                setDisabledButton(false) 
                                 console.warn(e)
 
                             })
