@@ -114,19 +114,19 @@ const TradeMainCard = () => {
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
             console.log(amountOut, amountOutMinFormatted ,amountInFormattedBN.toNumber(),JSON.stringify(path))
-            /*const txSwap = await swapTrackerMediator.methods
+            const txSwap = await swapTrackerMediator.methods
                             .swapExactTokensForTokens(amountInFormattedBN.toString(),amountOutMinFormatted.toString(),path)
                             .send({from:account})
                             .catch((e)=>{
                                 setDisabledButton(false)
                                 console.warn(e)
 
-                            })*/
+                            })
                setDisabledButton(false)             
-            getNotification(/*txSwap?.status || false*/true)
-             if(!disabledButton /*&& txSwap*/){
+            getNotification(txSwap?.status || false)
+             if(!disabledButton && txSwap){
                  setDisabledButton(false);
-                 setTrade({},path) 
+                 setTrade(txSwap,path) 
              }               
         }
         else if (tokenSelectedOut.symbol === "BNB") {
