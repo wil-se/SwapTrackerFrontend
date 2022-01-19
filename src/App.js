@@ -6,6 +6,7 @@ import Staking from 'pages/Staking';
 import Trade from 'pages/Trade';
 import Tier from 'pages/Tier';
 import Wallet from 'pages/Wallet';
+import History from 'pages/History';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'style/App.scss';
@@ -22,6 +23,7 @@ function App() {
         <Route path="/trade" element={<Trade />} />
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/tiers" element={<Tier />} />
+        <Route path="/history" element={<History />} />
       </Routes>
     </>
   );

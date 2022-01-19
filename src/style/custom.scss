@@ -13,7 +13,7 @@ a:hover {
   padding: 8px 15px;
   font-size: 14px;
   font-weight: 600;
-  border-radius: 10px !important;
+  border-radius: 5px !important;
   background-color: #FBFFFF;
 
   &:active:enabled {
@@ -147,4 +147,18 @@ input[type=number] {
 
 .tier-card-active {
   box-shadow: 0px 0px 33px -6px rgb(0 212 255 / 50%);
+}
+
+.history-header {
+  font-size: 12px;
+  color: #A0AEC0;
+  font-weight: 500;
+  display: 'flex';
+  align-items: 'center';
+  justify-content: 'center';
+}
+
+.history-text {
+  font-size: 12px;
+  color: #3B434A;
 }
