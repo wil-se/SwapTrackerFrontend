@@ -34,8 +34,21 @@ const useTrade = () => {
             status:tradeTx?.status,
             timestamp:new Date()
         }
+
+        /*let tradeFormatted = {
+            txId:"0xdc470930d37270fd651eceaf01d1985b0cbf4105479ce8a733eff1b1012c4a3d",
+            user:"0x80952d9ad8397be49de07d13b2bc7c4c6e91df2a",
+            tokenFrom:"0xAC51066d7bEC65Dc4589368da368b212745d63E8",
+            tokenTo:"0xa1faa113cbE53436Df28FF0aEe54275c13B40975",
+            amountIn:"0.042570",
+            amountOut:"0.810051905794681448",
+            priceFrom:"0.428778",
+            priceTo:"0.426636572381244861",
+            status:true,
+            timestamp:"2022-01-18T17:09:11.937Z"
+        }*/
         
-        console.log("vediamo ", tradeFormatted)
+        //console.log("vediamo ",JSON.stringify(tradeFormatted) )
         callPost("insertOrUpdateTrade",tradeFormatted)
 
     }
