@@ -74,6 +74,7 @@ export function WalletOverview(){
         labels: cLabels,
         datasets: [
           {
+            animation: false,
             label: '# of Votes',
             data: cData,
             backgroundColor: [
