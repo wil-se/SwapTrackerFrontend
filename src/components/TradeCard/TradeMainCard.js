@@ -102,32 +102,31 @@ const TradeMainCard = () => {
             getNotification(txSwap?.status || false)
              if(!disabledButton && txSwap){
                  setDisabledButton(false);
-                 setTrade(txSwap,path,amountOutMinBN)
+                 setTrade(txSwap,path)
              }               
         }
         else if (tokenSelectedIn.symbol !== "BNB" && tokenSelectedOut.symbol !== "BNB"){
-            
+            console.log(amountOut)
             let amountOutBN = new BigNumber(amountOut);
             let amountOutMinBN = amountOutBN.multipliedBy(100-parseInt(slippageAmount)).dividedBy(100);
-            console.log(amountOutMinBN.toNumber())
-            let amountOutMinFormattedBN = amountOutMinBN.shiftedBy(tokenSelectedOut.decimals);
+            console.log(amountOutMinBN.toNumber(),tokenSelectedOut.decimals)
+            let amountOutMinFormatted = Math.floor(amountOutMinBN.shiftedBy(tokenSelectedOut.decimals).toNumber());
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
-            console.log(amountOut, amountOutMinFormattedBN.toNumber(),amountInFormattedBN.toNumber(),JSON.stringify(path))
-            const txSwap = await swapTrackerMediator.methods
-                            .swapExactTokensForTokens(amountInFormattedBN.toString(),amountOutMinFormattedBN.toString(),path)
+            console.log(amountOut, amountOutMinFormatted ,amountInFormattedBN.toNumber(),JSON.stringify(path))
+            /*const txSwap = await swapTrackerMediator.methods
+                            .swapExactTokensForTokens(amountInFormattedBN.toString(),amountOutMinFormatted.toString(),path)
                             .send({from:account})
                             .catch((e)=>{
                                 setDisabledButton(false)
                                 console.warn(e)
 
-                            })
-            console.log("allora ", txSwap)
-            
-            getNotification(txSwap?.status || false)
-             if(!disabledButton && txSwap){
+                            })*/
+               setDisabledButton(false)             
+            getNotification(/*txSwap?.status || false*/true)
+             if(!disabledButton /*&& txSwap*/){
                  setDisabledButton(false);
-                 setTrade(txSwap,path,amountOutMinBN)
+                 setTrade({},path) 
              }               
         }
         else if (tokenSelectedOut.symbol === "BNB") {
