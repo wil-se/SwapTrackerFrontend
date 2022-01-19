@@ -78,14 +78,16 @@ const TradeMainCard = () => {
 
             console.log("entro qui??")
             let amountOutBN = new BigNumber(amountOut);
-            let amountOutMinBN = amountOutBN.multipliedBy(100-slippageAmount).dividedBy(100);
-            let amountOutMinFormattedBN = amountOutMinBN.shiftedBy(-1*tokenSelectedOut.decimals);
+            let amountOutMinBN = amountOutBN.multipliedBy(100-parseInt(slippageAmount)).dividedBy(100);
+            console.log(amountOutMinBN.toNumber(),tokenSelectedOut.decimals)
+            let amountOutMinFormatted = Math.floor(amountOutMinBN.shiftedBy(tokenSelectedOut.decimals).toNumber());
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
+
             
             
-            console.log(amountInFormattedBN.toNumber(),amountOutMinFormattedBN.toNumber(),JSON.stringify(path))
+            console.log(amountInFormattedBN.toNumber(),amountOutMinFormatted,JSON.stringify(path))
             const txSwap = await swapTrackerMediator.methods
-                            .swapExactETHForTokens(amountOutMinFormattedBN.toString(),path)
+                            .swapExactETHForTokens(amountOutMinFormatted.toString(),path)
                             .send({from:account,value:amountInFormattedBN.toString()})
                             .catch((e)=>{
                                 setDisabledButton(false)
