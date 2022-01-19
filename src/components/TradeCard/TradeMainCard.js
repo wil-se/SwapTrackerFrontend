@@ -89,7 +89,7 @@ const TradeMainCard = () => {
 
             
             
-            console.log(amountInFormattedBN.toNumber(),amountOutMinFormatted.toNumber(),JSON.stringify(path))
+            console.log(amountInFormattedBN.toNumber(),amountOutMinFormatted,JSON.stringify(path))
             const txSwap = await swapTrackerMediator.methods
                             .swapExactETHForTokens(amountOutMinFormatted.toString(),path)
                             .send({from:account,value:amountInFormattedBN.toString()})
