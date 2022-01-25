@@ -1,0 +1,60 @@
+
+.dashboard-card-container{
+    display:flex;
+    width:1439.88px;
+    height:402.73px;
+    background: #FFFFFF;
+    border: 0.5px solid #FBFFFF;
+    box-sizing: border-box;
+    box-shadow: 0px 3.5px 5.5px rgba(0, 0, 0, 0.02);
+    border-radius: 10px;
+    margin-top:22.2px;
+}
+
+.dashboard-card-subcontainer{
+    width:100%;
+    padding:26px 43.88px 24.39px 21px;
+    
+}
+
+.dashboard-card-chart-title{ 
+    display:flex;
+    margin-left:5px;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 33px;
+    color: #2D3748;
+    
+}
+
+.dashboard-date-range-output{
+    
+    all:unset;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    width:173px;
+    height:35px;
+    border: 0.75px solid #ABC2D6;
+    box-sizing: border-box;
+    border-radius: 5px;
+    img{
+        all:unset;
+        padding:11px 0 10px 14px;
+    }
+    input{
+        all:unset;
+        font-style: normal;
+        font-weight: 800;
+        font-size: 10px;
+        line-height: 150%;
+        color:#8DA0B0;
+    }
+
+}
+
+.dashboard-card-header{
+    display:flex;
+    justify-content: space-between;
+}

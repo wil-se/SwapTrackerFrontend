@@ -27,9 +27,10 @@ export function CoinInfo(props) {
   const coingeckoId = CoingeckoTokens.default[props.symbol.toLowerCase()];
 
   const getCoingeckoStats = async ()=>{
+    console.log("vediamo ", props.symbol.toLowerCase())
     let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
-    setPrice(data.data.market_data.current_price.usd);
-    setPriceVariation(data.data.market_data.price_change_percentage_24h);
+    setPrice(data.data.market_data?.current_price.usd || 0);
+    setPriceVariation(data.data.market_data?.price_change_percentage_24h || 0);
     setName(data.data.name)
   }
 
