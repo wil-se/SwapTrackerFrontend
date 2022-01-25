@@ -79,7 +79,7 @@ const TradeMainCard = () => {
         
         if(tokenSelectedIn.symbol === "BNB"){
 
-         /*   console.log("entro qui??")
+            console.log("entro qui??")
             let amountOutBN = new BigNumber(amountOut);
             let amountOutMinBN = amountOutBN.multipliedBy(100-parseInt(slippageAmount)).dividedBy(100);
             console.log(amountOutMinBN.toNumber(),tokenSelectedOut.decimals)
@@ -101,10 +101,10 @@ const TradeMainCard = () => {
             console.log("allora ", txSwap)
             
             getNotification(txSwap?.status || false)
-             if(!disabledButton && txSwap){
-            }   */            
-            setDisabledButton(false);
+            if(!disabledButton && txSwap){
+                setDisabledButton(false);
                 setTrade(path)
+            }         
         }
         else if (tokenSelectedIn.symbol !== "BNB" && tokenSelectedOut.symbol !== "BNB"){
             console.log(amountOut)
