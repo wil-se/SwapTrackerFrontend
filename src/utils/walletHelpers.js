@@ -29,7 +29,9 @@ export const walletDistribution = async (user,walletTVL,web3,chainId) => {
             let singleBalance = await getFlatBalance(tokenContract,user)   
             let singleTokenBusdBalance = await getTokenBalance(tokenContract,user)
             let symbol = await tokenContract.methods.symbol().call()
-            balance[tokenAddress] = [singleTokenBusdBalance / walletTVL *100,parseFloat(singleTokenBusdBalance),parseFloat(singleBalance), symbol];
+            if(singleBalance > 0 ){
+                balance[tokenAddress] = [singleTokenBusdBalance / walletTVL *100,parseFloat(singleTokenBusdBalance),parseFloat(singleBalance), symbol];
+            }
             
         })
     )
@@ -42,8 +44,24 @@ export const getWalletTVL = async (user,web3,chainId) => {
         user?.tokenList[chainId].map(async (tokenAddress)=>{
             let tokenContract = getBep20Contract(String(tokenAddress).toLocaleLowerCase(),web3)
             let bal = await getTokenBalance(tokenContract,user)
-            tvl += parseFloat(bal);
+            if(bal>0){
+                tvl += parseFloat(bal);
+            }
         })
     )            
     return tvl;
+}
+
+
+export const getBalanceOverview = async (user,web3,chainId) => {
+    let totalBalance= 0;
+    let walletTVL = await getWalletTVL(user,web3,chainId)
+    let walletDist = await walletDistribution(user,walletTVL,web3,chainId)
+    const dst = Object.entries(walletDist).sort(function(first, second){return second[1][0] - first[1][0]});
+        for (let i=0; i<dst.length; i++) {
+            totalBalance+= dst[i][1][1]
+        }
+    
+    return {[new Date()]:Number(totalBalance).toFixed(2)}
+        
 }

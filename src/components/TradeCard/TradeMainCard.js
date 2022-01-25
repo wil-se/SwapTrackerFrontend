@@ -61,6 +61,9 @@ const TradeMainCard = () => {
         if(amountInShifted>0){
             let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted,path).call().catch((e)=>console.log("vedimamo ",e))
             let amoutInFormatted = new BigNumber(amIn[amIn.length-2]).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(5);
+            let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
+            console.log(allowance)
+            setAllowanceTokenIn(allowance)
             setAmountIn(amoutInFormatted) 
         }
     }
@@ -76,7 +79,7 @@ const TradeMainCard = () => {
         
         if(tokenSelectedIn.symbol === "BNB"){
 
-            console.log("entro qui??")
+         /*   console.log("entro qui??")
             let amountOutBN = new BigNumber(amountOut);
             let amountOutMinBN = amountOutBN.multipliedBy(100-parseInt(slippageAmount)).dividedBy(100);
             console.log(amountOutMinBN.toNumber(),tokenSelectedOut.decimals)
@@ -99,9 +102,9 @@ const TradeMainCard = () => {
             
             getNotification(txSwap?.status || false)
              if(!disabledButton && txSwap){
-                 setDisabledButton(false);
-                 setTrade(txSwap,path)
-             }               
+            }   */            
+            setDisabledButton(false);
+                setTrade(path)
         }
         else if (tokenSelectedIn.symbol !== "BNB" && tokenSelectedOut.symbol !== "BNB"){
             console.log(amountOut)
@@ -131,12 +134,12 @@ const TradeMainCard = () => {
             
             let amountOutBN = new BigNumber(amountOut);
             let amountOutMinBN = amountOutBN.multipliedBy(100-slippageAmount).dividedBy(100);
-            let amountOutMinFormattedBN = amountOutMinBN.shiftedBy(tokenSelectedOut.decimals);
+            let amountOutMinFormatted = Math.floor(amountOutMinBN.shiftedBy(tokenSelectedOut.decimals).toNumber());
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
-            console.log(amountOutMinFormattedBN.toNumber(),amountInFormattedBN.toNumber(),JSON.stringify(path))
+            console.log(amountOutMinFormatted,amountInFormattedBN.toNumber(),JSON.stringify(path))
             const txSwap = await swapTrackerMediator.methods
-                            .swapExactTokensForETH(amountInFormattedBN.toString(),amountOutMinFormattedBN.toString(),path)
+                            .swapExactTokensForETH(amountInFormattedBN.toString(),amountOutMinFormatted.toString(),path)
                             .send({from:account})
                             .catch((e)=>{
                                 setDisabledButton(false) 
@@ -146,9 +149,9 @@ const TradeMainCard = () => {
             getNotification(txSwap?.status || false)
              if(!disabledButton && txSwap){
                  setDisabledButton(false);
-                 setTrade(txSwap,path,amountOutMinBN)
+                 setTrade(txSwap,path)
 
-             }               
+            }               
         
         }
     }

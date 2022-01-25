@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row,TabContainer } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 //icons
 import logoGrande from '../../assets/icons/logoGrandeSidebar.png';
@@ -15,11 +15,13 @@ import { useFacebookPixel } from 'hooks/useFacebookPixel';
 import { useGoogleAnalytics } from 'hooks/useGoogleAnalytics';
 import useAuthService from 'hooks/useAuthService';
 
+
 const SideBar = () => {
     useEagerConnect();
     useGoogleAnalytics();
     const { account } = useWeb3React();
     const {logout} = useAuth()
+   
     const {createOrUpdateUser} = useAuthService()
     const [tiers,setTiers] = useState(0);
     const pixel = useFacebookPixel();
@@ -50,13 +52,13 @@ const SideBar = () => {
             </Row>
             <div className="menu">
                 <Row className="menu-item">
-                    <Link to="dashboard" className="link">
+                    <Link to="dashboard" className="link" >
                         <Icon.HouseDoor/>
                         Dashboard
                     </Link>
                 </Row>
                 <Row className="menu-item">
-                    <Link to="wallet" className="link">
+                    <Link to="wallet" className="link" >
                         <Icon.CreditCard2Back/>
                         Wallet
                     </Link>
