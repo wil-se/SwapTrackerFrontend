@@ -85,11 +85,11 @@ export const getTradeRows = async (openedTrades) => {
     tradeRow.openAt = new BigNumber(tradeRow.openAt).shiftedBy(-1*18).toNumber().toFixed(2)
     tradeRow.priceTo = new BigNumber(openedTrade.priceTo).toNumber().toFixed(2)
     tradeRow.pl = new BigNumber(tradeRow.currentValue - tradeRow.currentPrice).toNumber().toFixed(2) 
-    tradeRow.pl = Math.sign(tradeRow?.pl) === -1 
+    /*tradeRow.pl = Math.sign(tradeRow?.pl) === -1 
                   ? 
                   `${tradeRow?.pl.toString().substring(0,1)} $ ${tradeRow?.pl.toString().substring(1,tradeRow?.pl.toString().length)}` 
                   : 
-                  `+ $ ${tradeRow?.pl.toString()}`
+                  `+ $ ${tradeRow?.pl.toString()}`*/
     tradeRow.pl_perc = ((tradeRow.pl - (tradeRow.amountOut * tradeRow.priceTo))/(tradeRow.amountOut * tradeRow.priceTo))*100
 
 
