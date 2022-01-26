@@ -8,9 +8,21 @@ const DashBoardOpenTradesTable = ({openedTrades}) => {
     return (
         <div>
             <DashBoardOpenTradesTableHeader/>
-            {openedTrades?.map((trade)=>{
+            {openedTrades?.map((trade,key)=>{
                 return (
-                    <DashboardOpenTradesTableRow key={trade.txId} tokenSymbol="ETH" tokenName="Ethereum" pl="1500" pl_perc="10" />
+                    <DashboardOpenTradesTableRow 
+                        key={key} 
+                        tokenSymbol={trade.tokenSymbol} 
+                        tokenName={trade.tokenName}
+                        tokenSymbolIn={trade.tokenSymbolIn}
+                        amountOut={trade.amountOut}
+                        amountIn={trade.amountIn}
+                        currentPrice={trade.currentPrice} 
+                        openAt={trade.openAt}
+                        priceTo={trade.priceTo}
+                        currentValue={trade.currentValue} 
+                        pl={trade.pl} 
+                        pl_perc={trade.pl_perc} />
                 )
             })}
         </div>

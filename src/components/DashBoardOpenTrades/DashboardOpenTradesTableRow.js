@@ -3,7 +3,7 @@ import * as CryptoIcons from 'assets/icons';
 import PropTypes from 'prop-types';
 import { Row, Col, Button } from 'react-bootstrap';
 const greyText = {color: "#8DA0B0", fontSize: 11}
-const DashboardOpenTradesTableRow = ({tokenSymbol,tokenName,pl,pl_perc}) => {
+const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,currentPrice,currentValue,openAt,amountIn,amountOut,priceTo}) => {
     return (
         <Row style={{
             display: 'flex',
@@ -19,16 +19,16 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenName,pl,pl_perc}) => {
                 {tokenName}
               </Col>
               <Col className="text-center">
-                <p className="mb-0">$88.000</p>
-                <span style={greyText}>133 BNB | 2 BTC</span>
+                <p className="mb-0">${currentValue}</p>
+                <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
               </Col>
               <Col className="text-center">
-                <p className="mb-0">$26.000</p>
-                <span style={greyText}>133 BNB | 2 BTC</span>
+                <p className="mb-0">${openAt}</p>
+                <span style={greyText}>{amountIn} {tokenSymbolIn} @${priceTo}</span>
               </Col>
               <Col className="text-center">
-                <p className="mb-0">$88.000</p>
-                <span style={greyText}>133 BNB | 2 BTC</span>
+                <p className="mb-0">${currentPrice}</p>
+                <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
               </Col>
               <Col className="text-center">
                 {pl}
@@ -46,14 +46,18 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenName,pl,pl_perc}) => {
 
 DashboardOpenTradesTableRow.propTypes = {
     tokenSymbol: PropTypes.string,
+    tokenSymbolIn: PropTypes.string,
     tokenName: PropTypes.string,
     currentValue: PropTypes.number,
     openAt: PropTypes.string,
-    currenPrice: PropTypes.number,
+    currentPrice: PropTypes.number,
     pl: PropTypes.number,
     pl_perc: PropTypes.number,
     openDate: PropTypes.string,
     closedDate: PropTypes.string,
+    amountIn: PropTypes.number,
+    amountOut: PropTypes.number,
+    priceTo: PropTypes.number
 };
 
 export default DashboardOpenTradesTableRow

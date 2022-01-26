@@ -14,9 +14,12 @@ import {approve} from 'utils/callHelpers';
 import { useSwapTrackerMediator } from 'hooks/useContract';
 import useNotification from 'hooks/useNotification'
 import useTrade from 'hooks/useTrade';
+import { Button } from 'react-bootstrap';
+import useWeb3 from 'hooks/useWeb3';
 
 const TradeMainCard = () => {
     const { account } = useWeb3React();
+    const {web3,chainId} = useWeb3()
     const [pancakeRouterContract,] = useState(usePancakeRouter())
     const [amountIn,setAmountIn] = useState(0)
     const [amountOut,setAmountOut] = useState(0)
@@ -28,22 +31,25 @@ const TradeMainCard = () => {
     const [allowanceTokenIn,setAllowanceTokenIn] = useState(0)
     const [slippageAmount,setSlippageAmount] = useState(5.0)
     const [deadlineAmount,setDeadlineAmount] = useState(20)
-    const [disabledButton,setDisabledButton] = useState(false);
+    const [disabledButton,setDisabledButton] = useState(true)
+    const [disabledInput,setDisabledInput] = useState(!tokenSelectedOut ? true : false )
     const path = useSwapInfo(tokenSelectedIn,tokenSelectedOut)
     const erc20Contract = useERC20(tokenSelectedIn?.address)
+    const erc20ContractOut = useERC20(tokenSelectedOut?.address)
     const swapTrackerMediator = useSwapTrackerMediator()
     const {getNotification} = useNotification()
     const {setTrade} = useTrade()
 
     const getTokenAmountOut = async (e) => {
         setAmountIn(e.target.value)
+        setDisabledButton(false)
         e.preventDefault()
 
         let amount = e.target.value
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedIn.decimals);
         if(amountInShifted>0){
             let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted,path).call().catch((e)=>console.log("vedimamo ",e))
-            let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber().toFixed(parseInt(tokenSelectedOut.decimals));
+            let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber().toFixed(5);
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
             console.log(allowance)
             setAllowanceTokenIn(allowance)
@@ -55,11 +61,13 @@ const TradeMainCard = () => {
 
     const getTokenAmountIn = async (e) => {
         setAmountOut(e.target.value)
+        setDisabledButton(false)
         e.preventDefault()
         let amount = e.target.value
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedOut.decimals);
         if(amountInShifted>0){
             let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted,path).call().catch((e)=>console.log("vedimamo ",e))
+            console.log(amIn,amIn[amIn.length-2])
             let amoutInFormatted = new BigNumber(amIn[amIn.length-2]).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(5);
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
             console.log(allowance)
@@ -74,6 +82,79 @@ const TradeMainCard = () => {
         getNotification(true)
     }
 
+    const setMaxAmountIn = async () => {
+        if(tokenSelectedIn.symbol !== "BNB"){
+            const balanceTokenIn = await erc20Contract.methods.balanceOf(account).call()
+            const decimals = await erc20Contract.methods.decimals().call()
+            let amountInFormatted = new BigNumber(balanceTokenIn).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(5)
+            let amountInShifted = new BigNumber(balanceTokenIn).shiftedBy(parseInt(decimals));
+            if(amountInShifted>0){
+                let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted,path).call().catch((e)=>console.log("vedimamo ",e))
+                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(5);
+                console.log(amountOutFormatted)
+                let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
+                setAllowanceTokenIn(allowance)
+                setAmountOut(amountOutFormatted)
+            }
+            setAmountIn(amountInFormatted)
+            setDisabledButton(false)
+
+        }
+        else{
+            const balanceNativeIn = await web3.eth.getBalance(account)
+            console.log("allora ", balanceNativeIn)
+            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(5)
+            if(balanceNativeIn>0){
+                console.log(path)
+                let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceNativeIn,path).call().catch((e)=>console.log("vedimamo ",e))
+                console.log(amOut, amOut[amOut.length-2])
+                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(5);
+                console.log(amountOutFormatted)
+                let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
+                setAllowanceTokenIn(allowance)
+                setAmountOut(amountOutFormatted)
+            }
+            setAmountIn(amountInFormatted)
+            setDisabledButton(false)
+        }
+    } 
+
+    const setMaxAmountOut = async () => {
+        if(tokenSelectedOut.symbol !== "BNB"){
+            const balanceTokenOut = await erc20ContractOut.methods.balanceOf(account).call()
+            let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
+            const decimals = await erc20ContractOut.methods.decimals().call()
+            let amountOutFormatted = new BigNumber(balanceTokenOut).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(5)     
+            if(balanceTokenOut>0){
+                let amOut = await pancakeRouterContract.methods.getAmountsIn(balanceTokenOut,path).call().catch((e)=>console.log("vedimamo ",e))
+                console.log(amOut, amOut[amOut.length-2])
+                let amountInFormatted = new BigNumber(amOut[amOut.length-2]).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(5);
+                let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
+                setAllowanceTokenIn(allowance)
+                setAmountIn(amountInFormatted)
+            }
+            setAmountOut(amountOutFormatted)
+            setDisabledButton(false)
+        }
+        else{
+            const balanceNativeOut = await web3.eth.getBalance(account)
+            console.log("vediamo ",balanceNativeOut)
+            let amountOutFormatted = new BigNumber(balanceNativeOut).shiftedBy(-1*18).toNumber().toFixed(5)
+            
+            if(balanceNativeOut>0){
+                let amOut = await pancakeRouterContract.methods.getAmountsIn(balanceNativeOut,path).call().catch((e)=>console.log("vedimamo ",e))
+                console.log(amOut, amOut[amOut.length-2])
+                let amountInFormatted = new BigNumber(amOut[amOut.length-2]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(5);
+                let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
+                setAllowanceTokenIn(allowance)
+                setAmountOut(amountInFormatted)
+            }
+            setAmountOut(amountOutFormatted)
+            setDisabledButton(false)
+        }
+
+    }
+ 
     const swap = async () => {
         setDisabledButton(true); 
         
@@ -161,9 +242,17 @@ const TradeMainCard = () => {
                 <TradeHeader setOpenSettingsModal={setOpenSettingsModal} />
                 <div className="trade-inputs-section">
                     <div className="trade-input-section">
-                        <div className="label-section">From</div>
+                        <div className="label-section">
+                            <div className="label">
+                            From
+                            </div>
+                            <button onClick={setMaxAmountIn} disabled={disabledInput}>
+                                MAX
+                            </button>
+                        </div>
                         <div className="trade-input-position">
                             <input
+                                disabled={disabledInput}
                                 type="number"
                                 inputMode="decimal"
                                 title="token amount"
@@ -199,13 +288,21 @@ const TradeMainCard = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="arrow-switch-pair" onClick={()=>{setTokenSelectedIn(tokenSelectedOut); setTokenSelectedOut(tokenSelectedIn)}}>    
+                    <div className="arrow-switch-pair" onClick={()=>{setTokenSelectedIn(tokenSelectedOut);setAmountIn(amountOut); setTokenSelectedOut(tokenSelectedIn); setAmountOut(amountIn)}}>    
                         <Icon.ArrowDownShort size={34}/>
                     </div>
                     <div className="trade-input-section">
-                        <div className="label-section">To</div>
+                    <div className="label-section">
+                            <div className="label">
+                            To
+                            </div>
+                            <button onClick={setMaxAmountOut} disabled={disabledInput}>
+                                MAX
+                            </button>
+                        </div>
                         <div className="trade-input-position">
                             <input
+                                disabled={disabledInput}
                                 type="number"
                                 inputMode="decimal"
                                 title="token amount"
@@ -222,6 +319,7 @@ const TradeMainCard = () => {
                             <button onClick={()=>setOpenTokenListModalOut(!openTokenListModalOut)}>
                                 {tokenSelectedOut ?
                                     (   <>
+                                       
                                         <img className="icon-coin" src={tokenSelectedOut?.projectLink} />
                                         <div className="symbol-coin">
 
@@ -246,7 +344,7 @@ const TradeMainCard = () => {
                 <div className="confirm-section">
                     {!allowanceTokenIn && !amountIn ? 
                         (
-                        <button className="confirm-button">
+                        <button className="confirm-button" disabled={disabledButton}>
                             Enter an amount
                         </button>
                         )
@@ -271,7 +369,10 @@ const TradeMainCard = () => {
                     setOpenTokenListModalIn={setOpenTokenListModalIn}
                     setOpenTokenListModalOut={setOpenTokenListModalOut}
                     setTokenSelectedIn={setTokenSelectedIn}
-                    setTokenSelectedOut={setTokenSelectedOut} 
+                    setTokenSelectedOut={setTokenSelectedOut}
+                    tokenSelectedIn={tokenSelectedIn}
+                    tokenSelectedOut={tokenSelectedOut}
+                    setDisabledInput={setDisabledInput} 
                     openTokenListModalIn={openTokenListModalIn} 
                     openTokenListModalOut={openTokenListModalOut} />
                 :null

@@ -9,8 +9,8 @@ import {walletDistribution,getWalletTVL} from 'utils/walletHelpers'
 import DashBoardChart from 'components/DashBoardChart';
 import DashBoardOpenTrades from 'components/DashBoardOpenTrades';
 import {getDashboardData} from 'utils/dashboardHelpers'
-import { setNewBalanceOverview } from 'utils/dashboardHelpers';
-import {MONTH_LABELS_CHART} from 'config/'
+import { setNewBalanceOverview, getTradeRows } from 'utils/dashboardHelpers';
+
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
@@ -56,38 +56,27 @@ const Dashboard = () => {
         setProfitOrLoss((totalBalance*totalProfitOrLossPercetage)/100);
         return (totalBalance*totalProfitOrLossPercetage)/100;
     }
-    const getDataForChart = () => {
-        let labelList = []
-        let dataList = []
-        console.log("ma quindi ", user)
-        user.balanceOverview.map((singleBalanceOverview)=>{
-          let date = new Date(Object.keys(singleBalanceOverview))
-          let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
-          labelList.push(label)
-          dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
-
-        })
-        setLabelList(labelList)
-        setDataList(dataList)
-    }
+    
 
     const getDashData = async() => {
         let dashBoardData = await getDashboardData(user?.address)
         setOpenTradeValue(Number(dashBoardData.totalOpenTradesValue).toFixed(2))
-        setOpenedTrades(dashBoardData.openedTrades)
+        let tradeRow = await getTradeRows(dashBoardData?.openedTrades)
+        setOpenedTrades(tradeRow)
         
     }
       
 
-    useEffect(() => {   
-         (async() =>{
+    useEffect(() => { 
+        (async() =>{
+             console.log("ma che succede", user, chainId)  
             if(user && chainId){
                 await getDashData()
                 await getWlltTVL();
                 if(walletTVL){
                     let totalProfOrLoss = await wlltDist()
                     await setNewBalanceOverview(user,totalProfOrLoss)
-                    getDataForChart()
+                   
                     
                 }
             }
@@ -107,7 +96,7 @@ const Dashboard = () => {
                 />
             </Row>
             <Row>
-                <DashBoardChart labelList={labelList} dataList={dataList}/>
+                <DashBoardChart/>
             </Row>
             <Row>
                 <DashBoardOpenTrades openedTrades={openedTrades}/>

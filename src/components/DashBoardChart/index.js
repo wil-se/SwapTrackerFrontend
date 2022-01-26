@@ -1,16 +1,18 @@
-import React,{useState,useMemo, useEffect} from 'react'
-import { Card, Row, Col } from 'react-bootstrap';
+import React,{useState, useEffect} from 'react'
+import {Row} from 'react-bootstrap';
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker from "react-modern-calendar-datepicker";
 import calendar from 'assets/icons/calendar.svg';
 import DashBoardLineChart from './DashBoardLineChart';
 import PropTypes from 'prop-types';
-
+import {MONTH_LABELS_CHART} from 'config/'
+import {getDatesFromRange} from 'utils/dashboardHelpers'
+import useAuthService from 'hooks/useAuthService'
 
 const defaultFrom = {
     year: new Date().getFullYear(),
     month: new Date().getMonth()+1,
-    day: new Date().getDate()-10,
+    day: new Date().getDate()-1,
   };
   const defaultTo = {
     year: new Date().getFullYear(),
@@ -21,14 +23,56 @@ const defaultFrom = {
     from: defaultFrom,
     to: defaultTo,
   };
-const DashBoardChart = ({labelList,dataList}) => {
+const DashBoardChart = () => {
+    const { user } = useAuthService()
     const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
+    const [selectedDayRange, setSelectedDayRange] = useState(defaultValue);  
+    const [labelList,setLabelList] = useState([])
+    const [dataList,setDataList] = useState([])
 
+    const getDataForChart = () => {
+      let dateFilterArray;
+      if(selectedDayRange){ dateFilterArray = getDatesFromRange(selectedDayRange) } 
+      let labelList = []
+      let dataList = []
+      user.balanceOverview.map((singleBalanceOverview)=>{
+        let date = new Date(Object.keys(singleBalanceOverview))
+        
+        if(dateFilterArray && (date >= dateFilterArray[0] && date <= dateFilterArray[1])){
+          console.log("entro qui ", dateFilterArray)
+          let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
+          labelList.push(label)
+          dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+    
+        }
+        else if(!dateFilterArray){
+          console.log("o qui???", dateFilterArray, date)
+          let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
+          labelList.push(label)
+          dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+        }
+    
+      })
+      setLabelList(labelList)
+      setDataList(dataList)
+      
+    }
+    
+    useEffect(()=>{
+      if(selectedDayRange === defaultValue && user){
+          getDataForChart()
+          return;
 
-      const [selectedDayRange, setSelectedDayRange] = useState(
-        defaultValue
-      );
-
+        }
+        else{
+          if(selectedDayRange?.from && selectedDayRange?.to && selectedDayRange !== defaultValue){
+            let label = `${MONTH_LABELS_CHART[selectedDayRange?.from.month].toUpperCase()} ${selectedDayRange?.from.day},${selectedDayRange?.from.year.toString().substring(2,4)} - ${MONTH_LABELS_CHART[selectedDayRange?.to.month].toUpperCase()} ${selectedDayRange?.to.day},${selectedDayRange?.to.year.toString().substring(2,4)}`
+            setSelectedDayRangeFormatted(label)
+            getDataForChart()
+          }
+        }
+      
+      },[selectedDayRange, user])
      
      
 
@@ -71,9 +115,9 @@ const DashBoardChart = ({labelList,dataList}) => {
     )
 }
 
-DashBoardChart.propTypes = {
-  dataList:PropTypes.array,
-  labelList:PropTypes.array
-};
+
+
+
+
 
 export default DashBoardChart
