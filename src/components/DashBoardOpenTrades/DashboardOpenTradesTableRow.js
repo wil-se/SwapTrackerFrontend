@@ -11,9 +11,21 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
             justifyContent: 'center',
             paddingTop: 15,
         }}>
-              <Col className="text-center">
-              <img className="img-fluid ml-0 mr-2" src={CryptoIcons.default['_'+tokenSymbol.toLowerCase()]} style={{width: 25, height: 25}} />
+              <Col className="text-center dashboard-token-col">
+                {CryptoIcons.default['_'+tokenSymbol.toLowerCase()] 
+                  ?
+                  <div className="dashboard-token-icon">
+                    <img className="img-fluid" src={CryptoIcons.default['_'+tokenSymbol.toLowerCase()]} style={{width: 25, height: 25}} />
+                  </div>
+                  :
+                  <div className="dashboard-token-icon">
+                    <img className="img-fluid " src={CryptoIcons.default['_generic']} style={{width: 25, height: 25}} />
+                  </div>
+                  
+                }
+                <div>
                 {tokenSymbol}
+                </div>
               </Col>
               <Col className="text-center">
                 {tokenName}

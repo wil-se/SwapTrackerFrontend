@@ -100,3 +100,16 @@
     justify-content:center;
     
 }
+
+.dashboard-token-col{
+    display:flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content:center;
+    
+    .dashboard-token-icon{
+        position:absolute;
+        left:29px;
+        
+    }
+}
