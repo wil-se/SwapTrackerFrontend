@@ -119,7 +119,7 @@ const useTradeExactIn = (inputCurrency,outputCurrency) => {
 export const useSwapInfo = (inputCurrency,outputCurrency) => {
     let path = [];
     
-    outputCurrency !== undefined && inputCurrency.symbol !== "BNB" && outputCurrency?.symbol !== "BNB" 
+    outputCurrency !== undefined && inputCurrency?.symbol !== "BNB" && outputCurrency?.symbol !== "BNB" 
     ? path.push(inputCurrency.address,mainnetTokens.wbnb.address,outputCurrency?.address) 
     : path.push(inputCurrency.address,outputCurrency?.address) 
  

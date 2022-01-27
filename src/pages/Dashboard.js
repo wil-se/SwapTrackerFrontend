@@ -18,14 +18,11 @@ const Dashboard = () => {
 
     const { chainId, web3 } = useWeb3()
     const { user } = useAuthService()
-    const [walletDistributions,setWalletDistributions] = useState({})
     const [walletTVL,setWalletTVL] = useState(0)
     const [currentBalance,setCurrentBalance] = useState(0)
     const [profitOrLoss,setProfitOrLoss] = useState(0)
     const [openTradeValue,setOpenTradeValue] = useState(0)
     const [openedTrades,setOpenedTrades] = useState([])
-    const [labelList,setLabelList] = useState([])
-    const [dataList,setDataList] = useState([])
     
     const getTotalPriceVairation = async (coingeckoId) => {
         let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
@@ -42,7 +39,6 @@ const Dashboard = () => {
         let totalProfitOrLossPercetage = 0
         let totalBalance = 0
         let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
-        setWalletDistributions(wlltDist);
         const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
         for (let i=0; i<dst.length; i++) {
             totalBalance+= dst[i][1][1]
@@ -60,8 +56,8 @@ const Dashboard = () => {
 
     const getDashData = async() => {
         let dashBoardData = await getDashboardData(user?.address)
-        setOpenTradeValue(Number(dashBoardData.totalOpenTradesValue).toFixed(2))
         let tradeRow = await getTradeRows(dashBoardData?.openedTrades)
+        setOpenTradeValue(Number(dashBoardData?.totalOpenTradesValue).toFixed(2))
         setOpenedTrades(tradeRow)
         
     }
@@ -69,9 +65,8 @@ const Dashboard = () => {
 
     useEffect(() => { 
         (async() =>{
-             console.log("ma che succede", user, chainId)  
+            await getDashData()
             if(user && chainId){
-                await getDashData()
                 await getWlltTVL();
                 if(walletTVL){
                     let totalProfOrLoss = await wlltDist()

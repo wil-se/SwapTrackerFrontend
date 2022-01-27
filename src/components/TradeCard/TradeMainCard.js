@@ -184,7 +184,7 @@ const TradeMainCard = () => {
             getNotification(txSwap?.status || false)
             if(!disabledButton && txSwap){
                 setDisabledButton(false);
-                setTrade(path)
+                setTrade(txSwap,path)
             }         
         }
         else if (tokenSelectedIn.symbol !== "BNB" && tokenSelectedOut.symbol !== "BNB"){

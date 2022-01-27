@@ -58,7 +58,7 @@ const SideBar = () => {
                     </Link>
                 </Row>
                 <Row className="menu-item">
-                    <Link to="wallet" className="link" >
+                    <Link to="wallet" className="link" state={{aia:"ciaoo"}} >
                         <Icon.CreditCard2Back/>
                         Wallet
                     </Link>

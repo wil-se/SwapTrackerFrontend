@@ -1,12 +1,10 @@
 import {callPost} from './swapTrackerServiceConnection'
-import {getBalanceOverview} from 'utils/walletHelpers'
 import {getBep20Contract} from 'utils/contractHelpers'
 import {getBusdOut} from  'utils/getBusdOut'
 import BigNumber from 'bignumber.js'
 import {MONTH_LABELS_CHART} from 'config/'
 
 export const getDashboardData = async (account) => {
-    console.log("vediamo l'account ", account)
     let dashboardData = await callPost("getDashBoardData",{address:account}).catch((e)=>{console.log(e)})
     console.log(dashboardData?.data?.data)
     return dashboardData?.data?.data;
@@ -21,11 +19,7 @@ export const getDatesFromRange = (selectedDayRange,steps=1) => {
     let currentDate = new Date(startDate);
     endDate = new Date(endDate)
     dateArray.push(currentDate,endDate)
-  /*while (currentDate <= new Date(endDate)) {
-    dateArray.push(new Date(currentDate));
-    // Use UTC date to prevent problems with time zones and DST
-    currentDate.setUTCDate(currentDate.getUTCDate() + steps);
-  }*/
+  
 
   return dateArray;
 }
@@ -35,7 +29,6 @@ export const getDataForChart = (user,selectedDayRange) => {
   if(selectedDayRange){ dateFilterArray = getDatesFromRange(selectedDayRange) } 
   let labelList = []
   let dataList = []
-  console.log("ma quindi ", user)
   user.balanceOverview.map((singleBalanceOverview)=>{
     let date = new Date(Object.keys(singleBalanceOverview))
     if(dateFilterArray && dateFilterArray.includes(date)){
@@ -55,12 +48,9 @@ export const getDataForChart = (user,selectedDayRange) => {
 }
 
 export const setNewBalanceOverview = async (user,profitOrLoss) => {
-    console.log("arriva ", profitOrLoss)
     let balanceOverview = {[new Date()]:profitOrLoss}
 
-    callPost("createOrUpdateBalanceOverview",{address:user?.address,singleBalanceOverview:balanceOverview}).then((resp,err)=>{
-        console.log(resp,err)
-    })
+    await callPost("createOrUpdateBalanceOverview",{address:user?.address,singleBalanceOverview:balanceOverview})
 }
 
 export const getTradeRows = async (openedTrades) => {
@@ -70,30 +60,22 @@ export const getTradeRows = async (openedTrades) => {
     const tokenContractOut = getBep20Contract(openedTrade.tokenTo)
     const tokenContractIn = getBep20Contract(openedTrade.tokenFrom)
     let decimalsOut = await tokenContractOut.methods.decimals().call()
-    let decimalsIn = await tokenContractIn.methods.decimals().call()
+    let currentValueUnshifted = await getBusdOut(tokenContractOut._address,openedTrade.amountOut,decimalsOut)
+    let currentPriceUnshifted = await getBusdOut(tokenContractOut._address,1,decimalsOut)
     tradeRow.txId = openedTrade.txId;
     tradeRow.tokenSymbol = await tokenContractOut.methods.symbol().call()
     tradeRow.tokenSymbolIn = await tokenContractIn.methods.symbol().call()
     tradeRow.tokenName = await tokenContractOut.methods.name().call()
-    tradeRow.amountOut = new BigNumber(openedTrade.amountOut).shiftedBy(-1*parseInt(decimalsOut)).toNumber().toFixed(2)
-    tradeRow.amountIn = new BigNumber(openedTrade.amountIn).shiftedBy(-1*parseInt(decimalsIn)).toNumber().toFixed(2)
-    tradeRow.currentPrice = await getBusdOut(tokenContractOut._address,1,decimalsOut)
-    tradeRow.currentPrice = new BigNumber(tradeRow.currentPrice).shiftedBy(-1*18).toNumber().toFixed(2)
-    tradeRow.currentValue = await getBusdOut(tokenContractOut._address,openedTrade.amountOut,decimalsOut)
-    tradeRow.currentValue = new BigNumber(tradeRow.currentValue).shiftedBy(-1*18).toNumber().toFixed(2)
-    tradeRow.openAt = openedTrade.amountOut * openedTrade.priceTo
-    tradeRow.openAt = new BigNumber(tradeRow.openAt).shiftedBy(-1*18).toNumber().toFixed(2)
-    tradeRow.priceTo = new BigNumber(openedTrade.priceTo).toNumber().toFixed(2)
-    tradeRow.pl = new BigNumber(tradeRow.currentValue - tradeRow.currentPrice).toNumber().toFixed(2) 
-    /*tradeRow.pl = Math.sign(tradeRow?.pl) === -1 
-                  ? 
-                  `${tradeRow?.pl.toString().substring(0,1)} $ ${tradeRow?.pl.toString().substring(1,tradeRow?.pl.toString().length)}` 
-                  : 
-                  `+ $ ${tradeRow?.pl.toString()}`*/
-    tradeRow.pl_perc = ((tradeRow.pl - (tradeRow.amountOut * tradeRow.priceTo))/(tradeRow.amountOut * tradeRow.priceTo))*100
-
-
+    tradeRow.amountOut = new BigNumber(openedTrade.amountOut).toNumber().toFixed(5)
+    tradeRow.amountIn = new BigNumber(openedTrade.amountIn).toNumber().toFixed(5)
+    tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber().toFixed(2)
+    tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber()
+    tradeRow.openAt = (openedTrade.amountOut * openedTrade.priceTo).toFixed(2)
+    tradeRow.priceTo = Number(openedTrade.priceTo).toFixed(2)
+    tradeRow.pl = new BigNumber(openedTrade.amountOut * openedTrade.priceTo).minus(currentValueUnshifted).shiftedBy(-1*18).toNumber().toFixed(2) 
+    tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
     tradeRows.push(tradeRow)
+
   })
   
     return tradeRows;

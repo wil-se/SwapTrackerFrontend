@@ -1,9 +1,27 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 import * as CryptoIcons from 'assets/icons';
 import PropTypes from 'prop-types';
 import { Row, Col, Button } from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom'
+
 const greyText = {color: "#8DA0B0", fontSize: 11}
 const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,currentPrice,currentValue,openAt,amountIn,amountOut,priceTo}) => {
+    const [plNegative,setPlNegative] = useState()
+    const [plPositive,setPlPositive] = useState()
+    const [currentValueFixed,setCurrentValueFixed] = useState(0);
+    useEffect(()=>{
+      setCurrentValueFixed(currentValue.toFixed(3)) 
+
+      Math.sign(pl) === -1 
+      ? 
+      setPlNegative(`${pl.toString().substring(0,1)} $ ${pl.toString().substring(1,pl.toString().length)}`) 
+      : 
+      setPlPositive(`+ $ ${pl.toString()}`)
+    
+    },[pl])
+
+    
+
     return (
         <Row style={{
             display: 'flex',
@@ -23,33 +41,52 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
                   </div>
                   
                 }
-                <div>
+                <div >
                 {tokenSymbol}
                 </div>
               </Col>
-              <Col className="text-center">
+              <Col className="text-center ">
                 {tokenName}
               </Col>
               <Col className="text-center">
-                <p className="mb-0">${currentValue}</p>
+                <p className="mb-0">${currentValueFixed}</p>
                 <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
               </Col>
               <Col className="text-center">
                 <p className="mb-0">${openAt}</p>
-                <span style={greyText}>{amountIn} {tokenSymbolIn} @${priceTo}</span>
+                <span style={greyText}>{amountOut} {tokenSymbol} @{priceTo}</span>
               </Col>
               <Col className="text-center">
                 <p className="mb-0">${currentPrice}</p>
                 <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
               </Col>
               <Col className="text-center">
-                {pl}
+                {plNegative ? 
+                  <div className="dashboard-pl-negative">
+                    {plNegative}
+                  </div>
+                  :
+                  <div className="dashboard-pl-positive">
+                    {plPositive}
+                  </div>
+                }
               </Col>
               <Col className="text-center">
-                {pl_perc}%
+                {Math.sign(pl_perc)=== -1?
+                  <div className="dashboard-pl-negative">
+                    {pl_perc}%
+                  </div>
+                  :
+                  <div className="dashboard-pl-positive">
+                    {pl_perc}%
+                  </div>
+              
+                }
               </Col>
               <Col className="text-center">
-                <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}}>CLOSE TRADE</Button>
+                <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}}>
+                  CLOSE TRADE
+                </Button>
               </Col>
             </Row>
     )

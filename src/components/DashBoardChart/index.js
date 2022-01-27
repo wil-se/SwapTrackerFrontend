@@ -12,7 +12,7 @@ import useAuthService from 'hooks/useAuthService'
 const defaultFrom = {
     year: new Date().getFullYear(),
     month: new Date().getMonth()+1,
-    day: new Date().getDate()-1,
+    day: new Date().getDate()-5,
   };
   const defaultTo = {
     year: new Date().getFullYear(),
@@ -39,14 +39,12 @@ const DashBoardChart = () => {
         let date = new Date(Object.keys(singleBalanceOverview))
         
         if(dateFilterArray && (date >= dateFilterArray[0] && date <= dateFilterArray[1])){
-          console.log("entro qui ", dateFilterArray)
           let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
           labelList.push(label)
           dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
     
         }
         else if(!dateFilterArray){
-          console.log("o qui???", dateFilterArray, date)
           let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
           labelList.push(label)
           dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
