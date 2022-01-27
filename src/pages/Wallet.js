@@ -13,12 +13,15 @@ import { Doughnut } from 'react-chartjs-2';
 import * as CryptoIcons from '../assets/icons';
 import { WalletOverview } from 'components/WalletOverview';
 import { CoinInfoList } from 'components/CoinInfoList';
+import { useLocation } from 'react-router';
 
 
 ChartJS.register(ArcElement, Tooltip)
 
 
 const Wallet = () => {
+    const {aia} = useLocation()
+    console.log("vediamo ", aia)
     return (
         <MainContainer>
             <div >

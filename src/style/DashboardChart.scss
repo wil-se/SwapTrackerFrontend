@@ -32,7 +32,7 @@
     
     all:unset;
     display:flex;
-    justify-content: space-between;
+    
     align-items: center;
     width:173px;
     height:35px;
@@ -45,10 +45,11 @@
     }
     input{
         all:unset;
+        margin-left: 7px;
         font-style: normal;
         font-weight: 800;
         font-size: 10px;
-        line-height: 150%;
+        line-height: 35px;
         color:#8DA0B0;
     }
 

@@ -81,12 +81,43 @@
         align-items: center;
 
         .label-section{
+            display:flex;
             width: 370px;
-            font-style: normal;
-            font-weight: 800;
-            font-size: 14px;
-            line-height: 19px;
-            color: #3B434A;
+            justify-content:space-between;
+            .label{
+                font-style: normal;
+                font-weight: 800;
+                font-size: 14px;
+                line-height: 19px;
+                color: #3B434A;
+            }
+
+            button{
+                all:unset;
+                cursor:pointer;
+                width:43px;
+                height:25px;
+                border: 2px solid $azure-primary;
+                border-radius:10px;
+                color:$azure-primary;
+                text-align: center;
+                font-style: normal;
+                font-weight: 800;
+                font-size: 14px;
+                line-height: 25px;
+
+                &:hover{
+                    background-color:$azure-primary;
+                    color:white;
+                }
+            }
+            button:disabled,
+            button[disabled] {
+                background-color:$azure-primary;
+                color:white;
+                cursor:not-allowed;
+            }
+         
             
         }
         
