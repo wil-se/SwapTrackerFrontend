@@ -62,14 +62,10 @@ const useTrade = () => {
 
     }
 
-    const getTrades = (account) => {
-        let trades = []
-        callPost("getTrades",{account:account}).then((resp)=>
-        {
-            trades = resp?.data?.data;
-        })
-
-        return trades;
+    const getTrades = async (account) => {
+        let trades = {};
+        trades = await callPost("getTrades",{address:account});
+        return trades.data.data;
     }
 
     return {setTrade,getTrades}
