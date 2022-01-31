@@ -3,7 +3,8 @@ import {getBep20Contract} from 'utils/contractHelpers'
 import {getBusdOut} from  'utils/getBusdOut'
 import BigNumber from 'bignumber.js'
 import {MONTH_LABELS_CHART} from 'config/'
-
+import {WETH,ChainId } from '@pancakeswap/sdk'
+import {BNB} from 'config'
 export const getDashboardData = async (account) => {
     let dashboardData = await callPost("getDashBoardData",{address:account}).catch((e)=>{console.log(e)})
     console.log(dashboardData?.data?.data)
@@ -54,6 +55,7 @@ export const setNewBalanceOverview = async (user,profitOrLoss) => {
 }
 
 export const getTradeRows = async (openedTrades) => {
+  let wbnb = WETH[ChainId.MAINNET]
   let tradeRows = []
   openedTrades?.map(async (openedTrade)=> {
     let tradeRow = {}
@@ -64,8 +66,10 @@ export const getTradeRows = async (openedTrades) => {
     let currentPriceUnshifted = await getBusdOut(tokenContractOut._address,1,decimalsOut)
     tradeRow.txId = openedTrade.txId;
     tradeRow.tokenSymbol = await tokenContractOut.methods.symbol().call()
+    tradeRow.tokenSymbol = tradeRow.tokenSymbol === wbnb.symbol ? tradeRow.tokenSymbol = BNB.symbol : tradeRow.tokenSymbol;
     tradeRow.tokenSymbolIn = await tokenContractIn.methods.symbol().call()
     tradeRow.tokenName = await tokenContractOut.methods.name().call()
+    tradeRow.tokenName = tradeRow.tokenName === wbnb.name ? tradeRow.tokenName = BNB.name : tradeRow.tokenName
     tradeRow.amountOut = new BigNumber(openedTrade.amountOut).toNumber().toFixed(5)
     tradeRow.amountIn = new BigNumber(openedTrade.amountIn).toNumber().toFixed(5)
     tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber().toFixed(2)
@@ -74,6 +78,8 @@ export const getTradeRows = async (openedTrades) => {
     tradeRow.priceTo = Number(openedTrade.priceTo).toFixed(2)
     tradeRow.pl = new BigNumber(openedTrade.amountOut * openedTrade.priceTo).minus(currentValueUnshifted).shiftedBy(-1*18).toNumber().toFixed(2) 
     tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
+    tradeRow.tokenFrom = openedTrade.tokenFrom
+    tradeRow.tokenTo = openedTrade.tokenTo
     tradeRows.push(tradeRow)
 
   })

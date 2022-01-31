@@ -14,6 +14,8 @@ import useEagerConnect from 'hooks/useEagerConnect';
 import { useFacebookPixel } from 'hooks/useFacebookPixel';
 import { useGoogleAnalytics } from 'hooks/useGoogleAnalytics';
 import useAuthService from 'hooks/useAuthService';
+import TierSection from './TierSection';
+import { useSwapTrackerMediator } from 'hooks/useContract';
 
 
 const SideBar = () => {
@@ -21,9 +23,9 @@ const SideBar = () => {
     useGoogleAnalytics();
     const { account } = useWeb3React();
     const {logout} = useAuth()
-   
+   const swapTrackerMediator = useSwapTrackerMediator()
     const {createOrUpdateUser} = useAuthService()
-    const [tiers,setTiers] = useState(0);
+    const [tier,setTier] = useState();
     const pixel = useFacebookPixel();
     const ga = useGoogleAnalytics();
 
@@ -34,10 +36,15 @@ const SideBar = () => {
     useEffect(() =>{
         pixel.track('ViewContent', { content_name: window.location.pathname });
         ga.send({ hitType: "pageview", page: window.location.pathname });
-        if(account){ 
-            let user = {address:account && account,lastLogin:new Date()}
-            createOrUpdateUser(user)
-        }
+        (async ()=>{
+            if(account){ 
+                let user = {address:account && account,lastLogin:new Date()}
+                createOrUpdateUser(user)
+                let tid = await swapTrackerMediator.methods.getTierFee(account).call()
+                setTier(Number(tid))
+            }
+        })()
+        
     },[account])
   
     return (
@@ -99,7 +106,7 @@ const SideBar = () => {
                     </div>
                 </Row>
                 <Row className="tierSection">
-                    <img src={tierPro}/>
+                    <TierSection tier={tier}/>
                 </Row>    
                 <hr className="address-under-line "/>
                 <Row className="logoutSection" onClick={logout}>

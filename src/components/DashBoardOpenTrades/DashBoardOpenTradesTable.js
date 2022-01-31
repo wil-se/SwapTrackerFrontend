@@ -22,7 +22,9 @@ const DashBoardOpenTradesTable = ({openedTrades}) => {
                         priceTo={trade.priceTo}
                         currentValue={trade.currentValue} 
                         pl={trade.pl} 
-                        pl_perc={trade.pl_perc} />
+                        pl_perc={trade.pl_perc} 
+                        tokenFrom={trade.tokenFrom}
+                        tokenTo={trade.tokenTo}/>
                 )
             })}
         </div>
