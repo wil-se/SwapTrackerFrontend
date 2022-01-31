@@ -35,22 +35,24 @@ const DashBoardChart = () => {
       if(selectedDayRange){ dateFilterArray = getDatesFromRange(selectedDayRange) } 
       let labelList = []
       let dataList = []
-      user.balanceOverview.map((singleBalanceOverview)=>{
-        let date = new Date(Object.keys(singleBalanceOverview))
-        
-        if(dateFilterArray && (date >= dateFilterArray[0] && date <= dateFilterArray[1])){
-          let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
-          labelList.push(label)
-          dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
-    
-        }
-        else if(!dateFilterArray){
-          let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
-          labelList.push(label)
-          dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
-        }
-    
-      })
+      if(user.balanceOverview){ 
+        user.balanceOverview.map((singleBalanceOverview)=>{
+          let date = new Date(Object.keys(singleBalanceOverview))
+          
+          if(dateFilterArray && (date >= dateFilterArray[0] && date <= dateFilterArray[1])){
+            let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
+            labelList.push(label)
+            dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+      
+          }
+          else if(!dateFilterArray){
+            let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
+            labelList.push(label)
+            dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+          }
+      
+        })
+      }
       setLabelList(labelList)
       setDataList(dataList)
       

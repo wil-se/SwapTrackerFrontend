@@ -12,11 +12,11 @@ const useAuthService = () => {
 
     useEffect(() => {
        if(account){
-           callPost("createOrUpdateUser",{address:account, lastLogin:new Date()}).then((resp)=>{
+           callPost("createOrUpdateUser",{address:account.toLowerCase(), lastLogin:new Date()}).then((resp)=>{
                setUser(resp.data.data)
            })
        } else if(connector.connected) {
-            callPost("createOrUpdateUser",{address:connector._accounts[0], lastLogin:new Date()}).then((resp)=>{
+            callPost("createOrUpdateUser",{address:connector._accounts[0].toLowerCase(), lastLogin:new Date()}).then((resp)=>{
                 setUser(resp.data.data);
             })
             // console.log(user)

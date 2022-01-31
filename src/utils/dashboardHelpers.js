@@ -30,21 +30,25 @@ export const getDataForChart = (user,selectedDayRange) => {
   if(selectedDayRange){ dateFilterArray = getDatesFromRange(selectedDayRange) } 
   let labelList = []
   let dataList = []
-  user.balanceOverview.map((singleBalanceOverview)=>{
-    let date = new Date(Object.keys(singleBalanceOverview))
-    if(dateFilterArray && dateFilterArray.includes(date)){
-      let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
-      labelList.push(label)
-      dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+  if(user.balanceOverview || Array(user.balanceOverview).length > 0){ 
+    user.balanceOverview.map((singleBalanceOverview)=>{
+      let date = new Date(Object.keys(singleBalanceOverview))
+      if(dateFilterArray && dateFilterArray.includes(date)){
+        let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
+        labelList.push(label)
+        dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+  
+      }
+      else{
+        let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
+        labelList.push(label)
+        dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+      }
 
-    }
-    else{
-      let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
-      labelList.push(label)
-      dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
-    }
+    })
+  }
+  
 
-  })
   return {labelList,dataList}
 }
 
@@ -68,6 +72,7 @@ export const getTradeRows = async (openedTrades) => {
     tradeRow.tokenSymbol = await tokenContractOut.methods.symbol().call()
     tradeRow.tokenSymbol = tradeRow.tokenSymbol === wbnb.symbol ? tradeRow.tokenSymbol = BNB.symbol : tradeRow.tokenSymbol;
     tradeRow.tokenSymbolIn = await tokenContractIn.methods.symbol().call()
+    tradeRow.tokenSymbolIn = tradeRow.tokenSymbolIn === wbnb.symbol ? tradeRow.tokenSymbolIn = BNB.symbol : tradeRow.tokenSymbolIn
     tradeRow.tokenName = await tokenContractOut.methods.name().call()
     tradeRow.tokenName = tradeRow.tokenName === wbnb.name ? tradeRow.tokenName = BNB.name : tradeRow.tokenName
     tradeRow.amountOut = new BigNumber(openedTrade.amountOut).toNumber().toFixed(5)

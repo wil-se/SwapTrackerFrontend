@@ -16,11 +16,12 @@ import { useGoogleAnalytics } from 'hooks/useGoogleAnalytics';
 import useAuthService from 'hooks/useAuthService';
 import TierSection from './TierSection';
 import { useSwapTrackerMediator } from 'hooks/useContract';
-
+import {useNavigate} from 'react-router-dom'
 
 const SideBar = () => {
     useEagerConnect();
     useGoogleAnalytics();
+    const navigation = useNavigate();
     const { account } = useWeb3React();
     const {logout} = useAuth()
    const swapTrackerMediator = useSwapTrackerMediator()
@@ -38,9 +39,12 @@ const SideBar = () => {
         ga.send({ hitType: "pageview", page: window.location.pathname });
         (async ()=>{
             if(account){ 
-                let user = {address:account && account,lastLogin:new Date()}
+                let user = {address:account && account.toLowerCase(),lastLogin:new Date()}
                 createOrUpdateUser(user)
                 let tid = await swapTrackerMediator.methods.getTierFee(account).call()
+                if(Number(tid) === 1000){
+                    navigation('/tiers')
+                }
                 setTier(Number(tid))
             }
         })()
