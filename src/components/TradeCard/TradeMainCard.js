@@ -68,7 +68,7 @@ const TradeMainCard = () => {
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedIn.decimals);
         if(amountInShifted>0){
             let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted,path).call().catch((e)=>console.log("vedimamo ",e))
-            let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber().toFixed(5);
+            let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber().toFixed(6);
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
             console.log(allowance)
             setAllowanceTokenIn(allowance)
@@ -87,7 +87,7 @@ const TradeMainCard = () => {
         if(amountInShifted>0){
             let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted,path).call().catch((e)=>console.log("vedimamo ",e))
             console.log(amIn,amIn[amIn.length-2])
-            let amoutInFormatted = new BigNumber(amIn[amIn.length-2]).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(5);
+            let amoutInFormatted = new BigNumber(amIn[amIn.length-2]).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(6);
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
             console.log(allowance)
             setAllowanceTokenIn(allowance)
@@ -105,11 +105,11 @@ const TradeMainCard = () => {
         if(tokenSelectedIn.symbol !== BNB.symbol){
             const balanceTokenIn = await erc20Contract.methods.balanceOf(account).call()
             const decimals = await erc20Contract.methods.decimals().call()
-            let amountInFormatted = new BigNumber(balanceTokenIn).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(5)
+            let amountInFormatted = new BigNumber(balanceTokenIn).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(6)
             if(balanceTokenIn>0){
                 let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceTokenIn,path).call().catch((e)=>console.log("vedimamo ",e))
                 console.log(amOut,path);
-                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(5);
+                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(6);
                 console.log(amountOutFormatted)
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
@@ -122,12 +122,12 @@ const TradeMainCard = () => {
         else{
             const balanceNativeIn = await web3.eth.getBalance(account)
             console.log("allora ", balanceNativeIn)
-            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(5)
+            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(6)
             if(balanceNativeIn>0){
                 console.log(path)
                 let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceNativeIn,path).call().catch((e)=>console.log("vedimamo ",e))
                 console.log(amOut, amOut[amOut.length-2])
-                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(5);
+                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(6);
                 console.log(amountOutFormatted)
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
