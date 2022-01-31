@@ -82,7 +82,7 @@ const DashBoardChart = () => {
             <input
                 readOnly
                 ref={ref} // necessary
-                placeholder="I'm a custom input"
+                placeholder="Insert range date"
                 value={selectedDayRangeFormatted}
                 
             />
@@ -93,7 +93,7 @@ const DashBoardChart = () => {
             <div className="dashboard-card-subcontainer">
                 <Row className="dashboard-card-header">
                     <div className="dashboard-card-chart-title">
-                        Closed trades overview
+                        Trades overview
                     </div>
                     <div>
                         <DatePicker

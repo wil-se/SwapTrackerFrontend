@@ -42,6 +42,6 @@ export const MONTH_LABELS_CHART = {
     11:"Nov",
     12:"Dic"
 
-
-
 }
+
+export const BNB = {decimals:18,name:"BNB",symbol:"BNB",projectLink:"https://s2.coinmarketcap.com/static/img/coins/200x200/1839.png",address:"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"}

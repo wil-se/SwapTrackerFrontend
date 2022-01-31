@@ -5,7 +5,8 @@ import { Row, Col, Button } from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom'
 
 const greyText = {color: "#8DA0B0", fontSize: 11}
-const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,currentPrice,currentValue,openAt,amountIn,amountOut,priceTo}) => {
+const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,currentPrice,currentValue,openAt,amountIn,amountOut,priceTo,tokenFrom,tokenTo}) => {
+    let navigation = useNavigate()
     const [plNegative,setPlNegative] = useState()
     const [plPositive,setPlPositive] = useState()
     const [currentValueFixed,setCurrentValueFixed] = useState(0);
@@ -20,7 +21,11 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
     
     },[pl])
 
-    
+
+
+    const closeTrade = (tokenIn,tokenOut) => {
+      navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut}})
+    }
 
     return (
         <Row style={{
@@ -84,7 +89,7 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
                 }
               </Col>
               <Col className="text-center">
-                <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}}>
+                <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo)}>
                   CLOSE TRADE
                 </Button>
               </Col>
@@ -99,14 +104,16 @@ DashboardOpenTradesTableRow.propTypes = {
     tokenName: PropTypes.string,
     currentValue: PropTypes.number,
     openAt: PropTypes.string,
-    currentPrice: PropTypes.number,
-    pl: PropTypes.number,
-    pl_perc: PropTypes.number,
+    currentPrice: PropTypes.string,
+    pl: PropTypes.string,
+    pl_perc: PropTypes.string,
     openDate: PropTypes.string,
     closedDate: PropTypes.string,
-    amountIn: PropTypes.number,
-    amountOut: PropTypes.number,
-    priceTo: PropTypes.number
+    amountIn: PropTypes.string,
+    amountOut: PropTypes.string,
+    priceTo: PropTypes.string,
+    tokenFrom: PropTypes.string,
+    tokenTo: PropTypes.string
 };
 
 export default DashboardOpenTradesTableRow

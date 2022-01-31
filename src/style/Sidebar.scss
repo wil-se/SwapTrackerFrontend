@@ -149,6 +149,23 @@
       height:19px;
       align-items:center;
       justify-content:center;
+
+      .tierSubSection{
+        display:flex;
+        flex-direction: row;
+        width:100%;
+        justify-content:space-between;
+
+        h1{
+          all:unset;
+          font-style: normal;
+          font-weight: 800;
+          font-size: 14px;
+          line-height: 19px;
+          text-transform: uppercase;
+          color: #3B434A;
+        }
+      }
     
     }
 

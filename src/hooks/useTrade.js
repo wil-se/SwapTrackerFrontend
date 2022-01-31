@@ -1,12 +1,16 @@
+import { useState} from 'react'
+import * as CryptoIcons from 'assets/icons';
 import {callPost} from 'utils/swapTrackerServiceConnection'
 import { getBep20Contract } from 'utils/contractHelpers';
 import {getBusdOut} from 'utils/getBusdOut' 
-import TradeModalSettings from 'components/TradeModalSettings';
 import BigNumber from 'bignumber.js';
-import useWeb3 from 'hooks/useWeb3';
-
+import useWeb3 from 'hooks/useWeb3'
+import {Token,ChainId,WETH } from '@pancakeswap/sdk'
+import {BNB} from 'config'
 const useTrade = () => {
     const {chainId} = useWeb3()
+    
+
     const setTrade = async (tradeTx,path) => {
         let tradeEvent = tradeTx.events.Swap.returnValues
         let contractTokenIn = getBep20Contract(path[0])
@@ -62,17 +66,83 @@ const useTrade = () => {
 
     }
 
-    const getTrades = (account) => {
-        let trades = []
-        callPost("getTrades",{account:account}).then((resp)=>
-        {
-            trades = resp?.data?.data;
-        })
+    const getTrades = async (account) => {
+        let trades = await callPost("getTrades",{address:account.toLowerCase()})
 
-        return trades;
+        return trades?.data?.data;
     }
 
-    return {setTrade,getTrades}
+    const getTokenSelected = async (state) => {
+        let wbnb = WETH[ChainId.MAINNET]
+        let tokenSelectedInRef;
+        let tokenSelectedOutRef;
+        if(!state){
+            return;
+        }
+        
+        let tokenInContract = getBep20Contract(state?.tokenIn)
+        let tokenOutContract = getBep20Contract(state?.tokenOut)
+        
+        if(tokenInContract._address && tokenOutContract._address){
+            let decimalsTokenIn = await tokenInContract.methods.decimals().call();
+            let decimalsTokenOut = await tokenOutContract.methods.decimals().call();
+            let symbolTokenIn = await tokenInContract.methods.symbol().call();
+            let symbolTokenOut = await tokenOutContract.methods.symbol().call();
+            let nameTokenIn = await tokenInContract.methods.name().call()
+            let nameTokenOut = await tokenOutContract.methods.name().call()
+            let logoIn = CryptoIcons.default['_'+symbolTokenIn.toLowerCase()] ? CryptoIcons.default['_'+symbolTokenIn.toLowerCase()] : CryptoIcons.default['_generic']
+            let logoOut = CryptoIcons.default['_'+symbolTokenOut.toLowerCase()] ? CryptoIcons.default['_'+symbolTokenOut.toLowerCase()] : CryptoIcons.default['_generic']
+            
+            
+            if(symbolTokenIn === wbnb.symbol ){
+                tokenSelectedOutRef = new Token(ChainId.MAINNET,
+                                                BNB.address,
+                                                BNB.decimals,
+                                                BNB.symbol,
+                                                BNB.name,
+                                                BNB.projectLink
+                                                )
+            }
+            else {
+                tokenSelectedOutRef = new Token(ChainId.MAINNET,
+                                                    state?.tokenIn,
+                                                    Number(decimalsTokenIn),
+                                                    symbolTokenIn,
+                                                    nameTokenIn,
+                                                    logoIn)
+
+            }
+            if(symbolTokenOut === wbnb.symbol){
+                tokenSelectedInRef = new Token(ChainId.MAINNET,
+                    BNB.address,
+                    BNB.decimals,
+                    BNB.symbol,
+                    BNB.name,
+                    BNB.projectLink
+                    )
+            }
+            else {
+                tokenSelectedInRef = new Token(ChainId.MAINNET,
+                                                state?.tokenOut,
+                                                Number(decimalsTokenOut),
+                                                symbolTokenOut,
+                                                nameTokenOut,
+                                                logoOut
+                                                )
+
+            }    
+            
+
+        }
+
+        return {tokenSelectedInRef,tokenSelectedOutRef}
+
+
+        
+
+    }
+
+    return {setTrade,getTrades,getTokenSelected}
 }
 
 export default useTrade

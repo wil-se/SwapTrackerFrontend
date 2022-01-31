@@ -1,7 +1,7 @@
 import React from 'react'
 import infoIcon from '../../assets/icons/infoIcon.svg';
-import { Link } from 'react-router-dom';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Link} from 'react-router-dom';
+import { Card, Row, Col,Button } from 'react-bootstrap';
 const DashBoardOpenTradesHeader = () => {
     return (
         <Row className="dashboard-card-open-trade-header">
@@ -19,6 +19,7 @@ const DashBoardOpenTradesHeader = () => {
             <Link to="/trade">
                 TRADE NOW
             </Link>
+            
         </Col>
     </Row>
     )
