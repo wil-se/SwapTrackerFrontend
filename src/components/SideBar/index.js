@@ -38,7 +38,7 @@ const SideBar = () => {
         ga.send({ hitType: "pageview", page: window.location.pathname });
         (async ()=>{
             if(account){ 
-                let user = {address:account && account,lastLogin:new Date()}
+                let user = {address:account && account.toLowerCase(),lastLogin:new Date()}
                 createOrUpdateUser(user)
                 let tid = await swapTrackerMediator.methods.getTierFee(account).call()
                 setTier(Number(tid))

@@ -62,7 +62,7 @@ const useTrade = () => {
     
         }
 
-        callPost("updateUserTokenList",user).then(resp=>{console.log(resp)});
+        callPost("updateUserTokenList",user).then(resp=>{console.log(resp)}).catch((e)=>console.log("errore token list", e));
 
     }
 
