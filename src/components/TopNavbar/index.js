@@ -13,42 +13,33 @@ import useRefresh from 'hooks/useRefresh';
 
 
 const TopNavbar = function () {
-  const { slowRefresh } = useRefresh();
   const [currency, setCurrency] = useState("USD");
   const [network, setNetwork] = useState("BSC");
   const [modalShow, setModalShow] = useState(false);
-  const [walletButtonText, setWalletButtonText] = useState("Connect")
 
   const handleCurrencyClick = (symbol) => {
     setCurrency(symbol);
   }
   
-  const { active, deactivate } = useWeb3React()
+  const { active, account } = useWeb3React()
   const { connector } = useWalletConnectAuth()
   
-  
-  const disconnect = () => {
-    if (connector.connected) {
-      connector.killSession()
-    }
+
+  const getShrunkWalletAddress = (addr) => {
+    return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
   }
-
-  useEffect(() => {
-    if(connector.connected){
-      setWalletButtonText("Disconnect")
-    } else if (active) {
-      setWalletButtonText("Connected")
-    }
-  }, [active]);
-
-
 
   return (
     <div id="sticky-wrapper" className="sticky-wrapper">
       <nav className="navbar navbar-expand-md bg-faded cripto_nav">
         
         <Row className="pr-4 d-flex flex-row-reverse w-100">
-        <Button className="ml-3" variant="primary" onClick={() => connector.connected || active ? disconnect() : setModalShow(true)}>{walletButtonText} </Button>
+        
+        {
+          (connector.connected || active) ?
+            <label className="text-muted my-auto ml-3">{getShrunkWalletAddress(account)}</label>:           
+            <Button className="ml-3" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
+        }
 
           <Dropdown className="ml-3">
             <Dropdown.Toggle variant="currency" style={{borderRadius: 10, }}>

@@ -34,7 +34,9 @@ export function WalletOverview(){
   const [coin4, setCoin4] = useState({symbol: "", name: "", perc: ""})
   const [other, setOther] = useState(0)
   
-  const [walletTVL,setWalletTVL] = useState(0)
+  const [walletTVL,setWalletTVL] = useState(0);
+  const [walletTVLBNB,setWalletTVLBNB] = useState(0);
+  
   const [chartData, setChartData] = useState({
       labels: [],
       datasets: [
@@ -45,7 +47,16 @@ export function WalletOverview(){
       ],
   })
 
-  const getWlltTVL = async ()=>{console.log(user); let wlltTVL = await getWalletTVL(user,web3,chainId); setWalletTVL(wlltTVL)}
+  const getWlltTVL = async ()=>{
+    console.log(user);
+    let wlltTVL = await getWalletTVL(user,web3,chainId);
+    setWalletTVL(wlltTVL);
+    
+    let data = await CoinGeckoClient.coins.fetch('binancecoin', {});
+    let bnbAmount = wlltTVL / data.data.market_data.current_price.usd;
+    console.log(bnbAmount);
+    setWalletTVLBNB(bnbAmount);
+  }
     
   const wlltDist = async ()=>{
     let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
@@ -139,7 +150,7 @@ export function WalletOverview(){
                       <h1 style={{fontSize: 48, fontWeight: 900}}> $ {walletTVL.toFixed(2)} </h1>
                   </Row>
                   <Row>
-                      <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>234,567.43 BNB</h6>
+                      <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>{walletTVLBNB.toFixed(4)} BNB</h6>
                   </Row>
                   </div>
               </Col>
