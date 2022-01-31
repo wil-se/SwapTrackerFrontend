@@ -4,18 +4,22 @@ import { Card, Row, Col } from 'react-bootstrap';
 import { HistoryRow } from 'components/HistoryRow';
 import useAuthService from 'hooks/useAuthService'
 import useTrade from 'hooks/useTrade';
+import getHistoryRows from 'utils/historyHelper';
+
+
 
 const History = () => {
-  const { user } = useAuthService()
-  const { getTrades } = useTrade()
+  const { user } = useAuthService();
+  const { getTrades } = useTrade();
+  
+  const [trades, setTrades] = useState([])
+  const getTradesRow = async (address)=>{console.log(address); let trades = await getTrades(address); setTrades(trades); console.log(trades);}
+
 
   useEffect(() => {
     if(user){
       console.log(user);
-      (async () => {
-        const addr = user['address'].toLowerCase();
-        const trades = await getTrades(addr);
-      })();
+      getTradesRow(user['address']);
     }
   }, [user])
 
@@ -107,3 +111,4 @@ const History = () => {
 }
 
 export default History
+
