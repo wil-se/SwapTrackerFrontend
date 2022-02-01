@@ -1,8 +1,11 @@
 import axios from "axios";
+import https from "https";
 
 const api = axios.create({
-  baseURL: "http://54.38.188.69:3333",
-  
+  baseURL: "https://54.38.188.69:3333",
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false
+  })
 });
 
 export const callPost = (action,body) => {

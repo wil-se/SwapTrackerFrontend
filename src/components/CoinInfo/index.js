@@ -16,9 +16,11 @@ const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 import '../../style/WalletOverview.scss'
 import { PriceVariation } from '../PriceVariation'
+import {useNavigate} from 'react-router-dom'
 
 
 export function CoinInfo(props) {
+  let navigation = useNavigate();
   const [holding, setHolding] = useState(0);
   const [price, setPrice] = useState(0);
   const [priceVariation, setPriceVariation] = useState(0);
@@ -38,59 +40,45 @@ export function CoinInfo(props) {
     getCoingeckoStats();
   }, [])
 
+  const closeTrade = (tokenIn,tokenOut) => {
+    /*navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut}})*/
+  }
+
   return(
-    <Card className="wallet-overview-card" style={{marginBottom: 20}}>
-      <Card.Body>
-        <Row>
+      <Card className="wallet-overview-card" style={{marginBottom: 20}}>
+        <Card.Body>
+          <Row>
+            <Col md={2} xs={6} className="pt-2 text-center">
+                {
+                  CryptoIcons.default['_'+props.symbol.toLowerCase()] === undefined ?
+                  <img className="img-fluid" src={CryptoIcons.default['_generic']} style={{width: 60, height: 60}} />
+                  : <img className="img-fluid" src={CryptoIcons.default['_'+props.symbol.toLowerCase()]} style={{width: 60, height: 60}} />
+                }
+                <p className="font-weight-bold text-center pt-2 mb-0 text-nowrap"> {props.symbol.toUpperCase()} </p>
+            </Col>
+              
+            <Col md={4} xs={6} className="pt-3">
+              <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>holdings</span>
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>$ {props.holdingValue.toFixed(2)}</span>
+              <span className="text-decoration-none" style={{color: "#8DA0B0", fontSize: 11}}>CURRENT PRICE</span>
+              <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>$ {price}</h5> 
+            </Col>
 
-          <Col md={2} xs={4} className="pt-2">
-              {
-                CryptoIcons.default['_'+props.symbol.toLowerCase()] === undefined ?
-                <img className="img-fluid" src={CryptoIcons.default['_generic']} style={{width: 60, height: 60, marginLeft: 15}} />
-                : <img className="img-fluid" src={CryptoIcons.default['_'+props.symbol.toLowerCase()]} style={{width: 60, height: 60, marginLeft: 15}} />
-              }
-          </Col>
-            
-          <Col md={4} className="pt-3">
-            <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>holdings</span>
-            <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>$ {props.holdingValue.toFixed(2)}</span>
-          </Col>
+            <Col md={3} xs={6} className="border-left border-1 pt-3 text-center text-md-left">
+              <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>{props.symbol}</span>
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {price}</span> 
+              <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
+              <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
+            </Col>
+            <Col md={3} xs={6} className="pt-3 align-items-md-start align-items-center d-flex">
+              <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade('token_from','token_to')}>
+                CLOSE TRADE
+              </Button>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
 
-          <Col className="pt-4" md={3}>
-            <span className="d-block text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>0 {props.symbol}<br></br>0 {props.symbol}</span>
-          </Col>
-             
-
-          <Col md={3} className="pt-3">
-            <Button><a style={{fontSize: 12, color: "#FBFFFF"}}>TRADE NOW</a></Button>
-          </Col>
-             
-
-        </Row>
-
-        <Row className="justify-content-end">
-
-        <Col md={2}><p className="font-weight-bold text-center pt-2 mb-0"> {props.symbol.toUpperCase()} </p></Col>
-      
-        <Col md={4}>
-          <span className="text-decoration-none" style={{color: "#8DA0B0", fontSize: 11}}>CURRENT PRICE</span>
-            <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>$ {price}</h5> 
-            <span style={{color: "#8DA0B0", fontSize: 11}}>0 {props.symbol} | 0 {props.symbol}</span>
-        </Col>
-        
-        <Col md={3} className="border-left border-1">
-          <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
-          <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
-        </Col>
-        
-        <Col md={3}>
-        </Col>
-          
-        </Row>
-
-
-      </Card.Body>
-    </Card>
   )
 }
 
