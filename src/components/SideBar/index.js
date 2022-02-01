@@ -35,6 +35,7 @@ const SideBar = () => {
     }
 
     useEffect(() =>{
+       
         pixel.track('ViewContent', { content_name: window.location.pathname });
         ga.send({ hitType: "pageview", page: window.location.pathname });
         (async ()=>{
