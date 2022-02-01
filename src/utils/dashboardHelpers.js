@@ -79,9 +79,9 @@ export const getTradeRows = async (openedTrades) => {
     tradeRow.amountIn = new BigNumber(openedTrade.amountIn).toNumber().toFixed(5)
     tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber().toFixed(2)
     tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber()
-    tradeRow.openAt = (openedTrade.amountOut * openedTrade.priceTo).toFixed(2)
+    tradeRow.openAt = (openedTrade.amountOut * openedTrade.priceTo).toFixed(3)
     tradeRow.priceTo = Number(openedTrade.priceTo).toFixed(2)
-    tradeRow.pl = new BigNumber(openedTrade.amountOut * openedTrade.priceTo).minus(currentValueUnshifted).shiftedBy(-1*18).toNumber().toFixed(2) 
+    tradeRow.pl = new BigNumber(tradeRow.currentValue).minus(openedTrade.amountOut * openedTrade.priceTo).shiftedBy(-1*18).toNumber().toFixed(3) 
     tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
     tradeRow.tokenFrom = openedTrade.tokenFrom
     tradeRow.tokenTo = openedTrade.tokenTo
