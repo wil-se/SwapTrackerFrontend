@@ -57,7 +57,6 @@ const Dashboard = () => {
     const getDashData = async() => {
         let dashBoardData = await getDashboardData(user?.address)
         let tradeRow = await getTradeRows(dashBoardData?.openedTrades)
-        console.log("veidmao ", tradeRow)
         setOpenTradeValue(Number(dashBoardData?.totalOpenTradesValue).toFixed(2))
         setOpenedTrades(tradeRow)
         
