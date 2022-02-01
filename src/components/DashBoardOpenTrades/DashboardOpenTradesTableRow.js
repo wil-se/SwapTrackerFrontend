@@ -12,8 +12,7 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
     const [currentValueFixed,setCurrentValueFixed] = useState(0);
     useEffect(()=>{
       setCurrentValueFixed(currentValue.toFixed(3)) 
-
-      Math.sign(pl) === -1 
+      Math.sign(pl) < 0 
       ? 
       setPlNegative(`${pl.toString().substring(0,1)} $ ${pl.toString().substring(1,pl.toString().length)}`) 
       : 

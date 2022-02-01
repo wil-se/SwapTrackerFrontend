@@ -68,7 +68,9 @@ export const getTradeRows = async (openedTrades) => {
     let decimalsOut = await tokenContractOut.methods.decimals().call()
     let currentValueUnshifted = await getBusdOut(tokenContractOut._address,openedTrade.amountOut,decimalsOut)
     let currentPriceUnshifted = await getBusdOut(tokenContractOut._address,1,decimalsOut)
-    console.log("arriva fin qui??")
+    let amountOutShifted = new BigNumber(openedTrade.amountOut).shiftedBy(parseInt(decimalsOut)).toNumber()
+    let priceToShifted = new BigNumber(openedTrade.priceTo).shiftedBy(18).toNumber()
+    let openAtShifted  = amountOutShifted * priceToShifted
     tradeRow.txId = openedTrade.txId;
     tradeRow.tokenSymbol = await tokenContractOut.methods.symbol().call()
     tradeRow.tokenSymbol = tradeRow.tokenSymbol === wbnb.symbol ? tradeRow.tokenSymbol = BNB.symbol : tradeRow.tokenSymbol;
@@ -81,8 +83,9 @@ export const getTradeRows = async (openedTrades) => {
     tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber().toFixed(2)
     tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber()
     tradeRow.openAt = (openedTrade.amountOut * openedTrade.priceTo).toFixed(3)
-    tradeRow.priceTo = Number(openedTrade.priceTo).toFixed(2)
-    tradeRow.pl = new BigNumber(tradeRow.currentValue).minus(openedTrade.amountOut * openedTrade.priceTo).shiftedBy(-1*18).toNumber().toFixed(3) 
+    tradeRow.priceTo = Number(openedTrade.priceTo).toFixed(3)
+    console.log(tradeRow.currentValue -tradeRow.openAt, tradeRow.currentValue, tradeRow.openAt)
+    tradeRow.pl = new BigNumber(Number(tradeRow.currentValue)).minus(Number(tradeRow.openAt)).toNumber().toFixed(3) 
     tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
     tradeRow.tokenFrom = openedTrade.tokenFrom
     tradeRow.tokenTo = openedTrade.tokenTo
