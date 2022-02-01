@@ -42,7 +42,6 @@ const Dashboard = () => {
         const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
         for (let i=0; i<dst.length; i++) {
             totalBalance+= dst[i][1][1]
-            console.log("vediamo ", totalBalance)
             const coingeckoId = CoingeckoTokens.default[dst[i][1][3]?.toLowerCase()];
             totalProfitOrLossPercetage = totalProfitOrLossPercetage += await getTotalPriceVairation(coingeckoId)
             
