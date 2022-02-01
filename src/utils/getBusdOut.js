@@ -13,6 +13,6 @@ export async function getBusdOut(tokenAddress, amount,decimals){
     path.push(BUSD)
     let amountFormatted = new BigNumber(amount).shiftedBy(parseInt(decimals))
     var out = await getContract(PancakeAbi, "0x10ED43C718714eb63d5aA57B78B54704E256024E".toLowerCase())
-    .methods.getAmountsOut(amountFormatted, path).call()
+    .methods.getAmountsOut(amountFormatted.toString(), path).call()
     return out[out.length - 1]
 }

@@ -68,6 +68,7 @@ export const getTradeRows = async (openedTrades) => {
     let decimalsOut = await tokenContractOut.methods.decimals().call()
     let currentValueUnshifted = await getBusdOut(tokenContractOut._address,openedTrade.amountOut,decimalsOut)
     let currentPriceUnshifted = await getBusdOut(tokenContractOut._address,1,decimalsOut)
+    console.log("arriva fin qui??")
     tradeRow.txId = openedTrade.txId;
     tradeRow.tokenSymbol = await tokenContractOut.methods.symbol().call()
     tradeRow.tokenSymbol = tradeRow.tokenSymbol === wbnb.symbol ? tradeRow.tokenSymbol = BNB.symbol : tradeRow.tokenSymbol;
