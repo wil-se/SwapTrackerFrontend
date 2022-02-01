@@ -27,72 +27,67 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
     }
 
     return (
-        <Row style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingTop: 15,
-        }}>
-              <Col className="text-center dashboard-token-col">
-                {CryptoIcons.default['_'+tokenSymbol.toLowerCase()] 
-                  ?
-                  <div className="dashboard-token-icon">
-                    <img className="img-fluid" src={CryptoIcons.default['_'+tokenSymbol.toLowerCase()]} style={{width: 25, height: 25}} />
-                  </div>
-                  :
-                  <div className="dashboard-token-icon">
-                    <img className="img-fluid " src={CryptoIcons.default['_generic']} style={{width: 25, height: 25}} />
-                  </div>
-                  
-                }
-                <div >
-                {tokenSymbol}
-                </div>
-              </Col>
-              <Col className="text-center ">
-                {tokenName}
-              </Col>
-              <Col className="text-center">
-                <p className="mb-0">${currentValueFixed}</p>
-                <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
-              </Col>
-              <Col className="text-center">
-                <p className="mb-0">${openAt}</p>
-                <span style={greyText}>{amountOut} {tokenSymbol} @{priceTo}</span>
-              </Col>
-              <Col className="text-center">
-                <p className="mb-0">${currentPrice}</p>
-                <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
-              </Col>
-              <Col className="text-center">
-                {plNegative ? 
-                  <div className="dashboard-pl-negative">
-                    {plNegative}
-                  </div>
-                  :
-                  <div className="dashboard-pl-positive">
-                    {plPositive}
-                  </div>
-                }
-              </Col>
-              <Col className="text-center">
-                {Math.sign(pl_perc)=== -1?
-                  <div className="dashboard-pl-negative">
-                    {pl_perc}%
-                  </div>
-                  :
-                  <div className="dashboard-pl-positive">
-                    {pl_perc}%
-                  </div>
+        <Row className="d-flex align-items-center justify-content-center pt-3">
+          <Col className="text-center dashboard-token-col">
+            {CryptoIcons.default['_'+tokenSymbol.toLowerCase()] 
+              ?
+              <div className="dashboard-token-icon">
+                <img className="img-fluid" src={CryptoIcons.default['_'+tokenSymbol.toLowerCase()]} style={{width: 25, height: 25}} />
+              </div>
+              :
+              <div className="dashboard-token-icon">
+                <img className="img-fluid " src={CryptoIcons.default['_generic']} style={{width: 25, height: 25}} />
+              </div>
               
-                }
-              </Col>
-              <Col className="text-center">
-                <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo)}>
-                  CLOSE TRADE
-                </Button>
-              </Col>
-            </Row>
+            }
+            <div >
+            {tokenSymbol}
+            </div>
+          </Col>
+          <Col className="text-center ">
+            {tokenName}
+          </Col>
+          <Col className="text-center">
+            <p className="mb-0">${currentValueFixed}</p>
+            <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
+          </Col>
+          <Col className="text-center">
+            <p className="mb-0">${openAt}</p>
+            <span style={greyText}>{amountOut} {tokenSymbol} @{priceTo}</span>
+          </Col>
+          <Col className="text-center">
+            <p className="mb-0">${currentPrice}</p>
+            <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
+          </Col>
+          <Col className="text-center">
+            {plNegative ? 
+              <div className="dashboard-pl-negative">
+                {plNegative}
+              </div>
+              :
+              <div className="dashboard-pl-positive">
+                {plPositive}
+              </div>
+            }
+          </Col>
+          <Col className="text-center">
+            {Math.sign(pl_perc)=== -1?
+              <div className="dashboard-pl-negative">
+                {pl_perc}%
+              </div>
+              :
+              <div className="dashboard-pl-positive">
+                {pl_perc}%
+              </div>
+          
+            }
+          </Col>
+          <Col className="text-center">
+            <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo)}>
+              CLOSE TRADE
+            </Button>
+          </Col>
+        </Row>
     )
 }
 

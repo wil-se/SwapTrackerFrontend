@@ -34,7 +34,9 @@ export function WalletOverview(){
   const [coin4, setCoin4] = useState({symbol: "", name: "", perc: ""})
   const [other, setOther] = useState(0)
   
-  const [walletTVL,setWalletTVL] = useState(0)
+  const [walletTVL,setWalletTVL] = useState(0);
+  const [walletTVLBNB,setWalletTVLBNB] = useState(0);
+  
   const [chartData, setChartData] = useState({
       labels: [],
       datasets: [
@@ -45,7 +47,17 @@ export function WalletOverview(){
       ],
   })
 
-  const getWlltTVL = async ()=>{ let wlltTVL = await getWalletTVL(user,web3,chainId); setWalletTVL(wlltTVL)}
+
+  const getWlltTVL = async ()=>{
+    console.log(user);
+    let wlltTVL = await getWalletTVL(user,web3,chainId);
+    setWalletTVL(wlltTVL);
+    
+    let data = await CoinGeckoClient.coins.fetch('binancecoin', {});
+    let bnbAmount = wlltTVL / data.data.market_data.current_price.usd;
+    console.log(bnbAmount);
+    setWalletTVLBNB(bnbAmount);
+  }
     
   const wlltDist = async ()=>{
     let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
@@ -113,74 +125,75 @@ export function WalletOverview(){
   
   return(
     <Row>
-    <Card style={{width: "100%", marginBottom: 20, padding: 15}} className="wallet-overview-card">
-      <Card.Body>
-          <Row>
-                <Col style={{borderRight: "1px solid #ABC2D6", paddingRight: 50}} xs={4}>
-                  <Row className="addressSection align-items-center" style={{marginLeft: 0, marginBottom: 30, paddingTop: 30, borderBottom: "1px solid #ABC2D6", paddingBottom: 20}}>
-                      <Col style={{paddingRight: 0}} xs={3}>
-                      <img src={addressAvatarBig} className="avatar"/>
-                      </Col>
-                      <Col style={{paddingLeft: 0}}>
-                      <div style={{marginLeft: 20, fontSize: 24, fontWeight: 900}}>
-                          {getShrunkWalletAddress(address)}
-                      </div>
-                      <div style={{marginLeft: 20, fontSize: 11, fontWeight: 100, color: "#8DA0B0"}}>
-                          {getShrunkWalletAddress(address)}
-                      </div>
-                      </Col>
-                  </Row>
-                  <div style={{paddingLeft: 40}}>
-                  <Row style={{marginTop: 30}}>
-                      <h6 style={{fontStyle: "normal", fontWeight: 800, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
-                  </Row>
-
-                  <Row>
-                      <h1 style={{fontSize: 48, fontWeight: 900}}> $ {walletTVL.toFixed(2)} </h1>
-                  </Row>
-                  <Row>
-                      <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>234,567.43 BNB</h6>
-                  </Row>
-                  </div>
-              </Col>
-              <Col xs={3}>
-                  <Doughnut data={chartData} />
-              </Col>
-              <Col className="d-flex align-items-center justify-content-center">
-                  <div style={{width: "100%"}}>
-                      <Row> 
-                          <Col style={{margin: 10}}>
-                              <WalletOverviewCoinInfo coin={coin0} />
+      <Col md={12}>
+        <Card className="wallet-overview-card w-100 mb-2 p-2">
+          <Card.Body>
+              <Row className="justify-content-between">
+                  <Col style={{borderColor: "#ABC2D6"}} className="border-right border-md-1 border-0 pr-4" xs={12} md={4}>
+                      <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-2 border-bottom border-1" style={{borderColor: "#ABC2D6"}}>
+                          <Col className="pr-0" xs={3}>
+                            <img src={addressAvatarBig} className="avatar"/>
                           </Col>
-                          <Col style={{margin: 10}}>
+                          <Col className="pr-0">
+                          <div className="ml-2" style={{fontSize: 24, fontWeight: 900}}>
+                              {getShrunkWalletAddress(address)}
+                          </div>
+                          <div className="ml-2" style={{fontSize: 11, fontWeight: 100, color: "#8DA0B0"}}>
+                              {getShrunkWalletAddress(address)}
+                          </div>
+                          </Col>
+                      </Row>
+                      <Row className="pl-4 mt-3">
+                          <h6 style={{fontStyle: "normal", fontWeight: 800, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
+                      </Row>
+                      <Row className="pl-4">
+                          <h1 style={{fontSize: 48, fontWeight: 900}}> $ {walletTVL.toFixed(2)} </h1>
+                      </Row>
+                      <Row className="pl-4">
+                          <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>{walletTVLBNB.toFixed(4)} BNB</h6>
+                      </Row>
+                  </Col>
+                  <Col xs={12} md={3} className="d-flex">
+                      <Doughnut options={{
+                        responsive: true,
+                        maintainAspectRatio: true,
+                      }} data={chartData} />
+                  </Col>
+                  <Col xs={10} md={5} className="flex-column align-items-center justify-content-center">
+                      <Row>
+                        <Col className="m-1">
+                          <WalletOverviewCoinInfo coin={coin0} />
+                        </Col>
+                        <Col className="m-1">
                           <WalletOverviewCoinInfo coin={coin1} />
+                        </Col>
+                      </Row>
+                      <Row>
+                          <Col className="m-1">
+                            <WalletOverviewCoinInfo coin={coin2} />
+                          </Col>
+                          <Col className="m-1">
+                            <WalletOverviewCoinInfo coin={coin3} />
                           </Col>
                       </Row>
                       <Row>
-                          <Col style={{margin: 10}}>
-                          <WalletOverviewCoinInfo coin={coin2} />
+                          <Col className="m-1">
+                            <WalletOverviewCoinInfo coin={coin4} />
                           </Col>
-                          <Col style={{margin: 10}}>
-                          <WalletOverviewCoinInfo coin={coin3} />
-                          </Col>
-                      </Row>
-                      <Row>
-                          <Col style={{margin: 10}}>
-                          <WalletOverviewCoinInfo coin={coin4} />
-                          </Col>
-                          <Col style={{margin: 10, border: "1px solid #ACD8E6", borderRadius: 10}}>
-                                {
-                                  coin4.symbol === "" ?
-                                  "" :
-                                  <WalletOverviewOtherInfo otherPerc={other} />
-                                }
+                          <Col className="m-1" style={{border: "1px solid #ACD8E6", borderRadius: 10}}>
+                            {
+                              coin4.symbol === "" ?
+                              "" :
+                              <WalletOverviewOtherInfo otherPerc={other} />
+                            }
                           </Col>
                       </Row>
-                  </div>
-              </Col>
-          </Row>
-      </Card.Body>
-    </Card>
+                  </Col>
+              </Row>
+          </Card.Body>
+        </Card>
+      </Col>
+      
     </Row>
   )  
 }

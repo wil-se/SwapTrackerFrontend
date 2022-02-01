@@ -9,11 +9,9 @@ const DashBoardOpenTrades = ({openedTrades}) => {
     
    
     return (
-        <Card className="dashboard-card-open-trade-container">
-            <div className="dashboard-card-open-trade-subcontainer">
-                <DashBoardOpenTradesHeader/>
-                <DashBoardOpenTradesTable openedTrades={openedTrades}/>
-            </div>
+        <Card className="d-flex w-100">
+            <DashBoardOpenTradesHeader/>
+            <DashBoardOpenTradesTable openedTrades={openedTrades}/>
         </Card>
     )
 }

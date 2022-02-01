@@ -14,11 +14,13 @@ ChartJS.register(ArcElement, Tooltip)
 const Wallet = () => {
     return (
         <MainContainer>
-            <div >
-            <h1 className="subheader-title" style={{marginLeft: -15}}>Wallet</h1>
-                <WalletOverview />
-                <CoinInfoList />
-            </div>
+            <Row>
+                <Col xs={12}>
+                    <h1 className="subheader-title">Wallet</h1>
+                </Col> 
+            </Row>
+            <WalletOverview />
+            <CoinInfoList />
         </MainContainer>
     )
 }

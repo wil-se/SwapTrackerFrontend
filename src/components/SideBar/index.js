@@ -53,75 +53,81 @@ const SideBar = () => {
     },[account])
   
     return (
-        <Container fluid className="sidebar-container">
-            <div className="sidebar">
-            <Row className="logo align-items-center">
-                <img src="images/logo.svg" alt="logo" />
-            </Row>
-            <Row className="mt-5">
-            <hr className="logo-under-line "/>
 
-            </Row>
-            <div className="menu">
-                <Row className="menu-item">
-                    <Link to="dashboard" className="link" >
-                        <Icon.HouseDoor/>
-                        Dashboard
-                    </Link>
+        <Container fluid className="sidebar-container">
+
+            <div className="sidebar">
+                <Row className="logo align-items-center">
+                    <img src="images/logo.svg" alt="logo" />
                 </Row>
-                <Row className="menu-item">
-                    <Link to="wallet" className="link" state={{aia:"ciaoo"}} >
-                        <Icon.CreditCard2Back/>
-                        Wallet
-                    </Link>
+
+                <Row className="mt-5">
+                    <hr className="logo-under-line "/>
                 </Row>
-                <Row className="menu-item">
-                    <Link to="history" className="link">
-                        <Icon.ClockHistory/>
-                        History
-                    </Link>
+                <div className="menu">
+                    <Row className="menu-item">
+                        <Link to="dashboard" className="link" >
+                            <Icon.HouseDoor/>
+                            Dashboard
+                        </Link>
+                    </Row>
+                    <Row className="menu-item">
+                        <Link to="wallet" className="link" state={{aia:"ciaoo"}} >
+                            <Icon.CreditCard2Back/>
+                            Wallet
+                        </Link>
+                    </Row>
+                    <Row className="menu-item">
+                        <Link to="history" className="link">
+                            <Icon.ClockHistory/>
+                            History
+                        </Link>
+                    </Row>
+                    <Row className="menu-item">
+                        <Link to="trade" className="link">
+                            <Icon.CurrencyExchange/>
+                            Trade
+                        </Link>
+                    </Row>
+                    <Row className="menu-item">
+                        <Link to="staking" className="link">
+                            <Icon.Stack/>
+                            Staking
+                        </Link>
+                    </Row>
+                    <Row className="menu-item">
+                        <Link to="tiers" className="link">
+                            <Icon.LightningCharge/>
+                            Tiers
+                        </Link>
+                    </Row>
+                </div>
+
+                <Row className="logoBig">
+                    <img src={logoGrande} alt="logo"/>
                 </Row>
-                <Row className="menu-item">
-                    <Link to="trade" className="link">
-                        <Icon.CurrencyExchange/>
-                        Trade
-                    </Link>
-                </Row>
-                <Row className="menu-item">
-                    <Link to="staking" className="link">
-                        <Icon.Stack/>
-                        Staking
-                    </Link>
-                </Row>
-                <Row className="menu-item">
-                    <Link to="tiers" className="link">
-                        <Icon.LightningCharge/>
-                        Tiers
-                    </Link>
-                </Row>
+
+                <Container className="footer">
+                    <Row className="addressSection">
+                        <img src={addressAvatar}/>    
+                        <div className="address">
+                        {getShrunkWalletAddress(account)}
+                        </div>
+                    </Row>
+                    <Row className="tierSection">
+                        <TierSection tier={tier}/>
+                    </Row>    
+                    <hr className="address-under-line "/>
+                    <Row className="logoutSection" onClick={logout}>
+                        <img src={logOutIcon}/>
+                        <div className="logout-text">
+                            Log Out
+                        </div>
+                    </Row>
+                </Container>
+
             </div>
-            <Row className="logoBig">
-                <img src={logoGrande} alt="logo"/>
-            </Row>
-            <Container className="footer">
-                <Row className="addressSection">
-                    <img src={addressAvatar}/>    
-                    <div className="address">
-                    {getShrunkWalletAddress(account)}
-                    </div>
-                </Row>
-                <Row className="tierSection">
-                    <TierSection tier={tier}/>
-                </Row>    
-                <hr className="address-under-line "/>
-                <Row className="logoutSection" onClick={logout}>
-                    <img src={logOutIcon}/>
-                    <div className="logout-text">
-                        Log Out
-                    </div>
-                </Row>
-            </Container>
-            </div>
+            
         </Container>
     );
 }

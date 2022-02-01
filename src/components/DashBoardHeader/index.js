@@ -21,16 +21,15 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue}) => {
     },[profitOrLoss,currentBalance,openTradeValue])
 
     return (
-        <Row className="header-card-row">
-           <Col>
-                <Card className="header-card">
+        <Row className="py-3">
+           <Col md={12} lg={4} className="mb-2 mb-lg-0">
+                <Card className="header-card d-flex justify-content-between">
                     <div className="header-card-container">
-                        <Col className="header-card-info">
-                            
-                            <Row className="header-card-title">CURRENT BALANCE</Row>
-                            <Row className="header-card-value">€ {currentBalance.toFixed(2)}</Row>
+                        <Col className="header-card-info" md={8}>
+                            <h3 className="header-card-title mb-0">CURRENT BALANCE</h3>
+                            <span className="header-card-value text-nowrap">€ {currentBalance.toFixed(2)}</span>
                         </Col>
-                        <Col>
+                        <Col md={4}>
                             <div className="header-icon-circle">
                                 <img  src={wallet}/>
                             </div>
@@ -38,19 +37,18 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue}) => {
                     </div>
                 </Card>
            </Col> 
-           <Col>
+           <Col md={12} lg={4} className="mb-2 mb-lg-0">
                 <Card className="header-card">
                 <div className="header-card-container">
-                        <Col className="header-card-info">
-                            
-                            <Row className="header-card-title">PROFIT (24H P/L)</Row>
+                        <Col className="header-card-info" md={8}> 
+                            <h3 className="header-card-title">PROFIT (24H P/L)</h3>
                             {!plPercNegative ? 
-                                <Row className="header-card-value" style={{color:"#00CC83"}}>{plPercPositive}</Row>
+                                <span className="header-card-value mb-0 text-success text-nowrap">{plPercPositive}</span>
                                 :
-                                <Row className="header-card-value" style={{color:"#F4002C"}}>{plPercNegative}</Row>
+                                <span className="header-card-value text-danger text-nowrap">{plPercNegative}</span>
                             }
                         </Col>
-                        <Col>
+                        <Col md={4}>
                             <div className="header-icon-circle">
                                 <img  src={profit}/>
                             </div>
@@ -58,15 +56,14 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue}) => {
                     </div>
                 </Card>
            </Col> 
-           <Col>
+           <Col md={12} lg={4} className="mb-2 mb-lg-0">
                 <Card className="header-card">
                     <div className="header-card-container">
-                        <Col className="header-card-info">
-                        
-                            <Row className="header-card-title">OPEN TRADES VALUE</Row>
-                            <Row className="header-card-value">€ {openTradeValue}</Row>
+                        <Col className="header-card-info" md={8}>
+                            <h3 className="header-card-title mb-0 text-nowrap">OPEN TRADES VALUE</h3>
+                            <span className="header-card-value text-nowrap">€ {openTradeValue}</span>
                         </Col>
-                        <Col>
+                        <Col md={4}>
                             <div className="header-icon-circle">
                                 <img  src={door}/>
                             </div>

@@ -1,7 +1,14 @@
-// .main-container {
-//   padding-top: 2rem;
-// }
+.main-container {
+  width: 70vw;
+  margin: 0 25vw;
+}
 
+@media (max-width: 991px) {
+  .main-container {
+    width: 90vw;
+    margin: 0 auto;
+  }
+}
 // @media (min-width: 992px) {
 //   .main-container {
 //     position: absolute;

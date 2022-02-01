@@ -33,7 +33,7 @@ export function CoinInfoList(){
 
     for (let i=0; i<dst.length; i++) {
       wlltDistList.push(
-        <Col key={i} xs={12} md={6} style={{paddingLeft: 8, paddingRight: 8}}>
+        <Col key={i} xs={12} md={6} className="px-3">
           <CoinInfo key={i} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} />
         </Col>
       )
@@ -58,13 +58,8 @@ export function CoinInfoList(){
   }, [user,walletTVL])
   
   return (
-      <div>
-      <Row>
-        {coinList}
-      </Row>
-
-
-      
-      </div>
+    <Row className="justify-content-between">
+      {coinList}
+    </Row>
   )
 }
