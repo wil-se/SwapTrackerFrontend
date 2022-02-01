@@ -9,6 +9,7 @@ import Wallet from 'pages/Wallet';
 import History from 'pages/History';
 import Dashboard from 'pages/Dashboard';
 import { ToastContainer } from 'react-toastify';
+import { Container } from 'react-bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import 'style/App.scss';
 
@@ -16,18 +17,20 @@ import 'style/App.scss';
 function App() {
   return (
     <>
-      <TopNavbar></TopNavbar>
-      <SideBar/>
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
-      <Routes>
-        <Route path="/staking" element={<Staking />} />
-        <Route path="/trade" element={<Trade />} />
-        <Route path="/wallet" element={<Wallet />} />
-        <Route path="/tiers" element={<Tier />} />
-        <Route path="/history" element={<History />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-
-      </Routes>
+      <Container fluid>
+        <TopNavbar></TopNavbar>
+        <SideBar/>
+        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
+        <Routes>
+          <Route path="/staking" element={<Staking />} />
+          <Route path="/trade" element={<Trade />} />
+          <Route path="/wallet" element={<Wallet />} />
+          <Route path="/tiers" element={<Tier />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </Container>
+      
     </>
   );
 }

@@ -83,19 +83,21 @@ const Dashboard = () => {
 
     return (
         <MainContainer>
-            <Row><h1 className="subheader-title">Dashboard</h1></Row>
             <Row>
-                <DashBoardHeader 
-                    currentBalance={currentBalance}
-                    profitOrLoss={profitOrLoss}
-                    openTradeValue={openTradeValue}
-                />
+                <Col md={12} lg={12} xs={12} className="justify-content-start">
+                    <h1 className="subheader-title">Dashboard</h1>
+                </Col>
             </Row>
-            <Row>
-                <DashBoardChart/>
-            </Row>
-            <Row>
-                <DashBoardOpenTrades openedTrades={openedTrades}/>
+            <DashBoardHeader 
+                currentBalance={currentBalance}
+                profitOrLoss={profitOrLoss}
+                openTradeValue={openTradeValue}
+            />
+            <DashBoardChart />
+            <Row className="pt-3">
+                <Col md={12} lg={12} xs={12}>
+                    <DashBoardOpenTrades openedTrades={openedTrades}/>
+                </Col>
             </Row>
         </MainContainer>
     )

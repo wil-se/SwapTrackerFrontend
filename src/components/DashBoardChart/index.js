@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react'
-import {Row} from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap';
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker from "react-modern-calendar-datepicker";
 import calendar from 'assets/icons/calendar.svg';
@@ -93,18 +93,18 @@ const DashBoardChart = () => {
     return (
         <div className="dashboard-card-container">
             <div className="dashboard-card-subcontainer">
-                <Row className="dashboard-card-header">
-                    <div className="dashboard-card-chart-title">
-                        Trades overview
-                    </div>
-                    <div>
+                <Row className="dashboard-card-header mb-2">
+                  <Col md={6} lg={6} xs={12}>
+                    <h3 className="dashboard-card-chart-title ml-2">Trades overview </h3>
+                  </Col>
+                  <Col md={6} lg={6} xs={12} className="justify-content-end d-flex">
                         <DatePicker
                             value={selectedDayRange}
                             onChange={setSelectedDayRange}
                             renderInput={dateRangeOutput} // render a custom input
                             shouldHighlightWeekends
                         />
-                    </div>
+                  </Col>
                 </Row>
                 <Row>
                   <DashBoardLineChart  labelList={labelList} dataList={dataList}/> 

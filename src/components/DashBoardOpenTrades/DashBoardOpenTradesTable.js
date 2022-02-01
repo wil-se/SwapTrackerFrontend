@@ -6,7 +6,7 @@ import {getTradeRows} from 'utils/dashboardHelpers'
 const DashBoardOpenTradesTable = ({openedTrades}) => {
     
     return (
-        <div>
+        <div className="mx-3 mx-md-5">
             <DashBoardOpenTradesTableHeader/>
             {openedTrades?.map((trade,key)=>{
                 return (
