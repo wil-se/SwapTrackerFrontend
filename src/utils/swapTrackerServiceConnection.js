@@ -1,7 +1,8 @@
 import axios from "axios";
+require('dotenv').config()
 
 const api = axios.create({
-  baseURL: "http://54.38.188.69:3333",
+  baseURL: process.env.REACT_APP_SERVICE_URL,
   
 });
 
