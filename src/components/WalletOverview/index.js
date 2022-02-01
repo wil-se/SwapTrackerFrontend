@@ -45,7 +45,7 @@ export function WalletOverview(){
       ],
   })
 
-  const getWlltTVL = async ()=>{console.log(user); let wlltTVL = await getWalletTVL(user,web3,chainId); setWalletTVL(wlltTVL)}
+  const getWlltTVL = async ()=>{ let wlltTVL = await getWalletTVL(user,web3,chainId); setWalletTVL(wlltTVL)}
     
   const wlltDist = async ()=>{
     let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);

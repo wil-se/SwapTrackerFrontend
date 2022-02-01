@@ -65,14 +65,13 @@ const TradeMainCard = () => {
         e.preventDefault()
 
         let amount = e.target.value
-        console.log("le vedem ", amount,tokenSelectedIn.decimals, BNB)
+       
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedIn.decimals);
-        console.log("ma passo di qua")
         if(amountInShifted>0){
-            let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted.toString(),path).call().catch((e)=>console.log("vedimamo ",e))
+            let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted.toString(),path).call().catch((e)=>console.log(e))
             let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber().toFixed(6);
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
-            console.log(allowance)
+           
             setAllowanceTokenIn(allowance)
             setAmountOut(amoutOutFormatted) 
 
@@ -87,11 +86,9 @@ const TradeMainCard = () => {
         let amount = e.target.value
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedOut.decimals);
         if(amountInShifted>0){
-            let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted.toString(),path).call().catch((e)=>console.log("vedimamo ",e))
-            console.log(amIn,amIn[amIn.length-2])
+            let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted.toString(),path).call().catch((e)=>console.log(e))
             let amoutInFormatted = new BigNumber(amIn[amIn.length-2]).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(6);
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
-            console.log(allowance)
             setAllowanceTokenIn(allowance)
             setAmountIn(amoutInFormatted) 
         }
@@ -109,10 +106,8 @@ const TradeMainCard = () => {
             const decimals = await erc20Contract.methods.decimals().call()
             let amountInFormatted = new BigNumber(balanceTokenIn).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(6)
             if(balanceTokenIn>0){
-                let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceTokenIn,path).call().catch((e)=>console.log("vedimamo ",e))
-                console.log(amOut,path);
+                let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceTokenIn,path).call().catch((e)=>console.log(e))
                 let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(6);
-                console.log(amountOutFormatted)
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
                 setAmountOut(Number(amountOutFormatted))
@@ -123,14 +118,10 @@ const TradeMainCard = () => {
         }
         else{
             const balanceNativeIn = await web3.eth.getBalance(account)
-            console.log("allora ", balanceNativeIn)
             let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(6)
             if(balanceNativeIn>0){
-                console.log(path)
-                let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceNativeIn,path).call().catch((e)=>console.log("vedimamo ",e))
-                console.log(amOut, amOut[amOut.length-2])
+                let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceNativeIn,path).call().catch((e)=>console.log(e))
                 let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(6);
-                console.log(amountOutFormatted)
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
                 setAmountOut(Number(amountOutFormatted))
@@ -145,16 +136,13 @@ const TradeMainCard = () => {
         
         if(tokenSelectedIn.symbol === BNB.symbol){
 
-            console.log("entro qui??")
             let amountOutBN = new BigNumber(amountOut);
             let amountOutMinBN = amountOutBN.multipliedBy(100-parseInt(slippageAmount)).dividedBy(100);
-            console.log(amountOutMinBN.toNumber(),tokenSelectedOut.decimals)
             let amountOutMinFormatted = Math.floor(amountOutMinBN.shiftedBy(tokenSelectedOut.decimals).toNumber());
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
             
             
-            console.log(amountInFormattedBN.toNumber(),amountOutMinFormatted,JSON.stringify(path))
             const txSwap = await swapTrackerMediator.methods
                             .swapExactETHForTokens(amountOutMinFormatted.toString(),path)
                             .send({from:account,value:amountInFormattedBN.toString()})
@@ -163,8 +151,6 @@ const TradeMainCard = () => {
                                 console.warn(e)
 
                             })
-            //console.log(txSwap)
-            console.log("allora ", txSwap)
             
             getNotification(txSwap?.status || false)
             if(!disabledButton && txSwap){
@@ -173,14 +159,11 @@ const TradeMainCard = () => {
             }         
         }
         else if (tokenSelectedIn.symbol !== BNB.symbol && tokenSelectedOut.symbol !== BNB.symbol){
-            console.log(amountOut)
             let amountOutBN = new BigNumber(amountOut);
             let amountOutMinBN = amountOutBN.multipliedBy(100-parseInt(slippageAmount)).dividedBy(100);
-            console.log(amountOutMinBN.toNumber(),tokenSelectedOut.decimals)
             let amountOutMinFormatted = Math.floor(amountOutMinBN.shiftedBy(tokenSelectedOut.decimals).toNumber());
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
-            console.log(amountOut, amountOutMinFormatted ,amountInFormattedBN.toNumber(),JSON.stringify(path))
             const txSwap = await swapTrackerMediator.methods
                             .swapExactTokensForTokens(amountInFormattedBN.toString(),amountOutMinFormatted.toString(),path)
                             .send({from:account})
@@ -203,7 +186,6 @@ const TradeMainCard = () => {
             let amountOutMinFormatted = Math.floor(amountOutMinBN.shiftedBy(tokenSelectedOut.decimals).toNumber());
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
-            console.log(amountOutMinFormatted,amountInFormattedBN.toNumber(),JSON.stringify(path))
             const txSwap = await swapTrackerMediator.methods
                             .swapExactTokensForETH(amountInFormattedBN.toString(),amountOutMinFormatted.toString(),path)
                             .send({from:account})

@@ -11,8 +11,8 @@ import useAuthService from 'hooks/useAuthService'
 
 const defaultFrom = {
     year: new Date().getFullYear(),
-    month: new Date().getMonth()+1,
-    day: new Date().getDate()-5,
+    month: new Date().getMonth(),
+    day: new Date().getDate(),
   };
   const defaultTo = {
     year: new Date().getFullYear(),
@@ -23,6 +23,7 @@ const defaultFrom = {
     from: defaultFrom,
     to: defaultTo,
   };
+  
 const DashBoardChart = () => {
     const { user } = useAuthService()
     const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
@@ -107,7 +108,13 @@ const DashBoardChart = () => {
                     </div>
                 </Row>
                 <Row>
-                  <DashBoardLineChart  labelList={labelList} dataList={dataList}/> 
+                  {labelList.length>0 && dataList.length >0
+                    ?
+                    <DashBoardLineChart  labelList={labelList} dataList={dataList}/> 
+                    :
+                    <h1 className="d-flex dashboard-card-chart-no-data">No data chart</h1>
+                  
+                  }
                 </Row>
             
             </div>
