@@ -1,14 +1,10 @@
 
 .dashboard-card-container{
-    display:flex;
-    width:1439.88px;
-    height:402.73px;
     background: #FFFFFF;
     border: 0.5px solid #FBFFFF;
     box-sizing: border-box;
     box-shadow: 0px 3.5px 5.5px rgba(0, 0, 0, 0.02);
     border-radius: 10px;
-    margin-top:22.2px;
 }
 
 .dashboard-card-subcontainer{
@@ -18,8 +14,6 @@
 }
 
 .dashboard-card-chart-title{ 
-    display:flex;
-    margin-left:35px;
     font-style: normal;
     font-weight: 900;
     font-size: 24px;

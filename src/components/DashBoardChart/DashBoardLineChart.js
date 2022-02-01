@@ -84,13 +84,13 @@ const DashBoardLineChart = ({labelList,dataList}) => {
             // stacked: true,
             grid: {
               display: false,
+              drawBorder: false,
+              
             },
             ticks: {
               beginAtZero: true,
-             
-              
             },
-          },
+          }
         },
       }; 
     
