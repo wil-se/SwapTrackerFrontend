@@ -37,7 +37,6 @@ const useTrade = () => {
             status:0,
             timestamp:new Date()
         }
-        console.log("vediamo il trade ", tradeFormatted)
         /*let tradeFormatted = {
             txId:"0xdc470930d37270fd651eceaf01d1985b0cbf4105479ce8a733eff1b1012c4a3d",
             user:"0x80952d9ad8397be49de07d13b2bc7c4c6e91df2a",
@@ -50,11 +49,9 @@ const useTrade = () => {
             status:0,
             timestamp:"2022-01-18T17:09:11.937Z"
         }*/
-        //console.log("allora ", tradeFormatted)
         callPost("insertOrUpdateTrade",tradeFormatted)
         
-        //console.log("vediamo ",JSON.stringify(tradeFormatted) )
-
+       
         const user = {
             address:tradeTx?.from,
             chainId:chainId,

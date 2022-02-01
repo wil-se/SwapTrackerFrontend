@@ -19,7 +19,7 @@ const useAuthService = () => {
             callPost("createOrUpdateUser",{address:connector._accounts[0].toLowerCase(), lastLogin:new Date()}).then((resp)=>{
                 setUser(resp.data.data);
             })
-            // console.log(user)
+          
        }
     }, [account, connector])
 

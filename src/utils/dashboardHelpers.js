@@ -7,7 +7,6 @@ import {WETH,ChainId } from '@pancakeswap/sdk'
 import {BNB} from 'config'
 export const getDashboardData = async (account) => {
     let dashboardData = await callPost("getDashBoardData",{address:account}).catch((e)=>{console.log(e)})
-    console.log(dashboardData?.data?.data)
     return dashboardData?.data?.data;
     
 }
@@ -84,8 +83,7 @@ export const getTradeRows = async (openedTrades) => {
     tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber()
     tradeRow.openAt = (openedTrade.amountOut * openedTrade.priceTo).toFixed(3)
     tradeRow.priceTo = Number(openedTrade.priceTo).toFixed(3)
-    console.log(tradeRow.currentValue -tradeRow.openAt, tradeRow.currentValue, tradeRow.openAt)
-    tradeRow.pl = new BigNumber(Number(tradeRow.currentValue)).minus(Number(tradeRow.openAt)).toNumber().toFixed(3) 
+    tradeRow.pl = new BigNumber(Number(tradeRow.currentValue)).minus(Number(tradeRow.openAt)).toNumber() 
     tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
     tradeRow.tokenFrom = openedTrade.tokenFrom
     tradeRow.tokenTo = openedTrade.tokenTo
