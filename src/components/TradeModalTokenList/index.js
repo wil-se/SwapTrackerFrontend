@@ -10,17 +10,23 @@ const TradeModalTokenList = ({setOpenTokenListModalIn,setOpenTokenListModalOut, 
     const [searchToken,setSearchToken] = useState("")
     useEffect(async () => {
             let resp = await getPancakeTokenList()
-            resp?.data?.tokens.push({decimals:18,name:"BNB",symbol:"BNB",logoURI:"https://s2.coinmarketcap.com/static/img/coins/200x200/1839.png",address:"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"});
             setTokenList(
-                resp?.data?.tokens.filter((token) => {
+                resp.filter((token) => {
                     return (
                         token.symbol
                         .toLowerCase()
                         .includes(searchToken.toLowerCase())
                         &&
                         (!token.symbol.toLowerCase().includes(tokenSelectedIn?.symbol.toLowerCase()) && !token.symbol.toLowerCase().includes(tokenSelectedOut?.symbol.toLowerCase()) )
-                        
+                        ||
+                        token.name
+                        .toLowerCase()
+                        .includes(searchToken.toLowerCase())
                         )
+                        ||
+                        token.address
+                        .toLowerCase()
+                        .includes(searchToken.toLowerCase())
                 })
                 
                 );
