@@ -17,6 +17,7 @@ const CoinGeckoClient = new CoinGecko();
 import '../../style/WalletOverview.scss'
 import { PriceVariation } from '../PriceVariation'
 import {useNavigate} from 'react-router-dom'
+import ArrowExpandModal from '../../assets/icons/expand.png'
 
 
 export function CoinInfo(props) {
@@ -73,10 +74,14 @@ export function CoinInfo(props) {
               <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
               <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
             </Col>
-            <Col md={3} xs={6} className="pt-3 align-items-md-start align-items-center d-flex">
-              <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade('token_from','token_to')}>
-                CLOSE TRADE
-              </Button>
+            <Col md={3} xs={6} className="pt-3 align-items-md-start align-items-center">
+              
+                <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade('token_from','token_to')}>
+                  CLOSE TRADE
+                </Button>
+                <div className="d-flex flex-row-reverse">
+                  <img style={{width: 15, height: 15, backgroundColor: "", cursor: "pointer"}} onClick={() => {console.log("eee")}} src={ArrowExpandModal}></img>
+                </div>
             </Col>
           </Row>
         </Card.Body>
