@@ -14,6 +14,7 @@ ChartJS.register(ArcElement, Tooltip)
 const Wallet = () => {
     return (
         <MainContainer>
+        <>
             <Row>
                 <Col xs={12}>
                     <h1 className="subheader-title">Wallet</h1>
@@ -21,6 +22,7 @@ const Wallet = () => {
             </Row>
             <WalletOverview />
             <CoinInfoList />
+        </>
         </MainContainer>
     )
 }

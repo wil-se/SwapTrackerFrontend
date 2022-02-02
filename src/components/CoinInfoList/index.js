@@ -34,7 +34,7 @@ export function CoinInfoList(){
     for (let i=0; i<dst.length; i++) {
       wlltDistList.push(
         <Col key={i} xs={12} md={6} className="px-3">
-          <CoinInfo key={i} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} />
+          <CoinInfo key={i} tvl={walletTVL} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} />
         </Col>
       )
     }

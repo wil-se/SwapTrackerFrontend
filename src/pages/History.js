@@ -13,27 +13,47 @@ const History = () => {
   const { user } = useAuthService();
   const { getTrades } = useTrade();
   
-  const [tradesData, setTradesData] = useState([])
+  const [tradesRows, setTradesRows] = useState([])
   
   const getTradesData = async (address)=>{
     if(!address) return
     let trds = await getTrades(address);
-    console.log(trds);
-
-    let tradesData = await getHistoryRows(trds);
-    console.log(tradesData);
-    
-    return tradesData;
+    return trds;
   }
 
-  
-
+  const getHistoryRowsData = async (trds) => {
+    let rowsData = await getHistoryRows(trds);
+    return rowsData;
+  }
 
   useEffect(() => {
-    (async () => {
-      let tData = await getTradesData(user?.address);
-      setTradesData(tData);
-    })();
+    if(user){
+      (async () => {
+        let tData = await getTradesData(user['address']);
+        let rData = await getHistoryRowsData(tData);
+        let rows = [];
+        for(let i=0; i<rData.length; i++){
+          rows.push(
+            <HistoryRow key={i}
+              tokenSymbol={rData[i].tokenSymbol} 
+              tokenName={rData[i].tokenName}
+              tokenSymbolIn={rData[i].tokenSymbolIn}
+              amountOut={rData[i].amountOut}
+              amountIn={rData[i].amountIn}
+              currentPrice={rData[i].currentPrice} 
+              openAt={rData[i].openAt}
+              priceTo={rData[i].priceTo}
+              currentValue={rData[i].currentValue} 
+              pl={rData[i].pl} 
+              pl_perc={rData[i].pl_perc} 
+              tokenFrom={rData[i].tokenFrom}
+              tokenTo={rData[i].tokenTo}
+            />);
+        }
+        
+        setTradesRows(rows);
+      })();
+    }
   }, [user])
 
 
@@ -79,42 +99,7 @@ const History = () => {
 
               </Col>
             </Row>
-            <hr/>
-            <HistoryRow
-              tokenSymbol={"BTC"}
-              tokenName={"Bitcoin"}
-              currentValue={42000}
-              openAt={"13/12/21"}
-              currenPrice={42000}
-              pl={31000}
-              pl_perc={70}
-              openDate={"21/10/2020"}
-              closedDate={"-"}
-            />
-            <hr/>
-            <HistoryRow
-              tokenSymbol={"BTC"}
-              tokenName={"Bitcoin"}
-              currentValue={42000}
-              openAt={"13/12/21"}
-              currenPrice={42000}
-              pl={31000}
-              pl_perc={70}
-              openDate={"21/10/2020"}
-              closedDate={"-"}
-            />
-            <hr/>
-            <HistoryRow
-              tokenSymbol={"BTC"}
-              tokenName={"Bitcoin"}
-              currentValue={42000}
-              openAt={"13/12/21"}
-              currenPrice={42000}
-              pl={31000}
-              pl_perc={70}
-              openDate={"21/10/2020"}
-              closedDate={"-"}
-            />
+              {tradesRows}
           </Card>
         </Row>
         
