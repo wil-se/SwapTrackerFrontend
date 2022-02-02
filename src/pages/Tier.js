@@ -6,7 +6,7 @@ import Stack1 from '../assets/icons/stack1.png';
 import Stack2 from '../assets/icons/stack2.png';
 
 
-const Wallet = () => {
+const Tier = () => {
     return (
         <MainContainer>
         <>
@@ -64,4 +64,4 @@ const Wallet = () => {
     )
 }
 
-export default Wallet
+export default Tier

@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import MainContainer from 'components/MainContainer'
-import { Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import "./WalletStyles.css"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { WalletOverview } from 'components/WalletOverview';
