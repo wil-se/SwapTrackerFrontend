@@ -20,9 +20,10 @@ import {useNavigate} from 'react-router-dom'
 
 
 export function CoinInfo(props) {
-  let navigation = useNavigate();
+  
   const [holding, setHolding] = useState(0);
   const [price, setPrice] = useState(0);
+  const [priceBNB, setPriceBNB] = useState(0);
   const [priceVariation, setPriceVariation] = useState(0);
   const [name, setName] = useState("Loading..")
   
@@ -34,6 +35,8 @@ export function CoinInfo(props) {
     setPrice(data.data.market_data?.current_price.usd || 0);
     setPriceVariation(data.data.market_data?.price_change_percentage_24h || 0);
     setName(data.data.name)
+    let bnb = await CoinGeckoClient.coins.fetch('binancecoin', {});
+    setPriceBNB(bnb.data.market_data.current_price.usd)
   }
 
   useEffect(() => {

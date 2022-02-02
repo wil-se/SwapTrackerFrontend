@@ -8,46 +8,80 @@ import * as CryptoIcons from '../../assets/icons';
 const greyText = {color: "#8DA0B0", fontSize: 11}
 
 
-export function HistoryRow(props){
+export function HistoryRow({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,currentPrice,currentValue,openAt,amountIn,amountOut,priceTo,tokenFrom,tokenTo, openDate, closedDate}){
+  const [plNegative,setPlNegative] = useState();
+  const [plPositive,setPlPositive] = useState();
+  const [currentValueFixed,setCurrentValueFixed] = useState(0);
+
+  useEffect(()=>{
+    setCurrentValueFixed(currentValue.toFixed(3)) 
+
+    Math.sign(pl) === -1 
+    ? 
+    setPlNegative(`${pl.toString().substring(0,1)} $ ${pl.toString().substring(1,pl.toString().length)}`) 
+    : 
+    setPlPositive(`+ $ ${pl.toString()}`)
   
+  },[pl])
+
+
   return(
     <>
+    <hr/>    
     <Row style={{
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 15,
 }}>
+
       <Col className="text-center">
-      <img className="img-fluid ml-0 mr-2" src={CryptoIcons.default['_'+props.tokenSymbol.toLowerCase()]} style={{width: 25, height: 25}} />
-        {props.tokenSymbol}
+      <img className="img-fluid ml-0 mr-2" src={CryptoIcons.default['_'+tokenSymbol.toLowerCase()]} style={{width: 25, height: 25}} />
+        {tokenSymbol}
       </Col>
       <Col className="text-center">
-        {props.tokenName}
+        {tokenName}
       </Col>
       <Col className="text-center">
-        <p className="mb-0">$88.000</p>
-        <span style={greyText}>133 BNB | 2 BTC</span>
+      <p className="mb-0">${currentValueFixed}</p>
+        <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
       </Col>
       <Col className="text-center">
-        <p className="mb-0">$26.000</p>
-        <span style={greyText}>133 BNB | 2 BTC</span>
+        <p className="mb-0">${openAt}</p>
+        <span style={greyText}>{amountOut} {tokenSymbol} | {priceTo}</span>
       </Col>
       <Col className="text-center">
-        <p className="mb-0">$88.000</p>
-        <span style={greyText}>133 BNB | 2 BTC</span>
+        <p className="mb-0">${currentPrice}</p>
+        <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
       </Col>
       <Col className="text-center">
-        {props.pl}
+      {plNegative ? 
+              <div className="dashboard-pl-negative">
+                {plNegative}
+              </div>
+              :
+              <div className="dashboard-pl-positive">
+                {plPositive}
+              </div>
+            }
       </Col>
       <Col className="text-center">
-        {props.pl_perc}%
+      {Math.sign(pl_perc)=== -1?
+              <div className="dashboard-pl-negative">
+                {pl_perc}%
+              </div>
+              :
+              <div className="dashboard-pl-positive">
+                {pl_perc}%
+              </div>
+          
+            }
       </Col>
       <Col className="text-center">
-        {props.openDate}
+        {openDate}
       </Col>
       <Col className="text-center">
-        {props.closedDate}
+        {closedDate}
       </Col>
       <Col className="text-center">
         <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}}>CLOSE TRADE</Button>
@@ -59,12 +93,18 @@ export function HistoryRow(props){
 
 HistoryRow.propTypes = {
   tokenSymbol: PropTypes.string,
+  tokenSymbolIn: PropTypes.string,
   tokenName: PropTypes.string,
   currentValue: PropTypes.number,
   openAt: PropTypes.string,
-  currenPrice: PropTypes.number,
-  pl: PropTypes.number,
-  pl_perc: PropTypes.number,
+  currentPrice: PropTypes.string,
+  pl: PropTypes.string,
+  pl_perc: PropTypes.string,
   openDate: PropTypes.string,
   closedDate: PropTypes.string,
+  amountIn: PropTypes.string,
+  amountOut: PropTypes.string,
+  priceTo: PropTypes.string,
+  tokenFrom: PropTypes.string,
+  tokenTo: PropTypes.string
 };
