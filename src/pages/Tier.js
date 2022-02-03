@@ -7,8 +7,8 @@ import Stack2 from '../assets/icons/stack2.png';
 import {useSwapTrackerMediator} from 'hooks/useContract'
 import { useWeb3React } from '@web3-react/core';
 
-const Wallet = () => {
-  const { account } = useWeb3React();
+const Tier = () => {
+    const { account } = useWeb3React();
     const swapTrackerMediator = useSwapTrackerMediator()
     const [isStarted,setIsStarted] = useState(false)
     const [isAdvanced,setIsAdvanced] = useState(false)
@@ -28,6 +28,7 @@ const Wallet = () => {
         setIsPro(true)
       })()
     },[])
+
 
     return (
         <MainContainer>
@@ -86,4 +87,4 @@ const Wallet = () => {
     )
 }
 
-export default Wallet
+export default Tier

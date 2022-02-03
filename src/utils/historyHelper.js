@@ -10,7 +10,9 @@ import {BNB} from 'config'
 export const getHistoryRows = async (historyTrades) => {
   let wbnb = WETH[ChainId.MAINNET]
   let tradeRows = []
-  historyTrades?.map(async (historyTrade)=> {
+  
+  for(let i = 0; i < historyTrades.length; i++){
+    let historyTrade = historyTrades[i]
     let tradeRow = {}
     const tokenContractOut = getBep20Contract(historyTrade.tokenTo)
     const tokenContractIn = getBep20Contract(historyTrade.tokenFrom)
@@ -33,11 +35,10 @@ export const getHistoryRows = async (historyTrades) => {
     tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
     tradeRow.tokenFrom = historyTrade.tokenFrom
     tradeRow.tokenTo = historyTrade.tokenTo
-    tradeRow.createdAt = null
-    tradeRow.closedAt = null
-    tradeRows.push(tradeRow)
-    console.log(tradeRow);
-  })
-    console.log(tradeRows);
-    return tradeRows;
+    tradeRow.createdAt = "-"
+    tradeRow.closedAt = "-"
+    tradeRows.push(tradeRow)  
+  }
+
+  return tradeRows;
 }
