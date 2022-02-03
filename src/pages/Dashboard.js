@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect, useLayoutEffect} from 'react'
 import MainContainer from 'components/MainContainer'
 import { Card, Row, Col } from 'react-bootstrap';
 import DashBoardHeader from 'components/DashBoardHeader';
@@ -10,11 +10,17 @@ import DashBoardChart from 'components/DashBoardChart';
 import DashBoardOpenTrades from 'components/DashBoardOpenTrades';
 import {getDashboardData} from 'utils/dashboardHelpers'
 import { setNewBalanceOverview, getTradeRows } from 'utils/dashboardHelpers';
-
+import { useSwapTrackerMediator } from 'hooks/useContract';
+import {useNavigate} from 'react-router-dom'
+import {getTier} from 'utils/walletHelpers'
+import { useWeb3React } from '@web3-react/core';
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
 const Dashboard = () => {
+    const navigation = useNavigate();
+    const swapTrackerMediator = useSwapTrackerMediator(); 
+    const { account } = useWeb3React();
 
     const { chainId, web3 } = useWeb3()
     const { user } = useAuthService()
@@ -61,9 +67,18 @@ const Dashboard = () => {
         
     }
       
+    useLayoutEffect(()=>{
+        (async()=>{
+            if(account){
+                await getTier(swapTrackerMediator,navigation,account)
+            }
+        })()
+    },[account])
+
 
     useEffect(() => { 
         (async() =>{
+           
             await getDashData()
             if(user && chainId){
                 await getWlltTVL();

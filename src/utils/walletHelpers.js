@@ -65,3 +65,13 @@ export const getBalanceOverview = async (user,web3,chainId) => {
     return {[new Date()]:Number(totalBalance).toFixed(2)}
         
 }
+
+export const getTier = async (swapTrackerMediator,navigation,account) => {
+    if(account){
+        let tid = await swapTrackerMediator.methods.getTierFee(account).call()
+        if(Number(tid) === 1000){
+            navigation('/tiers')
+        }
+        return Number(tid)
+    }
+}

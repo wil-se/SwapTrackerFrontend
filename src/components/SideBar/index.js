@@ -17,6 +17,7 @@ import useAuthService from 'hooks/useAuthService';
 import TierSection from './TierSection';
 import { useSwapTrackerMediator } from 'hooks/useContract';
 import {useNavigate} from 'react-router-dom'
+import {getTier} from 'utils/walletHelpers'
 
 const SideBar = () => {
     useEagerConnect();
@@ -42,11 +43,8 @@ const SideBar = () => {
             if(account){ 
                 let user = {address:account && account.toLowerCase(),lastLogin:new Date()}
                 createOrUpdateUser(user)
-                let tid = await swapTrackerMediator.methods.getTierFee(account).call()
-                if(Number(tid) === 1000){
-                    navigation('/tiers')
-                }
-                setTier(Number(tid))
+                let tid = await getTier(swapTrackerMediator,navigation,account)
+                setTier(tid)
             }
         })()
         
