@@ -60,7 +60,7 @@ const TradeMainCard = () => {
 
     
     const getTokenAmountOut = async (e) => {
-        setAmountIn(e.target.value)
+        setAmountIn(e.target.value.replace(',','.'))
         setDisabledButton(false)
         e.preventDefault()
 
@@ -73,6 +73,7 @@ const TradeMainCard = () => {
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
            
             setAllowanceTokenIn(allowance)
+            amoutOutFormatted.replace(',','.')
             setAmountOut(amoutOutFormatted) 
 
         }
@@ -80,7 +81,7 @@ const TradeMainCard = () => {
     }
 
     const getTokenAmountIn = async (e) => {
-        setAmountOut(e.target.value)
+        setAmountOut(e.target.value.replace(',','.'))
         setDisabledButton(false)
         e.preventDefault()
         let amount = e.target.value
@@ -90,6 +91,7 @@ const TradeMainCard = () => {
             let amoutInFormatted = new BigNumber(amIn[amIn.length-2]).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(6);
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
             setAllowanceTokenIn(allowance)
+            amoutInFormatted.replace(',','.')
             setAmountIn(amoutInFormatted) 
         }
     }
@@ -110,8 +112,10 @@ const TradeMainCard = () => {
                 let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(6);
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
+                amountOutFormatted.replace(',','.')
                 setAmountOut(Number(amountOutFormatted))
             }
+            amountInFormatted.replace(',','.')
             setAmountIn(Number(amountInFormatted))
             setDisabledButton(false)
 
@@ -124,8 +128,10 @@ const TradeMainCard = () => {
                 let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(6);
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
-                setAmountOut(Number(amountOutFormatted))
+                amountOutFormatted.replace(',','.')
+                setAmountOut(amountOutFormatted)
             }
+            amountInFormatted.replace(',','.')
             setAmountIn(Number(amountInFormatted))
             setDisabledButton(false)
         }
@@ -138,7 +144,11 @@ const TradeMainCard = () => {
 
             let amountOutBN = new BigNumber(amountOut);
             let amountOutMinBN = amountOutBN.multipliedBy(100-parseInt(slippageAmount)).dividedBy(100);
+
             let amountOutMinFormatted = Math.floor(amountOutMinBN.shiftedBy(tokenSelectedOut.decimals).toNumber());
+            if(amountOutMinFormatted.toString().includes('e')){
+                amountOutMinFormatted = amountOutMinBN.shiftedBy(tokenSelectedOut.decimals)
+            }
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
             
@@ -162,6 +172,9 @@ const TradeMainCard = () => {
             let amountOutBN = new BigNumber(amountOut);
             let amountOutMinBN = amountOutBN.multipliedBy(100-parseInt(slippageAmount)).dividedBy(100);
             let amountOutMinFormatted = Math.floor(amountOutMinBN.shiftedBy(tokenSelectedOut.decimals).toNumber());
+            if(amountOutMinFormatted.toString().includes('e')){
+                amountOutMinFormatted = amountOutMinBN.shiftedBy(tokenSelectedOut.decimals)
+            }
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
             const txSwap = await swapTrackerMediator.methods
@@ -184,6 +197,9 @@ const TradeMainCard = () => {
             let amountOutBN = new BigNumber(amountOut);
             let amountOutMinBN = amountOutBN.multipliedBy(100-slippageAmount).dividedBy(100);
             let amountOutMinFormatted = Math.floor(amountOutMinBN.shiftedBy(tokenSelectedOut.decimals).toNumber());
+            if(amountOutMinFormatted.toString().includes('e')){
+                amountOutMinFormatted = amountOutMinBN.shiftedBy(tokenSelectedOut.decimals)
+            }
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
             const txSwap = await swapTrackerMediator.methods
