@@ -151,7 +151,7 @@ const TradeMainCard = () => {
             }
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
-            
+            console.log(amountOutMinFormatted.toString(),path, amountInFormattedBN.toString(),tokenSelectedOut.decimals)
             
             const txSwap = await swapTrackerMediator.methods
                             .swapExactETHForTokens(amountOutMinFormatted.toString(),path)
