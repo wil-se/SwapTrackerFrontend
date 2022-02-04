@@ -43,7 +43,7 @@ const SideBar = () => {
             if(account){ 
                 let user = {address:account && account.toLowerCase(),lastLogin:new Date()}
                 createOrUpdateUser(user)
-                let tid = await getTier(swapTrackerMediator,navigation,account)
+                let tid = await getTier(swapTrackerMediator,navigation,account, true)
                 setTier(tid)
             }
         })()

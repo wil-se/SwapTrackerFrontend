@@ -24,7 +24,7 @@ const defaultFrom = {
     to: defaultTo,
   };
   
-const DashBoardChart = () => {
+const DashBoardChart = ({tier}) => {
     const { user } = useAuthService()
     const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
     const [selectedDayRange, setSelectedDayRange] = useState(defaultValue);  
@@ -60,18 +60,21 @@ const DashBoardChart = () => {
     }
     
     useEffect(()=>{
-      if(selectedDayRange === defaultValue && user){
+      if(!tier || tier === 1000){
+        return;
+      }
+      else if(tier !== 1000 && selectedDayRange === defaultValue && user){
           getDataForChart()
           return;
 
-        }
-        else{
+      }
+      else{
           if(selectedDayRange?.from && selectedDayRange?.to && selectedDayRange !== defaultValue){
             let label = `${MONTH_LABELS_CHART[selectedDayRange?.from.month].toUpperCase()} ${selectedDayRange?.from.day},${selectedDayRange?.from.year.toString().substring(2,4)} - ${MONTH_LABELS_CHART[selectedDayRange?.to.month].toUpperCase()} ${selectedDayRange?.to.day},${selectedDayRange?.to.year.toString().substring(2,4)}`
             setSelectedDayRangeFormatted(label)
             getDataForChart()
           }
-        }
+      }
       
       },[selectedDayRange, user])
      
@@ -112,7 +115,9 @@ const DashBoardChart = () => {
                     ?
                     <DashBoardLineChart  labelList={labelList} dataList={dataList}/> 
                     :
-                    <h1 className="d-flex dashboard-card-chart-no-data">No data chart</h1>
+                    <div className="dashboard-card-chart-no-data">
+                      <h1>No data chart</h1>
+                    </div>
                   
                   }
                 </Row>
@@ -122,7 +127,9 @@ const DashBoardChart = () => {
     )
 }
 
-
+DashBoardChart.propTypes = {
+  tier: PropTypes.number,
+};
 
 
 

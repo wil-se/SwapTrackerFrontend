@@ -17,7 +17,9 @@ import useTrade from 'hooks/useTrade';
 import useWeb3 from 'hooks/useWeb3';
 import {useLocation } from 'react-router-dom'
 import {BNB} from 'config'
-const TradeMainCard = () => {
+
+
+const TradeMainCard = ({tier}) => {
     const { state } = useLocation() 
     const { account } = useWeb3React();
     const {web3} = useWeb3()
@@ -323,7 +325,13 @@ const TradeMainCard = () => {
                     </div>
                 </div>
                 <div className="confirm-section">
-                    {!allowanceTokenIn && !amountIn ? 
+
+                    {   tier === 1000 ? 
+                        <button className="confirm-button" disabled={true}>
+                        You Need Tier 1
+                        </button>
+                        :
+                        !allowanceTokenIn && !amountIn ? 
                         (
                         <button className="confirm-button" disabled={disabledButton}>
                             Enter an amount
@@ -373,7 +381,7 @@ const TradeMainCard = () => {
 }
 
 TradeMainCard.propTypes = {
-    openSettingPanel: PropTypes.func,
+    tier: PropTypes.number,
 };
 
 

@@ -66,10 +66,11 @@ export const getBalanceOverview = async (user,web3,chainId) => {
         
 }
 
-export const getTier = async (swapTrackerMediator,navigation,account) => {
+export const getTier = async (swapTrackerMediator,navigation,account, isMain) => {
     if(account){
         let tid = await swapTrackerMediator.methods.getTierFee(account).call()
-        if(Number(tid) === 1000){
+        if(Number(tid) === 1000 && !isMain){
+            console.log("ma entro? ", isMain)
             navigation('/tiers')
         }
         return Number(tid)

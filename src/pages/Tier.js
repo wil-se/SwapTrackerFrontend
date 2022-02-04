@@ -16,18 +16,20 @@ const Tier = () => {
     
     useEffect(()=>{
       (async ()=>{
-        let tid = await swapTrackerMediator.methods.getTierFee(account).call().catch((e)=>console.log(e))
-        tid = Number(tid)
-        !tid || tid === 1000 ?
-        null
-        : tid === 10 ?
-        setIsStarted(true)
-        : tid === 5 ?
-        setIsAdvanced(true)
-        :
-        setIsPro(true)
+        if(account){
+          let tid = await swapTrackerMediator.methods.getTierFee(account).call().catch((e)=>console.log(e))
+          tid = Number(tid)
+          !tid || tid === 1000 ?
+          null
+          : tid === 10 ?
+          setIsStarted(true)
+          : tid === 5 ?
+          setIsAdvanced(true)
+          :
+          setIsPro(true)
+        }
       })()
-    },[])
+    },[account])
 
 
     return (

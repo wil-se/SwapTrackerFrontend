@@ -18,7 +18,6 @@ const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
 const Dashboard = () => {
-    const navigation = useNavigate();
     const swapTrackerMediator = useSwapTrackerMediator(); 
     const { account } = useWeb3React();
 
@@ -29,7 +28,7 @@ const Dashboard = () => {
     const [profitOrLoss,setProfitOrLoss] = useState(0)
     const [openTradeValue,setOpenTradeValue] = useState(0)
     const [openedTrades,setOpenedTrades] = useState([])
-    
+    const [tier,setTier] = useState(0)
     const getTotalPriceVairation = async (coingeckoId) => {
         let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
         let totalProfitOrLossPercetage = 0;
@@ -67,28 +66,33 @@ const Dashboard = () => {
         
     }
       
-    useLayoutEffect(()=>{
-        (async()=>{
-            if(account){
-                await getTier(swapTrackerMediator,navigation,account)
-            }
-        })()
-    },[account])
+   
 
 
     useEffect(() => { 
         (async() =>{
-           
-            await getDashData()
-            if(user && chainId){
-                await getWlltTVL();
-                if(walletTVL){
-                    let totalProfOrLoss = await wlltDist()
-                    await setNewBalanceOverview(user,totalProfOrLoss)
-                   
-                    
-                }
-            }
+            let tid;
+           if(account){
+               tid = await swapTrackerMediator.methods.getTierFee(account).call()
+               setTier(Number(tid))
+
+           } 
+           if(Number(tid) === 1000){
+               return;
+           }
+           else if(tid && Number(tid) !== 1000){
+               console.log("mica vado qui")
+               await getDashData()
+               if(user && chainId){
+                   await getWlltTVL();
+                   if(walletTVL){
+                       let totalProfOrLoss = await wlltDist()
+                       await setNewBalanceOverview(user,totalProfOrLoss)
+                      
+                       
+                   }
+               }
+           }
         })()  
         
     
@@ -106,7 +110,7 @@ const Dashboard = () => {
                 profitOrLoss={profitOrLoss}
                 openTradeValue={openTradeValue}
             />
-            <DashBoardChart />
+            <DashBoardChart tier={tier}/>
             <Row className="pt-3">
                 <Col md={12} lg={12} xs={12}>
                     <DashBoardOpenTrades openedTrades={openedTrades}/>
