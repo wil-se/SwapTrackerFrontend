@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState,useEffect,useLayoutEffect } from 'react'
 import MainContainer from 'components/MainContainer'
 import { Card, Row, Col } from 'react-bootstrap';
 import { HistoryRow } from 'components/HistoryRow';
@@ -7,7 +7,10 @@ import useTrade from 'hooks/useTrade';
 import {getHistoryRows} from 'utils/historyHelper';
 import useAuth from 'hooks/useAuth';
 import {getTradeRows} from 'utils/dashboardHelpers';
-
+import { useSwapTrackerMediator } from 'hooks/useContract';
+import {useNavigate} from 'react-router-dom'
+import {getTier} from 'utils/walletHelpers'
+import { useWeb3React } from '@web3-react/core';
 
 const History = () => {
   const { user } = useAuthService();
@@ -25,6 +28,18 @@ const History = () => {
     let rowsData = await getHistoryRows(trds);
     return rowsData;
   }
+
+  const navigation = useNavigate();
+  const swapTrackerMediator = useSwapTrackerMediator(); 
+  const { account } = useWeb3React();
+
+  useLayoutEffect(()=>{
+      (async()=>{
+          if(account){
+              await getTier(swapTrackerMediator,navigation,account)
+          }
+      })()
+  },[account])
 
   useEffect(() => {
     if(user){
