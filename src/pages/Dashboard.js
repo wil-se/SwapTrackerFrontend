@@ -96,7 +96,7 @@ const Dashboard = () => {
         })()  
         
     
-    }, [user,walletTVL])
+    }, [user,walletTVL,account])
 
     return (
         <MainContainer>

@@ -76,7 +76,7 @@ const DashBoardChart = ({tier}) => {
           }
       }
       
-      },[selectedDayRange, user])
+      },[selectedDayRange, user,tier])
      
      
 
