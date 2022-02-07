@@ -4,19 +4,23 @@ import { Card, Row, Col } from 'react-bootstrap';
 import wallet from 'assets/icons/wallet.svg'
 import profit from 'assets/icons/profit.svg'
 import door from 'assets/icons/door.svg'
+import Skeleton from 'react-loading-skeleton';
+import {formatNumber } from 'utils/formatBalance';
 
 
 const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue}) => {
-    const [plPercNegative,setPlPercNegative] = useState()
-    const [plPercPositive,setPlPercPositive] = useState()
+    const [plPerc,setPlPerc] = useState()
+    const [classNames,setClassNames] = useState("header-card-value text-nowrap")
     
     useEffect(()=>{
         let profitOrLossFixed = profitOrLoss.toFixed(3)
       Math.sign(profitOrLoss) === -1 
       ? 
-      setPlPercNegative(`${profitOrLossFixed.toString().substring(0,1)} € ${profitOrLossFixed.toString().substring(1,profitOrLossFixed.toString().length)}`) 
+      (setPlPerc(`${profitOrLossFixed.toString().substring(0,1)} € ${profitOrLossFixed.toString().substring(1,profitOrLossFixed.toString().length)}`), 
+      setClassNames(`${classNames} text-danger`))
       : 
-      setPlPercPositive(`+ € ${profitOrLossFixed.toString()}`)
+      (setPlPerc(`+ € ${profitOrLossFixed.toString()}`),
+      setClassNames(`${classNames} text-success`))
     
     },[profitOrLoss,currentBalance,openTradeValue])
 
@@ -27,7 +31,11 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue}) => {
                     <div className="header-card-container">
                         <Col className="header-card-info" md={8}>
                             <h3 className="header-card-title mb-0">CURRENT BALANCE</h3>
-                            <span className="header-card-value text-nowrap">€ {currentBalance.toFixed(2)}</span>
+                            {!currentBalance || currentBalance <0 || isNaN(currentBalance) ?
+                            <Skeleton width="82px" height="32px" />
+                            :
+                            <span className="header-card-value text-nowrap">€ {formatNumber(currentBalance,2,3)}</span>
+                            }
                         </Col>
                         <Col md={4}>
                             <div className="header-icon-circle">
@@ -42,10 +50,11 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue}) => {
                 <div className="header-card-container">
                         <Col className="header-card-info" md={8}> 
                             <h3 className="header-card-title">PROFIT (24H P/L)</h3>
-                            {!plPercNegative ? 
-                                <span className="header-card-value mb-0 text-success text-nowrap">{plPercPositive}</span>
+                            {!plPerc || String(plPerc).includes('0.000') ?
+                                <Skeleton width="82px" height="32px" />
                                 :
-                                <span className="header-card-value text-danger text-nowrap">{plPercNegative}</span>
+                                <span className={classNames}>{plPerc}</span>
+                                
                             }
                         </Col>
                         <Col md={4}>
@@ -61,7 +70,11 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue}) => {
                     <div className="header-card-container">
                         <Col className="header-card-info" md={8}>
                             <h3 className="header-card-title mb-0 text-nowrap">OPEN TRADES VALUE</h3>
-                            <span className="header-card-value text-nowrap">€ {openTradeValue}</span>
+                            {!openTradeValue ?
+                                <Skeleton width="82px" height="32px" />
+                                :
+                                <span className="header-card-value text-nowrap">€ {openTradeValue}</span>
+                            }
                         </Col>
                         <Col md={4}>
                             <div className="header-icon-circle">

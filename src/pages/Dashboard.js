@@ -29,6 +29,8 @@ const Dashboard = () => {
     const [openTradeValue,setOpenTradeValue] = useState(0)
     const [openedTrades,setOpenedTrades] = useState([])
     const [tier,setTier] = useState(0)
+    const [openedTradesLength,setOpenedTradesLength] = useState(0)
+
     const getTotalPriceVairation = async (coingeckoId) => {
         let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
         let totalProfitOrLossPercetage = 0;
@@ -62,6 +64,7 @@ const Dashboard = () => {
         let dashBoardData = await getDashboardData(user?.address)
         let tradeRow = await getTradeRows(dashBoardData?.openedTrades)
         setOpenTradeValue(Number(dashBoardData?.totalOpenTradesValue).toFixed(2))
+        setOpenedTradesLength(Array(dashBoardData?.openedTrades).length)
         setOpenedTrades(tradeRow)
         
     }
@@ -81,7 +84,6 @@ const Dashboard = () => {
                return;
            }
            else if(tid && Number(tid) !== 1000){
-               console.log("mica vado qui")
                await getDashData()
                if(user && chainId){
                    await getWlltTVL();
@@ -113,7 +115,7 @@ const Dashboard = () => {
             <DashBoardChart tier={tier}/>
             <Row className="pt-3">
                 <Col md={12} lg={12} xs={12}>
-                    <DashBoardOpenTrades openedTrades={openedTrades}/>
+                    <DashBoardOpenTrades openedTrades={openedTrades} openedTradesLength={openedTradesLength}/>
                 </Col>
             </Row>
         </MainContainer>

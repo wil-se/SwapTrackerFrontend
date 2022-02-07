@@ -2,13 +2,19 @@ import React from 'react'
 import DashBoardOpenTradesTableHeader from './DashBoardOpenTradesTableHeader'
 import DashboardOpenTradesTableRow from './DashboardOpenTradesTableRow'
 import PropTypes from 'prop-types';
-import {getTradeRows} from 'utils/dashboardHelpers'
-const DashBoardOpenTradesTable = ({openedTrades}) => {
+import Skeleton from 'react-loading-skeleton';
+
+const DashBoardOpenTradesTable = ({openedTrades, openedTradesLength}) => {
     
     return (
         <div className="mx-3 mx-md-5">
             <DashBoardOpenTradesTableHeader/>
-            {openedTrades?.map((trade,key)=>{
+
+            {openedTrades.length < openedTradesLength ?
+
+            <Skeleton width="1000px" height="32px" />
+            :
+            openedTrades?.map((trade,key)=>{
                 return (
                     <DashboardOpenTradesTableRow 
                         key={key} 
@@ -33,6 +39,7 @@ const DashBoardOpenTradesTable = ({openedTrades}) => {
 
 DashBoardOpenTradesTable.propTypes = {
     openedTrades: PropTypes.array,
+    openedTradesLength: PropTypes.number
 };
 
 export default DashBoardOpenTradesTable
