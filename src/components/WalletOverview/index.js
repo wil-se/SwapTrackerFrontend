@@ -67,6 +67,7 @@ export function WalletOverview(){
     let other = 100;
     
     for (const [key, value] of Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0];})) {
+        
         cLabels.push(value[3].toUpperCase());
         cData.push(value[0]);
         let coingeckoId = CoingeckoTokens.default[value[3].toLowerCase()];
@@ -84,6 +85,11 @@ export function WalletOverview(){
 
     setChartData({
         labels: cLabels,
+        plugins: {
+          legend: {
+              display: false,
+          },
+        },
         datasets: [
           {
             animation: false,
