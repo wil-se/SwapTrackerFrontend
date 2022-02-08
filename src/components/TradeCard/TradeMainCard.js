@@ -24,8 +24,8 @@ const TradeMainCard = ({tier}) => {
     const { account } = useWeb3React();
     const {web3} = useWeb3()
     const [pancakeRouterContract,] = useState(usePancakeRouter())
-    const [amountIn,setAmountIn] = useState(0)
-    const [amountOut,setAmountOut] = useState(0)
+    const [amountIn,setAmountIn] = useState()
+    const [amountOut,setAmountOut] = useState()
     const [openSettingsModal,setOpenSettingsModal] = useState(false)
     const [openTokenListModalIn,setOpenTokenListModalIn] = useState(false)
     const [openTokenListModalOut,setOpenTokenListModalOut] = useState(false)
@@ -62,7 +62,7 @@ const TradeMainCard = ({tier}) => {
 
     
     const getTokenAmountOut = async (e) => {
-        setAmountIn(e.target.value)
+        setAmountIn(Math.abs(e.target.value))
         setDisabledButton(false)
         e.preventDefault()
 
