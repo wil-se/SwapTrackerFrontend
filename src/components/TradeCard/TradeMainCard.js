@@ -64,9 +64,9 @@ const TradeMainCard = ({tier}) => {
     const getTokenAmountOut = async (e) => {
         setAmountIn(Math.abs(e.target.value))
         setDisabledButton(false)
-        e.preventDefault()
+        e.preventDefault() 
 
-        let amount = e.target.value
+        let amount = Math.abs(e.target.value)
        
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedIn.decimals);
         if(amountInShifted>0){
@@ -83,10 +83,10 @@ const TradeMainCard = ({tier}) => {
     }
 
     const getTokenAmountIn = async (e) => {
-        setAmountOut(e.target.value)
+        setAmountOut(Math.abs(e.target.value))
         setDisabledButton(false)
         e.preventDefault()
-        let amount = e.target.value
+        let amount = Math.abs(e.target.value)
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedOut.decimals);
         if(amountInShifted>0){
 
