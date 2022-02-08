@@ -62,7 +62,7 @@ const TradeMainCard = ({tier}) => {
 
     
     const getTokenAmountOut = async (e) => {
-        setAmountIn(e.target.value.replace(',','.'))
+        setAmountIn(e.target.value)
         setDisabledButton(false)
         e.preventDefault()
 
@@ -75,7 +75,7 @@ const TradeMainCard = ({tier}) => {
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
            
             setAllowanceTokenIn(allowance)
-            amoutOutFormatted.replace(',','.')
+            amoutOutFormatted
             setAmountOut(amoutOutFormatted) 
 
         }
@@ -83,17 +83,20 @@ const TradeMainCard = ({tier}) => {
     }
 
     const getTokenAmountIn = async (e) => {
-        setAmountOut(e.target.value.replace(',','.'))
+        setAmountOut(e.target.value)
         setDisabledButton(false)
         e.preventDefault()
         let amount = e.target.value
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedOut.decimals);
         if(amountInShifted>0){
+
             let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted.toString(),path).call().catch((e)=>console.log(e))
-            let amoutInFormatted = new BigNumber(amIn[amIn.length-2]).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(6);
+            console.log("vediamo ", amIn, amIn[amIn.length-2], path)
+            let amountIn = amIn.length > 2 ? amIn[0] : amIn[amIn.length-2]
+            console.log(amountIn)
+            let amoutInFormatted = new BigNumber(amountIn).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(6);
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
             setAllowanceTokenIn(allowance)
-            amoutInFormatted.replace(',','.')
             setAmountIn(amoutInFormatted) 
         }
     }
@@ -246,6 +249,7 @@ const TradeMainCard = ({tier}) => {
                                 autoCorrect="off"
                                 placeholder="0.0"
                                 pattern="^[0-9]*[.]?[0-9]*$"
+                                min="0"
                                 minLength="1"
                                 maxLength="79"
                                 spellCheck="false"
@@ -294,6 +298,7 @@ const TradeMainCard = ({tier}) => {
                                 placeholder="0.0"
                                 pattern="^[0-9]*[.]?[0-9]*$"
                                 minLength="1"
+                                min="0"
                                 maxLength="79"
                                 spellCheck="false"
                                 value={amountOut}
