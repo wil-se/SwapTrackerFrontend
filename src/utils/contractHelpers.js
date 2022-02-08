@@ -8,6 +8,7 @@ import StakePoolABI from 'config/abi/StakePool.json';
 import PancakeRouterAbi from 'config/abi/pancakeRouter.json';
 import PancakePairAbi from 'config/abi/pancakePair.json';
 import SwapTrackerMediatorAbi from 'config/abi/swapTrackerMediator.json';
+import WbnbABI from 'config/abi/wbnb.json'
 
 export const getContract = (abi, address, web3) => {
   const _web3 = web3 ?? web3NoAccount;
@@ -28,3 +29,5 @@ export const getPancakeRouter = (address,web3) => getContract(PancakeRouterAbi,a
 export const getPancakePair = (address) => getContract(PancakePairAbi,address);
 
 export const getSwapTrackerMediator = (address,web3) => getContract(SwapTrackerMediatorAbi,address,web3);
+
+export const getWBNBContract = (address,web3) => getContract(WbnbABI,address,web3)

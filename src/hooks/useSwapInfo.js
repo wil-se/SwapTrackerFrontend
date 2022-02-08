@@ -8,6 +8,9 @@ import {useMultipleContractSingleData} from 'utils/multicall'
 import { Interface } from '@ethersproject/abi'
 import IUniswapV2PairABI from 'config/abi/IPancakePair.json'
 import {mainnetTokens} from 'config/constants/tokens'
+import {BNB,WBNB} from 'config'
+import {useWBNBContract} from 'hooks/useContract'
+import BigNumber from 'bignumber.js';
 //const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
 
 
@@ -119,11 +122,32 @@ const useTradeExactIn = (inputCurrency,outputCurrency) => {
 export const useSwapInfo = (inputCurrency,outputCurrency) => {
     let path = [];
     
-    outputCurrency !== undefined && inputCurrency?.symbol !== "BNB" && outputCurrency?.symbol !== "BNB" 
+    outputCurrency !== undefined && inputCurrency?.symbol !== BNB.symbol && outputCurrency?.symbol !== BNB.symbol && inputCurrency?.symbol !== WBNB.symbol && outputCurrency?.symbol !== WBNB.symbol
     ? path.push(inputCurrency.address,mainnetTokens.wbnb.address,outputCurrency?.address) 
     : path.push(inputCurrency.address,outputCurrency?.address) 
  
     return path;
     
     
+}
+
+export const useWrap = (inputCurrency,outputCurrency) => {
+  const wbnbContract = useWBNBContract()
+  let isWrap = false;
+  ((inputCurrency?.symbol === BNB.symbol && outputCurrency?.symbol === WBNB.symbol) || (inputCurrency?.symbol === WBNB.symbol && outputCurrency?.symbol === BNB.symbol)) 
+  ? isWrap = true 
+  : isWrap = false
+
+  const wrap = async (amountIn,account) => {
+    let amountInFormatted = new BigNumber(amountIn).shiftedBy(18)
+    await wbnbContract.methods.deposit().send({from:account,value:amountInFormatted.toString()})
+  }
+
+  const unWrap =  async (amountIn,account) => {
+    let amountInFormatted = new BigNumber(amountIn).shiftedBy(18)
+    await wbnbContract.methods.withdraw(amountInFormatted.toString()).send({from:account})
+  }
+
+
+  return {wrap,unWrap,isWrap}
 }

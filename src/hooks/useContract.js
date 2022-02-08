@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import useWeb3 from 'hooks/useWeb3';
-import { getBep20Contract, getLpTokenContract, getStakePoolContract,getPancakeRouter,getPancakePair,getSwapTrackerMediator } from 'utils/contractHelpers';
+import { getWBNBContract, getBep20Contract, getLpTokenContract, getStakePoolContract,getPancakeRouter,getPancakePair,getSwapTrackerMediator } from 'utils/contractHelpers';
 
 export const useStakePool = poolId => {
   const {web3} = useWeb3();
@@ -19,7 +19,7 @@ export const useLPToken = address => {
 
 export const usePancakeRouter = () => {
   const {web3} = useWeb3();
-  return useMemo(() => getPancakeRouter("0x10ED43C718714eb63d5aA57B78B54704E256024E".toLowerCase(),web3), [web3]);
+  return useMemo(() => getPancakeRouter(process.env.REACT_APP_PANCAKE_ROUTER.toLowerCase(),web3), [web3]);
 }
 
 export const usePancakePair = (address) => {
@@ -29,5 +29,10 @@ export const usePancakePair = (address) => {
 
 export const useSwapTrackerMediator = () => {
   const {web3} = useWeb3();
-  return useMemo(()=> getSwapTrackerMediator("0x5a1749BFCC97e5363e7B8196cB6F38C2D0992e42".toLowerCase(),web3), [web3]);
+  return useMemo(()=> getSwapTrackerMediator(process.env.REACT_APP_SWAPTRACKER_MEDIATOR.toLowerCase(),web3), [web3]);
+}
+
+export const useWBNBContract = () => {
+  const {web3} = useWeb3()
+  return useMemo(()=>getWBNBContract(process.env.REACT_APP_WBNB.toLowerCase(),web3),[web3])
 }

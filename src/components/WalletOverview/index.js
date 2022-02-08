@@ -6,7 +6,7 @@ import * as CryptoIcons from '../../assets/icons';
 import {walletDistribution,getWalletTVL} from 'utils/walletHelpers'
 import useWeb3 from 'hooks/useWeb3';
 import useAuthService from 'hooks/useAuthService'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, Legend,Tooltip } from 'chart.js';
 import { useWeb3React } from '@web3-react/core';
 import '../../style/WalletOverview.scss'
 import { WalletOverviewCoinInfo } from 'components/WalletOverviewCoinInfo';
@@ -18,6 +18,10 @@ const CoinGeckoClient = new CoinGecko();
 
 
 export function WalletOverview(){
+  ChartJS.register(    
+    Tooltip,
+    Legend
+  )
   const { chainId, web3 } = useWeb3()
   const { user } = useAuthService()
   const { account } = useWeb3React();
@@ -46,7 +50,30 @@ export function WalletOverview(){
         },
       ],
   })
-
+  const [options,] = useState(
+    {
+      cutoutPercentage: 70,
+      plugins:{
+        legend: {
+          display: false
+        },
+        tooltip: {
+          enabled: true,
+          
+          backgroundColor:"white",
+          borderColor:"black",
+          borderWidth:1,
+          bodyColor:"black",
+          titleColor:"black",
+          titleFont:{family:"Avenir Next",weight:'bold'},
+          bodyFont:{family:"Avenir Next",weight:'bold'},
+          cornerRadius:10,
+          
+        },
+      },
+      responsive: true,
+      maintainAspectRatio: true,
+  })
 
   const getWlltTVL = async ()=>{
     console.log(user);
@@ -85,11 +112,6 @@ export function WalletOverview(){
 
     setChartData({
         labels: cLabels,
-        plugins: {
-          legend: {
-              display: false,
-          },
-        },
         datasets: [
           {
             animation: false,
@@ -160,10 +182,7 @@ export function WalletOverview(){
                       </Row>
                   </Col>
                   <Col xs={12} md={3} className="d-flex">
-                      <Doughnut options={{
-                        responsive: true,
-                        maintainAspectRatio: true,
-                      }} data={chartData} />
+                      <Doughnut options={options} data={chartData} />
                   </Col>
                   <Col xs={10} md={5} className="flex-column align-items-center justify-content-center">
                       <Row>

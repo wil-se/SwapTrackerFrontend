@@ -4,7 +4,7 @@ import CryptoIcon from 'assets/icons/'
 import PropTypes from 'prop-types'
 import {getPancakeTokenList} from 'utils/tradeHelpers'
 import {Token,ChainId } from '@pancakeswap/sdk'
-
+import {WBNB} from 'config'
 const TradeModalTokenList = ({setOpenTokenListModalIn,setOpenTokenListModalOut, setTokenSelectedIn, setTokenSelectedOut, tokenSelectedIn, tokenSelectedOut ,setDisabledInput, openTokenListModalIn, openTokenListModalOut}) => {
     const [tokenList, setTokenList] = useState([])
     const [searchToken,setSearchToken] = useState("")
@@ -12,24 +12,32 @@ const TradeModalTokenList = ({setOpenTokenListModalIn,setOpenTokenListModalOut, 
             let resp = await getPancakeTokenList()
             setTokenList(
                 resp.filter((token) => {
-                    return (
-                        token.symbol
-                        .toLowerCase()
-                        .includes(searchToken.toLowerCase())
-                        &&
-                        (!token.symbol.toLowerCase().includes(tokenSelectedIn?.symbol.toLowerCase()) && !token.symbol.toLowerCase().includes(tokenSelectedOut?.symbol.toLowerCase()) )
-                        ||
-                        token.name
-                        .toLowerCase()
-                        .includes(searchToken.toLowerCase())
+                    
+                        return (
+                            
+                                (
+                                    !token.symbol.toLowerCase().includes(tokenSelectedIn?.symbol.toLowerCase()) 
+                                    && 
+                                    !token.symbol.toLowerCase().includes(tokenSelectedOut?.symbol.toLowerCase())
+                                    
+                                )
+                                &&
+                                (
+                                    token.symbol
+                                    .toLowerCase()
+                                    .includes(searchToken.toLowerCase())
+                                    ||
+                                    token.name
+                                    .toLowerCase()
+                                    .includes(searchToken.toLowerCase())
+                                )
+                                    
                         )
-                        ||
-                        token.address
-                        .toLowerCase()
-                        .includes(searchToken.toLowerCase())
+                    
                 })
                 
-                );
+                
+            );
         
     }, [searchToken,tokenSelectedIn,tokenSelectedOut])
 
