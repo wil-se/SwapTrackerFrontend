@@ -32,6 +32,7 @@ const Dashboard = () => {
     const [openedTradesLength,setOpenedTradesLength] = useState(0)
 
     const getTotalPriceVairation = async (coingeckoId) => {
+        if(coingeckoId.includes("bittorrent")) coingeckoId = "bittorrent"
         let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
         let totalProfitOrLossPercetage = 0;
         let percetage = data.data.market_data ? data.data.market_data.price_change_percentage_24h : 0;
@@ -48,6 +49,7 @@ const Dashboard = () => {
         let totalBalance = 0
         let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
         const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
+        console.log("veidmao ", dst)
         await Promise.all(
             dst.map(async (item,i,distribution)=>{
                 totalBalance+= distribution[i][1][1]
@@ -55,12 +57,14 @@ const Dashboard = () => {
                 totalProfitOrLossPercetageNumerical = totalProfitOrLossPercetageNumerical += await getTotalPriceVairation(coingeckoId)
                 
 
+            
+
             })
         )   
         totalProfitOrLossPercetageFinal = (totalBalance*totalProfitOrLossPercetageNumerical)/100
         setCurrentBalance(Number(totalBalance))
         setProfitOrLoss(Number(totalProfitOrLossPercetageFinal));
-        return (totalBalance*totalProfitOrLossPercetageNumerical)/100;
+        return totalProfitOrLossPercetageFinal;
     }
     
 
