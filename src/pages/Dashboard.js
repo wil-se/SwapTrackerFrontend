@@ -49,7 +49,6 @@ const Dashboard = () => {
         let totalBalance = 0
         let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
         const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
-        console.log("veidmao ", dst)
         await Promise.all(
             dst.map(async (item,i,distribution)=>{
                 totalBalance+= distribution[i][1][1]
