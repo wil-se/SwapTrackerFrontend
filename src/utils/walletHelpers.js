@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import {getBep20Contract} from 'utils/contractHelpers'
 import {getBusdOut} from 'utils/getBusdOut' 
-
+import {BNB} from 'config'
 
 const getTokenBalance = async (tokenContract,user) => {
     let decimals = await tokenContract.methods.decimals().call();
@@ -18,6 +18,14 @@ const getFlatBalance = async (tokenContract,user) => {
     let decimals = await tokenContract.methods.decimals().call()
     let flatBalance = await tokenContract.methods.balanceOf(user.address).call({from:user.address})
     return new BigNumber(flatBalance).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(decimals)
+}
+
+export const getBNBBalance = async (web3,user) => {
+    let bnbBal = await web3.eth.getBalance(user?.address);
+    console.log(bnbBal)
+   let balanceFormatted =  new BigNumber(bnbBal).shiftedBy(-1*18).toNumber().toFixed(18)
+   let price = await getBusdOut(BNB.address,balanceFormatted,18)
+   return new BigNumber(price).shiftedBy(-1*18).toNumber().toFixed(18);
 }
 
 export const walletDistribution = async (user,walletTVL,web3,chainId) => {
@@ -40,15 +48,19 @@ export const walletDistribution = async (user,walletTVL,web3,chainId) => {
 
 export const getWalletTVL = async (user,web3,chainId) => {
     let tvl = 0;
+    let bnbBalance = await getBNBBalance(web3,user)
+    console.log("vediamo ", bnbBalance)
     await Promise.all(
         user?.tokenList[chainId].map(async (tokenAddress)=>{
             let tokenContract = getBep20Contract(String(tokenAddress).toLocaleLowerCase(),web3)
             let bal = await getTokenBalance(tokenContract,user)
+            console.log("sono nel for", bnbBalance)
+            tvl += Number(bnbBalance);
             if(bal>0){
                 tvl += parseFloat(bal);
             }
         })
-    )            
+    )
     return tvl;
 }
 

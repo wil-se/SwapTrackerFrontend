@@ -9,14 +9,14 @@ import { useWeb3React } from '@web3-react/core';
 import TradeModalTokenList from '../TradeModalTokenList';
 import TradeModalSettings from '../TradeModalSettings';
 import {usePancakeRouter,useERC20} from 'hooks/useContract';
-import {useSwapInfo} from 'hooks/useSwapInfo'
+import {useSwapInfo,useWrap} from 'hooks/useSwapInfo'
 import {approve} from 'utils/callHelpers';
-import { useSwapTrackerMediator } from 'hooks/useContract';
+import { useSwapTrackerMediator,useWBNBContract } from 'hooks/useContract';
 import useNotification from 'hooks/useNotification'
 import useTrade from 'hooks/useTrade';
 import useWeb3 from 'hooks/useWeb3';
 import {useLocation } from 'react-router-dom'
-import {BNB} from 'config'
+import {BNB,WBNB} from 'config'
 
 
 const TradeMainCard = ({tier}) => {
@@ -37,9 +37,11 @@ const TradeMainCard = ({tier}) => {
     const [disabledButton,setDisabledButton] = useState(true)
     const [disabledInput,setDisabledInput] = useState(true)
     const path = useSwapInfo(tokenSelectedIn,tokenSelectedOut)
+    const {wrap,unWrap,isWrap} = useWrap(tokenSelectedIn,tokenSelectedOut) 
     const erc20Contract = useERC20(tokenSelectedIn?.address)
     const erc20ContractOut = useERC20(tokenSelectedOut?.address)
     const swapTrackerMediator = useSwapTrackerMediator()
+    const wbnbContract = useWBNBContract()
     const {getNotification} = useNotification()
     const {setTrade,getTokenSelected} = useTrade()
 
@@ -62,9 +64,18 @@ const TradeMainCard = ({tier}) => {
 
     
     const getTokenAmountOut = async (e) => {
+        if(!e.target.value){
+            setAmountIn(null)
+            setAmountOut(0)
+            return;
+        }
         setAmountIn(Math.abs(e.target.value))
         setDisabledButton(false)
         e.preventDefault() 
+        if(isWrap){
+            setAmountOut(Math.abs(e.target.value))
+            return;
+        }
 
         let amount = Math.abs(e.target.value)
        
@@ -83,9 +94,18 @@ const TradeMainCard = ({tier}) => {
     }
 
     const getTokenAmountIn = async (e) => {
+        if(!e.target.value || Number(e.target.value) === 0){
+            setDisabledButton(true)
+            setAmountOut(null)
+            setAmountIn(0)
+            return;
+        }
         setAmountOut(Math.abs(e.target.value))
-        setDisabledButton(false)
         e.preventDefault()
+        if(isWrap){
+            setAmountIn(Math.abs(e.target.value))
+            return;
+        }
         let amount = Math.abs(e.target.value)
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedOut.decimals);
         if(amountInShifted>0){
@@ -102,18 +122,21 @@ const TradeMainCard = ({tier}) => {
     }
 
     const setAllowance = async () => {
+        setDisabledButton(true)
         await approve(erc20Contract,swapTrackerMediator._address,account);
         setAllowanceTokenIn(ethers.constants.MaxUint256)
         getNotification(true)
+        setDisabledButton(false)
     }
 
     const setMaxAmountIn = async () => {
-        if(tokenSelectedIn.symbol !== BNB.symbol){
+        if(tokenSelectedIn.symbol !== BNB.symbol && tokenSelectedIn.symbol !== WBNB.symbol){
             const balanceTokenIn = await erc20Contract.methods.balanceOf(account).call()
             const decimals = await erc20Contract.methods.decimals().call()
             let amountInFormatted = new BigNumber(balanceTokenIn).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(6)
             if(balanceTokenIn>0){
                 let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceTokenIn,path).call().catch((e)=>console.log(e))
+                console.log(amOut,path)
                 let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(6);
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
@@ -125,7 +148,21 @@ const TradeMainCard = ({tier}) => {
             setDisabledButton(false)
 
         }
-        else{
+        else if(tokenSelectedOut.symbol === WBNB.symbol && tokenSelectedIn.symbol === BNB.symbol){
+            const balanceNativeIn = await web3.eth.getBalance(account)
+            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(6)
+            setAmountIn(Number(amountInFormatted))
+            setAmountOut(Number(amountInFormatted))
+            setDisabledButton(false)
+        }
+        else if(tokenSelectedOut.symbol === BNB.symbol && tokenSelectedIn.symbol === WBNB.symbol){
+            const balanceWNativeIn = await erc20Contract.methods.balanceOf(account).call()
+            let amountInFormatted = new BigNumber(balanceWNativeIn).shiftedBy(-1*18).toNumber().toFixed(6)
+            setAmountIn(Number(amountInFormatted))
+            setAmountOut(Number(amountInFormatted))
+            setDisabledButton(false)
+        }
+        else {
             const balanceNativeIn = await web3.eth.getBalance(account)
             let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(6)
             if(balanceNativeIn>0){
@@ -140,6 +177,7 @@ const TradeMainCard = ({tier}) => {
             setAmountIn(Number(amountInFormatted))
             setDisabledButton(false)
         }
+        
     } 
  
     const swap = async () => {
@@ -336,12 +374,24 @@ const TradeMainCard = ({tier}) => {
                         You Need Tier 1
                         </button>
                         :
-                        !allowanceTokenIn && !amountIn ? 
+                        !allowanceTokenIn && (!amountIn || amountIn === 0) ? 
                         (
                         <button className="confirm-button" disabled={disabledButton}>
                             Enter an amount
                         </button>
                         )
+                        :tokenSelectedIn.symbol === BNB.symbol && tokenSelectedOut.symbol === WBNB.symbol ?
+                        (
+                        <button className="confirm-button" disabled={disabledButton} onClick={async ()=>await wrap(amountIn,account)}>
+                            Wrap
+                        </button>   
+                        ) 
+                        :tokenSelectedIn.symbol === WBNB.symbol && tokenSelectedOut.symbol === BNB.symbol ?
+                        (
+                        <button className="confirm-button" disabled={disabledButton} onClick={async()=>await unWrap(amountIn,account)}>
+                            unWrap
+                        </button>   
+                        ) 
                         :
                         parseFloat(allowanceTokenIn) >=amountIn ?
                         (
