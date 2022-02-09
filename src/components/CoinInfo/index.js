@@ -18,6 +18,8 @@ import '../../style/WalletOverview.scss'
 import { PriceVariation } from '../PriceVariation'
 import {useNavigate} from 'react-router-dom'
 import ArrowExpandModal from '../../assets/icons/expand.png'
+import { useGetFiatName, useGetFiatValues } from 'store/hooks';
+import { useGetFiatSymbol } from 'store/hooks';
 
 
 export function CoinInfo(props) {
@@ -28,6 +30,8 @@ export function CoinInfo(props) {
   const [priceVariation, setPriceVariation] = useState(0);
   const [name, setName] = useState("Loading..")
   
+  const [value, setValue] = useState(0);
+
   const coingeckoId = CoingeckoTokens.default[props.symbol.toLowerCase()];
 
   const getCoingeckoStats = async ()=>{
@@ -40,9 +44,23 @@ export function CoinInfo(props) {
     setPriceBNB(bnb.data.market_data.current_price.usd)
   }
 
+  const currentName = useGetFiatName();
+  // console.log("CURRENT FIAT NAMEwwwwwwww ", currentName);
+
+  const currentValues = useGetFiatValues();
+  // console.log("Values: ", currentValues);
+
+  const currentSymbol = useGetFiatSymbol();
+
+
   useEffect(() => {
     getCoingeckoStats();
-  }, [])
+    for(let i=0; i<currentValues.length; i++){
+      if(currentValues[i]['currency'] == currentName){
+        setValue(Number(currentValues[i]['rate']));
+      }
+    }
+  }, [currentName, currentValues, currentSymbol])
 
   const closeTrade = (tokenIn,tokenOut) => {
     /*navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut}})*/
@@ -63,14 +81,14 @@ export function CoinInfo(props) {
               
             <Col md={4} xs={6} className="pt-3">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>holdings</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>$ {props.holdingValue.toFixed(2)}</span>
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(props.holdingValue*value).toFixed(2)}</span>
               <span className="text-decoration-none" style={{color: "#8DA0B0", fontSize: 11}}>CURRENT PRICE</span>
-              <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>$ {price}</h5> 
+              <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(price*value).toFixed(2)}</h5> 
             </Col>
 
             <Col md={3} xs={6} className="border-left border-1 pt-3 text-center text-md-left">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>{props.symbol}</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {price}</span> 
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {props.holding.toFixed(4)}</span> 
               <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
               <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
             </Col>
@@ -79,8 +97,8 @@ export function CoinInfo(props) {
                 <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade('token_from','token_to')}>
                   CLOSE TRADE
                 </Button>
-                <div className="d-flex flex-row-reverse">
-                  <img style={{width: 15, height: 15, backgroundColor: "", cursor: "pointer"}} onClick={() => {console.log("eee")}} src={ArrowExpandModal}></img>
+                <div className="d-flex flex-row-reverse" onClick={() => {props.setModalShowFunction(true);}}>
+                  <img style={{width: 15, height: 15, cursor: "pointer", marginTop: 10, marginRight: 10}} src={ArrowExpandModal}></img>
                 </div>
             </Col>
           </Row>
@@ -93,4 +111,6 @@ export function CoinInfo(props) {
 CoinInfo.propTypes = {
   holdingValue: PropTypes.number,
   symbol: PropTypes.string,
+  setModalShowFunction: PropTypes.any,
+  holding: PropTypes.number,
 };
