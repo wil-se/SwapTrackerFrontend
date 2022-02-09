@@ -12,6 +12,8 @@ import '../../style/WalletOverview.scss'
 import { WalletOverviewCoinInfo } from 'components/WalletOverviewCoinInfo';
 import * as CoingeckoTokens from '../../config/constants/coingeckoTokens';
 import { WalletOverviewOtherInfo } from 'components/WalletOverviewOtherInfo'; 
+import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
+import BigNumber from 'bignumber.js';
 
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
@@ -40,6 +42,8 @@ export function WalletOverview(){
   
   const [walletTVL,setWalletTVL] = useState(0);
   const [walletTVLBNB,setWalletTVLBNB] = useState(0);
+
+  const [price, setPrice] = useState(0);
   
   const [chartData, setChartData] = useState({
       labels: [],
@@ -76,13 +80,16 @@ export function WalletOverview(){
   })
 
   const getWlltTVL = async ()=>{
-    console.log(user);
     let wlltTVL = await getWalletTVL(user,web3,chainId);
-    setWalletTVL(wlltTVL);
-    
+
+    const balanceNativeIn = await web3.eth.getBalance(account);
+    let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(6);
     let data = await CoinGeckoClient.coins.fetch('binancecoin', {});
-    let bnbAmount = wlltTVL / data.data.market_data.current_price.usd;
-    console.log(bnbAmount);
+    let bnbPrice = data.data.market_data.current_price.usd;
+    let bnbAmount = wlltTVL / bnbPrice;
+    
+    setWalletTVL(Number(wlltTVL)+Number(amountInFormatted*bnbPrice));
+    
     setWalletTVLBNB(bnbAmount);
   }
     
@@ -142,13 +149,30 @@ export function WalletOverview(){
     })  
   }
 
+
+  const currentName = useGetFiatName();
+  //console.log("CURRENT FIAT NAME ", currentName);
+
+  const currentValues = useGetFiatValues();
+  //console.log("Values: ", currentValues);
+
+  const currentSymbol = useGetFiatSymbol();
+  //console.log("Symbol: ", currentSymbol);
+
   useEffect(() => {
     if(user && chainId){
       getWlltTVL()
       wlltDist()
       setAddress(user.address);
     }
-  }, [user,walletTVL])
+    for(let i=0; i<currentValues.length; i++){
+      if(currentValues[i]['currency'] == currentName){
+        setPrice(Number(currentValues[i]['rate']));
+      }
+    }
+  
+  
+  }, [user,walletTVL, currentValues, currentName])
 
   
   return(
@@ -175,7 +199,7 @@ export function WalletOverview(){
                           <h6 style={{fontStyle: "normal", fontWeight: 800, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
                       </Row>
                       <Row className="pl-4">
-                          <h1 style={{fontSize: 48, fontWeight: 900}}> $ {walletTVL.toFixed(2)} </h1>
+                          <h1 style={{fontSize: 48, fontWeight: 900}}> {currentSymbol} {(walletTVL*price).toFixed(2)} </h1>
                       </Row>
                       <Row className="pl-4">
                           <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>{walletTVLBNB.toFixed(4)} BNB</h6>

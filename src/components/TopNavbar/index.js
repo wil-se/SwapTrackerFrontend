@@ -10,24 +10,49 @@ import QRCodeModal from "@walletconnect/qrcode-modal";
 import { ConnectorNames, connectorsByName } from 'utils/web3React';
 import useWalletConnectAuth from 'hooks/useWalletConnectAuth'
 import useRefresh from 'hooks/useRefresh';
+import { setFiatPrice } from 'store/fiat';
+import { useSelector } from 'react-redux';
+import { useGetFiatSymbol, useSetFiatSymbol, useSetFiatName, useSetFiatValues } from 'store/hooks';
 
 
 const TopNavbar = function () {
   const [currency, setCurrency] = useState("USD");
+  const [symbol, setSymbol] = useState("$");
+
   const [network, setNetwork] = useState("BSC");
   const [modalShow, setModalShow] = useState(false);
+  const [values, setValues] = useState({});
+  const { slowRefresh } = useRefresh();
 
-  const handleCurrencyClick = (symbol) => {
-    setCurrency(symbol);
+
+  const handleCurrencyClick = (name, symbol) => {
+    setCurrency(name);
+    console.log("SYMBOL ", symbol);
+    setSymbol(symbol);
   }
   
   const { active, account } = useWeb3React()
   const { connector } = useWalletConnectAuth()
-  
 
+  const getPrices = async () => {
+    const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}/data/getFiats`);
+    const data = await response.json();
+    console.log(data);
+    setValues(data.data);
+  }
+
+  useSetFiatValues(values);
+  useSetFiatName(currency);
+  useSetFiatSymbol(symbol);
+  
+  
   const getShrunkWalletAddress = (addr) => {
     return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
   }
+
+  useEffect(() => {
+    getPrices();
+  }, [slowRefresh]);
 
   return (
     <div id="sticky-wrapper" className="sticky-wrapper">
@@ -47,26 +72,26 @@ const TopNavbar = function () {
             </Dropdown.Toggle>
             <Dropdown.Menu className="dropdownmenucurrencies" style={{ width: 550, borderRadius: 10 }}>
               <Row>
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"USD"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"EUR"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"CNY"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"INR"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"CAD"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"GBP"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"JPY"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"RUB"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"MXN"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"CHF"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"KRW"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"TRY"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"BRL"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"SEK"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"HKD"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"ETH"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"AUD"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"NOK"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"SGD"} />
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} symbol={"BTC"} />
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"USD"} symbol={"$"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"EUR"} symbol={"€"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"CNY"} symbol={"¥"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"INR"} symbol={"₹"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"CAD"} symbol={"$"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"GBP"} symbol={"£"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"JPY"} symbol={"¥"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"RUB"} symbol={"₽"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"MXN"} symbol={"$"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"CHF"} symbol={"Fr"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"KRW"} symbol={"₩"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"TRY"} symbol={"₺"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"BRL"} symbol={"R$"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"SEK"} symbol={"kr"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"HKD"} symbol={"元"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"ETH"} symbol={"$"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"AUD"} symbol={"$"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"NOK"} symbol={"kr"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"SGD"} symbol={"$"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"BTC"} symbol={"BTC"}/>
               </Row>
             </Dropdown.Menu>
           </Dropdown>

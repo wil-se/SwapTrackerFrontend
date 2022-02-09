@@ -5,6 +5,7 @@ import { fetchPrices } from './prices';
 import { fetchPoolsPublicDataAsync, fetchPoolsUserDataAsync, setBlock } from './actions';
 import useRefresh from 'hooks/useRefresh';
 import { getWeb3NoAccount } from 'utils/web3';
+import { setFiatSymbol, setFiatName, fetchFiatPrices, setFiatValues } from './fiat';
 
 export const useBlock = () => useSelector(store => store.block);
 
@@ -39,6 +40,36 @@ export const useFetchPriceList = () => {
 export const useGetApiPrices = () => {
   const prices = useSelector(store => store.prices.data);
   return prices;
+};
+
+export const useSetFiatName = (name) => {
+  const dispatch = useAppDispatch();
+  dispatch(setFiatName(name));
+};
+
+export const useSetFiatValues = (values) => {
+  const dispatch = useAppDispatch();
+  dispatch(setFiatValues(values));
+};
+
+export const useSetFiatSymbol = (symbol) => {
+  const dispatch = useAppDispatch();
+  dispatch(setFiatSymbol(symbol));
+};
+
+export const useGetFiatSymbol = () => {
+  const symbols = useSelector(store => store.fiats.symbol);
+  return symbols;
+};
+
+export const useGetFiatValues = () => {
+  const values = useSelector(store => store.fiats.values);
+  return values;
+};
+
+export const useGetFiatName = () => {
+  const symbol = useSelector(store => store.fiats.name);
+  return symbol;
 };
 
 export const useGetApiPrice = address => {

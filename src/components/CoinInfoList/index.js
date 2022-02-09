@@ -10,6 +10,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useWeb3React } from '@web3-react/core';
 import { Button } from 'react-bootstrap';
 import { CoinInfo } from 'components/CoinInfo';
+import { WalletOverviewModalChart } from 'components/WalletOverviewModalChart';
 
 
 
@@ -21,6 +22,7 @@ export function CoinInfoList(){
   const [walletDistributions,setWalletDistributions] = useState({})
   const [walletTVL,setWalletTVL] = useState(0)
   const [coinList, setCoinList] = useState([])
+  const [modalShow, setModalShow] = useState(false);
 
 
   const wlltDist = async ()=>{
@@ -34,7 +36,7 @@ export function CoinInfoList(){
     for (let i=0; i<dst.length; i++) {
       wlltDistList.push(
         <Col key={i} xs={12} md={6} className="px-3">
-          <CoinInfo key={i} tvl={walletTVL} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} />
+          <CoinInfo key={i} setModalShowFunction={setModalShow} holding={dst[i][1][2]} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} />
         </Col>
       )
     }
@@ -58,8 +60,11 @@ export function CoinInfoList(){
   }, [user,walletTVL])
   
   return (
+    <>
     <Row className="justify-content-between">
       {coinList}
     </Row>
+    <WalletOverviewModalChart show={modalShow} onHide={() => setModalShow(false)}/>
+    </> 
   )
 }

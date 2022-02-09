@@ -7,3 +7,4 @@ export {
   updateUserStakedBalance,
 } from './pools';
 export { setBlock } from './block';
+export { setFiatName } from './fiat';
