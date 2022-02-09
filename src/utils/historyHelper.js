@@ -10,9 +10,8 @@ import {BNB} from 'config'
 export const getHistoryRows = async (historyTrades) => {
   let wbnb = WETH[ChainId.MAINNET]
   let tradeRows = []
-  
-  for(let i = 0; i < historyTrades.length; i++){
-    let historyTrade = historyTrades[i]
+  await Promise.all(  
+  historyTrades.map(async (historyTrade)=>{
     let tradeRow = {}
     const tokenContractOut = getBep20Contract(historyTrade.tokenTo)
     const tokenContractIn = getBep20Contract(historyTrade.tokenFrom)
@@ -38,7 +37,9 @@ export const getHistoryRows = async (historyTrades) => {
     tradeRow.createdAt = "-"
     tradeRow.closedAt = "-"
     tradeRows.push(tradeRow)  
-  }
+  
+  })
+  )
 
   return tradeRows;
 }
