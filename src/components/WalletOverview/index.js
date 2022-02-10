@@ -14,6 +14,9 @@ import * as CoingeckoTokens from '../../config/constants/coingeckoTokens';
 import { WalletOverviewOtherInfo } from 'components/WalletOverviewOtherInfo'; 
 import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
 import BigNumber from 'bignumber.js';
+import Skeleton from 'react-loading-skeleton';
+
+
 
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
@@ -45,15 +48,7 @@ export function WalletOverview(){
 
   const [price, setPrice] = useState(0);
   
-  const [chartData, setChartData] = useState({
-      labels: [],
-      datasets: [
-        {
-          label: '# of Votes',
-          data: [],
-        },
-      ],
-  })
+  const [chartData, setChartData] = useState({})
   const [options,] = useState(
     {
       cutoutPercentage: 70,
@@ -170,28 +165,26 @@ export function WalletOverview(){
         setPrice(Number(currentValues[i]['rate']));
       }
     }
-  
-  
   }, [user,walletTVL, currentValues, currentName])
 
   
   return(
-    <Row>
+    <Row className="mb-2">
       <Col md={12}>
         <Card className="wallet-overview-card w-100 mb-2 p-2">
           <Card.Body>
               <Row className="justify-content-between">
-                  <Col style={{borderColor: "#ABC2D6"}} className="d-flex border-right border-md-1 border-0 pr-4" xs={12} md={4}>
+                  <Col style={{borderColor: "#ABC2D6"}} className="border-right border-md-1 border-0 pr-4" xs={12} md={4}>
                       <div>
                       <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-3 border-bottom border-1 pt-4" style={{borderColor: "#ABC2D6"}}>
                           <Col className="pr-0" xs={3}>
                             <img src={addressAvatarBig} className="avatar"/>
                           </Col>
-                          <Col className="pr-0">
-                          <div className="ml-2" style={{fontSize: 24, fontWeight: 900}}>
+                          <Col className="pr-0" xs={9}>
+                          <div style={{fontSize: 24, fontWeight: 900,}}>
                               {getShrunkWalletAddress(address)}
                           </div>
-                          <div className="ml-2" style={{fontSize: 11, fontWeight: 100, color: "#8DA0B0"}}>
+                          <div style={{fontSize: 11, fontWeight: 100, color: "#8DA0B0"}}>
                               {getShrunkWalletAddress(address)}
                           </div>
                           </Col>
@@ -207,10 +200,15 @@ export function WalletOverview(){
                       </Row>
                       </div>
                   </Col>
-                  <Col xs={12} md={3} className="d-flex">
-                      <Doughnut options={options} data={chartData} />
+                  <Col xs={12} md={3} className="d-flex  align-items-center justify-content-center">
+                  {
+                    Object.keys(chartData).length === 0 ?
+                    <Skeleton width="160px" height="160px" style={{borderRadius:90}}/> :
+                    <Doughnut options={options} data={chartData} />
+                  }
+                      
                   </Col>
-                  <Col xs={10} md={5} className="d-flex flex-column align-items-center justify-content-center">
+                  <Col xs={12} md={5} className="d-flex flex-column align-items-center justify-content-center">
                     <div>
                       <Row>
                         <Col className="m-2">
@@ -242,7 +240,7 @@ export function WalletOverview(){
                       </Row>
                     </div>
                   </Col>
-              </Row>
+            </Row>
           </Card.Body>
         </Card>
       </Col>

@@ -31,7 +31,7 @@ export function WalletOverviewModalChart(props){
       <Modal.Body style={{height: 500}}>
 
       <TradingViewWidget
-        symbol="NASDAQ:AAPL"
+        symbol={props.symbol.toUpperCase()+"USD"}
         // theme={Themes.DARK}
         locale="en"
         autosize
@@ -47,4 +47,5 @@ export function WalletOverviewModalChart(props){
 
 WalletOverviewModalChart.propTypes = {
   onHide: PropTypes.func,
+  symbol: PropTypes.string,
 };

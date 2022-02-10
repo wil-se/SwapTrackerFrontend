@@ -23,6 +23,10 @@ export function CoinInfoList(){
   const [walletTVL,setWalletTVL] = useState(0)
   const [coinList, setCoinList] = useState([])
   const [modalShow, setModalShow] = useState(false);
+  const [chartKey, setChartKey] = useState(0);
+  const [currentSymbol, setCurrentSymbol] = useState("");
+  
+
 
 
   const wlltDist = async ()=>{
@@ -36,7 +40,7 @@ export function CoinInfoList(){
     for (let i=0; i<dst.length; i++) {
       wlltDistList.push(
         <Col key={i} xs={12} md={6} className="px-3">
-          <CoinInfo key={i} setModalShowFunction={setModalShow} holding={dst[i][1][2]} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} />
+          <CoinInfo key={i} setChartKeyFunction={setChartKey} setCurrentSymbol={setCurrentSymbol} setModalShowFunction={setModalShow} holding={dst[i][1][2]} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} />
         </Col>
       )
     }
@@ -64,7 +68,7 @@ export function CoinInfoList(){
     <Row className="justify-content-between">
       {coinList}
     </Row>
-    <WalletOverviewModalChart show={modalShow} onHide={() => setModalShow(false)}/>
+    <WalletOverviewModalChart key={chartKey} show={modalShow} symbol={currentSymbol} onHide={() => setModalShow(false)}/>
     </> 
   )
 }

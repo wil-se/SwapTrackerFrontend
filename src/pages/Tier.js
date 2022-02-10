@@ -37,9 +37,9 @@ const Tier = () => {
         <>
           <h1 className="subheader-title">Tiers</h1>
           <p style={{color: "#8DA0B0", fontWeight: 800}}>Unlock one of the tiers to start using SwapTracker</p>
-          <Row style={{paddingLeft: 100, paddingRight: 100, paddingTop: 50}}>
+          <Row className="pl-md-100 pr-md-100 pt-md-50">
             <Col md={4}>
-              <Card className={`text-center card-no-border ${isStarted ? "tier-card-active" : ""}`} style={{padding: 25}}>
+              <Card className={`mb-5 text-center card-no-border ${isStarted ? "tier-card-active" : ""}`} style={{padding: 25}}>
                 <div style={{marginLeft: 70, marginRight: 70}}>
                   <h4 className="font-weight-bold">STARTER</h4>
                   <Row style={{marginTop: 30}}><Col><img src={Stack0} /></Col></Row>
