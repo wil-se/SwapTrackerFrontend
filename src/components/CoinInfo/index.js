@@ -18,8 +18,8 @@ import '../../style/WalletOverview.scss'
 import { PriceVariation } from '../PriceVariation'
 import {useNavigate} from 'react-router-dom'
 import ArrowExpandModal from '../../assets/icons/expand.png'
-import { useGetFiatName, useGetFiatValues } from 'store/hooks';
-import { useGetFiatSymbol } from 'store/hooks';
+import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
+import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 
 
 export function CoinInfo(props) {
@@ -94,12 +94,28 @@ export function CoinInfo(props) {
             </Col>
             <Col md={3} xs={6} className="pt-3 align-items-md-start align-items-center">
               
-                <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade('token_from','token_to')}>
+                <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5, marginBottom: 15}} onClick={()=>closeTrade('token_from','token_to')}>
                   CLOSE TRADE
                 </Button>
-                <div className="d-flex flex-row-reverse" onClick={() => {props.setModalShowFunction(true);}}>
-                  <img style={{width: 15, height: 15, cursor: "pointer", marginTop: 10, marginRight: 10}} src={ArrowExpandModal}></img>
-                </div>
+
+<div style={{position: "relative"}}>
+                <TradingViewWidget
+        symbol={props.symbol.toUpperCase()+"USD"}
+        // theme={Themes.DARK}
+        locale="en"
+        hide_top_toolbar={true}
+        hide_legend={true}
+        allow_symbol_change={false}
+        hide_side_toolbar={true}
+        style={2}
+        width={120}
+        height={80}
+      />
+      
+                <a style={{position: "absolute", left: 0, top: 0, width: 20, height: 20, backgroundColor: "#FFFFFF"}} onClick={() => {props.setModalShowFunction(true);props.setChartKeyFunction(prev => prev + 1);props.setCurrentSymbol(props.symbol);}}>
+                  <img style={{zIndex:9999, width: 20, height: 20, cursor: "pointer", marginRight: 10}} src={ArrowExpandModal}></img>
+                </a>
+</div>
             </Col>
           </Row>
         </Card.Body>
@@ -113,4 +129,6 @@ CoinInfo.propTypes = {
   symbol: PropTypes.string,
   setModalShowFunction: PropTypes.any,
   holding: PropTypes.number,
+  setChartKeyFunction: PropTypes.func,
+  setCurrentSymbol :PropTypes.func,
 };
