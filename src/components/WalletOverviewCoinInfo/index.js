@@ -12,7 +12,6 @@ const coinInfoStyle = {
 
 export function WalletOverviewCoinInfo(props){
   const { innerWidth: width, innerHeight: height } = window;
-  console.log(innerWidth);
   return(
     <div>
     {
