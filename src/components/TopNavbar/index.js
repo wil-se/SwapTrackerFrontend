@@ -27,7 +27,6 @@ const TopNavbar = function () {
 
   const handleCurrencyClick = (name, symbol) => {
     setCurrency(name);
-    console.log("SYMBOL ", symbol);
     setSymbol(symbol);
   }
   
@@ -37,7 +36,6 @@ const TopNavbar = function () {
   const getPrices = async () => {
     const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}/data/getFiats`);
     const data = await response.json();
-    console.log(data);
     setValues(data.data);
   }
 
