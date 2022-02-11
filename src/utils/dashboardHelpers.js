@@ -75,19 +75,20 @@ export const getTradeRows = async (openedTrades) => {
         tradeRow.tokenSymbolIn = tradeRow.tokenSymbolIn === wbnb.symbol ? tradeRow.tokenSymbolIn = BNB.symbol : tradeRow.tokenSymbolIn
         tradeRow.tokenName = await tokenContractOut.methods.name().call()
         tradeRow.tokenName = tradeRow.tokenName === wbnb.name ? tradeRow.tokenName = BNB.name : tradeRow.tokenName
-        tradeRow.amountOut = new BigNumber(openedTrade.amountOut).toNumber().toFixed(5)
-        tradeRow.amountIn = new BigNumber(openedTrade.amountIn).toNumber().toFixed(5)
         tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber().toFixed(2)
-        tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber()
-        tradeRow.openAt = (openedTrade.amountOut * openedTrade.priceTo).toFixed(3)
-        tradeRow.priceTo = Number(openedTrade.priceTo).toFixed(3)
-        tradeRow.pl = new BigNumber(Number(tradeRow.currentValue)).minus(Number(tradeRow.openAt)).toNumber() 
-        tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
+        tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber().toFixed(3)
+        tradeRow.amountOut = new BigNumber(openedTrade.amountOut).toNumber().toFixed(5)
+        tradeRow.amountIn = openedTrade.amountIn
+        tradeRow.openAt = openedTrade.openAt
+        tradeRow.priceTo = openedTrade.priceTo
+        tradeRow.pl = new BigNumber(Number(tradeRow.currentValue)).minus(Number(openedTrade.openAt)).toNumber() 
+        tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(openedTrade.openAt))/Number(openedTrade.openAt)*100).toFixed(2)
         tradeRow.tokenFrom = openedTrade.tokenFrom
         tradeRow.tokenTo = openedTrade.tokenTo
         tradeRows.push(tradeRow)
 
       })
   )
+  console.log("vediamo ", tradeRows)
     return tradeRows;
 }

@@ -48,8 +48,11 @@ const History = () => {
         let rData = await getHistoryRowsData(tData);
         let rows = [];
         for(let i=0; i<rData.length; i++){
+          console.log(rData[i]?.createdAt,rData[i]?.closedAt)
           rows.push(
             <HistoryRow key={i}
+              openDate={rData[i]?.createdAt}
+              closedDate={rData[i]?.closedAt}
               tokenSymbol={rData[i].tokenSymbol} 
               tokenName={rData[i].tokenName}
               tokenSymbolIn={rData[i].tokenSymbolIn}

@@ -36,8 +36,12 @@ export function HistoryRow({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,curre
 }}>
 
       <Col className="text-center">
-      <img className="img-fluid ml-0 mr-2" src={CryptoIcons.default['_'+tokenSymbol.toLowerCase()]} style={{width: 25, height: 25}} />
-        {tokenSymbol}
+      {CryptoIcons.default['_'+tokenSymbol.toLowerCase()]  ?
+            <img className="img-fluid ml-0 mr-2" src={CryptoIcons.default['_'+tokenSymbol.toLowerCase()]} style={{width: 25, height: 25}} />
+        :
+            <img className="img-fluid ml-0 mr-2" src={CryptoIcons.default['_generic']} style={{width: 25, height: 25}} />
+      }
+            {tokenSymbol}
       </Col>
       <Col className="text-center">
         {tokenName}

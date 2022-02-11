@@ -11,8 +11,7 @@ import DashBoardOpenTrades from 'components/DashBoardOpenTrades';
 import {getDashboardData} from 'utils/dashboardHelpers'
 import { setNewBalanceOverview, getTradeRows } from 'utils/dashboardHelpers';
 import { useSwapTrackerMediator } from 'hooks/useContract';
-import {useNavigate} from 'react-router-dom'
-import {getTier} from 'utils/walletHelpers'
+import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
 import { useWeb3React } from '@web3-react/core';
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
@@ -31,12 +30,16 @@ const Dashboard = () => {
     const [tier,setTier] = useState(0)
     const [openedTradesLength,setOpenedTradesLength] = useState(0)
 
+    const [value, setValue] = useState(0);
+    const currentName = useGetFiatName();
+    const currentValues = useGetFiatValues();
+    const currentSymbol = useGetFiatSymbol();
+
     const getTotalPriceVairation = async (coingeckoId) => {
         if(coingeckoId.includes("bittorrent")) coingeckoId = "bittorrent"
         let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
         let totalProfitOrLossPercetage = 0;
         let percetage = data.data.market_data ? data.data.market_data.price_change_percentage_24h : 0;
-        
         totalProfitOrLossPercetage+= percetage;
         return totalProfitOrLossPercetage;
     }
@@ -53,13 +56,15 @@ const Dashboard = () => {
             dst.map(async (item,i,distribution)=>{
                 totalBalance+= distribution[i][1][1]
                 const coingeckoId = CoingeckoTokens.default[distribution[i][1][3]?.toLowerCase()];
-                totalProfitOrLossPercetageNumerical = totalProfitOrLossPercetageNumerical += await getTotalPriceVairation(coingeckoId)
+                let singlePercetage = await getTotalPriceVairation(coingeckoId)
+                totalProfitOrLossPercetageNumerical += singlePercetage
                 
 
             
 
             })
         )   
+       
         totalProfitOrLossPercetageFinal = (totalBalance*totalProfitOrLossPercetageNumerical)/100
         setCurrentBalance(Number(totalBalance))
         setProfitOrLoss(Number(totalProfitOrLossPercetageFinal));
@@ -104,8 +109,13 @@ const Dashboard = () => {
            }
         })()  
         
+        for(let i=0; i<currentValues.length; i++){
+            if(currentValues[i]['currency'] == currentName){
+              setValue(Number(currentValues[i]['rate']));
+            }
+        }
     
-    }, [user,walletTVL,account])
+    }, [user,walletTVL,account,currentName, currentValues, currentSymbol])
 
     return (
         <MainContainer>
@@ -115,6 +125,8 @@ const Dashboard = () => {
                 </Col>
             </Row>
             <DashBoardHeader 
+                fiatSymbol={currentSymbol}
+                fiatValue={value}
                 currentBalance={currentBalance}
                 profitOrLoss={profitOrLoss}
                 openTradeValue={openTradeValue}
@@ -122,7 +134,7 @@ const Dashboard = () => {
             <DashBoardChart tier={tier}/>
             <Row className="pt-3">
                 <Col md={12} lg={12} xs={12}>
-                    <DashBoardOpenTrades openedTrades={openedTrades} openedTradesLength={openedTradesLength}/>
+                    <DashBoardOpenTrades fiatSymbol={currentSymbol} fiatValue={value} openedTrades={openedTrades} openedTradesLength={openedTradesLength}/>
                 </Col>
             </Row>
         </MainContainer>

@@ -34,8 +34,8 @@ export const getHistoryRows = async (historyTrades) => {
     tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
     tradeRow.tokenFrom = historyTrade.tokenFrom
     tradeRow.tokenTo = historyTrade.tokenTo
-    tradeRow.createdAt = "-"
-    tradeRow.closedAt = "-"
+    tradeRow.createdAt = historyTrade.timestamp
+    tradeRow.closedAt = historyTrade.closedDate ? historyTrade.closedDate : "-"
     tradeRows.push(tradeRow)  
   
   })

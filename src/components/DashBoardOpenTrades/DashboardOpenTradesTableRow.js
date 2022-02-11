@@ -7,20 +7,6 @@ import {useNavigate} from 'react-router-dom'
 const greyText = {color: "#8DA0B0", fontSize: 11}
 const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,currentPrice,currentValue,openAt,amountIn,amountOut,priceTo,tokenFrom,tokenTo}) => {
     let navigation = useNavigate()
-    const [plNegative,setPlNegative] = useState()
-    const [plPositive,setPlPositive] = useState()
-    const [currentValueFixed,setCurrentValueFixed] = useState(0);
-    useEffect(()=>{
-      setCurrentValueFixed(currentValue.toFixed(3))
-      Math.sign(pl) < 0 
-      ? 
-      setPlNegative(`${Number(pl).toFixed(3).toString().substring(0,1)} $ ${Number(pl).toFixed(3).toString().substring(1,pl.toString().length)}`) 
-      : 
-      setPlPositive(`+ $ ${Number(pl).toFixed(3).toString()}`)
-    
-    },[pl])
-
-
 
     const closeTrade = (tokenIn,tokenOut) => {
       navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut}})
@@ -48,7 +34,7 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
             {tokenName}
           </Col>
           <Col className="text-center">
-            <p className="mb-0">${currentValueFixed}</p>
+            <p className="mb-0">${currentValue}</p>
             <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
           </Col>
           <Col className="text-center">
@@ -60,13 +46,13 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
             <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
           </Col>
           <Col className="text-center">
-            {plNegative ? 
+            {Math.sign(pl) === -1 ? 
               <div className="dashboard-pl-negative">
-                {plNegative}
+                {`${Number(pl).toFixed(3).toString().substring(0,1)} $ ${Number(pl).toFixed(3).toString().substring(1,pl.toString().length)}`}
               </div>
               :
               <div className="dashboard-pl-positive">
-                {plPositive}
+                {`+ $ ${Number(pl).toFixed(3).toString()}`}
               </div>
             }
           </Col>
