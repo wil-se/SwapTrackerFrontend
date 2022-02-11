@@ -48,6 +48,7 @@ const Dashboard = () => {
     
     const wlltDist = async ()=>{
         let totalProfitOrLossPercetageFinal = 0
+        let singleProfitOrLossPercetageNumerical = 0
         let totalProfitOrLossPercetageNumerical = 0
         let totalBalance = 0
         let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
@@ -57,7 +58,10 @@ const Dashboard = () => {
                 totalBalance+= distribution[i][1][1]
                 const coingeckoId = CoingeckoTokens.default[distribution[i][1][3]?.toLowerCase()];
                 let singlePercetage = await getTotalPriceVairation(coingeckoId)
-                totalProfitOrLossPercetageNumerical += singlePercetage
+                console.log(singlePercetage,coingeckoId)
+                singleProfitOrLossPercetageNumerical = distribution[i][1][1] * singlePercetage/100
+                totalProfitOrLossPercetageNumerical += singleProfitOrLossPercetageNumerical
+                console.log(totalProfitOrLossPercetageNumerical)
                 
 
             
@@ -65,7 +69,7 @@ const Dashboard = () => {
             })
         )   
        
-        totalProfitOrLossPercetageFinal = (totalBalance*totalProfitOrLossPercetageNumerical)/100
+        totalProfitOrLossPercetageFinal = totalProfitOrLossPercetageNumerical
         setCurrentBalance(Number(totalBalance))
         setProfitOrLoss(Number(totalProfitOrLossPercetageFinal));
         return totalProfitOrLossPercetageFinal;

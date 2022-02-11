@@ -4,13 +4,13 @@ import DashboardOpenTradesTableRow from './DashboardOpenTradesTableRow'
 import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
 
-const DashBoardOpenTradesTable = ({openedTrades, openedTradesLength}) => {
-    
+const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue}) => {
+    console.log(fiatSymbol,fiatValue)
     return (
         <div className="mx-3 mx-md-5">
             <DashBoardOpenTradesTableHeader/>
 
-            {openedTrades.length < openedTradesLength ?
+            {openedTrades.length < 1 ?
 
             <Skeleton width="1000px" height="32px" />
             :
@@ -30,7 +30,9 @@ const DashBoardOpenTradesTable = ({openedTrades, openedTradesLength}) => {
                         pl={trade.pl} 
                         pl_perc={trade.pl_perc} 
                         tokenFrom={trade.tokenFrom}
-                        tokenTo={trade.tokenTo}/>
+                        tokenTo={trade.tokenTo}
+                        fiatValue={fiatValue}
+                        fiatSymbol={fiatSymbol}/>
                 )
             })}
         </div>
@@ -39,7 +41,8 @@ const DashBoardOpenTradesTable = ({openedTrades, openedTradesLength}) => {
 
 DashBoardOpenTradesTable.propTypes = {
     openedTrades: PropTypes.array,
-    openedTradesLength: PropTypes.number
+    fiatSymbol: PropTypes.string,
+    fiatValue: PropTypes.number,
 };
 
 export default DashBoardOpenTradesTable

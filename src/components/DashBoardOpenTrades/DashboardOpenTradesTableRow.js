@@ -5,7 +5,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom'
 
 const greyText = {color: "#8DA0B0", fontSize: 11}
-const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,currentPrice,currentValue,openAt,amountIn,amountOut,priceTo,tokenFrom,tokenTo}) => {
+const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,currentPrice,currentValue,openAt,amountIn,amountOut,priceTo,tokenFrom,tokenTo,fiatValue,fiatSymbol}) => {
     let navigation = useNavigate()
 
     const closeTrade = (tokenIn,tokenOut) => {
@@ -34,25 +34,25 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
             {tokenName}
           </Col>
           <Col className="text-center">
-            <p className="mb-0">${currentValue}</p>
+            <p className="mb-0">{`${fiatSymbol} ${(Number(currentValue)*fiatValue).toFixed(3)}`}</p>
             <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
           </Col>
           <Col className="text-center">
-            <p className="mb-0">${openAt}</p>
+            <p className="mb-0">{`${fiatSymbol} ${(Number(openAt)*fiatValue).toFixed(3)}`}</p>
             <span style={greyText}>{amountOut} {tokenSymbol} @{priceTo}</span>
           </Col>
           <Col className="text-center">
-            <p className="mb-0">${currentPrice}</p>
+            <p className="mb-0">{`${fiatSymbol} ${(Number(currentPrice)*fiatValue).toFixed(3)}`}</p>
             <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
           </Col>
           <Col className="text-center">
             {Math.sign(pl) === -1 ? 
               <div className="dashboard-pl-negative">
-                {`${Number(pl).toFixed(3).toString().substring(0,1)} $ ${Number(pl).toFixed(3).toString().substring(1,pl.toString().length)}`}
+                {`${Number(pl).toFixed(3).toString().substring(0,1)} ${fiatSymbol} ${(fiatValue*Number(pl)).toFixed(3).toString().substring(1,pl.toString().length)}`}
               </div>
               :
               <div className="dashboard-pl-positive">
-                {`+ $ ${Number(pl).toFixed(3).toString()}`}
+                {`+ ${fiatSymbol} ${(fiatValue*Number(pl)).toFixed(3).toString()}`}
               </div>
             }
           </Col>
@@ -93,7 +93,9 @@ DashboardOpenTradesTableRow.propTypes = {
     amountOut: PropTypes.string,
     priceTo: PropTypes.string,
     tokenFrom: PropTypes.string,
-    tokenTo: PropTypes.string
+    tokenTo: PropTypes.string,
+    fiatValue: PropTypes.number,
+    fiatSymbol: PropTypes.string
 };
 
 export default DashboardOpenTradesTableRow
