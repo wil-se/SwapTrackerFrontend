@@ -49,7 +49,7 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
                 <Card className="header-card">
                 <div className="header-card-container">
                         <Col className="header-card-info" md={8}> 
-                            <h3 className="header-card-title">PROFIT (24H P/L)</h3>
+                            <h3 className="header-card-title mb-0">PROFIT (24H P/L)</h3>
                             {!plPerc || String(plPerc).includes('0.000') ?
                                 <Skeleton width="82px" height="32px" />
                                 :

@@ -58,10 +58,9 @@ const Dashboard = () => {
                 totalBalance+= distribution[i][1][1]
                 const coingeckoId = CoingeckoTokens.default[distribution[i][1][3]?.toLowerCase()];
                 let singlePercetage = await getTotalPriceVairation(coingeckoId)
-                console.log(singlePercetage,coingeckoId)
+                
                 singleProfitOrLossPercetageNumerical = distribution[i][1][1] * singlePercetage/100
                 totalProfitOrLossPercetageNumerical += singleProfitOrLossPercetageNumerical
-                console.log(totalProfitOrLossPercetageNumerical)
                 
 
             
@@ -119,7 +118,7 @@ const Dashboard = () => {
             }
         }
     
-    }, [user,walletTVL,account,currentName, currentValues, currentSymbol])
+    }, [user,walletTVL,account,currentName, currentSymbol])
 
     return (
         <MainContainer>

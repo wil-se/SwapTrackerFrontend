@@ -11,12 +11,17 @@ import { useSwapTrackerMediator } from 'hooks/useContract';
 import {useNavigate} from 'react-router-dom'
 import {getTier} from 'utils/walletHelpers'
 import { useWeb3React } from '@web3-react/core';
-
+import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
 const History = () => {
   const { user } = useAuthService();
   const { getTrades } = useTrade();
   
   const [tradesRows, setTradesRows] = useState([])
+  const [value, setValue] = useState(0);
+  const currentName = useGetFiatName();
+  const currentValues = useGetFiatValues();
+  const currentSymbol = useGetFiatSymbol();
+
   
   const getTradesData = async (address)=>{
     if(!address) return
@@ -33,15 +38,22 @@ const History = () => {
   const swapTrackerMediator = useSwapTrackerMediator(); 
   const { account } = useWeb3React();
 
+
   useLayoutEffect(()=>{
       (async()=>{
           if(account){
               await getTier(swapTrackerMediator,navigation,account)
+              
           }
       })()
   },[account])
 
   useEffect(() => {
+    for(let i=0; i<currentValues.length; i++){
+      if(currentValues[i]['currency'] == currentName){
+        setValue(Number(currentValues[i]['rate']));
+      }
+    }
     if(user){
       (async () => {
         let tData = await getTradesData(user['address']);
@@ -66,13 +78,16 @@ const History = () => {
               pl_perc={rData[i].pl_perc} 
               tokenFrom={rData[i].tokenFrom}
               tokenTo={rData[i].tokenTo}
+              fiatSymbol={currentSymbol}
+              fiatValue={value}
             />);
         }
         
         setTradesRows(rows);
       })();
     }
-  }, [user])
+  }, [user,currentName, currentSymbol])
+  
 
 
     return (
