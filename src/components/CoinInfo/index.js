@@ -100,7 +100,7 @@ export function CoinInfo(props) {
 
 <div style={{position: "relative"}} className="previewchart">
                 <TradingViewWidget 
-        symbol={props.symbol.toUpperCase()+currentName}
+        symbol={props.symbol.toUpperCase()+"USD"}
         // theme={Themes.DARK}
         locale="en"
         hide_top_toolbar={true}
