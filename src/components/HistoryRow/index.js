@@ -8,21 +8,9 @@ import * as CryptoIcons from '../../assets/icons';
 const greyText = {color: "#8DA0B0", fontSize: 11}
 
 
-export function HistoryRow({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,currentPrice,currentValue,openAt,amountIn,amountOut,priceTo,tokenFrom,tokenTo, openDate, closedDate}){
+export function HistoryRow({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,currentPrice,currentValue,openAt,amountIn,amountOut,priceTo,tokenFrom,tokenTo, openDate, closedDate,fiatSymbol,fiatValue}){
   const [plNegative,setPlNegative] = useState();
   const [plPositive,setPlPositive] = useState();
-  const [currentValueFixed,setCurrentValueFixed] = useState(0);
-
-  useEffect(()=>{
-    setCurrentValueFixed(currentValue.toFixed(3)) 
-
-    Math.sign(pl) === -1 
-    ? 
-    setPlNegative(`${pl.toString().substring(0,1)} $ ${pl.toString().substring(1,pl.toString().length)}`) 
-    : 
-    setPlPositive(`+ $ ${pl.toString()}`)
-  
-  },[pl])
 
 
   return(
@@ -47,7 +35,7 @@ export function HistoryRow({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,curre
         {tokenName}
       </Col>
       <Col className="text-center">
-      <p className="mb-0">${currentValueFixed}</p>
+      <p className="mb-0">{`${fiatSymbol} ${(Number(currentValue)*fiatValue).toFixed(3)}`}</p>
         <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
       </Col>
       <Col className="text-center">
@@ -110,5 +98,7 @@ HistoryRow.propTypes = {
   amountOut: PropTypes.string,
   priceTo: PropTypes.string,
   tokenFrom: PropTypes.string,
-  tokenTo: PropTypes.string
+  tokenTo: PropTypes.string,
+  fiatSymbol: PropTypes.string,
+  fiatValue: PropTypes.number
 };
