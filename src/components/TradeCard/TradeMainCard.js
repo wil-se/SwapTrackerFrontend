@@ -111,9 +111,9 @@ const TradeMainCard = ({tier}) => {
         if(amountInShifted>0){
 
             let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted.toString(),path).call().catch((e)=>console.log(e))
-            console.log("vediamo ", amIn, amIn[amIn.length-2], path)
+            // console.log("vediamo ", amIn, amIn[amIn.length-2], path)
             let amountIn = amIn.length > 2 ? amIn[0] : amIn[amIn.length-2]
-            console.log(amountIn)
+            // console.log(amountIn)
             let amoutInFormatted = new BigNumber(amountIn).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(6);
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
             setAllowanceTokenIn(allowance)
