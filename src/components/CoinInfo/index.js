@@ -94,7 +94,7 @@ export function CoinInfo(props) {
             </Col>
             <Col md={4} xs={7} className="pt-3 pl-0 align-items-md-start align-items-center float-right text-right">
               
-                <Button className="pt-2 pb-2 mb-3 mr-4" style={{fontSize: 12}} onClick={()=>closeTrade('token_from','token_to')}>
+                <Button className="pt-1 pb-1 mb-3 mr-4" style={{fontSize: 12}} onClick={()=>closeTrade('token_from','token_to')}>
                   CLOSE TRADE
                 </Button>
 
