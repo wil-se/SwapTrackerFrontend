@@ -11,7 +11,11 @@ export const getHistoryRows = async (historyTrades) => {
   let wbnb = WETH[ChainId.MAINNET]
   let tradeRows = []
   await Promise.all(  
-  historyTrades.map(async (historyTrade)=>{
+    historyTrades.map(async (historyTrade)=>{
+    let createdAt = new Date(historyTrade.timestamp)
+    let closedDate = historyTrade.closedDate ? new Date(historyTrade.closedDate) : null;
+    closedDate = closedDate ? `${closedDate.getDate()}/${closedDate.getMonth()}/${closedDate.getFullYear()}` : null;
+    createdAt = `${createdAt.getDate()}/${createdAt.getMonth()}/${createdAt.getFullYear()}`
     let tradeRow = {}
     const tokenContractOut = getBep20Contract(historyTrade.tokenTo)
     const tokenContractIn = getBep20Contract(historyTrade.tokenFrom)
@@ -34,8 +38,8 @@ export const getHistoryRows = async (historyTrades) => {
     tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
     tradeRow.tokenFrom = historyTrade.tokenFrom
     tradeRow.tokenTo = historyTrade.tokenTo
-    tradeRow.createdAt = historyTrade.timestamp
-    tradeRow.closedAt = historyTrade.closedDate ? historyTrade.closedDate : "-"
+    tradeRow.createdAt = createdAt
+    tradeRow.closedAt = closedDate ? closedDate : "-"
     tradeRows.push(tradeRow)  
   
   })
