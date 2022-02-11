@@ -25,7 +25,7 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
               </div>
               
             }
-            <div >
+            <div className="dashboard-token-symbol">
             {tokenSymbol}
             </div>
           </th>

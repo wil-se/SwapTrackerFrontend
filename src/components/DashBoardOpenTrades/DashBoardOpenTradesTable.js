@@ -16,16 +16,16 @@ const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue}) => {
 
             {openedTrades.length < 1 ?
             <tbody >
-            <tr className="content-center">
+            <tr className="text-center on-center">
             <Skeleton width="100%" height="32px" />
             </tr>
-            <tr className="content-center">
+            <tr className="text-center on-center">
             <Skeleton width="100%" height="32px" />
             </tr >
-            <tr className="content-center">
+            <tr className="text-center on-center">
             <Skeleton width="100%" height="32px" />
             </tr>
-            <tr className="content-center">
+            <tr className="text-center on-center">
             <Skeleton width="100%" height="32px" />
             </tr>
 
