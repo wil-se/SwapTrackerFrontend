@@ -23,6 +23,7 @@ const getFlatBalance = async (tokenContract,user) => {
 
 export const getBNBBalance = async (web3,user) => {
     let bnbBal = await web3.eth.getBalance(user?.address);
+    // console.log(bnbBal)
    let balanceFormatted =  new BigNumber(bnbBal).shiftedBy(-1*18).toNumber().toFixed(18)
    let price = await getBusdOut(BNB.address,balanceFormatted,18)
    return new BigNumber(price).shiftedBy(-1*18).toNumber().toFixed(18);
@@ -63,7 +64,8 @@ export const getWalletTVL = async (user,web3,chainId) => {
         user?.tokenList[chainId].map(async (tokenAddress)=>{
             let tokenContract = getBep20Contract(String(tokenAddress).toLocaleLowerCase(),web3)
             let bal = await getTokenBalance(tokenContract,user)
-            //tvl += Number(bnbBalance);
+            // console.log("sono nel for", bnbBalance)
+            tvl += Number(bnbBalance);
             if(bal>0){
                 tvl += Number(bal);
                 

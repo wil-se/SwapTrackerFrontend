@@ -83,7 +83,9 @@ export function WalletOverview(){
     let bnbPrice = data.data.market_data.current_price.usd;
     let bnbAmount = wlltTVL / bnbPrice;
     
-    setWalletTVL(Number(wlltTVL)+Number(amountInFormatted*bnbPrice));
+    console.log("amount formatted", amountInFormatted*bnbPrice);
+    
+    setWalletTVL(Number(wlltTVL));
     
     setWalletTVLBNB(bnbAmount);
   }
@@ -117,7 +119,7 @@ export function WalletOverview(){
         datasets: [
           {
             animation: false,
-            label: '# of Votes',
+            label: '#',
             data: cData,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
@@ -171,8 +173,8 @@ export function WalletOverview(){
   return(
     <Row className="mb-2">
       <Col md={12}>
-        <Card className="wallet-overview-card w-100 mb-2 p-2">
-          <Card.Body>
+        <Card className="wallet-overview-card w-100 mb-2 pl-2 pr-2 pt-0 pb-0">
+          <Card.Body className="pr-4 pl-4 pb-8">
               <Row className="justify-content-between">
                   <Col style={{borderColor: "#ABC2D6"}} className="border-right border-md-1 border-0 pr-4" xs={12} md={4}>
                       <div>

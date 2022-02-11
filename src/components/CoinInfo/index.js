@@ -79,40 +79,40 @@ export function CoinInfo(props) {
                 <p className="font-weight-bold text-center pt-2 mb-0 text-nowrap"> {props.symbol.toUpperCase()} </p>
             </Col>
               
-            <Col md={4} xs={6} className="pt-3">
+            <Col md={3} xs={6} className="pt-3">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>holdings</span>
               <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(props.holdingValue*value).toFixed(2)}</span>
               <span className="text-decoration-none" style={{color: "#8DA0B0", fontSize: 11}}>CURRENT PRICE</span>
               <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(price*value).toFixed(2)}</h5> 
             </Col>
 
-            <Col md={3} xs={6} className="border-left border-1 pt-3 text-center text-md-left">
+            <Col md={3} xs={5} className="border-left border-1 pt-3 pr-0 text-center text-md-left">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>{props.symbol}</span>
               <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {props.holding.toFixed(4)}</span> 
               <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
               <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
             </Col>
-            <Col md={3} xs={6} className="pt-3 align-items-md-start align-items-center">
+            <Col md={4} xs={7} className="pt-3 pl-0 align-items-md-start align-items-center float-right text-right">
               
-                <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5, marginBottom: 15}} onClick={()=>closeTrade('token_from','token_to')}>
+                <Button className="pt-2 pb-2 mb-3 mr-4" style={{fontSize: 12}} onClick={()=>closeTrade('token_from','token_to')}>
                   CLOSE TRADE
                 </Button>
 
-<div style={{position: "relative"}}>
-                <TradingViewWidget
-        symbol={props.symbol.toUpperCase()+"USD"}
+<div style={{position: "relative"}} className="previewchart">
+                <TradingViewWidget 
+        symbol={props.symbol.toUpperCase()+currentName}
         // theme={Themes.DARK}
         locale="en"
         hide_top_toolbar={true}
         hide_legend={true}
         allow_symbol_change={false}
         hide_side_toolbar={true}
-        style={2}
-        width={120}
+        style={"2"}
+        width={140}
         height={80}
       />
       
-                <a style={{position: "absolute", left: 0, top: 0, width: 20, height: 20, backgroundColor: "#FFFFFF"}} onClick={() => {props.setModalShowFunction(true);props.setChartKeyFunction(prev => prev + 1);props.setCurrentSymbol(props.symbol);}}>
+                <a style={{position: "absolute", right: 30, top: 0, width: 20, height: 20, backgroundColor: "#FFFFFF"}} onClick={() => {props.setModalShowFunction(true);props.setChartKeyFunction(prev => prev + 1);props.setCurrentSymbol(props.symbol);}}>
                   <img style={{zIndex:9999, width: 20, height: 20, cursor: "pointer", marginRight: 10}} src={ArrowExpandModal}></img>
                 </a>
 </div>
