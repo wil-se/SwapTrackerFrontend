@@ -3,34 +3,41 @@ import DashBoardOpenTradesTableHeader from './DashBoardOpenTradesTableHeader'
 import DashboardOpenTradesTableRow from './DashboardOpenTradesTableRow'
 import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
-import {  Row } from 'react-bootstrap';
+import {  Row,Table } from 'react-bootstrap';
 
 const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue}) => {
-    console.log(fiatSymbol,fiatValue)
+    
     return (
-        <div className="mx-3 mx-md-5">
+        <div className="table-responsive">
+        <Table className="mx-3 mx-md-5 dashboard-table">
+            <thead >
             <DashBoardOpenTradesTableHeader/>
+            </thead>
 
             {openedTrades.length < 1 ?
-            <>
-            <Row>
+            <tbody >
+            <tr className="content-center">
             <Skeleton width="100%" height="32px" />
-            </Row>
-            <Row>
+            </tr>
+            <tr className="content-center">
             <Skeleton width="100%" height="32px" />
-            </Row>
-            <Row>
+            </tr >
+            <tr className="content-center">
             <Skeleton width="100%" height="32px" />
-            </Row>
-            <Row>
+            </tr>
+            <tr className="content-center">
             <Skeleton width="100%" height="32px" />
-            </Row>
+            </tr>
 
-            </>
+            </tbody>
             :
-            openedTrades?.map((trade,key)=>{
-                return (
-                    <DashboardOpenTradesTableRow 
+            <tbody>
+            {
+
+                openedTrades?.map((trade,key)=>{
+                    return (
+                        
+                        <DashboardOpenTradesTableRow 
                         key={key} 
                         tokenSymbol={trade.tokenSymbol} 
                         tokenName={trade.tokenName}
@@ -47,9 +54,13 @@ const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue}) => {
                         tokenTo={trade.tokenTo}
                         fiatValue={fiatValue}
                         fiatSymbol={fiatSymbol}/>
-                )
-            })}
-        </div>
+                        )
+                    })
+                }    
+            </tbody>
+        }
+        </Table>
+    </div>
     )
 }
 
