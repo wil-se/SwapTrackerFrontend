@@ -2,7 +2,7 @@ import React from 'react'
 import { Table, Row, Col } from 'react-bootstrap';
 const DashBoardOpenTradesTableHeader = () => {
     return (
-        <tr className="dashboard-table-container pb-2 tr">
+        <tr>
                 <th className="text-center">
                     TOKEN SYMBOL
                 </th>

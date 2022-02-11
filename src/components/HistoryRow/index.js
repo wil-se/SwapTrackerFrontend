@@ -14,76 +14,76 @@ export function HistoryRow({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_perc,curre
     const closeTrade = (tokenIn,tokenOut) => {
       navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut}})
     }
-
-
+   
   return(
     <>
-    <hr/>    
-    <Row style={{
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 15,
-}}>
-
-      <Col className="text-center">
-      {CryptoIcons.default['_'+tokenSymbol.toLowerCase()]  ?
-            <img className="img-fluid ml-0 mr-2" src={CryptoIcons.default['_'+tokenSymbol.toLowerCase()]} style={{width: 25, height: 25}} />
-        :
-            <img className="img-fluid ml-0 mr-2" src={CryptoIcons.default['_generic']} style={{width: 25, height: 25}} />
-      }
+    <tr className="">
+          <th className="text-center history-token-col">
+            {CryptoIcons.default['_'+tokenSymbol.toLowerCase()] 
+              ?
+              <div className="history-token-icon">
+                <img className="img-fluid" src={CryptoIcons.default['_'+tokenSymbol.toLowerCase()]} style={{width: 25, height: 25}} />
+              </div>
+              :
+              <div className="history-token-icon">
+                <img className="img-fluid " src={CryptoIcons.default['_generic']} style={{width: 25, height: 25}} />
+              </div>
+              
+            }
+            <div className="history-token-symbol">
             {tokenSymbol}
-      </Col>
-      <Col className="text-center">
-        {tokenName}
-      </Col>
-      <Col className="text-center">
-      <p className="mb-0">{`${fiatSymbol} ${(Number(currentValue)*fiatValue).toFixed(3)}`}</p>
-        <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
-      </Col>
-      <Col className="text-center">
-        <p className="mb-0">{`${fiatSymbol} ${(Number(openAt)*fiatValue).toFixed(3)}`}</p>
-        <span style={greyText}>{amountOut} {tokenSymbol} | {priceTo}</span>
-      </Col>
-      <Col className="text-center">
-        <p className="mb-0">{`${fiatSymbol} ${(Number(currentPrice)*fiatValue).toFixed(3)}`}</p>
-        <span style={greyText}>{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</span>
-      </Col>
-      <Col className="text-center">
-      {Math.sign(pl) === -1 ? 
-              <div className="dashboard-pl-negative">
+            </div>
+          </th>
+          <th className="text-center on-center">
+            {tokenName}
+          </th>
+          <th className="text-center">
+            <p className="mb-0">{`${fiatSymbol} ${(Number(currentValue)*fiatValue).toFixed(3)}`}</p>
+            <div className="greyText">{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</div>
+          </th>
+          <th className="text-center">
+            <p className="mb-0">{`${fiatSymbol} ${(Number(openAt)*fiatValue).toFixed(3)}`}</p>
+            <div className="greyText">{amountOut} {tokenSymbol} @{priceTo}</div>
+          </th>
+          <th className="text-center">
+            <p className="mb-0">{`${fiatSymbol} ${(Number(currentPrice)*fiatValue).toFixed(3)}`}</p>
+            <div className="greyText">{amountIn} {tokenSymbolIn} | {amountOut} {tokenSymbol}</div>
+          </th>
+          <th className="text-center on-center">
+            {Math.sign(pl) === -1 ? 
+              <div className="history-pl-negative ">
                 {`${Number(pl).toFixed(3).toString().substring(0,1)} ${fiatSymbol} ${(fiatValue*Number(pl)).toFixed(3).toString().substring(1,pl.toString().length)}`}
               </div>
               :
-              <div className="dashboard-pl-positive">
+              <div className="history-pl-positive">
                 {`+ ${fiatSymbol} ${(fiatValue*Number(pl)).toFixed(3).toString()}`}
               </div>
             }
-      </Col>
-      <Col className="text-center">
-      {Math.sign(pl_perc)=== -1?
-              <div className="dashboard-pl-negative">
+          </th>
+          <th className="text-center on-center">
+            {Math.sign(pl_perc)=== -1?
+              <div className="history-pl-negative">
                 {pl_perc}%
               </div>
               :
-              <div className="dashboard-pl-positive">
+              <div className="history-pl-positive">
                 {pl_perc}%
               </div>
           
             }
-      </Col>
-      <Col className="text-center">
-        {openDate}
-      </Col>
-      <Col className="text-center">
-        {closedDate}
-      </Col>
-      <Col className="text-center">
-        <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo)}>
+          </th>
+        <th className="text-center on-center">
+          {openDate}
+        </th>
+        <th className="text-center on-center">
+          {closedDate}
+        </th>
+        <th className="text-center">
+          <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo)}>
                 CLOSE TRADE
-        </Button>
-      </Col>
-    </Row>
+          </Button>
+        </th>
+    </tr>
     </>
   )
 }
