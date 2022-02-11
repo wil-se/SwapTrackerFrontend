@@ -3,6 +3,7 @@ import DashBoardOpenTradesTableHeader from './DashBoardOpenTradesTableHeader'
 import DashboardOpenTradesTableRow from './DashboardOpenTradesTableRow'
 import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
+import {  Row } from 'react-bootstrap';
 
 const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue}) => {
     console.log(fiatSymbol,fiatValue)
@@ -11,8 +12,21 @@ const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue}) => {
             <DashBoardOpenTradesTableHeader/>
 
             {openedTrades.length < 1 ?
+            <>
+            <Row>
+            <Skeleton width="100%" height="32px" />
+            </Row>
+            <Row>
+            <Skeleton width="100%" height="32px" />
+            </Row>
+            <Row>
+            <Skeleton width="100%" height="32px" />
+            </Row>
+            <Row>
+            <Skeleton width="100%" height="32px" />
+            </Row>
 
-            <Skeleton width="1000px" height="32px" />
+            </>
             :
             openedTrades?.map((trade,key)=>{
                 return (
