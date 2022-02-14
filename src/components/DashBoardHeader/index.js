@@ -30,7 +30,7 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
                 <Card className="header-card d-flex justify-content-between">
                     <div className="header-card-container">
                         <Col className="header-card-info" md={8}>
-                            <h3 className="header-card-title mb-0">CURRENT BALANCE</h3>
+                            <h3 className="header-card-title mb-0 text-nowrap">CURRENT BALANCE</h3>
                             {!currentBalance || currentBalance <0 || isNaN(currentBalance) ?
                             <Skeleton width="82px" height="32px" />
                             :

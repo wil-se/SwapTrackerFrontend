@@ -12,7 +12,7 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
     }
 
     return (
-        <tr className="">
+        <tr >
           <th className="text-center dashboard-token-col">
             {CryptoIcons.default['_'+tokenSymbol.toLowerCase()] 
               ?
@@ -38,7 +38,7 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
           </th>
           <th className="text-center">
             <p className="mb-0">{`${fiatSymbol} ${(Number(openAt)*fiatValue).toFixed(3)}`}</p>
-            <div className="greyText">{amountOut} {tokenSymbol} @{priceTo}</div>
+            <div className="greyText">{amountOut} {tokenSymbol} @{(Number(priceTo)*fiatValue).toFixed(3)}</div>
           </th>
           <th className="text-center">
             <p className="mb-0">{`${fiatSymbol} ${(Number(currentPrice)*fiatValue).toFixed(3)}`}</p>
