@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const fetchFiatPrices = async () => {
-  const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}/data/getFiats`);
+  const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}data/getFiats`);
   const data = await response.json();
   
   return {

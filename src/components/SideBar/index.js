@@ -17,17 +17,17 @@ import TierSection from './TierSection';
 import { useSwapTrackerMediator } from 'hooks/useContract';
 import {useNavigate} from 'react-router-dom'
 import {getTier} from 'utils/walletHelpers'
+import PropTypes from 'prop-types';
 
-const SideBar = () => {
+const SideBar = ({leftMobile, closeSideBar}) => {
     useEagerConnect();
     useGoogleAnalytics();
     const navigation = useNavigate();
     const { account } = useWeb3React();
     const {logout} = useAuth()
-   const swapTrackerMediator = useSwapTrackerMediator()
+    const swapTrackerMediator = useSwapTrackerMediator()
     const {createOrUpdateUser} = useAuthService()
     const [tier,setTier] = useState();
-    const [leftMobile,setLeftMobile] = useState()
     const pixel = useFacebookPixel();
     const ga = useGoogleAnalytics();
 
@@ -48,31 +48,11 @@ const SideBar = () => {
             }
         })()
         
-    },[account])
+    },[account, leftMobile])
 
-    const closeSideBar = () => {
-        if(window.innerWidth > 790) return;
-
-        leftMobile === "0" ? setLeftMobile("-100%") : setLeftMobile("0") 
-
-    }
-
-  
     return (
         <>
-                <Row>
-                    {leftMobile === "0"
-                    ?
-                        <Col className="sidebar-hamburger-icon" onClick={closeSideBar}>
-                            <Icon.XLg size={25} color="black"/>
-                        </Col>
-                    :
-                        <Col className="sidebar-hamburger-icon" onClick={closeSideBar}>
-                            <Icon.List size={25} color="black"/>
-                        </Col>
-                    }
-                </Row>
-            <Container fluid className="sidebar-container" style={{left:leftMobile}}>
+            <Container fluid className="sidebar-container" style={{display:leftMobile}}>
                 <div className="sidebar">
                     <Row className="logo align-items-center">
                         <img src="images/logo.svg" alt="logo" />
@@ -149,5 +129,10 @@ const SideBar = () => {
         </>
     );
 }
+
+SideBar.propTypes = {
+    leftMobile: PropTypes.string,
+    closeSideBar: PropTypes.func
+};
 
 export default SideBar;

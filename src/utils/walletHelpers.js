@@ -60,18 +60,21 @@ export const getWalletTVL = async (user,web3,chainId) => {
     let tvl = 0;
     let bnbBalance = await getBNBBalance(web3,user)
     // console.log("vediamo ", bnbBalance)
-    await Promise.all(
-        user?.tokenList[chainId].map(async (tokenAddress)=>{
-            let tokenContract = getBep20Contract(String(tokenAddress).toLocaleLowerCase(),web3)
-            let bal = await getTokenBalance(tokenContract,user)
-            // console.log("sono nel for", bnbBalance)
-            tvl += Number(bnbBalance);
-            if(bal>0){
-                tvl += Number(bal);
+    try {
+        await Promise.all(
+            user?.tokenList[chainId].map(async (tokenAddress)=>{
+                let tokenContract = getBep20Contract(String(tokenAddress).toLocaleLowerCase(),web3)
+                let bal = await getTokenBalance(tokenContract,user)
                 
-            }
-        })
-    )
+                if(bal>0){
+                    tvl += Number(bal);
+                }
+            })
+        )
+    }catch(err) {
+        tvl = 0;
+    }
+    tvl += Number(bnbBalance);
     return tvl;
 }
 

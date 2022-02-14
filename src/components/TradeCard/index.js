@@ -18,7 +18,7 @@ const TradeCard = () => {
     },[account])
 
      return (
-        <div className="trade-card-container"> 
+        <div className="d-flex justify-content-center"> 
             <TradeMainCard tier={tier}/>
         </div>
     )

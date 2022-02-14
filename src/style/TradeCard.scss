@@ -1,18 +1,4 @@
 
-.trade-card-container{
-    position:absolute;
-    left: 785px;
-    top: 183px;
-
-    @media only screen and (max-width:800px){
-        position:unset;
-        left:unset;
-        top:unset;
-        display:flex;
-        
-    }
-    
-}
 
 .trade-main-card{
     width:515px;

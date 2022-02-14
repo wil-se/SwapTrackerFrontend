@@ -76,7 +76,7 @@ export function WalletOverview(){
 
   const getWlltTVL = async ()=>{
     let wlltTVL = await getWalletTVL(user,web3,chainId);
-
+    console.log(wlltTVL)
     const balanceNativeIn = await web3.eth.getBalance(account);
     let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(6);
     let data = await CoinGeckoClient.coins.fetch('binancecoin', {});
@@ -92,6 +92,7 @@ export function WalletOverview(){
     
   const wlltDist = async ()=>{
     let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
+    console.log(wlltDist)
     const cLabels = [];
     const cData = [];
     let count = 0;
