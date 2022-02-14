@@ -1,5 +1,10 @@
 .sticky-wrapper {
   height: 85.1094px !important;
+
+  @media only screen and (max-width:991px){
+    display:flex;
+    flex-direction: row;
+  }
 }
 
 .header .navbar {

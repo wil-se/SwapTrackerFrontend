@@ -4,9 +4,10 @@
   left: 0;
   width: 305px;
   height: 100vh;
+  z-index: 999;
+  
   
   background-color: #FBFFFF;
-
   .sidebar {
     height: 100%;
     
@@ -49,6 +50,20 @@
     margin-left:35px;
     width:176px;
     height:35px;
+  }
+
+  .sidebar-hamburger-icon{
+    display:none;
+    @media only screen and (max-width:800px){
+      display:block;
+      position:absolute;
+      top:0;
+      right:0;
+      transform: translate(-100%,60%);
+      cursor:pointer;
+      
+     
+    }
   }
 
 
@@ -210,6 +225,6 @@
 
 @media (max-width: 991px) {
   .sidebar-container {
-    display: none;
+    left:-100%;
   }
 }

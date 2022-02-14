@@ -17,6 +17,7 @@ import useTrade from 'hooks/useTrade';
 import useWeb3 from 'hooks/useWeb3';
 import {useLocation } from 'react-router-dom'
 import {BNB,WBNB} from 'config'
+import { Col, Row,Card } from 'react-bootstrap';
 
 
 const TradeMainCard = ({tier}) => {
@@ -264,8 +265,10 @@ const TradeMainCard = ({tier}) => {
     }
     
     return (
-        <div>
-            <div className="trade-main-card">
+        <Row>
+            <Col>
+                <Card className="trade-main-card">
+
                 <TradeHeader setOpenSettingsModal={setOpenSettingsModal} />
                 <div className="trade-inputs-section">
                     <div className="trade-input-section">
@@ -293,7 +296,7 @@ const TradeMainCard = ({tier}) => {
                                 spellCheck="false"
                                 value={amountIn}
                                 onChange={getTokenAmountOut}
-                            />
+                                />
                             <button onClick={()=>setOpenTokenListModalIn(!openTokenListModalIn)}>
                                 {tokenSelectedIn ?
                                     (   <>
@@ -341,7 +344,7 @@ const TradeMainCard = ({tier}) => {
                                 spellCheck="false"
                                 value={amountOut}
                                 onChange={getTokenAmountIn}
-                            />
+                                />
                             <button onClick={()=>setOpenTokenListModalOut(!openTokenListModalOut)}>
                                 {tokenSelectedOut ?
                                     (   <>
@@ -358,7 +361,9 @@ const TradeMainCard = ({tier}) => {
                                     :
                                     (   
                                         <>
+                                        <div className="label-select-currency">
                                         Select a currency
+                                        </div>
                                         <img className="arrow" src={arrowIcon}/>
                                         </>
                                     )
@@ -376,38 +381,39 @@ const TradeMainCard = ({tier}) => {
                         :
                         !allowanceTokenIn && (!amountIn || amountIn === 0) ? 
                         (
-                        <button className="confirm-button" disabled={disabledButton}>
+                            <button className="confirm-button" disabled={disabledButton}>
                             Enter an amount
                         </button>
                         )
                         :tokenSelectedIn.symbol === BNB.symbol && tokenSelectedOut.symbol === WBNB.symbol ?
                         (
-                        <button className="confirm-button" disabled={disabledButton} onClick={async ()=>await wrap(amountIn,account)}>
+                            <button className="confirm-button" disabled={disabledButton} onClick={async ()=>await wrap(amountIn,account)}>
                             Wrap
                         </button>   
                         ) 
                         :tokenSelectedIn.symbol === WBNB.symbol && tokenSelectedOut.symbol === BNB.symbol ?
                         (
-                        <button className="confirm-button" disabled={disabledButton} onClick={async()=>await unWrap(amountIn,account)}>
+                            <button className="confirm-button" disabled={disabledButton} onClick={async()=>await unWrap(amountIn,account)}>
                             unWrap
                         </button>   
                         ) 
                         :
                         parseFloat(allowanceTokenIn) >=amountIn ?
                         (
-                        <button className="confirm-button" id="confirmButton" onClick={swap} disabled={disabledButton}>
+                            <button className="confirm-button" id="confirmButton" onClick={swap} disabled={disabledButton}>
                             confirm
                         </button>
                         )
                         :(
-                        <button className="confirm-button" onClick={setAllowance}>
+                            <button className="confirm-button" onClick={setAllowance}>
                             Enable {tokenSelectedIn?.symbol}
                         </button>   
                         )
-                
+                        
                     }
                 </div>            
-            </div>
+                </Card>
+            </Col>
             {openTokenListModalIn || openTokenListModalOut?
                 <TradeModalTokenList 
                     setOpenTokenListModalIn={setOpenTokenListModalIn}
@@ -431,7 +437,7 @@ const TradeMainCard = ({tier}) => {
                 />
                 :null
             }
-        </div>
+        </Row>
     )
 }
 
