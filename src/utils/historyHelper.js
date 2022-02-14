@@ -12,36 +12,38 @@ export const getHistoryRows = async (historyTrades) => {
   let tradeRows = []
   await Promise.all(  
     historyTrades.map(async (historyTrade)=>{
-    let createdAt = new Date(historyTrade.timestamp)
-    let closedDate = historyTrade.closedDate ? new Date(historyTrade.closedDate) : null;
-    closedDate = closedDate ? `${closedDate.getDate()}/${closedDate.getMonth()}/${closedDate.getFullYear()}` : null;
-    createdAt = `${createdAt.getDate()}/${createdAt.getMonth()}/${createdAt.getFullYear()}`
-    let tradeRow = {}
-    const tokenContractOut = getBep20Contract(historyTrade.tokenTo)
-    const tokenContractIn = getBep20Contract(historyTrade.tokenFrom)
-    let decimalsOut = await tokenContractOut.methods.decimals().call()
-    let currentValueUnshifted = await getBusdOut(tokenContractOut._address,historyTrade.amountOut,decimalsOut)
-    let currentPriceUnshifted = await getBusdOut(tokenContractOut._address,1,decimalsOut)
-    tradeRow.txId = historyTrade.txId;
-    tradeRow.tokenSymbol = await tokenContractOut.methods.symbol().call()
-    tradeRow.tokenSymbol = tradeRow.tokenSymbol === wbnb.symbol ? tradeRow.tokenSymbol = BNB.symbol : tradeRow.tokenSymbol;
-    tradeRow.tokenSymbolIn = await tokenContractIn.methods.symbol().call()
-    tradeRow.tokenName = await tokenContractOut.methods.name().call()
-    tradeRow.tokenName = tradeRow.tokenName === wbnb.name ? tradeRow.tokenName = BNB.name : tradeRow.tokenName
-    tradeRow.amountOut = new BigNumber(historyTrade.amountOut).toNumber().toFixed(5)
-    tradeRow.amountIn = new BigNumber(historyTrade.amountIn).toNumber().toFixed(5)
-    tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber().toFixed(2)
-    tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber()
-    tradeRow.openAt = (historyTrade.amountOut * historyTrade.priceTo).toFixed(2)
-    tradeRow.priceTo = Number(historyTrade.priceTo).toFixed(2)
-    tradeRow.pl = new BigNumber(historyTrade.amountOut * historyTrade.priceTo).minus(currentValueUnshifted).shiftedBy(-1*18).toNumber().toFixed(2) 
-    tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
-    tradeRow.tokenFrom = historyTrade.tokenFrom
-    tradeRow.tokenTo = historyTrade.tokenTo
-    tradeRow.createdAt = createdAt
-    tradeRow.closedAt = closedDate ? closedDate : "-"
-    tradeRows.push(tradeRow)  
-  
+      let createdAt = new Date(historyTrade.timestamp)
+      let closedDate = historyTrade.closedDate ? new Date(historyTrade.closedDate) : null;
+      closedDate = closedDate ? `${closedDate.getDate()}/${closedDate.getMonth()+1}/${closedDate.getFullYear()}` : null;
+      createdAt = `${createdAt.getDate()}/${createdAt.getMonth()+1}/${createdAt.getFullYear()}`
+      let createdAtForFilter = new Date(createdAt).getTime()
+      let tradeRow = {}
+      const tokenContractOut = getBep20Contract(historyTrade.tokenTo)
+      const tokenContractIn = getBep20Contract(historyTrade.tokenFrom)
+      let decimalsOut = await tokenContractOut.methods.decimals().call()
+      let currentValueUnshifted = await getBusdOut(tokenContractOut._address,historyTrade.amountOut,decimalsOut)
+      let currentPriceUnshifted = await getBusdOut(tokenContractOut._address,1,decimalsOut)
+      tradeRow.txId = historyTrade.txId;
+      tradeRow.tokenSymbol = await tokenContractOut.methods.symbol().call()
+      tradeRow.tokenSymbol = tradeRow.tokenSymbol === wbnb.symbol ? tradeRow.tokenSymbol = BNB.symbol : tradeRow.tokenSymbol;
+      tradeRow.tokenSymbolIn = await tokenContractIn.methods.symbol().call()
+      tradeRow.tokenName = await tokenContractOut.methods.name().call()
+      tradeRow.tokenName = tradeRow.tokenName === wbnb.name ? tradeRow.tokenName = BNB.name : tradeRow.tokenName
+      tradeRow.amountOut = new BigNumber(historyTrade.amountOut).toNumber().toFixed(5)
+      tradeRow.amountIn = new BigNumber(historyTrade.amountIn).toNumber().toFixed(5)
+      tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber().toFixed(2)
+      tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber()
+      tradeRow.openAt = (historyTrade.amountOut * historyTrade.priceTo).toFixed(2)
+      tradeRow.priceTo = Number(historyTrade.priceTo).toFixed(2)
+      tradeRow.pl = new BigNumber(historyTrade.amountOut * historyTrade.priceTo).minus(currentValueUnshifted).shiftedBy(-1*18).toNumber().toFixed(2) 
+      tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
+      tradeRow.tokenFrom = historyTrade.tokenFrom
+      tradeRow.tokenTo = historyTrade.tokenTo
+      tradeRow.createdAt = createdAt
+      tradeRow.createdAtForFilter = createdAtForFilter
+      tradeRow.closedAt = closedDate ? closedDate : "-"
+      tradeRows.push(tradeRow)  
+    
   })
   )
 

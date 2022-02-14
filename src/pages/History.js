@@ -10,10 +10,35 @@ import {useNavigate} from 'react-router-dom'
 import {getTier} from 'utils/walletHelpers'
 import { useWeb3React } from '@web3-react/core';
 import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
+import calendar from 'assets/icons/calendar.svg';
+import "react-modern-calendar-datepicker/lib/DatePicker.css";
+import DatePicker from "react-modern-calendar-datepicker";
+import {MONTH_LABELS_CHART} from 'config/'
+
+
+const defaultFrom = {
+  year: new Date().getFullYear(),
+  month: new Date().getMonth(),
+  day: new Date().getDate(),
+};
+const defaultTo = {
+  year: new Date().getFullYear(),
+  month: new Date().getMonth()+1,
+  day: new Date().getDate(),
+};
+const defaultValue = {
+  from: defaultFrom,
+  to: defaultTo,
+};
+
+
+
+
 const History = () => {
   const { user } = useAuthService();
   const { getTrades } = useTrade();
-  
+  const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
+  const [selectedDayRange, setSelectedDayRange] = useState(defaultValue);  
   const [tradesRows, setTradesRows] = useState([])
   const [value, setValue] = useState(0);
   const currentName = useGetFiatName();
@@ -36,7 +61,6 @@ const History = () => {
   const swapTrackerMediator = useSwapTrackerMediator(); 
   const { account } = useWeb3React();
 
-
   useLayoutEffect(()=>{
       (async()=>{
           if(account){
@@ -57,37 +81,47 @@ const History = () => {
     if(user){
       (async () => {
         let tData = await getTradesData(user['address']);
-        let rData = await getHistoryRowsData(tData);
-        let rows = [];
-        for(let i=0; i<rData.length; i++){
-          rows.push(
-            <HistoryRow key={i}
-              openDate={rData[i]?.createdAt}
-              closedDate={rData[i]?.closedAt}
-              tokenSymbol={rData[i].tokenSymbol} 
-              tokenName={rData[i].tokenName}
-              tokenSymbolIn={rData[i].tokenSymbolIn}
-              amountOut={rData[i].amountOut}
-              amountIn={rData[i].amountIn}
-              currentPrice={rData[i].currentPrice} 
-              openAt={rData[i].openAt}
-              priceTo={rData[i].priceTo}
-              currentValue={rData[i].currentValue} 
-              pl={rData[i].pl} 
-              pl_perc={rData[i].pl_perc} 
-              tokenFrom={rData[i].tokenFrom}
-              tokenTo={rData[i].tokenTo}
-              fiatSymbol={currentSymbol}
-              fiatValue={val}
-            />);
-        }
-        
-        setTradesRows(rows);
+        let rData = await getHistoryRowsData(tData);           
+        setTradesRows(rData)
+
       })();
     }
   }, [user,currentName, currentSymbol])
-  
 
+  useEffect(()=>{
+    if(selectedDayRange?.from && selectedDayRange?.to && selectedDayRange !== defaultValue){
+      let label = `${MONTH_LABELS_CHART[selectedDayRange?.from.month].toUpperCase()} ${selectedDayRange?.from.day},${selectedDayRange?.from.year.toString().substring(2,4)} - ${MONTH_LABELS_CHART[selectedDayRange?.to.month].toUpperCase()} ${selectedDayRange?.to.day},${selectedDayRange?.to.year.toString().substring(2,4)}`
+      let dateFrom = `${selectedDayRange?.from.day}/${selectedDayRange?.from.month}/${selectedDayRange?.from.year}`
+      let dateTo = `${selectedDayRange?.to.day}/${selectedDayRange?.to.month}/${selectedDayRange?.to.year}`
+      console.log(dateFrom,dateTo)
+      let dateFromInTime = new Date(dateFrom).getTime()
+      let dateToInTime = new Date(dateTo).getTime()
+      console.log(dateFromInTime,dateToInTime)
+      setSelectedDayRangeFormatted(label)
+      setTradesRows(
+        tradesRows.filter((trade)=>{
+          trade.createdAtForFilter
+          return(
+            trade.createdAtForFilter >= dateFromInTime && trade.createdAtForFilter <= dateToInTime
+          )    
+        })
+
+      )
+    }
+  },[selectedDayRange])
+  
+  const dateRangeOutput = ({ ref }) => (
+    <label className="history-date-range-output">
+        <img src={calendar}/>
+        <input
+            readOnly
+            ref={ref} // necessary
+            placeholder="Insert range date"
+            value={selectedDayRangeFormatted}
+            
+        />
+      </label>
+  )
 
     return (
         <MainContainer>
@@ -95,6 +129,14 @@ const History = () => {
         <Row>
           <Col md={12} lg={12} xs={12} className="justify-content-start">
           <h1 className="subheader-title">History</h1>
+          </Col>
+          <Col md={12} lg={12} xs={12}>
+              <DatePicker
+                value={selectedDayRange}
+                onChange={setSelectedDayRange}
+                renderInput={dateRangeOutput} // render a custom input
+                shouldHighlightWeekends
+              />
           </Col>
         </Row>
         <Row>
@@ -139,7 +181,31 @@ const History = () => {
                 </tr>
             </thead>
               <tbody>
-                {tradesRows}
+                {
+                  tradesRows.map((trade)=>{
+                    return (
+                      <HistoryRow key={trade.txId}
+                          openDate={trade?.createdAt}
+                          closedDate={trade?.closedAt}
+                          tokenSymbol={trade.tokenSymbol} 
+                          tokenName={trade.tokenName}
+                          tokenSymbolIn={trade.tokenSymbolIn}
+                          amountOut={trade.amountOut}
+                          amountIn={trade.amountIn}
+                          currentPrice={trade.currentPrice} 
+                          openAt={trade.openAt}
+                          priceTo={trade.priceTo}
+                          currentValue={trade.currentValue} 
+                          pl={trade.pl} 
+                          pl_perc={trade.pl_perc} 
+                          tokenFrom={trade.tokenFrom}
+                          tokenTo={trade.tokenTo}
+                          fiatSymbol={currentSymbol}
+                          fiatValue={value}
+                        />
+                    )
+                  })
+                }
               </tbody>
               </Table> 
             </div>
