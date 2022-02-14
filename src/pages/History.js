@@ -5,8 +5,6 @@ import { HistoryRow } from 'components/HistoryRow';
 import useAuthService from 'hooks/useAuthService'
 import useTrade from 'hooks/useTrade';
 import {getHistoryRows} from 'utils/historyHelper';
-import useAuth from 'hooks/useAuth';
-import {getTradeRows} from 'utils/dashboardHelpers';
 import { useSwapTrackerMediator } from 'hooks/useContract';
 import {useNavigate} from 'react-router-dom'
 import {getTier} from 'utils/walletHelpers'
@@ -94,7 +92,11 @@ const History = () => {
     return (
         <MainContainer>
         <>
-        <Row><h1 className="subheader-title">History</h1></Row>
+        <Row>
+          <Col md={12} lg={12} xs={12} className="justify-content-start">
+          <h1 className="subheader-title">History</h1>
+          </Col>
+        </Row>
         <Row>
         <Col md={12} lg={12} xs={12}>
 

@@ -13,6 +13,7 @@ import useRefresh from 'hooks/useRefresh';
 import { setFiatPrice } from 'store/fiat';
 import { useSelector } from 'react-redux';
 import { useGetFiatSymbol, useSetFiatSymbol, useSetFiatName, useSetFiatValues } from 'store/hooks';
+import SideBar from 'components/SideBar';
 
 
 const TopNavbar = function () {
@@ -60,8 +61,8 @@ const TopNavbar = function () {
         
         {
           (connector.connected || active) ?
-            <label className="text-muted my-auto ml-3">{getShrunkWalletAddress(account)}</label>:           
-            <Button className="ml-3" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
+          <label className="text-muted my-auto ml-3">{getShrunkWalletAddress(account)}</label>:           
+          <Button className="ml-3" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
         }
 
           <Dropdown className="ml-3">
@@ -106,6 +107,7 @@ const TopNavbar = function () {
         
         </Row>
       </nav>
+      <SideBar/>
 
       <WalletModal show={modalShow} onHide={() => setModalShow(false)}></WalletModal>
     
