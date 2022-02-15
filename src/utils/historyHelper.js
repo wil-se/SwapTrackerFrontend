@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 import useTrade from 'hooks/useTrade'
 import {WETH,ChainId } from '@pancakeswap/sdk'
 import {BNB} from 'config'
-
+import moment from 'moment'
 
 
 export const getHistoryRows = async (historyTrades) => {
@@ -12,11 +12,12 @@ export const getHistoryRows = async (historyTrades) => {
   let tradeRows = []
   await Promise.all(  
     historyTrades.map(async (historyTrade)=>{
-      let createdAt = new Date(historyTrade.timestamp)
+      let createdAt;
+      let createdAtDate = new Date(historyTrade.timestamp)
       let closedDate = historyTrade.closedDate ? new Date(historyTrade.closedDate) : null;
       closedDate = closedDate ? `${closedDate.getDate()}/${closedDate.getMonth()+1}/${closedDate.getFullYear()}` : null;
-      createdAt = `${createdAt.getDate()}/${createdAt.getMonth()+1}/${createdAt.getFullYear()}`
-      let createdAtForFilter = new Date(createdAt).getTime()
+      createdAt = `${createdAtDate.getDate()}/${createdAtDate.getMonth()+1}/${createdAtDate.getFullYear()}`
+      let createdAtForFilter = moment(`${createdAtDate.getDate()}/${createdAtDate.getMonth()}/${createdAtDate.getFullYear()}`).unix()
       let tradeRow = {}
       const tokenContractOut = getBep20Contract(historyTrade.tokenTo)
       const tokenContractIn = getBep20Contract(historyTrade.tokenFrom)
