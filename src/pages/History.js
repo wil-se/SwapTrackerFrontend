@@ -14,6 +14,8 @@ import calendar from 'assets/icons/calendar.svg';
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker from "react-modern-calendar-datepicker";
 import {MONTH_LABELS_CHART} from 'config/'
+import moment from 'moment'
+import Skeleton from 'react-loading-skeleton';
 
 
 const defaultFrom = {
@@ -93,16 +95,16 @@ const History = () => {
       let label = `${MONTH_LABELS_CHART[selectedDayRange?.from.month].toUpperCase()} ${selectedDayRange?.from.day},${selectedDayRange?.from.year.toString().substring(2,4)} - ${MONTH_LABELS_CHART[selectedDayRange?.to.month].toUpperCase()} ${selectedDayRange?.to.day},${selectedDayRange?.to.year.toString().substring(2,4)}`
       let dateFrom = `${selectedDayRange?.from.day}/${selectedDayRange?.from.month}/${selectedDayRange?.from.year}`
       let dateTo = `${selectedDayRange?.to.day}/${selectedDayRange?.to.month}/${selectedDayRange?.to.year}`
-      console.log(dateFrom,dateTo)
-      let dateFromInTime = new Date(dateFrom).getTime()
-      let dateToInTime = new Date(dateTo).getTime()
-      console.log(dateFromInTime,dateToInTime)
+      selectedDayRange.from.month = selectedDayRange.from.month -1 
+      selectedDayRange.to.month = selectedDayRange.to.month -1 
+      let dateFromMoment = moment(selectedDayRange.from).unix()
+      let dateToMoment = moment(selectedDayRange.to).unix()
       setSelectedDayRangeFormatted(label)
       setTradesRows(
         tradesRows.filter((trade)=>{
-          trade.createdAtForFilter
+          console.log(trade.createdAtForFilter, dateFromMoment, dateToMoment)
           return(
-            trade.createdAtForFilter >= dateFromInTime && trade.createdAtForFilter <= dateToInTime
+            trade.createdAtForFilter >= dateFromMoment && trade.createdAtForFilter <= dateToMoment
           )    
         })
 
@@ -180,6 +182,29 @@ const History = () => {
                   </th>
                 </tr>
             </thead>
+            {tradesRows.length < 1 ?
+              <tbody >
+              <tr className="text-center on-center justify-between">
+              <Skeleton duration="5" width="110px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="110px" height="32px"/>
+              </tr >
+              <tr className="text-center on-center justify-between">
+              <Skeleton duration="5" width="110px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="110px" height="32px"/>
+              </tr >
+              <tr className="text-center on-center justify-between">
+              <Skeleton duration="5" width="110px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="110px" height="32px"/>
+              </tr >
+              <tr className="text-center on-center" >
+              <Skeleton duration="5" width="110px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="110px" height="32px"/>
+              </tr >
+              <tr className="text-center on-center" >
+              <Skeleton duration="5" width="110px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="110px" height="32px"/>
+              </tr >
+              <tr className="text-center on-center" >
+              <Skeleton duration="5" width="110px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="110px" height="32px"/>
+              </tr >
+
+              </tbody>
+              :
               <tbody>
                 {
                   tradesRows.map((trade)=>{
@@ -207,6 +232,7 @@ const History = () => {
                   })
                 }
               </tbody>
+            }
               </Table> 
             </div>
           </Card>

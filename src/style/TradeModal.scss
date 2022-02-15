@@ -1,8 +1,13 @@
 .trade-modal-container{
-    position:relative;
+    position:absolute;
     display:flex;
     justify-content:center;
-    bottom:604px;
+    align-items: center;
+    right:15%;
+    @media only screen and (max-width:800px){
+        right:5%;
+
+    }
     .trade-modal-card{
         display:flex;
         flex-direction: column;
@@ -15,7 +20,7 @@
         .trade-modal-close-icon{
             cursor:pointer;
             position:absolute;
-            right:90px;
+            right:5%;
             margin-top: 10px;
         }
 
@@ -102,10 +107,15 @@
 }
 
 .trade-modal-settings-container{
-    position:relative;
+    position:absolute;
     display:flex;
     justify-content:center;
-    bottom:604px;
+    align-items: center;
+    right:15%;
+    @media only screen and (max-width:800px){
+        right:5%;
+
+    }
     .trade-modal-settings-card{
         width:356px;
         height:400px;
