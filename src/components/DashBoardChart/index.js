@@ -39,7 +39,12 @@ const DashBoardChart = ({tier}) => {
       if(user.balanceOverview){ 
         user.balanceOverview.map((singleBalanceOverview)=>{
           let date = new Date(Object.keys(singleBalanceOverview))
-          
+          if(selectedDayRange === defaultValue){
+            let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
+            labelList.push(label)
+            dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+            return;
+          }
           if(dateFilterArray && (date >= dateFilterArray[0] && date <= dateFilterArray[1])){
             let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
             labelList.push(label)
