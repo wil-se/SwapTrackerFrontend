@@ -36,6 +36,7 @@ const DashBoardChart = ({tier}) => {
       if(selectedDayRange){ dateFilterArray = getDatesFromRange(selectedDayRange) } 
       let labelList = []
       let dataList = []
+      console.log("lo user ", user)
       if(user.balanceOverview){ 
         user.balanceOverview.map((singleBalanceOverview)=>{
           let date = new Date(Object.keys(singleBalanceOverview))
