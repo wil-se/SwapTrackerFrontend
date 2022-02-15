@@ -65,13 +65,12 @@ export const getWalletTVL = async (user,web3,chainId) => {
             let tokenContract = getBep20Contract(String(tokenAddress).toLocaleLowerCase(),web3)
             let bal = await getTokenBalance(tokenContract,user)
             // console.log("sono nel for", bnbBalance)
-            tvl += Number(bnbBalance);
             if(bal>0){
                 tvl += Number(bal);
-                
             }
         })
     )
+    tvl += Number(bnbBalance);
     return tvl;
 }
 
