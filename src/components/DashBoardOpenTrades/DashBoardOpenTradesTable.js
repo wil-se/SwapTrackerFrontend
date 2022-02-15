@@ -17,16 +17,16 @@ const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue}) => {
             {openedTrades.length < 1 ?
             <tbody >
             <tr className="text-center on-center justify-between">
-            <Skeleton duration="5" width="110px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="110px" height="32px"/>
+            <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
             </tr >
             <tr className="text-center on-center justify-between">
-            <Skeleton duration="5" width="110px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="110px" height="32px"/>
+            <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
             </tr >
             <tr className="text-center on-center justify-between">
-            <Skeleton duration="5" width="110px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="110px" height="32px"/>
+            <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
             </tr >
             <tr className="text-center on-center" >
-            <Skeleton duration="5" width="110px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="110px" height="32px"/>
+            <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
             </tr >
 
             </tbody>
