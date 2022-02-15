@@ -134,11 +134,11 @@ const TradeMainCard = ({tier}) => {
         if(tokenSelectedIn.symbol !== BNB.symbol && tokenSelectedIn.symbol !== WBNB.symbol){
             const balanceTokenIn = await erc20Contract.methods.balanceOf(account).call()
             const decimals = await erc20Contract.methods.decimals().call()
-            let amountInFormatted = new BigNumber(balanceTokenIn).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(6)
+            let amountInFormatted = new BigNumber(balanceTokenIn).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(7)
             if(balanceTokenIn>0){
                 let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceTokenIn,path).call().catch((e)=>console.log(e))
                 console.log(amOut,path)
-                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(6);
+                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(7);
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
                 amountOutFormatted.replace(',','.')
@@ -151,24 +151,24 @@ const TradeMainCard = ({tier}) => {
         }
         else if(tokenSelectedOut.symbol === WBNB.symbol && tokenSelectedIn.symbol === BNB.symbol){
             const balanceNativeIn = await web3.eth.getBalance(account)
-            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(6)
+            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(7)
             setAmountIn(Number(amountInFormatted))
             setAmountOut(Number(amountInFormatted))
             setDisabledButton(false)
         }
         else if(tokenSelectedOut.symbol === BNB.symbol && tokenSelectedIn.symbol === WBNB.symbol){
             const balanceWNativeIn = await erc20Contract.methods.balanceOf(account).call()
-            let amountInFormatted = new BigNumber(balanceWNativeIn).shiftedBy(-1*18).toNumber().toFixed(6)
+            let amountInFormatted = new BigNumber(balanceWNativeIn).shiftedBy(-1*18).toNumber().toFixed(7)
             setAmountIn(Number(amountInFormatted))
             setAmountOut(Number(amountInFormatted))
             setDisabledButton(false)
         }
         else {
             const balanceNativeIn = await web3.eth.getBalance(account)
-            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(6)
+            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(7)
             if(balanceNativeIn>0){
                 let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceNativeIn,path).call().catch((e)=>console.log(e))
-                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(6);
+                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(7);
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
                 amountOutFormatted.replace(',','.')
