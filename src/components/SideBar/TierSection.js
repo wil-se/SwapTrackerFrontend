@@ -30,7 +30,7 @@ const TierSection = ({tier}) => {
                     </h1>
                 </div>
             )
-            :
+            : tier === 0 ?
             (
                 <div className="tierSubSection">
                     <img src={tierPro} width="20px" height="20px"/>
@@ -39,6 +39,8 @@ const TierSection = ({tier}) => {
                     </h1>
                 </div>
             )
+            :
+            (<></>  )
 
           }  
         </>

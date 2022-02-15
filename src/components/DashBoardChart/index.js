@@ -70,6 +70,7 @@ const DashBoardChart = ({tier}) => {
     
     useEffect(()=>{
       if(!tier || tier === 1000){
+        console.log("vediamo qui il tier ", tier)
         return;
       }
       else if(tier !== 1000 && selectedDayRange === defaultValue && user){
