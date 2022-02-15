@@ -89,6 +89,6 @@ export const getTradeRows = async (openedTrades) => {
 
       })
   )
-  console.log("vediamo ", tradeRows)
+  
     return tradeRows;
 }
