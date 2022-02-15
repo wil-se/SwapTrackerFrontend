@@ -3,10 +3,9 @@
     display:flex;
     justify-content:center;
     align-items: center;
-    right: calc(50% - 31px);
+    left: calc(50% - 31px);
     @media only screen and (max-width:800px){
         right:5%;
-
     }
     .trade-modal-card{
         display:flex;
@@ -111,7 +110,7 @@
     display:flex;
     justify-content:center;
     align-items: center;
-    right:15%;
+    left: calc(50% - 31px);
     @media only screen and (max-width:800px){
         right:5%;
 
