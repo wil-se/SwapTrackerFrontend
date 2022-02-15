@@ -43,18 +43,21 @@ const DashBoardChart = ({tier}) => {
             let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
             labelList.push(label)
             dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+            console.log("vediamo il chart data", singleBalanceOverview[Object.keys(singleBalanceOverview)])
             return;
           }
           if(dateFilterArray && (date >= dateFilterArray[0] && date <= dateFilterArray[1])){
             let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
             labelList.push(label)
             dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+            console.log("vediamo il chart data", singleBalanceOverview[Object.keys(singleBalanceOverview)])
       
           }
           else if(!dateFilterArray){
             let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
             labelList.push(label)
             dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+            console.log("vediamo il chart data ", singleBalanceOverview[Object.keys(singleBalanceOverview)])
           }
       
         })
