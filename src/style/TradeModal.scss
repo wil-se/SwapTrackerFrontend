@@ -3,7 +3,7 @@
     display:flex;
     justify-content:center;
     align-items: center;
-    right:15%;
+    right: calc(50% - 31px);
     @media only screen and (max-width:800px){
         right:5%;
 
