@@ -4,6 +4,7 @@ import tierStarter from 'assets/icons/tier-starter.png';
 import tierAdvanced from 'assets/icons/tier-advanced.png';
 import tierPro from 'assets/icons/tier-pro.png';
 const TierSection = ({tier}) => {
+    console.log("tier ", tier)
     return (  
         <>
           {
