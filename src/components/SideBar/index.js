@@ -17,6 +17,8 @@ import TierSection from './TierSection';
 import { useSwapTrackerMediator } from 'hooks/useContract';
 import {useNavigate} from 'react-router-dom'
 import {getTier} from 'utils/walletHelpers'
+import { useLocation } from "react-router-dom";
+
 
 const SideBar = () => {
     useEagerConnect();
@@ -34,6 +36,10 @@ const SideBar = () => {
     const getShrunkWalletAddress = (addr) => {
         return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
     }
+
+    const location = useLocation();
+    const { pathname } = location;
+    const splitLocation = pathname.split("/");
 
     useEffect(() =>{
        
@@ -84,37 +90,37 @@ const SideBar = () => {
                     </Row>
                     <div className="menu">
                         <Row className="menu-item" onClick={closeSideBar}>
-                            <Link to="dashboard" className="link" >
+                            <Link to="dashboard" className={splitLocation[1] === "dashboard" ? "link active-link" : "link"}>
                                 <Icon.HouseDoor/>
                                 Dashboard
                             </Link>
                         </Row>
                         <Row className="menu-item" onClick={closeSideBar}>
-                            <Link to="wallet" className="link">
+                            <Link to="wallet" className={splitLocation[1] === "wallet" ? "link active-link" : "link"}>
                                 <Icon.CreditCard2Back/>
                                 Wallet
                             </Link>
                         </Row>
                         <Row className="menu-item" onClick={closeSideBar}>
-                            <Link to="history" className="link">
+                            <Link to="history" className={splitLocation[1] === "history" ? "link active-link" : "link"}>
                                 <Icon.ClockHistory/>
                                 History
                             </Link>
                         </Row>
                         <Row className="menu-item" onClick={closeSideBar}>
-                            <Link to="trade" className="link">
+                            <Link to="trade" className={splitLocation[1] === "trade" ? "link active-link" : "link"}>
                                 <Icon.CurrencyExchange/>
                                 Trade
                             </Link>
                         </Row>
                         <Row className="menu-item" onClick={closeSideBar}>
-                            <Link to="staking" className="link">
+                            <Link to="staking" className={splitLocation[1] === "staking" ? "link active-link" : "link"}>
                                 <Icon.Stack/>
                                 Staking
                             </Link>
                         </Row>
                         <Row className="menu-item" onClick={closeSideBar}>
-                            <Link to="tiers" className="link">
+                            <Link to="tiers" className={splitLocation[1] === "tiers" ? "link active-link" : "link"}>
                                 <Icon.LightningCharge/>
                                 Tiers
                             </Link>
