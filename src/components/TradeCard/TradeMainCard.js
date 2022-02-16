@@ -16,7 +16,7 @@ import useNotification from 'hooks/useNotification'
 import useTrade from 'hooks/useTrade';
 import useWeb3 from 'hooks/useWeb3';
 import {useLocation } from 'react-router-dom'
-import {BNB,WBNB} from 'config'
+import {BNB,WBNB,SWPTPre} from 'config'
 import { Col, Row,Card } from 'react-bootstrap';
 
 
@@ -31,18 +31,16 @@ const TradeMainCard = ({tier}) => {
     const [openTokenListModalIn,setOpenTokenListModalIn] = useState(false)
     const [openTokenListModalOut,setOpenTokenListModalOut] = useState(false)
     const [tokenSelectedIn,setTokenSelectedIn] = useState(BNB)
-    const [tokenSelectedOut,setTokenSelectedOut] = useState()
+    const [tokenSelectedOut,setTokenSelectedOut] = useState(SWPTPre)
     const [allowanceTokenIn,setAllowanceTokenIn] = useState(0)
     const [slippageAmount,setSlippageAmount] = useState(5.0)
     const [deadlineAmount,setDeadlineAmount] = useState(20)
     const [disabledButton,setDisabledButton] = useState(true)
-    const [disabledInput,setDisabledInput] = useState(true)
+    const [disabledInput,setDisabledInput] = useState(false)
     const path = useSwapInfo(tokenSelectedIn,tokenSelectedOut)
     const {wrap,unWrap,isWrap} = useWrap(tokenSelectedIn,tokenSelectedOut) 
     const erc20Contract = useERC20(tokenSelectedIn?.address)
-    const erc20ContractOut = useERC20(tokenSelectedOut?.address)
     const swapTrackerMediator = useSwapTrackerMediator()
-    const wbnbContract = useWBNBContract()
     const {getNotification} = useNotification()
     const {setTrade,getTokenSelected} = useTrade()
 

@@ -128,11 +128,9 @@ const History = () => {
     return (
         <MainContainer>
         <>
-        <Row>
+        <Row class="d-flex ">
           <Col md={12} lg={12} xs={12} className="justify-content-start">
           <h1 className="subheader-title">History</h1>
-          </Col>
-          <Col md={12} lg={12} xs={12}>
               <DatePicker
                 value={selectedDayRange}
                 onChange={setSelectedDayRange}
@@ -140,6 +138,8 @@ const History = () => {
                 shouldHighlightWeekends
               />
           </Col>
+          
+         
         </Row>
         <Row>
         <Col md={12} lg={12} xs={12}>
@@ -182,7 +182,7 @@ const History = () => {
                   </th>
                 </tr>
             </thead>
-            {tradesRows.length < 1 ?
+            {tradesRows.length < 1 && selectedDayRange === defaultValue ?
               <tbody >
                 <tr className="text-center on-center justify-between">
                     <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
@@ -209,6 +209,12 @@ const History = () => {
                     <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
                 </tr >
 
+              </tbody>
+              : tradesRows.length < 1 && selectedDayRange !== defaultValue ? 
+              <tbody>
+                <div className="dashboard-card-chart-no-data">
+                      <h4>No trades for this period</h4>
+                </div>
               </tbody>
               :
               <tbody>
