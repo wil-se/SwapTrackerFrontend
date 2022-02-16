@@ -21,6 +21,7 @@ import ArrowExpandModal from '../../assets/icons/expand.png'
 import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 import {BNB} from 'config'
+import { useGetFiatDecimals } from 'store/hooks';
 
 export function CoinInfo(props) {
   
@@ -52,6 +53,8 @@ export function CoinInfo(props) {
 
   const currentSymbol = useGetFiatSymbol();
 
+  const currentDecimals = useGetFiatDecimals();
+
   let navigation = useNavigate()
   const closeTrade = (tokenIn,tokenOut) => {
     console.log(tokenIn,tokenOut)
@@ -82,14 +85,14 @@ export function CoinInfo(props) {
               
             <Col md={3} xs={6} className="pt-3">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>holdings</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(props.holdingValue*value).toFixed(2)}</span>
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(props.holdingValue*value).toFixed(currentDecimals)}</span>
               <span className="text-decoration-none" style={{color: "#8DA0B0", fontSize: 11}}>CURRENT PRICE</span>
-              <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(price*value).toFixed(2)}</h5> 
+              <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(price*value).toFixed(currentDecimals)}</h5> 
             </Col>
 
             <Col md={3} xs={5} className="border-left border-1 pt-3 pr-0 text-center text-md-left">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>{props.symbol}</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {props.holding.toFixed(4)}</span> 
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {props.holding.toFixed(currentDecimals)}</span> 
               <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
               <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
             </Col>

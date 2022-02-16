@@ -15,6 +15,7 @@ import { WalletOverviewOtherInfo } from 'components/WalletOverviewOtherInfo';
 import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
 import BigNumber from 'bignumber.js';
 import Skeleton from 'react-loading-skeleton';
+import { useGetFiatDecimals } from 'store/hooks';
 
 
 
@@ -156,6 +157,8 @@ export function WalletOverview(){
   const currentSymbol = useGetFiatSymbol();
   //console.log("Symbol: ", currentSymbol);
 
+  const currentDecimals = useGetFiatDecimals();
+
   useEffect(() => {
     if(user && chainId){
       getWlltTVL()
@@ -195,7 +198,7 @@ export function WalletOverview(){
                           <h6 style={{fontStyle: "normal", fontWeight: 800, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
                       </Row>
                       <Row className="pl-4">
-                          <h1 style={{fontSize: 48, fontWeight: 900}}> {currentSymbol} {(walletTVL*price).toFixed(2)} </h1>
+                          <h1 style={{fontSize: 48, fontWeight: 900}}> {currentSymbol} {(walletTVL*price).toFixed(currentDecimals)} </h1>
                       </Row>
                       <Row className="pl-4">
                           <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>{walletTVLBNB.toFixed(4)} BNB</h6>
