@@ -33,10 +33,10 @@ export const getHistoryRows = async (historyTrades) => {
       tradeRow.amountOut = new BigNumber(historyTrade.amountOut).toNumber().toFixed(5)
       tradeRow.amountIn = new BigNumber(historyTrade.amountIn).toNumber().toFixed(5)
       tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber().toFixed(2)
-      tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber()
+      tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber().toFixed(3)
       tradeRow.openAt = (historyTrade.amountOut * historyTrade.priceTo).toFixed(2)
       tradeRow.priceTo = Number(historyTrade.priceTo).toFixed(2)
-      tradeRow.pl = new BigNumber(Number(tradeRow.currentValue)).minus(Number(historyTrade.openAt)).toNumber() 
+      tradeRow.pl = new BigNumber(Number(tradeRow.currentValue)).minus(Number(tradeRow.openAt)).toNumber() 
       tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
       tradeRow.tokenFrom = historyTrade.tokenFrom
       tradeRow.tokenTo = historyTrade.tokenTo
