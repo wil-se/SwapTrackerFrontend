@@ -31,13 +31,13 @@ export const getHistoryRows = async (historyTrades) => {
       tradeRow.tokenName = await tokenContractOut.methods.name().call()
       tradeRow.tokenName = tradeRow.tokenName === wbnb.name ? tradeRow.tokenName = BNB.name : tradeRow.tokenName
       tradeRow.amountOut = new BigNumber(historyTrade.amountOut).toNumber().toFixed(5)
-      tradeRow.amountIn = new BigNumber(historyTrade.amountIn).toNumber().toFixed(5)
       tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber().toFixed(2)
       tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber().toFixed(3)
-      tradeRow.openAt = (historyTrade.amountOut * historyTrade.priceTo).toFixed(2)
-      tradeRow.priceTo = Number(historyTrade.priceTo).toFixed(2)
-      tradeRow.pl = new BigNumber(Number(tradeRow.currentValue)).minus(Number(tradeRow.openAt)).toNumber() 
-      tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(tradeRow.openAt))/Number(tradeRow.openAt)*100).toFixed(2)
+      tradeRow.amountIn = historyTrade.amountIn
+      tradeRow.openAt = historyTrade.openAt
+      tradeRow.priceTo = historyTrade.priceTo
+      tradeRow.pl = new BigNumber(Number(tradeRow.currentValue)).minus(Number(historyTrade.openAt)).toNumber() 
+      tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(historyTrade.openAt))/Number(historyTrade.openAt)*100).toFixed(2)
       tradeRow.tokenFrom = historyTrade.tokenFrom
       tradeRow.tokenTo = historyTrade.tokenTo
       tradeRow.createdAt = createdAt
