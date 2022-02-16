@@ -28,7 +28,7 @@ const Dashboard = () => {
     const [openTradeValue,setOpenTradeValue] = useState(0)
     const [openedTrades,setOpenedTrades] = useState([])
     const [tier,setTier] = useState(0)
-    const [openedTradesLength,setOpenedTradesLength] = useState(0)
+    const [tradesFinded,setTradesFinded] = useState(false)
 
     const [value, setValue] = useState(0);
     const currentName = useGetFiatName();
@@ -79,7 +79,8 @@ const Dashboard = () => {
         let dashBoardData = await getDashboardData(user?.address)
         let tradeRow = await getTradeRows(dashBoardData?.openedTrades)
         setOpenTradeValue(Number(dashBoardData?.totalOpenTradesValue).toFixed(2))
-        setOpenedTradesLength(Array(dashBoardData?.openedTrades).length)
+    
+        tradeRow.length > 0 && setTradesFinded(true)
         setOpenedTrades(tradeRow)
         
     }
@@ -137,7 +138,7 @@ const Dashboard = () => {
             <DashBoardChart tier={tier}/>
             <Row className="pt-3">
                 <Col md={12} lg={12} xs={12}>
-                    <DashBoardOpenTrades fiatSymbol={currentSymbol} fiatValue={value} openedTrades={openedTrades} openedTradesLength={openedTradesLength}/>
+                    <DashBoardOpenTrades fiatSymbol={currentSymbol} fiatValue={value} openedTrades={openedTrades} tradesFinded={tradesFinded} />
                 </Col>
             </Row>
         </MainContainer>

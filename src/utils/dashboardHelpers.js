@@ -75,14 +75,14 @@ export const getTradeRows = async (openedTrades) => {
         tradeRow.tokenSymbolIn = tradeRow.tokenSymbolIn === wbnb.symbol ? tradeRow.tokenSymbolIn = BNB.symbol : tradeRow.tokenSymbolIn
         tradeRow.tokenName = await tokenContractOut.methods.name().call()
         tradeRow.tokenName = tradeRow.tokenName === wbnb.name ? tradeRow.tokenName = BNB.name : tradeRow.tokenName
-        tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber().toFixed(2)
-        tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber().toFixed(3)
-        tradeRow.amountOut = new BigNumber(openedTrade.amountOut).toNumber().toFixed(5)
+        tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber()
+        tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber()
+        tradeRow.amountOut = new BigNumber(openedTrade.amountOut).toNumber()
         tradeRow.amountIn = openedTrade.amountIn
         tradeRow.openAt = openedTrade.openAt
         tradeRow.priceTo = openedTrade.priceTo
         tradeRow.pl = new BigNumber(Number(tradeRow.currentValue)).minus(Number(openedTrade.openAt)).toNumber() 
-        tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(openedTrade.openAt))/Number(openedTrade.openAt)*100).toFixed(2)
+        tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(openedTrade.openAt))/Number(openedTrade.openAt)*100)
         tradeRow.tokenFrom = openedTrade.tokenFrom
         tradeRow.tokenTo = openedTrade.tokenTo
         tradeRows.push(tradeRow)

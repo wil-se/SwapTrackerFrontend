@@ -58,11 +58,11 @@ const DashboardOpenTradesTableRow = ({tokenSymbol,tokenSymbolIn,tokenName,pl,pl_
           <th className="text-center on-center">
             {Math.sign(pl_perc)=== -1?
               <div className="dashboard-pl-negative">
-                {pl_perc}%
+                {Number(pl_perc).toFixed(3)}%
               </div>
               :
               <div className="dashboard-pl-positive">
-                {pl_perc}%
+                {Number(pl_perc).toFixed(3)}%
               </div>
           
             }
