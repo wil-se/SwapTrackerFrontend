@@ -13,6 +13,7 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
     const [classNames,setClassNames] = useState("header-card-value text-nowrap")
     
     useEffect(()=>{
+        
         let profitOrLossFixed = (profitOrLoss*fiatValue).toFixed(3)
       Math.sign(profitOrLoss) === -1 
       ? 

@@ -49,5 +49,6 @@ export const BNB = {decimals:18,name:"BNB",symbol:"BNB",projectLink:"https://s2.
 export const BUSD = {decimals:18,name:"Binance USD",symbol:"BUSD",logoURI:CryptoIcons.default['_busd'], address:"0xe9e7cea3dedca5984780bafc599bd69add087d56"}
 export const USDT = {decimals:18,name:"Tether USD",symbol:"USDT",logoURI:CryptoIcons.default['_usdt'],address:"0x55d398326f99059fF775485246999027B3197955"}
 export const SWPT = {decimals:18,name:"Swaptracker",symbol:"SWPT",logoURI:CryptoIcons.default['_swpt'],address:"0x01832e3346fd3a0d38ca589d836bd78d1de7030c"}
+export const SWPTPre = {decimals:18,name:"Swaptracker",symbol:"SWPT",projectLink:CryptoIcons.default['_swpt'],address:"0x01832e3346fd3a0d38ca589d836bd78d1de7030c"}
 export const WETH = {decimals:18,name:"Wrapped Ethereum",symbol:"WETH",logoURI:CryptoIcons.default['_eth'],address:"0x1bC13131a9EFa06dd25dB9B024fbD9606a93c5B3"}
 export const WBNB = {decimals:18,name:"Wrapped BNB",symbol:"WBNB",projectLink:"https://s2.coinmarketcap.com/static/img/coins/200x200/1839.png",address:"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"}
