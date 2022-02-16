@@ -214,31 +214,52 @@ export function WalletOverview(){
                     <div>
                       <Row>
                         <Col className="m-2">
-                          <WalletOverviewCoinInfo coin={coin0} />
+                          {
+                            coin0.symbol !== "" ?
+                          <WalletOverviewCoinInfo coin={coin0} /> :
+                            ""
+                          }
+                          
                         </Col>
                         <Col className="m-2">
-                          <WalletOverviewCoinInfo coin={coin1} />
+                          {
+                            coin1.symbol !== "" ?
+                          <WalletOverviewCoinInfo coin={coin1} /> :
+                          ""
+                          }
                         </Col>
                       </Row>
                       <Row>
                           <Col className="m-2">
-                            <WalletOverviewCoinInfo coin={coin2} />
+                            {
+                              coin2.symbol !== "" ?
+                            <WalletOverviewCoinInfo coin={coin2} /> :
+                            ""
+                            }
                           </Col>
                           <Col className="m-2">
-                            <WalletOverviewCoinInfo coin={coin3} />
+                            {
+                              coin3.symbol !== "" ?
+                            <WalletOverviewCoinInfo coin={coin3} /> :
+                            ""
+                            }
                           </Col>
                       </Row>
                       <Row>
                           <Col className="m-2">
-                            <WalletOverviewCoinInfo coin={coin4} />
-                          </Col>
-                          <Col className="m-2" style={{border: "1px solid #ACD8E6", borderRadius: 10}}>
                             {
-                              coin4.symbol === "" ?
-                              "" :
-                              <WalletOverviewOtherInfo otherPerc={other} />
+                              coin4.symbol !== "" ?
+                            <WalletOverviewCoinInfo coin={coin4} /> :
+                            ""
                             }
                           </Col>
+                            {
+                              Number(other) === 0 ?
+                              "" :
+                          <Col className="m-2" style={{border: "1px solid #ACD8E6", borderRadius: 10}}>
+                              <WalletOverviewOtherInfo otherPerc={other} />
+                          </Col>
+                            }
                       </Row>
                     </div>
                   </Col>
