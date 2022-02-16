@@ -52,6 +52,10 @@ export function CoinInfo(props) {
 
   const currentSymbol = useGetFiatSymbol();
 
+  let navigation = useNavigate()
+  const closeTrade = (tokenIn,tokenOut) => {
+    navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut}})
+  }
 
   useEffect(() => {
     getCoingeckoStats();
@@ -61,10 +65,6 @@ export function CoinInfo(props) {
       }
     }
   }, [currentName, currentValues, currentSymbol])
-
-  const closeTrade = (tokenIn,tokenOut) => {
-    /*navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut}})*/
-  }
 
   return(
       <Card className="wallet-overview-card" style={{marginBottom: 20}}>
@@ -94,7 +94,7 @@ export function CoinInfo(props) {
             </Col>
             <Col md={4} xs={7} className="pt-3 pl-0 align-items-md-start align-items-center float-right text-right">
               
-                <Button className="pt-1 pb-1 mb-3 mr-4" style={{fontSize: 12}} onClick={()=>closeTrade('token_from','token_to')}>
+                <Button className="pt-1 pb-1 mb-3 mr-4" style={{fontSize: 12}} onClick={()=>closeTrade("props.address", "0xADDRESSWBNB")}>
                   CLOSE TRADE
                 </Button>
 

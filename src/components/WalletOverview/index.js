@@ -253,13 +253,13 @@ export function WalletOverview(){
                             ""
                             }
                           </Col>
-                          <Col className="m-2" style={{border: "1px solid #ACD8E6", borderRadius: 10}}>
                             {
-                              other === 0 ?
+                              Number(other) === 0 ?
                               "" :
+                          <Col className="m-2" style={{border: "1px solid #ACD8E6", borderRadius: 10}}>
                               <WalletOverviewOtherInfo otherPerc={other} />
-                            }
                           </Col>
+                            }
                       </Row>
                     </div>
                   </Col>
