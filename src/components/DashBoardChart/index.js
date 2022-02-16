@@ -56,6 +56,7 @@ const DashBoardChart = ({tier}) => {
           }
           else if(!dateFilterArray){
             let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
+            
             labelList.push(label)
             dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
            
@@ -63,6 +64,8 @@ const DashBoardChart = ({tier}) => {
       
         })
       }
+      labelList.unshift("0")
+      dataList.unshift("0")
       setLabelList(labelList)
       setDataList(dataList)
       
