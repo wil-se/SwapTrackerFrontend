@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import MainContainer from 'components/MainContainer'
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, Button } from 'react-bootstrap';
 import Stack0 from '../assets/icons/stack0.png';
 import Stack1 from '../assets/icons/stack1.png';
 import Stack2 from '../assets/icons/stack2.png';
@@ -36,7 +36,10 @@ const Tier = () => {
         <MainContainer>
         <>
           <h1 className="subheader-title">Tiers</h1>
-          <p className='mb-5' style={{color: "#8DA0B0", fontWeight: 800}}>Unlock one of the tiers to start using SwapTracker</p>
+          <div className="d-flex flex-row mb-5 align-center">
+          <p className='' style={{color: "#8DA0B0", fontWeight: 800,marginRight:"10px"}}>Connect your wallet to use SwapTracker, you need SWPT tokens in your wallet in order to use all the features.</p>
+          <Button className="d-flex align-center"onClick={()=>window.open("https://pancakeswap.finance/swap?outputCurrency=0x01832e3346fd3a0d38ca589d836bd78d1de7030c")}>BUY SWPT</Button>
+          </div>
           <Row className="pl-md-100 pr-md-100 pt-md-50">
             <Col md={4}>
               <Card className={`mb-5 text-center card-no-border ${isStarted ? "tier-card-active" : ""}`} style={{padding: 25}}>
