@@ -40,7 +40,7 @@ export function CoinInfoList(){
     for (let i=0; i<dst.length; i++) {
       wlltDistList.push(
         <Col key={i} xs={12} md={6} className="px-3">
-          <CoinInfo key={i} setChartKeyFunction={setChartKey} setCurrentSymbol={setCurrentSymbol} setModalShowFunction={setModalShow} holding={dst[i][1][2]} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} />
+          <CoinInfo key={i} setChartKeyFunction={setChartKey} setCurrentSymbol={setCurrentSymbol} setModalShowFunction={setModalShow} holding={dst[i][1][2]} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} tokenAddress={dst[i][1][4]} />
         </Col>
       )
     }

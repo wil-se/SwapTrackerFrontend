@@ -47,8 +47,8 @@ export const walletDistribution = async (user,walletTVL,web3,chainId) => {
             let bnbFlatBalance = await getBNBFlatBalance(web3,user)
             let symbol = await tokenContract.methods.symbol().call()
             if(singleBalance > 0.000001 ){
-                balance[tokenAddress] = [singleTokenBusdBalance / walletTVL *100,parseFloat(singleTokenBusdBalance),parseFloat(singleBalance), symbol];
-                balance["bnb"] = [bnbBusdBalance / walletTVL*100,parseFloat(bnbBusdBalance),parseFloat(bnbFlatBalance),BNB.symbol]
+                balance[tokenAddress] = [singleTokenBusdBalance / walletTVL *100,parseFloat(singleTokenBusdBalance),parseFloat(singleBalance), symbol,String(tokenAddress).toLocaleLowerCase()];
+                balance["bnb"] = [bnbBusdBalance / walletTVL*100,parseFloat(bnbBusdBalance),parseFloat(bnbFlatBalance),BNB.symbol,String(tokenAddress).toLocaleLowerCase()]
             }
             
         })

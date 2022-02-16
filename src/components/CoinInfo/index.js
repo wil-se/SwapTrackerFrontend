@@ -20,7 +20,7 @@ import {useNavigate} from 'react-router-dom'
 import ArrowExpandModal from '../../assets/icons/expand.png'
 import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
-
+import {BNB} from 'config'
 
 export function CoinInfo(props) {
   
@@ -54,6 +54,7 @@ export function CoinInfo(props) {
 
   let navigation = useNavigate()
   const closeTrade = (tokenIn,tokenOut) => {
+    console.log(tokenIn,tokenOut)
     navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut}})
   }
 
@@ -94,7 +95,7 @@ export function CoinInfo(props) {
             </Col>
             <Col md={4} xs={7} className="pt-3 pl-0 align-items-md-start align-items-center float-right text-right">
               
-                <Button className="pt-1 pb-1 mb-3 mr-4" style={{fontSize: 12}} onClick={()=>closeTrade("props.address", "0xADDRESSWBNB")}>
+                <Button className="pt-1 pb-1 mb-3 mr-4" style={{fontSize: 12}} onClick={()=>closeTrade(props.tokenAddress,BNB.address )}>
                   CLOSE TRADE
                 </Button>
 
@@ -131,4 +132,5 @@ CoinInfo.propTypes = {
   holding: PropTypes.number,
   setChartKeyFunction: PropTypes.func,
   setCurrentSymbol :PropTypes.func,
+  tokenAddress: PropTypes.string
 };
