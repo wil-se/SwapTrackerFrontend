@@ -43,8 +43,8 @@ export function CoinInfoList(){
             setChartKeyFunction={setChartKey} 
             setCurrentSymbol={setCurrentSymbol} 
             setModalShowFunction={setModalShow} 
-            holding={dst[i][1][2].shiftedBy(-Number(dst[i][1][5])).toFixed(Number(dst[i][1][5])/3)} 
-            holdingValue={dst[i][1][1].shiftedBy(-Number(dst[i][1][5])).toFixed(Number(dst[i][1][5])/3)} 
+            holding={dst[i][1][2].shiftedBy(-Number(dst[i][1][5])).toFixed(7)} 
+            holdingValue={dst[i][1][1].shiftedBy(-Number(dst[i][1][5])).toFixed(7)}
             symbol={dst[i][1][3]} 
             tokenAddress={dst[i][1][4]} 
           />
