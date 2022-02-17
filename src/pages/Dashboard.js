@@ -10,24 +10,22 @@ import DashBoardChart from 'components/DashBoardChart';
 import DashBoardOpenTrades from 'components/DashBoardOpenTrades';
 import {getDashboardData} from 'utils/dashboardHelpers'
 import { setNewBalanceOverview, getTradeRows } from 'utils/dashboardHelpers';
-import { useSwapTrackerMediator } from 'hooks/useContract';
 import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
 import { useWeb3React } from '@web3-react/core';
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
 const Dashboard = () => {
-    const swapTrackerMediator = useSwapTrackerMediator(); 
     const { account } = useWeb3React();
 
     const { chainId, web3 } = useWeb3()
-    const { user } = useAuthService()
+    const { user,tier,setTierNoRedirect } = useAuthService()
     const [walletTVL,setWalletTVL] = useState(0)
     const [currentBalance,setCurrentBalance] = useState(0)
     const [profitOrLoss,setProfitOrLoss] = useState(0)
     const [openTradeValue,setOpenTradeValue] = useState(0)
     const [openedTrades,setOpenedTrades] = useState([])
-    const [tier,setTier] = useState(0)
+    
     const [tradesFinded,setTradesFinded] = useState(false)
 
     const [value, setValue] = useState(0);
@@ -77,12 +75,12 @@ const Dashboard = () => {
 
     const getDashData = async() => {
         let dashBoardData = await getDashboardData(user?.address)
-        let tradeRow = await getTradeRows(dashBoardData?.openedTrades)
-        setOpenTradeValue(Number(dashBoardData?.totalOpenTradesValue).toFixed(2))
-    
-        tradeRow.length > 0 && setTradesFinded(true)
-        setOpenedTrades(tradeRow)
-        
+        if(dashBoardData){
+            let tradeRow = await getTradeRows(dashBoardData?.openedTrades)
+            setOpenTradeValue(Number(dashBoardData?.totalOpenTradesValue).toFixed(2))
+            setOpenedTrades(tradeRow)
+            tradeRow.length > 0 && setTradesFinded(true)
+        }
     }
       
    
@@ -90,16 +88,18 @@ const Dashboard = () => {
 
     useEffect(() => { 
         (async() =>{
-            let tid;
-           if(account){
-               tid = await swapTrackerMediator.methods.getTierFee(account).call()
-               setTier(Number(tid))
-
-           } 
-           if(Number(tid) === 1000){
-               return;
+          
+           if(!account){
+               
+                setCurrentBalance(null)
+                setProfitOrLoss(null)
+                setOpenTradeValue(null)
+                setOpenedTrades([])
+                setTradesFinded(false)
+                return;
            }
-           else if(tid && Number(tid) !== 1000){
+           else if(tier !== 1000){
+              
                await getDashData()
                if(user && chainId){
                    await getWlltTVL();
@@ -119,7 +119,7 @@ const Dashboard = () => {
             }
         }
     
-    }, [user,walletTVL,account,currentName, currentSymbol])
+    }, [user,walletTVL,account,currentName, currentSymbol,tier])
 
     return (
         <MainContainer>
@@ -135,7 +135,7 @@ const Dashboard = () => {
                 profitOrLoss={profitOrLoss}
                 openTradeValue={openTradeValue}
             />
-            <DashBoardChart tier={tier}/>
+            <DashBoardChart tier={tier} account={account}/>
             <Row className="pt-3">
                 <Col md={12} lg={12} xs={12}>
                     <DashBoardOpenTrades fiatSymbol={currentSymbol} fiatValue={value} openedTrades={openedTrades} tradesFinded={tradesFinded} />

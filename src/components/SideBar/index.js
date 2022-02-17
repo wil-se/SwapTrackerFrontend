@@ -26,9 +26,7 @@ const SideBar = () => {
     const navigation = useNavigate();
     const { account } = useWeb3React();
     const {logout} = useAuth()
-   const swapTrackerMediator = useSwapTrackerMediator()
-    const {createOrUpdateUser} = useAuthService()
-    const [tier,setTier] = useState();
+    const {createOrUpdateUser,tier} = useAuthService()
     const [leftMobile,setLeftMobile] = useState()
     const pixel = useFacebookPixel();
     const ga = useGoogleAnalytics();
@@ -49,9 +47,6 @@ const SideBar = () => {
             if(account){ 
                 let user = {address:account && account.toLowerCase(),lastLogin:new Date()}
                 createOrUpdateUser(user)
-                let tid = await getTier(swapTrackerMediator,navigation,account, true)
-                console.log("tier in sidebar ", tid)
-                setTier(tid)
             }
         })()
         
@@ -133,10 +128,14 @@ const SideBar = () => {
 
                     <Container className="footer">
                         <Row className="addressSection">
+                            {account &&
+                            <>
                             <img src={addressAvatar}/>    
                             <div className="address">
                             {getShrunkWalletAddress(account)}
                             </div>
+                            </>
+                            }
                         </Row>
                         <Row className="tierSection">
                             <TierSection tier={tier}/>
