@@ -85,7 +85,7 @@ const scan = async (user, chainId, web3) => {
     });
 
     result.forEach((item, i) => {
-        getRawBusdOuts.push(getRawBusdOut(item.address, item.balance));
+        getRawBusdOuts.push(getRawBusdOut(item.address, item.balance.toString()));
     });
 
     let busd_balances = await Promise.all(getRawBusdOuts);

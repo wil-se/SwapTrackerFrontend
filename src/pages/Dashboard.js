@@ -45,7 +45,6 @@ const Dashboard = () => {
     const getWlltTVL = async ()=>{let wlltTVL = await getWalletTVL(user,web3,chainId); setWalletTVL(wlltTVL)}
     
     const wlltDist = async ()=>{
-        let totalProfitOrLossPercetageFinal = 0
         let singleProfitOrLossPercetageNumerical = 0
         let totalProfitOrLossPercetageNumerical = 0
         let totalBalance = 0
