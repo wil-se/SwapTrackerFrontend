@@ -96,7 +96,6 @@ const scan = async (user, chainId, web3) => {
 
     let gas_balance = await web3.eth.getBalance(user.address);
     let gas_as_busd = new BigNumber(await getBNBBalance(web3, user)).shiftedBy(18);
-    //console.log("Gas as BUSD: %s", gas_as_busd.toNumber());
     result.push({
         balance: new BigNumber(gas_balance),
         parsedBalance: new BigNumber(gas_balance).shiftedBy(-18),
