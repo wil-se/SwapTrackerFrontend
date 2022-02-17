@@ -42,7 +42,6 @@ const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue,tradeFinde
 
                 openedTrades?.map((trade,key)=>{
                     return (
-                        
                         <DashboardOpenTradesTableRow 
                         key={key} 
                         tokenSymbol={trade.tokenSymbol} 

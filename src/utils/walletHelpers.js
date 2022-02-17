@@ -1,7 +1,9 @@
 import BigNumber from 'bignumber.js';
 import {getBep20Contract} from 'utils/contractHelpers'
-import {getBusdOut} from 'utils/getBusdOut' 
+import {getBusdOut, getRawBusdOut} from 'utils/getBusdOut' 
 import {BNB} from 'config'
+import balanceOfABI from 'config/abi/balanceOf.json';
+import {raw_tokens} from 'config/constants/tokens';
 
 const getTokenBalance = async (tokenContract,user) => {
     
@@ -21,12 +23,96 @@ const getFlatBalance = async (tokenContract,user) => {
     return new BigNumber(flatBalance).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(decimals)
 }
 
-export const getBNBBalance = async (web3,user) => {
+const rawFormat = (tokens) => {
+    let addresses = new Set();
+    let symbols = [];
+    let decimals = [];
+    tokens.forEach( (t) => {
+        if(!addresses.has(t['address'])){
+            addresses.add(t['address']);
+            symbols.push(t['symbol']);
+            decimals.push(t['decimals']);
+        }
+    });
+    return [Array.from(addresses), symbols, decimals];
+}
+
+const parseUserTokenList = async (result, tokens, web3) => {
+    
+    let keys = Array.from(result.map((it) => it.address.toLocaleLowerCase()));
+    for(let i = 0; i< tokens.length; i++){
+        if(keys.includes(tokens[i])) continue;
+        let contract = getBep20Contract(tokens[i], web3);
+        let s = await contract.methods.symbol().call();
+        let d = await contract.methods.decimals().call();
+        result.push({
+            symbol: s,
+            decimals: d,
+            address: tokens[i]
+        });
+    }
+    
+    return result;
+}
+
+const scan = async (user, chainId, web3) => {
+
+    let token_list = raw_tokens[chainId];
+    token_list = Array.from(await parseUserTokenList(token_list, user?.tokenList[chainId], web3));
+
+    let balanceOfs = [];
+    let getRawBusdOuts = [];
+    let [tokens, symbols, decimals] = rawFormat(token_list);
+
+    for(let address of tokens){
+        let contract = new web3.eth.Contract(balanceOfABI, address);
+        balanceOfs.push(contract.methods.balanceOf(user.address).call());
+    }
+
+    let balances = await Promise.all(balanceOfs);
+    let result = [];
+    balances.forEach((balance, i) => {
+        if(balance != '0'){
+            result.push({
+                balance: new BigNumber(balance),
+                parsedBalance: new BigNumber(balance).shiftedBy(-1*decimals[i]),
+                symbol: symbols[i],
+                decimals: decimals[i],
+                asBusd: 0,
+                address: tokens[i]
+            });
+        }
+    });
+
+    result.forEach((item, i) => {
+        getRawBusdOuts.push(getRawBusdOut(item.address, item.balance));
+    });
+
+    let busd_balances = await Promise.all(getRawBusdOuts);
+
+    result.forEach((item, i) => {
+        item.asBusd = new BigNumber(busd_balances[i]);
+    });
+
+    let gas_balance = await web3.eth.getBalance(user.address);
+    let gas_as_busd = new BigNumber(await getBNBBalance(web3, user)).shiftedBy(18);
+    //console.log("Gas as BUSD: %s", gas_as_busd.toNumber());
+    result.push({
+        balance: new BigNumber(gas_balance),
+        parsedBalance: new BigNumber(gas_balance).shiftedBy(-18),
+        symbol: 'BNB',
+        decimals: 18,
+        asBusd: gas_as_busd,
+        address: ""
+    });
+    return result;
+}
+
+export const getBNBBalance = async (web3, user) => {
     let bnbBal = await web3.eth.getBalance(user?.address);
-    // console.log(bnbBal)
-   let balanceFormatted =  new BigNumber(bnbBal).shiftedBy(-1*18).toNumber().toFixed(18)
-   let price = await getBusdOut(BNB.address,balanceFormatted,18)
-   return new BigNumber(price).shiftedBy(-1*18).toNumber().toFixed(18);
+    let balanceFormatted =  new BigNumber(bnbBal).shiftedBy(-1*18).toNumber().toFixed(18)
+    let price = await getBusdOut(BNB.address,balanceFormatted,18)
+    return new BigNumber(price).shiftedBy(-1*18).toNumber().toFixed(18);
 }
 
 export const getBNBFlatBalance = async (web3,user) => {
@@ -35,56 +121,56 @@ export const getBNBFlatBalance = async (web3,user) => {
     return Number(balanceFormatted)
 }
 
-export const walletDistribution = async (user,walletTVL,web3,chainId) => {
+export const walletDistribution = async (user, walletTVL, web3, chainId) => {
+
     let balance = {}
+
+    let scan_results = await scan(user, chainId, web3);
+
     await Promise.all(
         
-        user?.tokenList[chainId].map(async (tokenAddress)=>{
-            let tokenContract = getBep20Contract(String(tokenAddress).toLocaleLowerCase(),web3)
-            let singleBalance = await getFlatBalance(tokenContract,user)   
-            let singleTokenBusdBalance = await getTokenBalance(tokenContract,user)
-            let bnbBusdBalance = await getBNBBalance(web3,user);
-            let bnbFlatBalance = await getBNBFlatBalance(web3,user)
-            let symbol = await tokenContract.methods.symbol().call()
-            if(singleBalance > 0.000001 ){
-                balance[tokenAddress] = [singleTokenBusdBalance / walletTVL *100,parseFloat(singleTokenBusdBalance),parseFloat(singleBalance), symbol,String(tokenAddress).toLocaleLowerCase()];
-                balance["bnb"] = [bnbBusdBalance / walletTVL*100,parseFloat(bnbBusdBalance),parseFloat(bnbFlatBalance),BNB.symbol,String(tokenAddress).toLocaleLowerCase()]
+        scan_results.map(async (scanResultItem)=>{
+            if(scanResultItem.balance != '0'){
+                balance[scanResultItem.address] = [
+                    new BigNumber(scanResultItem.asBusd).shiftedBy(-18).dividedBy(walletTVL).multipliedBy(100).toNumber(),
+                    scanResultItem.asBusd,
+                    scanResultItem.balance,
+                    scanResultItem.symbol,
+                    scanResultItem.address,
+                    Number(scanResultItem.decimals)
+                ];
             }
-            
         })
-    )
+    );
     return balance;
 }
 
 export const getWalletTVL = async (user,web3,chainId) => {
     let tvl = 0;
-    let bnbBalance = await getBNBBalance(web3,user)
-    // console.log("vediamo ", bnbBalance)
+    let scan_results = await scan(user, chainId, web3);
+
     await Promise.all(
-        user?.tokenList[chainId].map(async (tokenAddress)=>{
-            let tokenContract = getBep20Contract(String(tokenAddress).toLocaleLowerCase(),web3)
-            let bal = await getTokenBalance(tokenContract,user)
-            // console.log("sono nel for", bnbBalance)
-            if(bal>0){
-                tvl += Number(bal);
-            }
+        scan_results.map(async (scanResultItem)=>{
+            if(scanResultItem.balance != '0')
+                tvl += new BigNumber(scanResultItem.asBusd).shiftedBy(-18).toNumber();
         })
     )
-    tvl += Number(bnbBalance);
+
     return tvl;
 }
-
 
 export const getBalanceOverview = async (user,web3,chainId) => {
     let totalBalance= 0;
     let walletTVL = await getWalletTVL(user,web3,chainId)
     let walletDist = await walletDistribution(user,walletTVL,web3,chainId)
-    const dst = Object.entries(walletDist).sort(function(first, second){return second[1][0] - first[1][0]});
-        for (let i=0; i<dst.length; i++) {
-            totalBalance+= dst[i][1][1]
-        }
+
+    Object.entries(walletDist).sort(function(first, second){
+        return second[1][0] - first[1][0]
+    }).forEach((el) => {
+        totalBalance += el[1][1]
+    });
     
-    return {[new Date()]:Number(totalBalance).toFixed(2)}
+    return {[new Date()]:Number(totalBalance).toFixed(4)}
         
 }
 
@@ -92,7 +178,6 @@ export const getTier = async (swapTrackerMediator,navigation,account, isMain) =>
     if(account){
         let tid = await swapTrackerMediator.methods.getTierFee(account).call()
         if(Number(tid) === 1000 && !isMain){
-            console.log("ma entro? ", isMain)
             navigation('/tiers')
         }
         return Number(tid)

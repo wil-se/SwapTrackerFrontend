@@ -12,6 +12,7 @@ export const getHistoryRows = async (historyTrades) => {
   let tradeRows = []
   await Promise.all(  
     historyTrades.map(async (historyTrade)=>{
+
       let createdAt;
       let createdAtDate = new Date(historyTrade.timestamp)
       let closedDate = historyTrade.closedDate ? new Date(historyTrade.closedDate) : null;
@@ -22,28 +23,29 @@ export const getHistoryRows = async (historyTrades) => {
       const tokenContractOut = getBep20Contract(historyTrade.tokenTo)
       const tokenContractIn = getBep20Contract(historyTrade.tokenFrom)
       let decimalsOut = await tokenContractOut.methods.decimals().call()
-      let currentValueUnshifted = await getBusdOut(tokenContractOut._address,historyTrade.amountOut,decimalsOut)
+      let currentValueUnshifted = await getBusdOut(tokenContractOut._address, historyTrade.amountOut, decimalsOut)
       let currentPriceUnshifted = await getBusdOut(tokenContractOut._address,1,decimalsOut)
+
       tradeRow.txId = historyTrade.txId;
       tradeRow.tokenSymbol = await tokenContractOut.methods.symbol().call()
       tradeRow.tokenSymbol = tradeRow.tokenSymbol === wbnb.symbol ? tradeRow.tokenSymbol = BNB.symbol : tradeRow.tokenSymbol;
       tradeRow.tokenSymbolIn = await tokenContractIn.methods.symbol().call()
       tradeRow.tokenName = await tokenContractOut.methods.name().call()
       tradeRow.tokenName = tradeRow.tokenName === wbnb.name ? tradeRow.tokenName = BNB.name : tradeRow.tokenName
-      tradeRow.amountOut = new BigNumber(historyTrade.amountOut).toNumber().toFixed(5)
-      tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*18).toNumber().toFixed(2)
-      tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*18).toNumber().toFixed(3)
+      tradeRow.amountOut = new BigNumber(historyTrade.amountOut).toNumber()
+      tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*decimalsOut).toNumber()
+      tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*decimalsOut).toNumber()
       tradeRow.amountIn = historyTrade.amountIn
       tradeRow.openAt = historyTrade.openAt
       tradeRow.priceTo = historyTrade.priceTo
-      tradeRow.pl = new BigNumber(Number(tradeRow.currentValue)).minus(Number(historyTrade.openAt)).toNumber() 
-      tradeRow.pl_perc = ((Number(tradeRow.currentValue) - Number(historyTrade.openAt))/Number(historyTrade.openAt)*100).toFixed(2)
+      tradeRow.pl = tradeRow.currentValue - tradeRow.openAt
+      tradeRow.pl_perc = ((tradeRow.currentValue - historyTrade.openAt) / historyTrade.openAt *100)
       tradeRow.tokenFrom = historyTrade.tokenFrom
       tradeRow.tokenTo = historyTrade.tokenTo
       tradeRow.createdAt = createdAt
       tradeRow.createdAtForFilter = createdAtForFilter
       tradeRow.closedAt = closedDate ? closedDate : "-"
-      tradeRows.push(tradeRow)  
+      tradeRows.push(tradeRow)
     
   })
   )

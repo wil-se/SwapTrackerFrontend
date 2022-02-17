@@ -25,7 +25,7 @@ const TradeMainCard = ({tier}) => {
     const { account } = useWeb3React();
     const {web3} = useWeb3()
     const [pancakeRouterContract,] = useState(usePancakeRouter())
-    const [amountIn,setAmountIn] = useState()
+    const [amountIn,setAmountIn] = useState(0)
     const [amountOut,setAmountOut] = useState()
     const [openSettingsModal,setOpenSettingsModal] = useState(false)
     const [openTokenListModalIn,setOpenTokenListModalIn] = useState(false)

@@ -30,17 +30,26 @@ export function CoinInfoList(){
 
 
   const wlltDist = async ()=>{
-    let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
+    let wlltDist = await walletDistribution(user, walletTVL, web3, chainId);
     setWalletDistributions(wlltDist);
-
     let wlltDistList = []
 
     const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
-
     for (let i=0; i<dst.length; i++) {
+      //if(dst[i][1][3] === 'BNB')
+        //console.log(dst[i][1][2].toNumber())
       wlltDistList.push(
         <Col key={i} xs={12} md={6} className="px-3">
-          <CoinInfo key={i} setChartKeyFunction={setChartKey} setCurrentSymbol={setCurrentSymbol} setModalShowFunction={setModalShow} holding={dst[i][1][2]} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} tokenAddress={dst[i][1][4]} />
+          <CoinInfo 
+            key={i} 
+            setChartKeyFunction={setChartKey} 
+            setCurrentSymbol={setCurrentSymbol} 
+            setModalShowFunction={setModalShow} 
+            holding={dst[i][1][2].shiftedBy(-1*dst[i][1][5]).toFixed(dst[i][1][5]/3)} 
+            holdingValue={dst[i][1][1].shiftedBy(-1*dst[i][1][5]).toFixed(dst[i][1][5]/3)} 
+            symbol={dst[i][1][3]} 
+            tokenAddress={dst[i][1][4]} 
+          />
         </Col>
       )
     }

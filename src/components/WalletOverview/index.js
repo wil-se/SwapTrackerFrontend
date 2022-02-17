@@ -77,18 +77,11 @@ export function WalletOverview(){
 
   const getWlltTVL = async ()=>{
     let wlltTVL = await getWalletTVL(user,web3,chainId);
-
-    const balanceNativeIn = await web3.eth.getBalance(account);
-    let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(6);
     let data = await CoinGeckoClient.coins.fetch('binancecoin', {});
     let bnbPrice = data.data.market_data.current_price.usd;
     let bnbAmount = wlltTVL / bnbPrice;
-    
-    console.log("amount formatted", amountInFormatted*bnbPrice);
-    
-    setWalletTVL(Number(wlltTVL));
-    
-    setWalletTVLBNB(bnbAmount);
+    return [wlltTVL, bnbAmount];   
+
   }
     
   const wlltDist = async ()=>{
@@ -105,15 +98,15 @@ export function WalletOverview(){
         let coingeckoId = CoingeckoTokens.default[value[3].toLowerCase()];
         let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
 
-        if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 2) {setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 3) {setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 4) {setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
+        if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name}); other = other-Number(value[0])}
+        if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name}); other = other-Number(value[0])}
+        if(count === 2) {setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name}); other = other-Number(value[0])}
+        if(count === 3) {setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name}); other = other-Number(value[0])}
+        if(count === 4) {setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name}); other = other-Number(value[0])}
         count++;
     }
 
-    setOther(other.toFixed(2));
+    setOther(other.toFixed(3));
 
     setChartData({
         labels: cLabels,
@@ -160,11 +153,23 @@ export function WalletOverview(){
   const currentDecimals = useGetFiatDecimals();
 
   useEffect(() => {
+
     if(user && chainId){
-      getWlltTVL()
-      wlltDist()
       setAddress(user.address);
+      getWlltTVL().then( ([tvl, tvlAsBNB]) => {
+        setWalletTVL(tvl);
+        setWalletTVLBNB(tvlAsBNB);
+      });
+      
+      wlltDist()
     }
+
+    console.log("FIAT Price length: %s", currentValues.length);
+
+    if(!currentValues){
+      setPrice(1);
+    }
+
     for(let i=0; i<currentValues.length; i++){
       if(currentValues[i]['currency'] == currentName){
         setPrice(Number(currentValues[i]['rate']));
@@ -198,7 +203,7 @@ export function WalletOverview(){
                           <h6 style={{fontStyle: "normal", fontWeight: 800, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
                       </Row>
                       <Row className="pl-4">
-                          <h1 style={{fontSize: 48, fontWeight: 900}}> {currentSymbol} {(walletTVL*price).toFixed(currentDecimals)} </h1>
+                          <h1 style={{fontSize: 48, fontWeight: 900}}> {currentSymbol} {(walletTVL*(price > 0 ? price : 1)).toFixed(currentDecimals)} </h1>
                       </Row>
                       <Row className="pl-4">
                           <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>{walletTVLBNB.toFixed(4)} BNB</h6>
