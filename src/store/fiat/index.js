@@ -5,15 +5,19 @@ import BigNumber from 'bignumber.js';
 const initialState = {
   name: "USD",
   values: {},
+  decimals: 2
 };
 
 export const fetchFiatPrices = async () => {
-  const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}/data/getFiats`);
-  const data = await response.json();
-  
-  return {
-    data: data,
-  };
+
+    const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}data/getFiats`).catch(console.log);
+    if(response){
+      const data = await response.json();
+      
+      return {
+        data: data,
+      };
+    }
 };
 
 export const fiatSlice = createSlice({
@@ -29,11 +33,14 @@ export const fiatSlice = createSlice({
     setFiatSymbol: (state, action) => {
       state.symbol = action.payload;
     },
+    setFiatDecimals: (state, action) => {
+      state.decimals = action.payload;
+    }
     
   },
 });
 
-export const { setFiatName, setFiatValues, setFiatSymbol } = fiatSlice.actions
+export const { setFiatName, setFiatValues, setFiatSymbol, setFiatDecimals } = fiatSlice.actions
 
 
 export default fiatSlice.reducer;

@@ -13,17 +13,23 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
     const [classNames,setClassNames] = useState("header-card-value text-nowrap")
     
     useEffect(()=>{
-        
-        let profitOrLossFixed = (profitOrLoss*fiatValue).toFixed(3)
-      Math.sign(profitOrLoss) === -1 
-      ? 
-      (setPlPerc(`${profitOrLossFixed.toString().substring(0,1)} ${fiatSymbol} ${profitOrLossFixed.toString().substring(1,profitOrLossFixed.toString().length)}`), 
-      setClassNames(`${classNames} text-danger`))
-      : 
-      (setPlPerc(`+ ${fiatSymbol} ${profitOrLossFixed.toString()}`),
-      setClassNames(`${classNames} text-success`))
-    
-    },[profitOrLoss,currentBalance,openTradeValue])
+
+        let profitOrLossFixed = (profitOrLoss*fiatValue).toFixed(3);
+        Math.sign(profitOrLoss) === -1 
+        ? 
+            (
+                setPlPerc(`${profitOrLossFixed.toString().substring(0,1)} ${fiatSymbol} ${profitOrLossFixed.toString().substring(1,profitOrLossFixed.toString().length)}`), 
+                setClassNames(`${classNames} text-danger`))
+        : 
+            (
+                setPlPerc(`+ ${fiatSymbol} ${profitOrLossFixed.toString()}`),
+                setClassNames(`${classNames} text-success`)
+            )
+    },[
+        profitOrLoss,
+        currentBalance,
+        openTradeValue
+    ])
 
     return (
         <Row className="py-3">
@@ -32,7 +38,7 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
                     <div className="header-card-container">
                         <Col className="header-card-info" md={8}>
                             <h3 className="header-card-title mb-0 text-nowrap">CURRENT BALANCE</h3>
-                            {!currentBalance || currentBalance <0 || isNaN(currentBalance) ?
+                            {!currentBalance || currentBalance < 0 || isNaN(currentBalance) ?
                             <Skeleton width="82px" height="32px" />
                             :
                             <span className="header-card-value text-nowrap">{fiatSymbol} {Number(currentBalance*fiatValue).toFixed(2)}</span>
@@ -90,7 +96,7 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
 }
 
 DashBoardHeader.propTypes = {
-    openTradeValue: PropTypes.string,
+    openTradeValue: PropTypes.number,
     currentBalance: PropTypes.number,
     profitOrLoss: PropTypes.number,
     fiatSymbol:PropTypes.string,

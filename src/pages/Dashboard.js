@@ -52,42 +52,47 @@ const Dashboard = () => {
         let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
         const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
         await Promise.all(
-            dst.map(async (item,i,distribution)=>{
-                totalBalance+= distribution[i][1][1]
-                const coingeckoId = CoingeckoTokens.default[distribution[i][1][3]?.toLowerCase()];
+            dst.map(async (item, i)=>{
+                totalBalance += item[1][1].shiftedBy(-item[1][5]).toNumber()
+                const coingeckoId = CoingeckoTokens.default[item[1][3]?.toLowerCase()];
                 let singlePercetage = await getTotalPriceVairation(coingeckoId)
-                
-                singleProfitOrLossPercetageNumerical = distribution[i][1][1] * singlePercetage/100
+                singleProfitOrLossPercetageNumerical = (item[1][1].shiftedBy(-item[1][5]).toNumber()) * singlePercetage / 100
                 totalProfitOrLossPercetageNumerical += singleProfitOrLossPercetageNumerical
-                
-
-            
-
             })
         )   
        
-        totalProfitOrLossPercetageFinal = totalProfitOrLossPercetageNumerical
+        //totalProfitOrLossPercetageFinal = totalProfitOrLossPercetageNumerical
         setCurrentBalance(Number(totalBalance))
-        setProfitOrLoss(Number(totalProfitOrLossPercetageFinal));
-        return totalProfitOrLossPercetageFinal;
+        setProfitOrLoss(Number(totalProfitOrLossPercetageNumerical));
+        return totalProfitOrLossPercetageNumerical;
     }
     
-
     const getDashData = async() => {
         let dashBoardData = await getDashboardData(user?.address)
+
         if(dashBoardData){
             let tradeRow = await getTradeRows(dashBoardData?.openedTrades)
             setOpenTradeValue(Number(dashBoardData?.totalOpenTradesValue).toFixed(2))
             setOpenedTrades(tradeRow)
             tradeRow.length > 0 && setTradesFinded(true)
         }
+
     }
       
-   
+    useEffect(() => {
 
+        if(Object.keys(currentValues).length === 0){
+            setValue(1)
+        } else{
+            for(let i=0; i<currentValues.length; i++){
+                if(currentValues[i]['currency'] == currentName){
+                  setValue(Number(currentValues[i]['rate']));
+                }
+            }
+        }
 
-    useEffect(() => { 
         (async() =>{
+
           
            if(!account){
                
@@ -100,26 +105,21 @@ const Dashboard = () => {
            }
            else if(tier !== 1000){
               
+
                await getDashData()
                if(user && chainId){
                    await getWlltTVL();
                    if(walletTVL){
                        let totalProfOrLoss = await wlltDist()
                        await setNewBalanceOverview(user,totalProfOrLoss)
-                      
-                       
                    }
                }
-           }
-        })()  
-        
-        for(let i=0; i<currentValues.length; i++){
-            if(currentValues[i]['currency'] == currentName){
-              setValue(Number(currentValues[i]['rate']));
             }
+
         }
     
     }, [user,walletTVL,account,currentName, currentSymbol,tier])
+
 
     return (
         <MainContainer>

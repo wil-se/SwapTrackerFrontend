@@ -21,6 +21,7 @@ import ArrowExpandModal from '../../assets/icons/expand.png'
 import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 import {BNB} from 'config'
+import { useGetFiatDecimals } from 'store/hooks';
 
 export function CoinInfo(props) {
   
@@ -28,14 +29,13 @@ export function CoinInfo(props) {
   const [price, setPrice] = useState(0);
   const [priceBNB, setPriceBNB] = useState(0);
   const [priceVariation, setPriceVariation] = useState(0);
-  const [name, setName] = useState("Loading..")
+  const [name, setName] = useState("Loading...")
   
   const [value, setValue] = useState(0);
 
   const coingeckoId = CoingeckoTokens.default[props.symbol.toLowerCase()];
 
   const getCoingeckoStats = async ()=>{
-    
     let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
     setPrice(data.data.market_data?.current_price.usd || 0);
     setPriceVariation(data.data.market_data?.price_change_percentage_24h || 0);
@@ -45,12 +45,9 @@ export function CoinInfo(props) {
   }
 
   const currentName = useGetFiatName();
-  // console.log("CURRENT FIAT NAMEwwwwwwww ", currentName);
-
   const currentValues = useGetFiatValues();
-  // console.log("Values: ", currentValues);
-
   const currentSymbol = useGetFiatSymbol();
+  const currentDecimals = useGetFiatDecimals();
 
   let navigation = useNavigate()
   const closeTrade = (tokenIn,tokenOut) => {
@@ -60,9 +57,13 @@ export function CoinInfo(props) {
 
   useEffect(() => {
     getCoingeckoStats();
-    for(let i=0; i<currentValues.length; i++){
-      if(currentValues[i]['currency'] == currentName){
-        setValue(Number(currentValues[i]['rate']));
+    if(Object.keys(currentValues).length === 0){
+      setValue(1)
+    } else{
+      for(let i=0; i<currentValues.length; i++){
+        if(currentValues[i]['currency'] == currentName){
+          setValue(Number(currentValues[i]['rate']));
+        }
       }
     }
   }, [currentName, currentValues, currentSymbol])
@@ -82,14 +83,14 @@ export function CoinInfo(props) {
               
             <Col md={3} xs={6} className="pt-3">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>holdings</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(props.holdingValue*value).toFixed(2)}</span>
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(props.holdingValue*value).toFixed(currentDecimals)}</span>
               <span className="text-decoration-none" style={{color: "#8DA0B0", fontSize: 11}}>CURRENT PRICE</span>
-              <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(price*value).toFixed(2)}</h5> 
+              <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(price*value) > 1 ? (price*value).toFixed(4) : (price*value).toFixed(7)}</h5> 
             </Col>
 
             <Col md={3} xs={5} className="border-left border-1 pt-3 pr-0 text-center text-md-left">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>{props.symbol}</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {props.holding.toFixed(4)}</span> 
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {props.holding}</span> 
               <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
               <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
             </Col>
@@ -99,24 +100,24 @@ export function CoinInfo(props) {
                   CLOSE TRADE
                 </Button>
 
-<div style={{position: "relative"}} className="previewchart">
-                <TradingViewWidget 
-        symbol={props.symbol.toUpperCase()+"USD"}
-        // theme={Themes.DARK}
-        locale="en"
-        hide_top_toolbar={true}
-        hide_legend={true}
-        allow_symbol_change={false}
-        hide_side_toolbar={true}
-        style={"2"}
-        width={140}
-        height={80}
-      />
-      
-                <a style={{position: "absolute", right: 30, top: 0, width: 20, height: 20, backgroundColor: "#FFFFFF"}} onClick={() => {props.setModalShowFunction(true);props.setChartKeyFunction(prev => prev + 1);props.setCurrentSymbol(props.symbol);}}>
-                  <img style={{zIndex:9999, width: 20, height: 20, cursor: "pointer", marginRight: 10}} src={ArrowExpandModal}></img>
-                </a>
-</div>
+                <div style={{position: "relative"}} className="previewchart">
+                  <TradingViewWidget 
+                    symbol={props.symbol.toUpperCase()+"USD"}
+                    // theme={Themes.DARK}
+                    locale="en"
+                    hide_top_toolbar={true}
+                    hide_legend={true}
+                    allow_symbol_change={false}
+                    hide_side_toolbar={true}
+                    style={"2"}
+                    width={140}
+                    height={80}
+                  />
+        
+                  <a style={{position: "absolute", right: 30, top: 0, width: 20, height: 20, backgroundColor: "#FFFFFF"}} onClick={() => {props.setModalShowFunction(true);props.setChartKeyFunction(prev => prev + 1);props.setCurrentSymbol(props.symbol);}}>
+                    <img style={{zIndex:9999, width: 20, height: 20, cursor: "pointer", marginRight: 10}} src={ArrowExpandModal}></img>
+                  </a>
+                </div>
             </Col>
           </Row>
         </Card.Body>
@@ -126,10 +127,10 @@ export function CoinInfo(props) {
 }
 
 CoinInfo.propTypes = {
-  holdingValue: PropTypes.number,
+  holdingValue: PropTypes.string,
   symbol: PropTypes.string,
   setModalShowFunction: PropTypes.any,
-  holding: PropTypes.number,
+  holding: PropTypes.string,
   setChartKeyFunction: PropTypes.func,
   setCurrentSymbol :PropTypes.func,
   tokenAddress: PropTypes.string

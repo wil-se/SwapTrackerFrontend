@@ -12,7 +12,7 @@ import useWalletConnectAuth from 'hooks/useWalletConnectAuth'
 import useRefresh from 'hooks/useRefresh';
 import { setFiatPrice } from 'store/fiat';
 import { useSelector } from 'react-redux';
-import { useGetFiatSymbol, useSetFiatSymbol, useSetFiatName, useSetFiatValues } from 'store/hooks';
+import { useGetFiatSymbol, useSetFiatSymbol, useSetFiatName, useSetFiatValues, useSetFiatDecimals, useGetFiatDecimals } from 'store/hooks';
 import SideBar from 'components/SideBar';
 
 
@@ -23,7 +23,9 @@ const TopNavbar = function () {
   const [network, setNetwork] = useState("BSC");
   const [modalShow, setModalShow] = useState(false);
   const [values, setValues] = useState({});
-  const { slowRefresh } = useRefresh();
+  const [decimals, setDecimals] = useState(2)
+  
+  const { slowRefresh, fastRefresh } = useRefresh();
 
 
   const handleCurrencyClick = (name, symbol) => {
@@ -35,14 +37,22 @@ const TopNavbar = function () {
   const { connector } = useWalletConnectAuth()
 
   const getPrices = async () => {
-    const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}/data/getFiats`);
-    const data = await response.json();
-    setValues(data.data);
+      const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}data/getFiats`).catch(console.log);
+      if(response){
+        const data = await response.json();
+        setValues(data.data);
+      }
   }
 
+  
+  
+  
   useSetFiatValues(values);
   useSetFiatName(currency);
   useSetFiatSymbol(symbol);
+  useSetFiatDecimals(decimals);
+
+
   
   
   const getShrunkWalletAddress = (addr) => {
@@ -52,6 +62,14 @@ const TopNavbar = function () {
   useEffect(() => {
     getPrices();
   }, [slowRefresh]);
+
+  useEffect(() => {
+    if(currency === "ETH" || currency === "BTC"){
+      setDecimals(7)
+    } else {
+      setDecimals(2)
+    }
+  }, [fastRefresh]);
 
   return (
     <div id="sticky-wrapper" className="sticky-wrapper">

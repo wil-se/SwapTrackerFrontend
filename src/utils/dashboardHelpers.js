@@ -7,10 +7,12 @@ import {WETH,ChainId } from '@pancakeswap/sdk'
 import {BNB} from 'config'
 
 export const getDashboardData = async (account) => {
+
   if(account){
     let dashboardData = await callPost("getDashBoardData",{address:account}).catch((e)=>{console.log(e)})
     return dashboardData?.data?.data;
   }
+
 }
 
 export const getDatesFromRange = (selectedDayRange,steps=1) => {
@@ -60,10 +62,12 @@ export const setNewBalanceOverview = async (user,profitOrLoss) => {
 }
 
 export const getTradeRows = async (openedTrades) => {
+  if(!openedTrades) return [];
   let wbnb = WETH[ChainId.MAINNET]
   let tradeRows = []
   await Promise.all(
       openedTrades?.map(async (openedTrade)=> {
+        //console.log(openedTrade);
         let tradeRow = {}
         const tokenContractOut = getBep20Contract(openedTrade.tokenTo)
         const tokenContractIn = getBep20Contract(openedTrade.tokenFrom)

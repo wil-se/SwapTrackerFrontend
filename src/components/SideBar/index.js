@@ -84,37 +84,37 @@ const SideBar = () => {
                         <hr className="logo-under-line "/>
                     </Row>
                     <div className="menu">
-                        <Row className="menu-item" onClick={closeSideBar}>
+                        <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="dashboard" className={splitLocation[1] === "dashboard" ? "link active-link" : "link"}>
                                 <Icon.HouseDoor/>
                                 Dashboard
                             </Link>
                         </Row>
-                        <Row className="menu-item" onClick={closeSideBar}>
+                        <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="wallet" className={splitLocation[1] === "wallet" ? "link active-link" : "link"}>
                                 <Icon.CreditCard2Back/>
                                 Wallet
                             </Link>
                         </Row>
-                        <Row className="menu-item" onClick={closeSideBar}>
+                        <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="history" className={splitLocation[1] === "history" ? "link active-link" : "link"}>
                                 <Icon.ClockHistory/>
                                 History
                             </Link>
                         </Row>
-                        <Row className="menu-item" onClick={closeSideBar}>
+                        <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="trade" className={splitLocation[1] === "trade" ? "link active-link" : "link"}>
                                 <Icon.CurrencyExchange/>
                                 Trade
                             </Link>
                         </Row>
-                        <Row className="menu-item" onClick={closeSideBar}>
+                        <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="staking" className={splitLocation[1] === "staking" ? "link active-link" : "link"}>
                                 <Icon.Stack/>
                                 Staking
                             </Link>
                         </Row>
-                        <Row className="menu-item" onClick={closeSideBar}>
+                        <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="tiers" className={splitLocation[1] === "tiers" ? "link active-link" : "link"}>
                                 <Icon.LightningCharge/>
                                 Tiers
