@@ -52,7 +52,8 @@ export function WalletOverview(){
   const [chartData, setChartData] = useState({})
   const [options,] = useState(
     {
-      cutoutPercentage: 70,
+      cutout: 70,
+      //percentageInnerCutout: 10,
       plugins:{
         legend: {
           display: false
@@ -68,7 +69,6 @@ export function WalletOverview(){
           titleFont:{family:"Avenir Next",weight:'bold'},
           bodyFont:{family:"Avenir Next",weight:'bold'},
           cornerRadius:10,
-          
         },
       },
       responsive: true,
@@ -183,14 +183,14 @@ export function WalletOverview(){
       <Col md={12}>
         <Card className="wallet-overview-card w-100 mb-2 pl-2 pr-2 pt-0 pb-0">
           <Card.Body className="pr-4 pl-4 pb-8">
-              <Row className="justify-content-between">
-                  <Col style={{borderColor: "#ABC2D6"}} className="border-right border-md-1 border-0 pr-4" xs={12} md={4}>
+              <Row className="justify-content-start">
+                  <Col xs={12} md={3} style={{borderColor: "#ABC2D6"}} className="border-right border-md-1 border-0 pr-4" >
                       <div>
                       <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-3 border-bottom border-1 pt-4" style={{borderColor: "#ABC2D6"}}>
-                          <Col className="pr-0" xs={3}>
+                          <Col xs={12} md={4} className="pr-0" >
                             <img src={addressAvatarBig} className="avatar"/>
                           </Col>
-                          <Col className="pr-0" xs={9}>
+                          <Col xs={12} md={8} className="pr-0" >
                           <div style={{fontSize: 24, fontWeight: 900,}}>
                               {getShrunkWalletAddress(address)}
                           </div>
@@ -210,14 +210,16 @@ export function WalletOverview(){
                       </Row>
                       </div>
                   </Col>
-                  <Col xs={12} md={3} className="d-flex  align-items-center justify-content-center">
+
+                  <Col xs={12} md={4} lg={3} className="d-flex align-items-center justify-content-center">
                   {
                     Object.keys(chartData).length === 0 ?
                     <Skeleton width="160px" height="160px" style={{borderRadius:90}}/> :
-                    <Doughnut options={options} data={chartData} />
+                    <Doughnut options={options} data={chartData}/>
                   }
                       
                   </Col>
+
                   <Col xs={12} md={5} className="d-flex flex-column align-items-center justify-content-center">
                     <div>
                       <Row>

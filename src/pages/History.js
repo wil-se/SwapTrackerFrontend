@@ -103,7 +103,6 @@ const History = () => {
       setSelectedDayRangeFormatted(label)
       setTradesRows(
         tradesRows.filter((trade)=>{
-          //console.log(trade.createdAtForFilter, dateFromMoment, dateToMoment)
           return(
             trade.createdAtForFilter >= dateFromMoment && trade.createdAtForFilter <= dateToMoment
           )    

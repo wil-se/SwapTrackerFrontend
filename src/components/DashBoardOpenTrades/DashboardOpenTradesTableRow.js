@@ -3,6 +3,7 @@ import * as CryptoIcons from 'assets/icons';
 import PropTypes from 'prop-types';
 import { Row, th, Button } from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom'
+import {num_format} from 'utils/walletHelpers';
 
 
 const DashboardOpenTradesTableRow = ({
@@ -52,13 +53,13 @@ const DashboardOpenTradesTableRow = ({
           </th>
 
           <th className="text-center">
-            <p className="mb-0">{`${fiatSymbol} ${(currentValue*fiatValue).toFixed(7)}`}</p>
+            <p className="mb-0">{`${fiatSymbol} ${num_format(currentValue*fiatValue, 2, 5)}`}</p>
             <div className="greyText">{amountIn} {tokenSymbolIn} | {amountOut.toFixed(7)} {tokenSymbol}</div>
           </th>
 
           <th className="text-center">
-            <p className="mb-0">{`${fiatSymbol} ${(openAt*fiatValue).toFixed(7)}`}</p>
-            <div className="greyText">{Number(amountOut).toFixed(7)} {tokenSymbol} @{Number(priceTo).toFixed(7)}</div>
+            <p className="mb-0">{`${fiatSymbol} ${num_format(priceTo)}`}</p>
+            <div className="greyText">{num_format(amountOut)} {tokenSymbol} @{Number(priceTo).toFixed(7)}</div>
           </th>
           
           <th className="text-center">

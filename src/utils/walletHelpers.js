@@ -182,3 +182,18 @@ export const getTier = async (swapTrackerMediator,navigation,account, isMain) =>
         return Number(tid)
     }
 }
+
+export const num_format = (value, fix_min = 0, fix_max = 9) => {
+
+    const countDecimals = function (value) {
+        if(Math.floor(value) === value) return 0;
+        return value.toString().split(".")[1].length || 0; 
+    }
+    value = Number(value);
+    let fix = countDecimals(value);
+    if(fix <= fix_min) fix = fix_min;
+    if(fix >= fix_max) fix = fix_max;
+    return Number(value).toFixed(fix);
+}
+
+
