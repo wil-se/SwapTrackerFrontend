@@ -5,12 +5,14 @@ import BigNumber from 'bignumber.js'
 import {MONTH_LABELS_CHART} from 'config/'
 import {WETH,ChainId } from '@pancakeswap/sdk'
 import {BNB} from 'config'
+
 export const getDashboardData = async (account) => {
-    if(account){
-      let dashboardData = await callPost("getDashBoardData",{address:account}).catch((e)=>{console.log(e)})
-      return dashboardData?.data?.data;
-    }
-    
+
+  if(account){
+    let dashboardData = await callPost("getDashBoardData",{address:account}).catch((e)=>{console.log(e)})
+    return dashboardData?.data?.data;
+  }
+
 }
 
 export const getDatesFromRange = (selectedDayRange,steps=1) => {

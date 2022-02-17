@@ -24,7 +24,7 @@ const defaultFrom = {
     to: defaultTo,
   };
   
-const DashBoardChart = ({tier}) => {
+const DashBoardChart = ({tier,account}) => {
     const { user } = useAuthService()
     const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
     const [selectedDayRange, setSelectedDayRange] = useState(defaultValue);  
@@ -36,8 +36,8 @@ const DashBoardChart = ({tier}) => {
       if(selectedDayRange){ dateFilterArray = getDatesFromRange(selectedDayRange) } 
       let labelList = []
       let dataList = []
-      console.log("lo user ", user)
-      if(user.balanceOverview){ 
+     
+      if(user.balanceOverview && account){ 
         user.balanceOverview.map((singleBalanceOverview)=>{
           let date = new Date(Object.keys(singleBalanceOverview))
           if(selectedDayRange === defaultValue){
@@ -63,20 +63,28 @@ const DashBoardChart = ({tier}) => {
           }
       
         })
+        labelList.unshift("0")
+        dataList.unshift("0")
+        setLabelList(labelList)
+        setDataList(dataList)
       }
-      labelList.unshift("0")
-      dataList.unshift("0")
-      setLabelList(labelList)
-      setDataList(dataList)
+      else{
+
+        setLabelList(labelList)
+        setDataList(dataList)
+      }
+      
       
     }
     
     useEffect(()=>{
-
+      console.log("parto qui?")
       if(tier === 1000){
         return;
       }
       else if(tier !== 1000 && selectedDayRange === defaultValue && user){
+        console.log("entro qui?", user)
+
           getDataForChart()
           return;
 
@@ -89,7 +97,7 @@ const DashBoardChart = ({tier}) => {
           }
       }
       
-      },[selectedDayRange, user,tier])
+      },[selectedDayRange, user,tier,account])
      
      
 
@@ -142,6 +150,7 @@ const DashBoardChart = ({tier}) => {
 
 DashBoardChart.propTypes = {
   tier: PropTypes.number,
+  account: PropTypes.string
 };
 
 
