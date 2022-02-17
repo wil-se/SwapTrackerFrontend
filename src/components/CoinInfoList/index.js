@@ -36,8 +36,6 @@ export function CoinInfoList(){
 
     const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
     for (let i=0; i<dst.length; i++) {
-      //if(dst[i][1][3] === 'BNB')
-        //console.log(dst[i][1][2].toNumber())
       wlltDistList.push(
         <Col key={i} xs={12} md={6} className="px-3">
           <CoinInfo 

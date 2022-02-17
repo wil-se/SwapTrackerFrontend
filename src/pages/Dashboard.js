@@ -34,7 +34,9 @@ const Dashboard = () => {
     const currentSymbol = useGetFiatSymbol();
 
     const getTotalPriceVairation = async (coingeckoId) => {
-        if(coingeckoId.includes("bittorrent")) coingeckoId = "bittorrent"
+        if(!coingeckoId) return 0;
+        if(coingeckoId.includes("bittorrent"))
+            coingeckoId = "bittorrent"
         let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
         let totalProfitOrLossPercetage = 0;
         let percetage = data.data.market_data ? data.data.market_data.price_change_percentage_24h : 0;
