@@ -116,7 +116,7 @@ const Dashboard = () => {
                }
             }
 
-        }
+        })();
     
     }, [user,walletTVL,account,currentName, currentSymbol,tier])
 
