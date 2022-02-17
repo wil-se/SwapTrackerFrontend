@@ -54,13 +54,14 @@ const Dashboard = () => {
         const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
         await Promise.all(
             dst.map(async (item, i)=>{
-                totalBalance += item[1][1].shiftedBy(-item[1][5]).toNumber()
+               
+                totalBalance += item[1][1].shiftedBy(-18).toNumber()
                 const coingeckoId = CoingeckoTokens.default[item[1][3]?.toLowerCase()];
                 let singlePercetage = await getTotalPriceVairation(coingeckoId)
-                singleProfitOrLossPercetageNumerical = (item[1][1].shiftedBy(-item[1][5]).toNumber()) * singlePercetage / 100
+                singleProfitOrLossPercetageNumerical = (item[1][1].shiftedBy(-18).toNumber()) * singlePercetage / 100
                 totalProfitOrLossPercetageNumerical += singleProfitOrLossPercetageNumerical
             })
-        )   
+            )   
        
         //totalProfitOrLossPercetageFinal = totalProfitOrLossPercetageNumerical
         setCurrentBalance(Number(totalBalance))
