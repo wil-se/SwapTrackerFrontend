@@ -41,7 +41,7 @@ const parseUserTokenList = async (result, tokens, web3) => {
     
     let keys = Array.from(result.map((it) => it.address.toLocaleLowerCase()));
     for(let i = 0; i< tokens.length; i++){
-        if(keys.includes(tokens[i])) continue;
+        if(keys.includes(tokens[i].toLocaleLowerCase())) continue;
         let contract = getBep20Contract(tokens[i], web3);
         let s = await contract.methods.symbol().call();
         let d = await contract.methods.decimals().call();

@@ -54,7 +54,6 @@ const Dashboard = () => {
         const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
         await Promise.all(
             dst.map(async (item, i)=>{
-               
                 totalBalance += item[1][1].shiftedBy(-18).toNumber()
                 const coingeckoId = CoingeckoTokens.default[item[1][3]?.toLowerCase()];
                 let singlePercetage = await getTotalPriceVairation(coingeckoId)
