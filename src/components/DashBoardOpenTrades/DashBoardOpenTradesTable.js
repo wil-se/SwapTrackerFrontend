@@ -14,27 +14,27 @@ const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue,tradeFinde
             <DashBoardOpenTradesTableHeader/>
             </thead>
 
-            {openedTrades.length < 1 ?
-            <tbody >
-            <tr className="text-center on-center justify-between">
-            <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-            </tr >
-            <tr className="text-center on-center justify-between">
-            <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-            </tr >
-            <tr className="text-center on-center justify-between">
-            <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-            </tr >
-            <tr className="text-center on-center" >
-            <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-            </tr >
-
-            </tbody>
-            :openedTrades.length < 1 && tradeFinded ?
+            {openedTrades.length < 1 && !tradeFinded ?
             <tbody>
                 <div className="dashboard-card-chart-no-data">
-                      <h4>No trades find</h4>
+                  <h4>No open trades</h4>
                 </div>
+            </tbody>
+            : openedTrades.length < 1 ?
+            
+            <tbody >
+                <tr className="text-center on-center justify-between">
+                <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
+                <tr className="text-center on-center justify-between">
+                <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
+                <tr className="text-center on-center justify-between">
+                <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
+                <tr className="text-center on-center" >
+                <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
             </tbody>
             :
             <tbody>
@@ -42,7 +42,6 @@ const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue,tradeFinde
 
                 openedTrades?.map((trade,key)=>{
                     return (
-                        
                         <DashboardOpenTradesTableRow 
                         key={key} 
                         tokenSymbol={trade.tokenSymbol} 

@@ -9,12 +9,15 @@ const initialState = {
 };
 
 export const fetchFiatPrices = async () => {
-  const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}/data/getFiats`);
-  const data = await response.json();
-  
-  return {
-    data: data,
-  };
+
+    const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}data/getFiats`).catch(console.log);
+    if(response){
+      const data = await response.json();
+      
+      return {
+        data: data,
+      };
+    }
 };
 
 export const fiatSlice = createSlice({

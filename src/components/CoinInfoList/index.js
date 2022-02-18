@@ -3,7 +3,7 @@ import { Card, Row, Col } from 'react-bootstrap';
 import addressAvatarBig from '../../assets/icons/addressAvatarBig.png';
 import { Doughnut } from 'react-chartjs-2';
 import * as CryptoIcons from '../../assets/icons';
-import {walletDistribution,getWalletTVL} from 'utils/walletHelpers'
+import {walletDistribution,getWalletTVL, num_format} from 'utils/walletHelpers'
 import useWeb3 from 'hooks/useWeb3';
 import useAuthService from 'hooks/useAuthService'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -30,17 +30,24 @@ export function CoinInfoList(){
 
 
   const wlltDist = async ()=>{
-    let wlltDist = await walletDistribution(user,walletTVL,web3,chainId);
+    let wlltDist = await walletDistribution(user, walletTVL, web3, chainId);
     setWalletDistributions(wlltDist);
-
     let wlltDistList = []
-
     const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
-
     for (let i=0; i<dst.length; i++) {
+      //console.log("%s F(%s)  (%s)", dst[i][1][1].toNumber(), dst[i][1][1].shiftedBy(-Number(dst[i][1][5])).toFixed(18), dst[i][1][5]);
       wlltDistList.push(
         <Col key={i} xs={12} md={6} className="px-3">
-          <CoinInfo key={i} setChartKeyFunction={setChartKey} setCurrentSymbol={setCurrentSymbol} setModalShowFunction={setModalShow} holding={dst[i][1][2]} holdingValue={dst[i][1][1]} symbol={dst[i][1][3]} tokenAddress={dst[i][1][4]} />
+          <CoinInfo 
+            key={i} 
+            setChartKeyFunction={setChartKey} 
+            setCurrentSymbol={setCurrentSymbol} 
+            setModalShowFunction={setModalShow} 
+            holding={dst[i][1][2].shiftedBy(-Number(dst[i][1][5])).toFixed(12)}
+            holdingValue={dst[i][1][1].shiftedBy(-18).toFixed(12)}
+            symbol={dst[i][1][3]} 
+            tokenAddress={dst[i][1][4]} 
+          />
         </Col>
       )
     }

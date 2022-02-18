@@ -3,7 +3,7 @@ import { Card, Row, Col } from 'react-bootstrap';
 import addressAvatarBig from '../../assets/icons/addressAvatarBig.png';
 import { Doughnut } from 'react-chartjs-2';
 import * as CryptoIcons from '../../assets/icons';
-import {walletDistribution,getWalletTVL} from 'utils/walletHelpers'
+import {walletDistribution,getWalletTVL, num_format} from 'utils/walletHelpers'
 import useWeb3 from 'hooks/useWeb3';
 import useAuthService from 'hooks/useAuthService'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -29,30 +29,29 @@ export function CoinInfo(props) {
   const [price, setPrice] = useState(0);
   const [priceBNB, setPriceBNB] = useState(0);
   const [priceVariation, setPriceVariation] = useState(0);
-  const [name, setName] = useState("Loading..")
+  const [name, setName] = useState("Loading...")
   
   const [value, setValue] = useState(0);
 
   const coingeckoId = CoingeckoTokens.default[props.symbol.toLowerCase()];
 
   const getCoingeckoStats = async ()=>{
-    
-    let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
-    setPrice(data.data.market_data?.current_price.usd || 0);
-    setPriceVariation(data.data.market_data?.price_change_percentage_24h || 0);
-    setName(data.data.name)
+    try{
+      let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
+      setPrice(data.data.market_data?.current_price.usd || 0);
+      setPriceVariation(data.data.market_data?.price_change_percentage_24h || 0);
+      setName(data.data.name)
+    }catch(err){
+      console.log(err);
+    }
+
     let bnb = await CoinGeckoClient.coins.fetch('binancecoin', {});
     setPriceBNB(bnb.data.market_data.current_price.usd)
   }
 
   const currentName = useGetFiatName();
-  // console.log("CURRENT FIAT NAMEwwwwwwww ", currentName);
-
   const currentValues = useGetFiatValues();
-  // console.log("Values: ", currentValues);
-
   const currentSymbol = useGetFiatSymbol();
-
   const currentDecimals = useGetFiatDecimals();
 
   let navigation = useNavigate()
@@ -63,11 +62,16 @@ export function CoinInfo(props) {
 
   useEffect(() => {
     getCoingeckoStats();
-    for(let i=0; i<currentValues.length; i++){
-      if(currentValues[i]['currency'] == currentName){
-        setValue(Number(currentValues[i]['rate']));
+    if(Object.keys(currentValues).length === 0){
+      setValue(1)
+    } else{
+      for(let i=0; i<currentValues.length; i++){
+        if(currentValues[i]['currency'] == currentName){
+          setValue(Number(currentValues[i]['rate']));
+        }
       }
     }
+    //console.log("%s: %s - %s", props.symbol, price, props.holdingValue)
   }, [currentName, currentValues, currentSymbol])
 
   return(
@@ -85,14 +89,14 @@ export function CoinInfo(props) {
               
             <Col md={3} xs={6} className="pt-3">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>holdings</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(props.holdingValue*value).toFixed(currentDecimals)}</span>
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {num_format(props.holdingValue*value, 2, 4)}</span>
               <span className="text-decoration-none" style={{color: "#8DA0B0", fontSize: 11}}>CURRENT PRICE</span>
-              <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {(price*value).toFixed(currentDecimals)}</h5> 
+              <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {num_format(price*value, 2)}</h5> 
             </Col>
 
             <Col md={3} xs={5} className="border-left border-1 pt-3 pr-0 text-center text-md-left">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>{props.symbol}</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {props.holding.toFixed(currentDecimals)}</span> 
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {price > 1 ? num_format(props.holding, 5, 9) : num_format(props.holding, 2, 4)}</span> 
               <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
               <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
             </Col>
@@ -102,24 +106,24 @@ export function CoinInfo(props) {
                   CLOSE TRADE
                 </Button>
 
-<div style={{position: "relative"}} className="previewchart">
-                <TradingViewWidget 
-        symbol={props.symbol.toUpperCase()+"USD"}
-        // theme={Themes.DARK}
-        locale="en"
-        hide_top_toolbar={true}
-        hide_legend={true}
-        allow_symbol_change={false}
-        hide_side_toolbar={true}
-        style={"2"}
-        width={140}
-        height={80}
-      />
-      
-                <a style={{position: "absolute", right: 30, top: 0, width: 20, height: 20, backgroundColor: "#FFFFFF"}} onClick={() => {props.setModalShowFunction(true);props.setChartKeyFunction(prev => prev + 1);props.setCurrentSymbol(props.symbol);}}>
-                  <img style={{zIndex:9999, width: 20, height: 20, cursor: "pointer", marginRight: 10}} src={ArrowExpandModal}></img>
-                </a>
-</div>
+                <div style={{position: "relative"}} className="previewchart">
+                  <TradingViewWidget 
+                    symbol={props.symbol.toUpperCase()+"USD"}
+                    // theme={Themes.DARK}
+                    locale="en"
+                    hide_top_toolbar={true}
+                    hide_legend={true}
+                    allow_symbol_change={false}
+                    hide_side_toolbar={true}
+                    style={"2"}
+                    width={140}
+                    height={80}
+                  />
+        
+                  <a style={{position: "absolute", right: 30, top: 0, width: 20, height: 20, backgroundColor: "#FFFFFF"}} onClick={() => {props.setModalShowFunction(true);props.setChartKeyFunction(prev => prev + 1);props.setCurrentSymbol(props.symbol);}}>
+                    <img style={{zIndex:9999, width: 20, height: 20, cursor: "pointer", marginRight: 10}} src={ArrowExpandModal}></img>
+                  </a>
+                </div>
             </Col>
           </Row>
         </Card.Body>
@@ -129,10 +133,10 @@ export function CoinInfo(props) {
 }
 
 CoinInfo.propTypes = {
-  holdingValue: PropTypes.number,
+  holdingValue: PropTypes.string,
   symbol: PropTypes.string,
   setModalShowFunction: PropTypes.any,
-  holding: PropTypes.number,
+  holding: PropTypes.string,
   setChartKeyFunction: PropTypes.func,
   setCurrentSymbol :PropTypes.func,
   tokenAddress: PropTypes.string

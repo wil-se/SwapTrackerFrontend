@@ -3,7 +3,7 @@ import { Card, Row, Col } from 'react-bootstrap';
 import addressAvatarBig from '../../assets/icons/addressAvatarBig.png';
 import { Doughnut } from 'react-chartjs-2';
 import * as CryptoIcons from '../../assets/icons';
-import {walletDistribution,getWalletTVL} from 'utils/walletHelpers'
+import {walletDistribution,getWalletTVL, num_format} from 'utils/walletHelpers'
 import useWeb3 from 'hooks/useWeb3';
 import useAuthService from 'hooks/useAuthService'
 import { Chart as ChartJS, Legend,Tooltip } from 'chart.js';
@@ -52,7 +52,8 @@ export function WalletOverview(){
   const [chartData, setChartData] = useState({})
   const [options,] = useState(
     {
-      cutoutPercentage: 70,
+      cutout: 70,
+      //percentageInnerCutout: 10,
       plugins:{
         legend: {
           display: false
@@ -68,7 +69,6 @@ export function WalletOverview(){
           titleFont:{family:"Avenir Next",weight:'bold'},
           bodyFont:{family:"Avenir Next",weight:'bold'},
           cornerRadius:10,
-          
         },
       },
       responsive: true,
@@ -77,18 +77,11 @@ export function WalletOverview(){
 
   const getWlltTVL = async ()=>{
     let wlltTVL = await getWalletTVL(user,web3,chainId);
-
-    const balanceNativeIn = await web3.eth.getBalance(account);
-    let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(6);
     let data = await CoinGeckoClient.coins.fetch('binancecoin', {});
     let bnbPrice = data.data.market_data.current_price.usd;
     let bnbAmount = wlltTVL / bnbPrice;
-    
-    console.log("amount formatted", amountInFormatted*bnbPrice);
-    
-    setWalletTVL(Number(wlltTVL));
-    
-    setWalletTVLBNB(bnbAmount);
+    return [wlltTVL, bnbAmount];   
+
   }
     
   const wlltDist = async ()=>{
@@ -102,18 +95,26 @@ export function WalletOverview(){
         
         cLabels.push(value[3].toUpperCase());
         cData.push(value[0]);
-        let coingeckoId = CoingeckoTokens.default[value[3].toLowerCase()];
-        let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
 
-        if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 2) {setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 3) {setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 4) {setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(2), name: data.data.name}); other = other-Number(value[0])}
+        let coingeckoId, data;
+
+        try{
+          coingeckoId = CoingeckoTokens.default[value[3].toLowerCase()];
+          data = await CoinGeckoClient.coins.fetch(coingeckoId, {}).catch(console.log);
+        }catch(err){
+          console.log(err);
+        }
+         
+
+        if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
+        if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
+        if(count === 2) {setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
+        if(count === 3) {setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
+        if(count === 4) {setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
         count++;
     }
 
-    setOther(other.toFixed(2));
+    setOther(other.toFixed(3));
 
     setChartData({
         labels: cLabels,
@@ -160,11 +161,23 @@ export function WalletOverview(){
   const currentDecimals = useGetFiatDecimals();
 
   useEffect(() => {
+
     if(user && chainId){
-      getWlltTVL()
-      wlltDist()
       setAddress(user.address);
+      getWlltTVL().then( ([tvl, tvlAsBNB]) => {
+        setWalletTVL(tvl);
+        setWalletTVLBNB(tvlAsBNB);
+      });
+      
+      wlltDist()
     }
+
+    console.log("FIAT Price length: %s", currentValues.length);
+
+    if(!currentValues){
+      setPrice(1);
+    }
+
     for(let i=0; i<currentValues.length; i++){
       if(currentValues[i]['currency'] == currentName){
         setPrice(Number(currentValues[i]['rate']));
@@ -178,14 +191,14 @@ export function WalletOverview(){
       <Col md={12}>
         <Card className="wallet-overview-card w-100 mb-2 pl-2 pr-2 pt-0 pb-0">
           <Card.Body className="pr-4 pl-4 pb-8">
-              <Row className="justify-content-between">
-                  <Col style={{borderColor: "#ABC2D6"}} className="border-right border-md-1 border-0 pr-4" xs={12} md={4}>
+              <Row className="justify-content-start">
+                  <Col xs={12} md={3} style={{borderColor: "#ABC2D6"}} className="border-right border-md-1 border-0 pr-4" >
                       <div>
                       <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-3 border-bottom border-1 pt-4" style={{borderColor: "#ABC2D6"}}>
-                          <Col className="pr-0" xs={3}>
+                          <Col xs={12} md={4} className="pr-0" >
                             <img src={addressAvatarBig} className="avatar"/>
                           </Col>
-                          <Col className="pr-0" xs={9}>
+                          <Col xs={12} md={8} className="pr-0" >
                           <div style={{fontSize: 24, fontWeight: 900,}}>
                               {getShrunkWalletAddress(address)}
                           </div>
@@ -198,21 +211,23 @@ export function WalletOverview(){
                           <h6 style={{fontStyle: "normal", fontWeight: 800, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
                       </Row>
                       <Row className="pl-4">
-                          <h1 style={{fontSize: 48, fontWeight: 900}}> {currentSymbol} {(walletTVL*price).toFixed(currentDecimals)} </h1>
+                          <h1 style={{fontSize: 48, fontWeight: 900}}> {currentSymbol} {(walletTVL*(price > 0 ? price : 1)).toFixed(currentDecimals)} </h1>
                       </Row>
                       <Row className="pl-4">
                           <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>{walletTVLBNB.toFixed(4)} BNB</h6>
                       </Row>
                       </div>
                   </Col>
-                  <Col xs={12} md={3} className="d-flex  align-items-center justify-content-center">
+
+                  <Col xs={12} md={4} lg={3} className="d-flex align-items-center justify-content-center">
                   {
                     Object.keys(chartData).length === 0 ?
                     <Skeleton width="160px" height="160px" style={{borderRadius:90}}/> :
-                    <Doughnut options={options} data={chartData} />
+                    <Doughnut options={options} data={chartData}/>
                   }
                       
                   </Col>
+
                   <Col xs={12} md={5} className="d-flex flex-column align-items-center justify-content-center">
                     <div>
                       <Row>

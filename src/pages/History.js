@@ -67,17 +67,18 @@ const History = () => {
       (async()=>{
           if(account){
               await getTier(swapTrackerMediator,navigation,account)
-              
           }
       })()
   },[account])
 
   useEffect(() => {
-    let val = 0
-    for(let i=0; i<currentValues.length; i++){
-      if(currentValues[i]['currency'] == currentName){
-        val = Number(currentValues[i]['rate']);
-        setValue(Number(currentValues[i]['rate']))
+    if(Object.keys(currentValues).length === 0){
+      setValue(1)
+    } else{
+      for(let i=0; i<currentValues.length; i++){
+        if(currentValues[i]['currency'] == currentName){
+          setValue(Number(currentValues[i]['rate']));
+        }
       }
     }
     if(user){
@@ -102,7 +103,6 @@ const History = () => {
       setSelectedDayRangeFormatted(label)
       setTradesRows(
         tradesRows.filter((trade)=>{
-          console.log(trade.createdAtForFilter, dateFromMoment, dateToMoment)
           return(
             trade.createdAtForFilter >= dateFromMoment && trade.createdAtForFilter <= dateToMoment
           )    
@@ -128,7 +128,7 @@ const History = () => {
     return (
         <MainContainer>
         <>
-        <Row class="d-flex ">
+        <Row className="d-flex ">
           <Col md={12} lg={12} xs={12} className="justify-content-start">
           <h1 className="subheader-title">History</h1>
               <DatePicker

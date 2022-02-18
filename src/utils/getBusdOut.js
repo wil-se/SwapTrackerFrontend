@@ -16,3 +16,13 @@ export async function getBusdOut(tokenAddress, amount,decimals){
     .methods.getAmountsOut(amountFormatted.toString(), path).call()
     return out[out.length - 1]
 }
+
+export async function getRawBusdOut(tokenAddress, amount){
+    if(tokenAddress === BUSD) return amount
+    var path = [tokenAddress.toLowerCase(),]
+    if(tokenAddress.toLowerCase() != BNB) path.push(BNB)
+    path.push(BUSD)
+    var out = await getContract(PancakeAbi, "0x10ED43C718714eb63d5aA57B78B54704E256024E".toLowerCase())
+    .methods.getAmountsOut(amount, path).call()
+    return out[out.length - 1]
+}
