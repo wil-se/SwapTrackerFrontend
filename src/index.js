@@ -6,12 +6,12 @@ import {BrowserRouter as Router} from 'react-router-dom';
 
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Router>
     <Providers>
       <App />
     </Providers>
-    </Router>
-  </React.StrictMode>,
+    </Router>,
+  // </React.StrictMode>,
   document.getElementById('root'),
 );
