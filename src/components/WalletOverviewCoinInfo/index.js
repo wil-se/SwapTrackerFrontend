@@ -9,11 +9,14 @@ const coinInfoStyle = {
   height: 'auto'
 }
 
+const coinBorder = {border: "1px solid #ACD8E6", borderRadius: 10}
+
 
 export function WalletOverviewCoinInfo(props){
   const { innerWidth: width, innerHeight: height } = window;
   return(
-    <div>
+    <Col className="m-2" style={coinBorder}>
+    <div className='py-2 pr-2'>
     {
         props.coin.symbol === "" ?
           <Skeleton width={width < 400 ? 100 : 220} height="40px"/>
@@ -23,7 +26,7 @@ export function WalletOverviewCoinInfo(props){
                 <img src={CryptoIcons.default['_generic']} style={coinInfoStyle} /> 
               </Col>
               <Col xs={5}>
-                <p className="mb-0 text-nowrap" style={{fontSize: 14, fontWeight: 800}}></p>
+                <p className="mb-0 text-nowrap" style={{fontSize: 14, fontWeight: 800}}>{props.coin.symbol}</p>
                 <p className="mb-0 text-nowrap" style={{fontSize: 12, fontWeight: 400, opacity: 0.5}}>{props.coin.name}</p>
               </Col>
               <Col xs={4} className="text-right pr-0">
@@ -45,6 +48,7 @@ export function WalletOverviewCoinInfo(props){
             </Row>
     }
     </div>
+    </Col>
   )
 }
 

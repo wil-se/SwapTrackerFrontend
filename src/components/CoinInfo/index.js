@@ -55,10 +55,6 @@ export function CoinInfo(props) {
   const currentDecimals = useGetFiatDecimals();
 
   let navigation = useNavigate()
-  const closeTrade = (tokenIn,tokenOut) => {
-    console.log(tokenIn,tokenOut)
-    navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut}})
-  }
 
   useEffect(() => {
     getCoingeckoStats();
@@ -89,22 +85,18 @@ export function CoinInfo(props) {
               
             <Col md={3} xs={6} className="pt-3">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>holdings</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {num_format(props.holdingValue*value, 2, 4)}</span>
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 20, fontWeight: 900}}>{currentSymbol} {num_format(props.holdingValue*value, 2, 4)}</span>
               <span className="text-decoration-none" style={{color: "#8DA0B0", fontSize: 11}}>CURRENT PRICE</span>
-              <h5 className="mb-0 pt-0" style={{fontSize: 24, fontWeight: 900}}>{currentSymbol} {num_format(price*value, 2)}</h5> 
+              <h5 className="mb-0 pt-0" style={{fontSize: 20, fontWeight: 900}}>{currentSymbol} {num_format(price*value, 2)}</h5> 
             </Col>
 
             <Col md={3} xs={5} className="border-left border-1 pt-3 pr-0 text-center text-md-left">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>{props.symbol}</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {price > 1 ? num_format(props.holding, 5, 7) : num_format(props.holding, 2, 4)}</span> 
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 20, fontWeight: 900}}> {price > 1 ? num_format(props.holding, 5, 7) : num_format(props.holding, 2, 4)}</span> 
               <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
               <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
             </Col>
             <Col md={4} xs={7} className="pt-3 pl-0 align-items-md-start align-items-center float-right text-right">
-              
-                <Button className="pt-1 pb-1 mb-3 mr-4" style={{fontSize: 12}} onClick={()=>closeTrade(BNB.address,props.tokenAddress )}>
-                  CLOSE TRADE
-                </Button>
 
                 <div style={{position: "relative"}} className="previewchart">
                   <TradingViewWidget 

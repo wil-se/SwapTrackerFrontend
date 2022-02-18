@@ -39,7 +39,7 @@ const TopNavbar = function () {
   const { connector } = useWalletConnectAuth()
 
   const getPrices = async () => {
-      const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}data/getFiats`).catch(console.log);
+      const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}/data/getFiats`).catch(console.log);
       if(response){
         const data = await response.json();
         setValues(data.data);
