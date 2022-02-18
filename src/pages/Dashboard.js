@@ -17,9 +17,8 @@ const CoinGeckoClient = new CoinGecko();
 
 const Dashboard = () => {
     const { account } = useWeb3React();
-
     const { chainId, web3 } = useWeb3()
-    const { user,tier,setTierNoRedirect } = useAuthService()
+    const { user,tier} = useAuthService()
     const [walletTVL,setWalletTVL] = useState(0)
     const [currentBalance,setCurrentBalance] = useState(0)
     const [profitOrLoss,setProfitOrLoss] = useState(0)
@@ -95,8 +94,7 @@ const Dashboard = () => {
         (async() =>{
 
           
-           if(!account){
-               
+           if(!account){            
                 setCurrentBalance(null)
                 setProfitOrLoss(null)
                 setOpenTradeValue(null)
@@ -105,8 +103,6 @@ const Dashboard = () => {
                 return;
            }
            else if(tier !== 1000){
-              
-
                await getDashData()
                if(user && chainId){
                    await getWlltTVL();

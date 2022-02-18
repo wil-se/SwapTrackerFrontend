@@ -28,7 +28,7 @@ function App() {
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/tiers" element={<Tier />} />
           <Route path="/history" element={<History />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard />} />
         </Routes>
       </Container>
       

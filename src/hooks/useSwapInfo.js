@@ -125,8 +125,35 @@ export const useSwapInfo = (inputCurrency,outputCurrency) => {
     outputCurrency !== undefined && inputCurrency?.symbol !== BNB.symbol && outputCurrency?.symbol !== BNB.symbol && inputCurrency?.symbol !== WBNB.symbol && outputCurrency?.symbol !== WBNB.symbol
     ? path.push(inputCurrency.address,mainnetTokens.wbnb.address,outputCurrency?.address) 
     : path.push(inputCurrency.address,outputCurrency?.address) 
- 
-    return path;
+
+
+    const getPath = (inputCurrency,outputCurrency) =>{
+      let currPath = []
+      outputCurrency !== undefined && inputCurrency?.symbol !== BNB.symbol && outputCurrency?.symbol !== BNB.symbol && inputCurrency?.symbol !== WBNB.symbol && outputCurrency?.symbol !== WBNB.symbol
+      ? currPath.push(inputCurrency.address,mainnetTokens.wbnb.address,outputCurrency?.address) 
+      : currPath.push(inputCurrency.address,outputCurrency?.address) 
+   
+      return currPath
+    }
+
+    const getBalance = async (tokenIn,account,erc20Contract,web3) => {
+      console.log(tokenIn,account,erc20Contract,web3)
+      let balance = 0;
+      if(tokenIn && account && erc20Contract && web3){
+        if(tokenIn.symbol === BNB.symbol){
+          balance = await web3.eth.getBalance(account)
+          balance = new BigNumber(balance).shiftedBy(-1*18).toNumber()        }
+        else {
+          let decimals = await erc20Contract.methods.decimals().call()
+          balance = await erc20Contract.methods.balanceOf(account).call()
+          balance = new BigNumber(balance).shiftedBy(-1*parseInt(decimals)).toNumber()
+        }
+      }
+      console.log("u balance" , balance)
+      return balance
+    }
+
+    return {path,getPath,getBalance};
     
     
 }

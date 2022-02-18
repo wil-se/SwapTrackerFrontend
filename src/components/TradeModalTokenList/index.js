@@ -5,9 +5,11 @@ import PropTypes from 'prop-types'
 import {getPancakeTokenList} from 'utils/tradeHelpers'
 import {Token,ChainId } from '@pancakeswap/sdk'
 import {WBNB} from 'config'
-const TradeModalTokenList = ({setOpenTokenListModalIn,setOpenTokenListModalOut, setTokenSelectedIn, setTokenSelectedOut, tokenSelectedIn, tokenSelectedOut ,setDisabledInput, openTokenListModalIn, openTokenListModalOut}) => {
+import {useSwapInfo} from 'hooks/useSwapInfo'
+const TradeModalTokenList = ({setOpenTokenListModalIn,setOpenTokenListModalOut, setTokenSelectedIn, setTokenSelectedOut, tokenSelectedIn, tokenSelectedOut ,setDisabledInput, openTokenListModalIn, openTokenListModalOut,getAmountIn,getAmountOut,amountIn,amountOut}) => {
     const [tokenList, setTokenList] = useState([])
     const [searchToken,setSearchToken] = useState("")
+    const {getPath} = useSwapInfo(tokenSelectedIn,tokenSelectedOut)
     useEffect(async () => {
             let resp = await getPancakeTokenList()
             setTokenList(
@@ -41,9 +43,36 @@ const TradeModalTokenList = ({setOpenTokenListModalIn,setOpenTokenListModalOut, 
         
     }, [searchToken,tokenSelectedIn,tokenSelectedOut])
 
-    const getTokenSelected = (token) => {
+    const setNewAmountOut = async (newTokenSelectedIn) => {
+        console.log(tokenSelectedIn.symbol , newTokenSelectedIn.symbol)
+        if(tokenSelectedIn.symbol !== newTokenSelectedIn.symbol){
+            const path = getPath(newTokenSelectedIn,tokenSelectedOut)
+            await getAmountOut(amountIn,path)
+        }
+    }
+
+    const setNewAmountIn = async (newTokenSelectedOut) => {
+        console.log(tokenSelectedOut.symbol , newTokenSelectedOut.symbol)
+        if(tokenSelectedOut.symbol !== newTokenSelectedOut.symbol){
+            const path = getPath(tokenSelectedIn,newTokenSelectedOut)
+            await getAmountIn(amountOut,path)
+        }
+    }
+
+    const getTokenSelected = async (token) => {
         
-        openTokenListModalIn ? (setTokenSelectedIn(token), setOpenTokenListModalIn(!openTokenListModalIn)) : (setTokenSelectedOut(token), setOpenTokenListModalOut(!openTokenListModalOut), setDisabledInput(false));
+        openTokenListModalIn ? 
+            (
+                setTokenSelectedIn(token), 
+                setOpenTokenListModalIn(!openTokenListModalIn),
+                await setNewAmountOut(token)
+            ) 
+            : 
+            (
+                setTokenSelectedOut(token), 
+                setOpenTokenListModalOut(!openTokenListModalOut), 
+                await setNewAmountIn(token)
+            );
         
     }
 
@@ -89,7 +118,11 @@ TradeModalTokenList.propTypes = {
     tokenSelectedOut: PropTypes.object,
     setDisabledInput: PropTypes.func,
     openTokenListModalIn: PropTypes.bool,
-    openTokenListModalOut: PropTypes.bool
+    openTokenListModalOut: PropTypes.bool,
+    getAmountIn: PropTypes.func,
+    getAmountOut: PropTypes.func,
+    amountIn: PropTypes.string,
+    amountOut: PropTypes.string
 
 };
 

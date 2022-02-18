@@ -1,16 +1,15 @@
-import React,{useLayoutEffect} from 'react'
+import React,{useEffect, useLayoutEffect} from 'react'
 import BigNumber from 'bignumber.js';
 import { useWeb3React } from '@web3-react/core';
 import { Col, Row } from 'react-bootstrap';
 import { usePools } from 'store/hooks';
 import { useFetchPublicData, useFetchPriceList } from 'store/hooks';
-import { useSwapTrackerMediator } from 'hooks/useContract';
-import {useNavigate} from 'react-router-dom'
-import {getTier} from 'utils/walletHelpers'
+
 import useEagerConnect from 'hooks/useEagerConnect';
 import MainContainer from 'components/MainContainer';
 import CardsSection from 'components/CardsSection';
 import PoolCard from 'components/PoolCard';
+import useAuthService from 'hooks/useAuthService';
 
 BigNumber.config({
     EXPONENTIAL_AT: 1000,
@@ -20,20 +19,17 @@ BigNumber.config({
 const Staking = () => {
     useFetchPublicData();
     useFetchPriceList();
-    const navigation = useNavigate();
-    const swapTrackerMediator = useSwapTrackerMediator(); 
     const { account } = useWeb3React();
+    const {setTierWithRedirect} = useAuthService()
     const pools = usePools(account);
   
     const openedPools = pools.filter(pool => pool).sort((a, b) => a.sortOrder - b.sortOrder);
 
-    useLayoutEffect(()=>{
-        (async()=>{
-            if(account){
-                await getTier(swapTrackerMediator,navigation,account)
-            }
-        })()
-    },[account])
+    useLayoutEffect(()=>{(async()=>{ await setTierWithRedirect(account)})()},[account])
+
+    useEffect(()=>{(async()=>{ await setTierWithRedirect(account)})()},[account])
+
+
 
     return (
         <MainContainer>
