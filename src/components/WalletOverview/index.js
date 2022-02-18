@@ -95,14 +95,22 @@ export function WalletOverview(){
         
         cLabels.push(value[3].toUpperCase());
         cData.push(value[0]);
-        let coingeckoId = CoingeckoTokens.default[value[3].toLowerCase()];
-        let data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
 
-        if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 2) {setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 3) {setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name}); other = other-Number(value[0])}
-        if(count === 4) {setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name}); other = other-Number(value[0])}
+        let coingeckoId, data;
+
+        try{
+          coingeckoId = CoingeckoTokens.default[value[3].toLowerCase()];
+          data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
+        }catch(err){
+          console.log(err);
+        }
+         
+
+        if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
+        if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
+        if(count === 2) {setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
+        if(count === 3) {setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
+        if(count === 4) {setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
         count++;
     }
 
