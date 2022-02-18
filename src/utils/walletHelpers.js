@@ -190,7 +190,7 @@ export const num_format = (value, fix_min = 0, fix_max = 9) => {
         try{
             return parseFloat(value.toFixed(18)).toString().split(".")[1].length || 0;
         }catch(err){
-            return 0;
+            return (value > 0) ? 8 : 4;
         }
     }
 

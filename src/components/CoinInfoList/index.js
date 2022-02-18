@@ -3,7 +3,7 @@ import { Card, Row, Col } from 'react-bootstrap';
 import addressAvatarBig from '../../assets/icons/addressAvatarBig.png';
 import { Doughnut } from 'react-chartjs-2';
 import * as CryptoIcons from '../../assets/icons';
-import {walletDistribution,getWalletTVL} from 'utils/walletHelpers'
+import {walletDistribution,getWalletTVL, num_format} from 'utils/walletHelpers'
 import useWeb3 from 'hooks/useWeb3';
 import useAuthService from 'hooks/useAuthService'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -43,8 +43,8 @@ export function CoinInfoList(){
             setChartKeyFunction={setChartKey} 
             setCurrentSymbol={setCurrentSymbol} 
             setModalShowFunction={setModalShow} 
-            holding={dst[i][1][2].shiftedBy(-Number(dst[i][1][5])).toFixed(7)} 
-            holdingValue={dst[i][1][1].shiftedBy(-Number(dst[i][1][5])).toFixed(7)}
+            holding={dst[i][1][2].shiftedBy(-Number(dst[i][1][5])).toFixed(12)}
+            holdingValue={num_format(dst[i][1][1].shiftedBy(-Number(dst[i][1][5])), 2, 7)}
             symbol={dst[i][1][3]} 
             tokenAddress={dst[i][1][4]} 
           />

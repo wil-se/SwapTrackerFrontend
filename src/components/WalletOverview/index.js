@@ -3,7 +3,7 @@ import { Card, Row, Col } from 'react-bootstrap';
 import addressAvatarBig from '../../assets/icons/addressAvatarBig.png';
 import { Doughnut } from 'react-chartjs-2';
 import * as CryptoIcons from '../../assets/icons';
-import {walletDistribution,getWalletTVL} from 'utils/walletHelpers'
+import {walletDistribution,getWalletTVL, num_format} from 'utils/walletHelpers'
 import useWeb3 from 'hooks/useWeb3';
 import useAuthService from 'hooks/useAuthService'
 import { Chart as ChartJS, Legend,Tooltip } from 'chart.js';
