@@ -1,32 +1,25 @@
-import React, {useLayoutEffect } from 'react'
+import React, {useLayoutEffect,useEffect } from 'react'
 import MainContainer from 'components/MainContainer'
 import {Row,Col } from 'react-bootstrap';
 import "./WalletStyles.css"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { WalletOverview } from 'components/WalletOverview';
 import { CoinInfoList } from 'components/CoinInfoList';
-import { useSwapTrackerMediator } from 'hooks/useContract';
-import {useNavigate} from 'react-router-dom'
-import {getTier} from 'utils/walletHelpers'
 import { useWeb3React } from '@web3-react/core';
-
+import useAuthService from 'hooks/useAuthService';
 
 
 ChartJS.register(ArcElement, Tooltip)
 
 
 const Wallet = () => {
-    const navigation = useNavigate();
-    const swapTrackerMediator = useSwapTrackerMediator(); 
+    const {setTierWithRedirect} = useAuthService()
     const { account } = useWeb3React();
 
-    useLayoutEffect(()=>{
-        (async()=>{
-            if(account){
-                await getTier(swapTrackerMediator,navigation,account)
-            }
-        })()
-    },[account])
+   
+    useLayoutEffect(()=>{(async()=>{ await setTierWithRedirect(account)})()},[account])
+
+    useEffect(()=>{(async()=>{ await setTierWithRedirect(account)})()},[account])
 
     return (
         <MainContainer>

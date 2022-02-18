@@ -19,26 +19,32 @@ const useAuthService = () => {
         setTier(Number(tid))
     }
 
-    const setTierWithRedirect = async (account,loc) => {
-        let tid = await swapTrackerMediator.methods.getTierFee(account).call()
-            if(Number(tid) === 1000 ){
-                navigation('/tiers')
-            }
-            return Number(tid)
+    const setTierWithRedirect = async (account) => {
+        console.log(account)
+        if(account){
+            let tid = await swapTrackerMediator.methods.getTierFee(account).call()
+            console.log(tid)
+                if(Number(tid) === 1000 ){
+                    navigation('/tiers')
+                }
+                return Number(tid)
+        }
+        else{
+            navigation('/tiers')
+        }
+        
     }
 
    
 
     useEffect(() => {
         (async()=>{
-            console.log("la location ", location)
+          
             if(account){
                 const resp = await callPost("createOrUpdateUser",{address:account.toLowerCase(), lastLogin:new Date()})
                 setUser(resp?.data.data)
                 setTierNoRedirect(account)
-                
-                
-     
+
             } else if(connector.connected) {
                 const resp = await callPost("createOrUpdateUser",{address:connector._accounts[0].toLowerCase(), lastLogin:new Date()})
                 setUser(resp?.data.data);
@@ -63,7 +69,7 @@ const useAuthService = () => {
         callPost("updateUserTokenList",body)
     }
 
-    return {user,createOrUpdateUser,updateUserTokenList,tier,setTierNoRedirect}
+    return {user,createOrUpdateUser,updateUserTokenList,tier,setTierNoRedirect,setTierWithRedirect}
     
 }
 

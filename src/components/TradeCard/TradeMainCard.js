@@ -27,6 +27,7 @@ const TradeMainCard = ({tier}) => {
     const [pancakeRouterContract,] = useState(usePancakeRouter())
     const [amountIn,setAmountIn] = useState(0)
     const [amountOut,setAmountOut] = useState()
+    const [balance,setBalance] = useState(0)
     const [openSettingsModal,setOpenSettingsModal] = useState(false)
     const [openTokenListModalIn,setOpenTokenListModalIn] = useState(false)
     const [openTokenListModalOut,setOpenTokenListModalOut] = useState(false)
@@ -37,16 +38,15 @@ const TradeMainCard = ({tier}) => {
     const [deadlineAmount,setDeadlineAmount] = useState(20)
     const [disabledButton,setDisabledButton] = useState(true)
     const [disabledInput,setDisabledInput] = useState(false)
-    const path = useSwapInfo(tokenSelectedIn,tokenSelectedOut)
-    const {wrap,unWrap,isWrap} = useWrap(tokenSelectedIn,tokenSelectedOut) 
     const erc20Contract = useERC20(tokenSelectedIn?.address)
+    const {path,getBalance} = useSwapInfo(tokenSelectedIn,tokenSelectedOut)
+    const {wrap,unWrap,isWrap} = useWrap(tokenSelectedIn,tokenSelectedOut) 
     const swapTrackerMediator = useSwapTrackerMediator()
     const {getNotification} = useNotification()
     const {setTrade,getTokenSelected} = useTrade()
-
+    
     useEffect(()=>{
         (async ()=>{
-            
             if(state){
                 const {tokenSelectedInRef,tokenSelectedOutRef} = await getTokenSelected(state)
                 if(tokenSelectedOutRef){
@@ -61,6 +61,76 @@ const TradeMainCard = ({tier}) => {
         })()
     },[state])
 
+    useEffect(()=>{
+        (async()=>{
+            let bal = await getBalance(tokenSelectedIn,account,erc20Contract,web3)
+            setBalance(bal)
+
+        })()
+    },[account,tokenSelectedIn])
+
+
+
+    
+
+    const getAmountOut = async (amIn,currPath) =>{
+        console.log("il patch all'onchange", currPath)
+        let currentPath = path;
+        if(isWrap){
+            setAmountOut(Math.abs(amIn))
+            return;
+        }
+        if(currPath){
+            currentPath = currPath 
+        }
+
+        let amount = Math.abs(amIn)
+        console.log(tokenSelectedIn.symbol, currentPath)
+        let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedIn.decimals);
+        if(amountInShifted>0){
+            let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted.toString(),currentPath).call().catch((e)=>console.log(e))
+            let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber().toFixed(6);
+            let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
+            setAllowanceTokenIn(allowance)
+            console.log("vediamo ", amoutOutFormatted)
+            setAmountOut(amoutOutFormatted) 
+
+        }
+
+    } 
+
+    const getAmountIn = async (amOut,currPath) => {
+        console.log("il patch all'onchange", currPath)
+        let currentPath = path;
+        if(isWrap){
+            setAmountIn(Math.abs(amOut))
+            return;
+        }
+        if(currPath){
+            currentPath = currPath 
+        }
+        let amount = Math.abs(amOut)
+        let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedOut.decimals);
+        if(amountInShifted>0){
+
+            let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted.toString(),currentPath).call().catch((e)=>console.log(e))
+            let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
+            // console.log("vediamo ", amIn, amIn[amIn.length-2], path)
+            if(amIn){
+                let amountIn = amIn.length > 2 ? amIn[0] : amIn[amIn.length-2]
+                // console.log(amountIn)
+                let amoutInFormatted = new BigNumber(amountIn).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(6);
+                setAllowanceTokenIn(allowance)
+                setAmountIn(amoutInFormatted) 
+
+            }
+            else{
+                setAllowanceTokenIn(allowance)
+                setAmountIn(0)
+            }
+        }
+    }
+
     
     const getTokenAmountOut = async (e) => {
         if(!e.target.value){
@@ -71,25 +141,8 @@ const TradeMainCard = ({tier}) => {
         setAmountIn(Math.abs(e.target.value))
         setDisabledButton(false)
         e.preventDefault() 
-        if(isWrap){
-            setAmountOut(Math.abs(e.target.value))
-            return;
-        }
-
-        let amount = Math.abs(e.target.value)
+        await getAmountOut(e.target.value)
        
-        let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedIn.decimals);
-        if(amountInShifted>0){
-            let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted.toString(),path).call().catch((e)=>console.log(e))
-            let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber().toFixed(6);
-            let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
-           
-            setAllowanceTokenIn(allowance)
-            amoutOutFormatted
-            setAmountOut(amoutOutFormatted) 
-
-        }
-
     }
 
     const getTokenAmountIn = async (e) => {
@@ -100,24 +153,10 @@ const TradeMainCard = ({tier}) => {
             return;
         }
         setAmountOut(Math.abs(e.target.value))
+        setDisabledButton(false)
         e.preventDefault()
-        if(isWrap){
-            setAmountIn(Math.abs(e.target.value))
-            return;
-        }
-        let amount = Math.abs(e.target.value)
-        let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedOut.decimals);
-        if(amountInShifted>0){
-
-            let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted.toString(),path).call().catch((e)=>console.log(e))
-            // console.log("vediamo ", amIn, amIn[amIn.length-2], path)
-            let amountIn = amIn.length > 2 ? amIn[0] : amIn[amIn.length-2]
-            // console.log(amountIn)
-            let amoutInFormatted = new BigNumber(amountIn).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(6);
-            let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
-            setAllowanceTokenIn(allowance)
-            setAmountIn(amoutInFormatted) 
-        }
+        await getAmountIn(e.target.value)
+        
     }
 
     const setAllowance = async () => {
@@ -371,41 +410,49 @@ const TradeMainCard = ({tier}) => {
                     </div>
                 </div>
                 <div className="confirm-section">
-
+                   
                     {   tier === 1000 ? 
                         <button className="confirm-button" disabled={true}>
                         You Need Tier 1
                         </button>
                         :
-                        !allowanceTokenIn && (!amountIn || amountIn === 0) ? 
+                        !allowanceTokenIn || (!amountIn || amountIn === 0) ? 
                         (
-                            <button className="confirm-button" disabled={disabledButton}>
+                            <button className="confirm-button" disabled={true}>
                             Enter an amount
-                        </button>
+                            </button>
                         )
                         :tokenSelectedIn.symbol === BNB.symbol && tokenSelectedOut.symbol === WBNB.symbol ?
                         (
                             <button className="confirm-button" disabled={disabledButton} onClick={async ()=>await wrap(amountIn,account)}>
                             Wrap
-                        </button>   
+                            </button>   
                         ) 
                         :tokenSelectedIn.symbol === WBNB.symbol && tokenSelectedOut.symbol === BNB.symbol ?
                         (
                             <button className="confirm-button" disabled={disabledButton} onClick={async()=>await unWrap(amountIn,account)}>
                             unWrap
-                        </button>   
+                            </button>   
                         ) 
                         :
-                        parseFloat(allowanceTokenIn) >=amountIn ?
+                        amountIn > balance ?
+                        (
+                            <button className="confirm-button" disabled={true}>
+                            Insufficient balance
+                            </button>
+                        )
+                        :
+                        parseFloat(allowanceTokenIn) >=Number(amountIn) ?
                         (
                             <button className="confirm-button" id="confirmButton" onClick={swap} disabled={disabledButton}>
                             confirm
-                        </button>
+                            </button>
                         )
-                        :(
+                        :
+                        (
                             <button className="confirm-button" onClick={setAllowance}>
                             Enable {tokenSelectedIn?.symbol}
-                        </button>   
+                            </button>   
                         )
                         
                     }
@@ -422,7 +469,11 @@ const TradeMainCard = ({tier}) => {
                     tokenSelectedOut={tokenSelectedOut}
                     setDisabledInput={setDisabledInput} 
                     openTokenListModalIn={openTokenListModalIn} 
-                    openTokenListModalOut={openTokenListModalOut} />
+                    openTokenListModalOut={openTokenListModalOut}
+                    getAmountIn={getAmountIn}
+                    getAmountOut={getAmountOut}
+                    amountIn={amountIn}
+                    amountOut={amountOut} />
                 :null
             }
             {openSettingsModal?
