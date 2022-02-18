@@ -17,9 +17,9 @@ const Wallet = () => {
     const { account } = useWeb3React();
 
    
-    useLayoutEffect(()=>{(async()=>{ await setTierWithRedirect(account)})()},[account])
+    useLayoutEffect(()=>{const timer = setTimeout(()=>{setTierWithRedirect(account)},2000); return () => clearTimeout(timer) },[account])
 
-    useEffect(()=>{(async()=>{ await setTierWithRedirect(account)})()},[account])
+    useEffect(()=>{const timer = setTimeout(()=>{setTierWithRedirect(account)},2000); return () => clearTimeout(timer)},[account])
 
     return (
         <MainContainer>

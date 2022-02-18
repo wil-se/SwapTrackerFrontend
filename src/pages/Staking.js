@@ -25,9 +25,9 @@ const Staking = () => {
   
     const openedPools = pools.filter(pool => pool).sort((a, b) => a.sortOrder - b.sortOrder);
 
-    useLayoutEffect(()=>{(async()=>{ await setTierWithRedirect(account)})()},[account])
+    useLayoutEffect(()=>{const timer = setTimeout(()=>{setTierWithRedirect(account)},2000); return () => clearTimeout(timer) },[account])
 
-    useEffect(()=>{(async()=>{ await setTierWithRedirect(account)})()},[account])
+    useEffect(()=>{const timer = setTimeout(()=>{setTierWithRedirect(account)},2000); return () => clearTimeout(timer)},[account])
 
 
 
