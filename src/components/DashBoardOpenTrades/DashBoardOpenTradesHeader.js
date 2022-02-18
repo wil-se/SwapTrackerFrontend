@@ -6,7 +6,7 @@ const DashBoardOpenTradesHeader = () => {
     return (
         <Row className="dashboard-card-open-trade-header pt-4 pl-3 pr-2">
             <Col className="dashboard-card-open-trade-title" md={7} lg={5} xs={12}>
-                <Col md={9} lg={8} xs={8} className="d-flex">
+                <Col md={9} lg={4} xs={8} className="d-flex">
                     <h1 className="text-nowrap">Open Trades</h1>
                     <img src={infoIcon} />
                 </Col>

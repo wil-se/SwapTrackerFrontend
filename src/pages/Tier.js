@@ -52,7 +52,7 @@ const Tier = () => {
                 </div>
                 <hr/>
                 <div style={{marginLeft: 90, marginRight: 90, marginTop: 30}}>
-                  <p className="font-weight-bold">All features available 1% transaction fee</p>
+                  <p>All features available 1% transaction fee</p>
                 </div>
               </Card>
             </Col>
@@ -67,7 +67,7 @@ const Tier = () => {
                 </div>
                 <hr/>
                 <div style={{marginLeft: 90, marginRight: 90, marginTop: 30}}>
-                  <p className="font-weight-bold">All features available 0.5% transaction fee</p>
+                  <p>All features available 0.5% transaction fee</p>
                 </div>
               </Card>
             </Col>
@@ -82,7 +82,7 @@ const Tier = () => {
                 </div>
                 <hr/>
                 <div style={{marginLeft: 90, marginRight: 90, marginTop: 30}}>
-                  <p className="font-weight-bold">All features available 0% transaction fee</p>
+                  <p>All features available 0% transaction fee</p>
                 </div>
               </Card>
             </Col>

@@ -129,7 +129,7 @@ const SideBar = () => {
                         <Row className="addressSection">
                             {account &&
                             <>
-                            <img src={addressAvatar}/>    
+                            {/* <img src={addressAvatar}/>     */}
                             <div className="address">
                             {getShrunkWalletAddress(account)}
                             </div>
