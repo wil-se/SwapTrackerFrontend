@@ -96,7 +96,7 @@ export function CoinInfo(props) {
 
             <Col md={3} xs={5} className="border-left border-1 pt-3 pr-0 text-center text-md-left">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>{props.symbol}</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {price > 1 ? num_format(props.holding, 5, 9) : num_format(props.holding, 2, 4)}</span> 
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 24, fontWeight: 900}}> {price > 1 ? num_format(props.holding, 5, 7) : num_format(props.holding, 2, 4)}</span> 
               <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
               <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
             </Col>
