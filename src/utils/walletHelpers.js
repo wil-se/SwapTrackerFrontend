@@ -130,7 +130,7 @@ export const walletDistribution = async (user, walletTVL, web3, chainId) => {
         
         scan_results.map(async (scanResultItem)=>{
             if(scanResultItem.balance != '0'){
-                if(scanResultItem.symbol === 'DOGE'){
+                if(scanResultItem.symbol === 'ECC'){
                     console.log(scanResultItem);
                 }
 
