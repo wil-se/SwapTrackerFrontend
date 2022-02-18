@@ -187,8 +187,13 @@ export const num_format = (value, fix_min = 0, fix_max = 9) => {
 
     const countDecimals = function (value) {
         if(Math.floor(value) === value) return 0;
-        return value.toString().split(".")[1].length || 0; 
+        try{
+            return parseFloat(value.toFixed(18)).toString().split(".")[1].length || 0;
+        }catch(err){
+            return 0;
+        }
     }
+
     value = Number(value);
     let fix = countDecimals(value);
     if(fix <= fix_min) fix = fix_min;
