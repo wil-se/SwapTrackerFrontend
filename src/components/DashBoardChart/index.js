@@ -124,10 +124,11 @@ const DashBoardChart = ({tier,account}) => {
                   </Col>
                   <Col md={6} lg={6} xs={12} className="justify-content-end d-flex">
                         <DatePicker
+                            colorPrimary="#b6d7e4"
+                            colorPrimaryLight="#1297a1"
                             value={selectedDayRange}
                             onChange={setSelectedDayRange}
-                            renderInput={dateRangeOutput} // render a custom input
-                            shouldHighlightWeekends
+                            renderInput={dateRangeOutput}
                         />
                   </Col>
                 </Row>

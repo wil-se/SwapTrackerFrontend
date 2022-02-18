@@ -37,7 +37,7 @@ const defaultValue = {
 
 
 const History = () => {
-  const { user } = useAuthService();
+  const { user,tier } = useAuthService();
   const { getTrades } = useTrade();
   const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
   const [selectedDayRange, setSelectedDayRange] = useState(defaultValue);  
@@ -59,17 +59,10 @@ const History = () => {
     return rowsData;
   }
 
-  const navigation = useNavigate();
-  const swapTrackerMediator = useSwapTrackerMediator(); 
   const { account } = useWeb3React();
+  const {setTierWithRedirect} = useAuthService()
 
-  useLayoutEffect(()=>{
-      (async()=>{
-          if(account){
-              await getTier(swapTrackerMediator,navigation,account)
-          }
-      })()
-  },[account])
+  useLayoutEffect(()=>{const timer = setTimeout(()=>{setTierWithRedirect(account)},2000); return () => clearTimeout(timer) },[account])
 
   useEffect(() => {
     if(Object.keys(currentValues).length === 0){
@@ -81,21 +74,24 @@ const History = () => {
         }
       }
     }
-    if(user){
-      (async () => {
+    (async () => {
+      if(user && account){
         let tData = await getTradesData(user['address']);
         let rData = await getHistoryRowsData(tData);           
         setTradesRows(rData)
 
-      })();
-    }
-  }, [user,currentName, currentSymbol])
+      }
+      else if(tier === 1000){
+        setTradesRows([])
+        await setTierWithRedirect(account)
+      }
+    })();
+
+  }, [user,currentName, currentSymbol,tier])
 
   useEffect(()=>{
     if(selectedDayRange?.from && selectedDayRange?.to && selectedDayRange !== defaultValue){
       let label = `${MONTH_LABELS_CHART[selectedDayRange?.from.month].toUpperCase()} ${selectedDayRange?.from.day},${selectedDayRange?.from.year.toString().substring(2,4)} - ${MONTH_LABELS_CHART[selectedDayRange?.to.month].toUpperCase()} ${selectedDayRange?.to.day},${selectedDayRange?.to.year.toString().substring(2,4)}`
-      let dateFrom = `${selectedDayRange?.from.day}/${selectedDayRange?.from.month}/${selectedDayRange?.from.year}`
-      let dateTo = `${selectedDayRange?.to.day}/${selectedDayRange?.to.month}/${selectedDayRange?.to.year}`
       selectedDayRange.from.month = selectedDayRange.from.month -1 
       selectedDayRange.to.month = selectedDayRange.to.month -1 
       let dateFromMoment = moment(selectedDayRange.from).unix()
@@ -132,6 +128,8 @@ const History = () => {
           <Col md={12} lg={12} xs={12} className="justify-content-start">
           <h1 className="subheader-title">History</h1>
               <DatePicker
+                colorPrimary="#b6d7e4"
+                colorPrimaryLight="#1297a1"
                 value={selectedDayRange}
                 onChange={setSelectedDayRange}
                 renderInput={dateRangeOutput} // render a custom input
@@ -182,7 +180,7 @@ const History = () => {
                   </th>
                 </tr>
             </thead>
-            {tradesRows.length < 1 && selectedDayRange === defaultValue ?
+            {tradesRows.length < 1 && selectedDayRange === defaultValue && tier !== 1000 ?
               <tbody >
                 <tr className="text-center on-center justify-between">
                     <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
@@ -214,6 +212,12 @@ const History = () => {
               <tbody>
                 <div className="dashboard-card-chart-no-data">
                       <h4>No trades for this period</h4>
+                </div>
+              </tbody>
+              : tradesRows.length < 1 && !account && tier === 1000 ?
+              <tbody>
+                <div className="dashboard-card-chart-no-data">
+                      <h4>Connect your account</h4>
                 </div>
               </tbody>
               :

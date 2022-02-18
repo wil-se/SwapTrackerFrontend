@@ -40,7 +40,6 @@ const SideBar = () => {
     const splitLocation = pathname.split("/");
 
     useEffect(() =>{
-       
         pixel.track('ViewContent', { content_name: window.location.pathname });
         ga.send({ hitType: "pageview", page: window.location.pathname });
         (async ()=>{
@@ -85,7 +84,7 @@ const SideBar = () => {
                     </Row>
                     <div className="menu">
                         <Row className="menu-item my-2" onClick={closeSideBar}>
-                            <Link to="dashboard" className={splitLocation[1] === "dashboard" ? "link active-link" : "link"}>
+                            <Link to="/" className={splitLocation[1] === "dashboard" ? "link active-link" : "link"}>
                                 <Icon.HouseDoor/>
                                 Dashboard
                             </Link>
