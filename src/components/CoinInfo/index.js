@@ -43,7 +43,7 @@ export function CoinInfo(props) {
       setName(data.data.name)
     }catch(err){
       console.log(err);
-    };
+    }
 
     let bnb = await CoinGeckoClient.coins.fetch('binancecoin', {});
     setPriceBNB(bnb.data.market_data.current_price.usd)
