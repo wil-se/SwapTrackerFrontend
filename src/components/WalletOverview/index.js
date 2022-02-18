@@ -100,7 +100,7 @@ export function WalletOverview(){
 
         try{
           coingeckoId = CoingeckoTokens.default[value[3].toLowerCase()];
-          data = await CoinGeckoClient.coins.fetch(coingeckoId, {});
+          data = await CoinGeckoClient.coins.fetch(coingeckoId, {}).catch(console.log);
         }catch(err){
           console.log(err);
         }
