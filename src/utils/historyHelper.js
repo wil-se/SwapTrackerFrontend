@@ -33,8 +33,8 @@ export const getHistoryRows = async (historyTrades) => {
       tradeRow.tokenName = await tokenContractOut.methods.name().call()
       tradeRow.tokenName = tradeRow.tokenName === wbnb.name ? tradeRow.tokenName = BNB.name : tradeRow.tokenName
       tradeRow.amountOut = new BigNumber(historyTrade.amountOut).toNumber()
-      tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-1*decimalsOut).toNumber()
-      tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-1*decimalsOut).toNumber()
+      tradeRow.currentPrice = new BigNumber(currentPriceUnshifted).shiftedBy(-18).toNumber()
+      tradeRow.currentValue = new BigNumber(currentValueUnshifted).shiftedBy(-18).toNumber()
       tradeRow.amountIn = historyTrade.amountIn
       tradeRow.openAt = historyTrade.openAt
       tradeRow.priceTo = historyTrade.priceTo

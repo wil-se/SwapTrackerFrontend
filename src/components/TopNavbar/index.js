@@ -14,6 +14,7 @@ import { setFiatPrice } from 'store/fiat';
 import { useSelector } from 'react-redux';
 import { useGetFiatSymbol, useSetFiatSymbol, useSetFiatName, useSetFiatValues, useSetFiatDecimals, useGetFiatDecimals } from 'store/hooks';
 import SideBar from 'components/SideBar';
+import useAuth from 'hooks/useAuth';
 
 
 const TopNavbar = function () {
@@ -26,6 +27,7 @@ const TopNavbar = function () {
   const [decimals, setDecimals] = useState(2)
   
   const { slowRefresh, fastRefresh } = useRefresh();
+  const {logout} = useAuth()
 
 
   const handleCurrencyClick = (name, symbol) => {
@@ -73,18 +75,28 @@ const TopNavbar = function () {
 
   return (
     <div id="sticky-wrapper" className="sticky-wrapper">
-      <nav className="navbar navbar-expand-md bg-faded cripto_nav">
+      <nav className="navbar navbar-expand-md bg-faded cripto_nav pr-0">
         
-        <Row className="pr-4 d-flex flex-row-reverse w-100">
+        <Row className="d-flex flex-row-reverse w-100">
         
         {
           (connector.connected || active) ?
-          <label className="text-muted my-auto ml-3">{getShrunkWalletAddress(account)}</label>:           
+          
+          <Dropdown className="ml-3" alignRight>
+            <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
+            <label className="text-muted my-auto mx-3">{getShrunkWalletAddress(account)}</label>
+            </Dropdown.Toggle>
+            <Dropdown.Menu className="dropdownmenucurrencies" style={{ borderRadius: 10 }}>
+                <Dropdown.Item onClick={logout} className="align-items-right"><span>Logout</span></Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+
+          :           
           <Button className="ml-3" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
         }
 
           <Dropdown className="ml-3">
-            <Dropdown.Toggle variant="currency" style={{borderRadius: 10, }}>
+            <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
             <img className="img-fluid mr-1" src={CurrenciesIcons.default[currency]} /> <span className="mr-4">{currency}</span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="dropdownmenucurrencies" style={{ width: 550, borderRadius: 10 }}>
@@ -113,8 +125,8 @@ const TopNavbar = function () {
             </Dropdown.Menu>
           </Dropdown>
 
-          <Dropdown className="float-right">
-            <Dropdown.Toggle variant="currency" style={{borderRadius: 10, }}>
+          <Dropdown className="float-right" alignRight>
+            <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
               <img className="img-fluid mr-1" src={BscLogo} /> <span className="mr-4">{network}</span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="dropdownmenucurrencies" style={{ width: 100, borderRadius: 10 }}>
