@@ -67,8 +67,6 @@ export function CoinInfo(props) {
         }
       }
     }
-    console.log(price);
-    //console.log("%s: %s - %s", props.symbol, price, props.holdingValue)
   }, [currentName, currentValues, currentSymbol])
 
   return(
