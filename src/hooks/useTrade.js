@@ -12,6 +12,7 @@ const useTrade = () => {
     
 
     const setTrade = async (tradeTx,path) => {
+        
         let tradeEvent = tradeTx.events.Swap.returnValues
         let contractTokenIn = getBep20Contract(path[0])
         let contractTokenOut = getBep20Contract(path[path.length -1])
@@ -38,7 +39,7 @@ const useTrade = () => {
             timestamp:new Date()
         }
         
-        await callPost("insertOrUpdateTrade",tradeFormatted)
+        await callPost("insertOrUpdateTrade",tradeFormatted).then(resp=>{console.log(resp)}).catch(console.log);
         
        
         const user = {
