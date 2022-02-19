@@ -18,6 +18,7 @@ import useWeb3 from 'hooks/useWeb3';
 import {useLocation } from 'react-router-dom'
 import {BNB,WBNB,SWPTPre} from 'config'
 import { Col, Row,Card } from 'react-bootstrap';
+import { num_format } from 'utils/walletHelpers';
 
 
 const TradeMainCard = ({tier}) => {
@@ -26,7 +27,7 @@ const TradeMainCard = ({tier}) => {
     const {web3} = useWeb3()
     const [pancakeRouterContract,] = useState(usePancakeRouter())
     const [amountIn,setAmountIn] = useState(0)
-    const [amountOut,setAmountOut] = useState()
+    const [amountOut,setAmountOut] = useState(0)
     const [balance,setBalance] = useState(0)
     const [openSettingsModal,setOpenSettingsModal] = useState(false)
     const [openTokenListModalIn,setOpenTokenListModalIn] = useState(false)
@@ -89,11 +90,18 @@ const TradeMainCard = ({tier}) => {
         let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedIn.decimals);
         if(amountInShifted>0){
             let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted.toString(),currentPath).call().catch((e)=>console.log(e))
-            let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber().toFixed(6);
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
             setAllowanceTokenIn(allowance)
-            console.log("vediamo ", amoutOutFormatted)
-            setAmountOut(amoutOutFormatted) 
+            if(amOut){
+                let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber();
+                let amountOutDecimals = num_format(amoutOutFormatted,2,tokenSelectedOut.decimals)
+                amountOutDecimals = amountOutDecimals.replace(",",".")
+                setAmountOut(amountOutDecimals) 
+
+            }
+            else{
+                setAmountIn(0)
+            }
 
         }
 
@@ -115,20 +123,25 @@ const TradeMainCard = ({tier}) => {
 
             let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted.toString(),currentPath).call().catch((e)=>console.log(e))
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
+            setAllowanceTokenIn(allowance)
             // console.log("vediamo ", amIn, amIn[amIn.length-2], path)
+            console.log(allowance)
             if(amIn){
                 let amountIn = amIn.length > 2 ? amIn[0] : amIn[amIn.length-2]
                 // console.log(amountIn)
-                let amoutInFormatted = new BigNumber(amountIn).shiftedBy(-1*tokenSelectedIn.decimals).toNumber().toFixed(6);
-                setAllowanceTokenIn(allowance)
-                setAmountIn(amoutInFormatted) 
+                let amoutInFormatted = new BigNumber(amountIn).shiftedBy(-1*tokenSelectedIn.decimals).toNumber();
+                let amountInDecimals = num_format(amoutInFormatted,2,tokenSelectedIn.decimals)
+                console.log(typeof(num_format(amoutInFormatted,2,tokenSelectedIn.decimals)))
+                amountInDecimals = amountInDecimals.replace(",",".")
+                setAmountIn(amountInDecimals) 
+
 
             }
             else{
-                setAllowanceTokenIn(allowance)
                 setAmountIn(0)
             }
         }
+        
     }
 
     
@@ -454,7 +467,7 @@ const TradeMainCard = ({tier}) => {
                             Enable {tokenSelectedIn?.symbol}
                             </button>   
                         )
-                        
+
                     }
                 </div>            
                 </Card>

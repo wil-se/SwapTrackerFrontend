@@ -84,7 +84,7 @@ const SideBar = () => {
                     </Row>
                     <div className="menu">
                         <Row className="menu-item my-2" onClick={closeSideBar}>
-                            <Link to="/" className={splitLocation[1] === "dashboard" ? "link active-link" : "link"}>
+                            <Link to="/" className={splitLocation[1] === "" ? "link active-link" : "link"}>
                                 <Icon.HouseDoor/>
                                 Dashboard
                             </Link>
