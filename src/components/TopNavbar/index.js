@@ -46,16 +46,11 @@ const TopNavbar = function () {
       }
   }
 
-  
-  
-  
   useSetFiatValues(values);
   useSetFiatName(currency);
   useSetFiatSymbol(symbol);
   useSetFiatDecimals(decimals);
 
-
-  console.log("ACTIVE: ", (connector.connected || active));
   
   const getShrunkWalletAddress = (addr) => {
     return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
