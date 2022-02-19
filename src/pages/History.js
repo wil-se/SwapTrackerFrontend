@@ -143,15 +143,13 @@ const History = () => {
                 shouldHighlightWeekends
               />
           </Col>
-          
-         
         </Row>
         <Row>
         <Col md={12} lg={12} xs={12}>
 
           <Card className="d-flex w-100 history-card">
-            <div className="table-responsive">
-             <Table className="mx-3 mx-md-5 history-table">
+            <div className="table-responsive-sm">
+             <Table className="history-table">
                <thead>
                 <tr>
 
