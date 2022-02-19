@@ -15,6 +15,8 @@ import { useSelector } from 'react-redux';
 import { useGetFiatSymbol, useSetFiatSymbol, useSetFiatName, useSetFiatValues, useSetFiatDecimals, useGetFiatDecimals } from 'store/hooks';
 import SideBar from 'components/SideBar';
 import useAuth from 'hooks/useAuth';
+import { fetchFiatPrices } from 'store/fiat';
+import { result } from 'lodash';
 
 
 const TopNavbar = function () {
@@ -38,12 +40,9 @@ const TopNavbar = function () {
   const { active, account } = useWeb3React()
   const { connector } = useWalletConnectAuth()
 
-  const getPrices = async () => {
-      const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}data/getFiats`).catch(console.log);
-      if(response){
-        const data = await response.json();
-        setValues(data.data);
-      }
+  const getPrices = async () => { 
+    const data = await fetchFiatPrices();
+    setValues(data.data.data);
   }
 
   useSetFiatValues(values);
@@ -111,7 +110,7 @@ const TopNavbar = function () {
                 <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"BRL"} symbol={"R$"}/>
                 <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"SEK"} symbol={"kr"}/>
                 <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"HKD"} symbol={"元"}/>
-                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"ETH"} symbol={"$"}/>
+                <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"ETH"} symbol={"ETH"}/>
                 <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"AUD"} symbol={"$"}/>
                 <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"NOK"} symbol={"kr"}/>
                 <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"SGD"} symbol={"$"}/>

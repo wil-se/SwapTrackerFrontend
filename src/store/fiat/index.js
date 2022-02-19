@@ -2,6 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import BigNumber from 'bignumber.js';
 
 
+const CoinGecko = require('coingecko-api');
+const CoinGeckoClient = new CoinGecko();
+
+
 const initialState = {
   name: "USD",
   values: {},
@@ -14,6 +18,10 @@ export const fetchFiatPrices = async () => {
     if(response){
       const data = await response.json();
       
+      let ethdata = await CoinGeckoClient.coins.fetch('ethereum', {});
+
+      data.data['19'] = {currency: "ETH", rate: 1/ethdata.data.market_data.current_price.usd};
+
       return {
         data: data,
       };
