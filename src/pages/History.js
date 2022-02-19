@@ -43,6 +43,7 @@ const History = () => {
   const [selectedDayRange, setSelectedDayRange] = useState(defaultValue);  
   const [tradesRows, setTradesRows] = useState([])
   const [value, setValue] = useState(0);
+  const [noTrade,setNoTrade] = useState(false)
   const currentName = useGetFiatName();
   const currentValues = useGetFiatValues();
   const currentSymbol = useGetFiatSymbol();
@@ -56,6 +57,7 @@ const History = () => {
 
   const getHistoryRowsData = async (trds) => {
     let rowsData = await getHistoryRows(trds);
+    if(rowsData.length<1) setNoTrade(!noTrade)
     return rowsData;
   }
 
@@ -180,7 +182,14 @@ const History = () => {
                   </th>
                 </tr>
             </thead>
-            {tradesRows.length < 1 && selectedDayRange === defaultValue && tier !== 1000 ?
+            {noTrade ?
+              <tbody>
+                <div className="dashboard-card-chart-no-data">
+                    <h4>No trades </h4>
+                </div>
+              </tbody>
+              :
+            tradesRows.length < 1 && selectedDayRange === defaultValue && tier !== 1000 ?
               <tbody >
                 <tr className="text-center on-center justify-between">
                     <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>

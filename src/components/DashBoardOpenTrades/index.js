@@ -5,13 +5,13 @@ import DashBoardOpenTradesHeader from './DashBoardOpenTradesHeader';
 import DashBoardOpenTradesTable from './DashBoardOpenTradesTable';
 
 
-const DashBoardOpenTrades = ({openedTrades,fiatSymbol,fiatValue}) => {
+const DashBoardOpenTrades = ({openedTrades,fiatSymbol,fiatValue,currentDecimals}) => {
     
    
     return (
         <Card className="d-flex w-100 dashboard-card">
             <DashBoardOpenTradesHeader/>
-            <DashBoardOpenTradesTable openedTrades={openedTrades} fiatSymbol={fiatSymbol} fiatValue={fiatValue}/>
+            <DashBoardOpenTradesTable openedTrades={openedTrades} fiatSymbol={fiatSymbol} fiatValue={fiatValue} currentDecimals={currentDecimals}/>
         </Card>
     )
 }
@@ -19,7 +19,8 @@ const DashBoardOpenTrades = ({openedTrades,fiatSymbol,fiatValue}) => {
 DashBoardOpenTrades.propTypes = {
     openedTrades: PropTypes.array,
     fiatSymbol: PropTypes.string,
-    fiatValue: PropTypes.number
+    fiatValue: PropTypes.number,
+    currentDecimals: PropTypes.number
 };
 
 export default DashBoardOpenTrades

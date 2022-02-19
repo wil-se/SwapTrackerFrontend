@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
 import {  Row,Table } from 'react-bootstrap';
 
-const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue,tradeFinded}) => {
+const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue,tradeFinded,currentDecimals}) => {
     
     return (
         <div className="table-responsive">
@@ -58,7 +58,9 @@ const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue,tradeFinde
                         tokenFrom={trade.tokenFrom}
                         tokenTo={trade.tokenTo}
                         fiatValue={fiatValue}
-                        fiatSymbol={fiatSymbol}/>
+                        fiatSymbol={fiatSymbol}
+                        currentDecimals={currentDecimals}
+                        />
                         )
                     })
                 }    
@@ -73,7 +75,8 @@ DashBoardOpenTradesTable.propTypes = {
     openedTrades: PropTypes.array,
     fiatSymbol: PropTypes.string,
     fiatValue: PropTypes.number,
-    tradeFinded: PropTypes.bool
+    tradeFinded: PropTypes.bool,
+    currentDecimals: PropTypes.number,
 };
 
 export default DashBoardOpenTradesTable

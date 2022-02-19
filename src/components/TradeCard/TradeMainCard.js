@@ -95,7 +95,6 @@ const TradeMainCard = ({tier}) => {
             if(amOut){
                 let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber();
                 let amountOutDecimals = num_format(amoutOutFormatted,2,tokenSelectedOut.decimals)
-                amountOutDecimals = amountOutDecimals.replace(",",".")
                 setAmountOut(amountOutDecimals) 
 
             }
@@ -131,8 +130,7 @@ const TradeMainCard = ({tier}) => {
                 // console.log(amountIn)
                 let amoutInFormatted = new BigNumber(amountIn).shiftedBy(-1*tokenSelectedIn.decimals).toNumber();
                 let amountInDecimals = num_format(amoutInFormatted,2,tokenSelectedIn.decimals)
-                console.log(typeof(num_format(amoutInFormatted,2,tokenSelectedIn.decimals)))
-                amountInDecimals = amountInDecimals.replace(",",".")
+                
                 setAmountIn(amountInDecimals) 
 
 

@@ -1,45 +1,72 @@
 import React,{useEffect,useState} from 'react'
 import * as Icon from 'react-bootstrap-icons'
-import CryptoIcon from 'assets/icons/'
+import * as CryptoIcons from 'assets/icons';
 import PropTypes from 'prop-types'
 import {getPancakeTokenList} from 'utils/tradeHelpers'
 import {Token,ChainId } from '@pancakeswap/sdk'
-import {WBNB} from 'config'
 import {useSwapInfo} from 'hooks/useSwapInfo'
+import {getBep20Contract} from 'utils/contractHelpers';
+
+
 const TradeModalTokenList = ({setOpenTokenListModalIn,setOpenTokenListModalOut, setTokenSelectedIn, setTokenSelectedOut, tokenSelectedIn, tokenSelectedOut ,setDisabledInput, openTokenListModalIn, openTokenListModalOut,getAmountIn,getAmountOut,amountIn,amountOut}) => {
     const [tokenList, setTokenList] = useState([])
     const [searchToken,setSearchToken] = useState("")
     const {getPath} = useSwapInfo(tokenSelectedIn,tokenSelectedOut)
     useEffect(async () => {
             let resp = await getPancakeTokenList()
-            setTokenList(
-                resp.filter((token) => {
+            if(searchToken.includes("0x")){
+                let contract = getBep20Contract(searchToken.toLowerCase());
+                let token = {};
+                let listToken = [];
+                (async ()=>{
+                    let symbol = await contract.methods.symbol().call()
+                    let name = await contract.methods.name().call()
+                    let decimals = await contract.methods.decimals().call()
+                    let address = contract._address
+                    let logoURI = CryptoIcons.default['_'+symbol.toLowerCase()] ? CryptoIcons.default['_'+symbol.toLowerCase()] : CryptoIcons.default['_generic']
+                    token.name = name;
+                    token.symbol = symbol;
+                    token.decimals = parseInt(decimals);
+                    token.address = address;
+                    token.logoURI = logoURI;
+                    listToken.push(token)
+                    setTokenList(listToken)
+
                     
-                        return (
-                            
-                                (
-                                    !token.symbol.toLowerCase().includes(tokenSelectedIn?.symbol.toLowerCase()) 
-                                    && 
-                                    !token.symbol.toLowerCase().includes(tokenSelectedOut?.symbol.toLowerCase())
-                                    
-                                )
-                                &&
-                                (
-                                    token.symbol
-                                    .toLowerCase()
-                                    .includes(searchToken.toLowerCase())
-                                    ||
-                                    token.name
-                                    .toLowerCase()
-                                    .includes(searchToken.toLowerCase())
-                                )
-                                    
-                        )
+
+                })()
+            }
+            else{
+                setTokenList(
+                    resp.filter((token) => {
+                        
+                            return (
+                                
+                                    (
+                                        !token.symbol.toLowerCase().includes(tokenSelectedIn?.symbol.toLowerCase()) 
+                                        && 
+                                        !token.symbol.toLowerCase().includes(tokenSelectedOut?.symbol.toLowerCase())
+                                        
+                                    )
+                                    &&
+                                    (
+                                        token.symbol
+                                        .toLowerCase()
+                                        .includes(searchToken.toLowerCase())
+                                        ||
+                                        token.name
+                                        .toLowerCase()
+                                        .includes(searchToken.toLowerCase())
+                                    )
+                                        
+                            )
+                        
+                    })
                     
-                })
+                    
+                );
                 
-                
-            );
+            }
         
     }, [searchToken,tokenSelectedIn,tokenSelectedOut])
 

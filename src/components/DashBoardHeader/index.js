@@ -5,24 +5,25 @@ import wallet from 'assets/icons/wallet.svg'
 import profit from 'assets/icons/profit.svg'
 import door from 'assets/icons/door.svg'
 import Skeleton from 'react-loading-skeleton';
-import {formatNumber } from 'utils/formatBalance';
+
+import { num_locale_format } from 'utils/walletHelpers';
 
 
-const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,fiatValue}) => {
+const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,fiatValue,currentDecimals}) => {
     const [plPerc,setPlPerc] = useState()
     const [classNames,setClassNames] = useState("header-card-value text-nowrap")
     
     useEffect(()=>{
         console.log("vediamo ", fiatValue)
-        let profitOrLossFixed = (profitOrLoss*fiatValue).toFixed(3);
+        let profitOrLossFixed = (profitOrLoss*fiatValue);
         Math.sign(profitOrLoss) === -1 
         ? 
             (
-                setPlPerc(`${profitOrLossFixed.toString().substring(0,1)} ${fiatSymbol} ${profitOrLossFixed.toString().substring(1,profitOrLossFixed.toString().length)}`), 
+                setPlPerc(`${profitOrLossFixed.toString().substring(0,1)} ${fiatSymbol} ${num_locale_format(profitOrLossFixed.toString().substring(1,profitOrLossFixed.toString().length),currentDecimals,currentDecimals) }`), 
                 setClassNames(`${classNames} text-danger`))
         : 
             (
-                setPlPerc(`+ ${fiatSymbol} ${profitOrLossFixed.toString()}`),
+                setPlPerc(`+ ${fiatSymbol} ${num_locale_format(profitOrLossFixed.toString(),currentDecimals,currentDecimals) }`),
                 setClassNames(`${classNames} text-success`)
             )
     },[
@@ -41,7 +42,7 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
                             {!currentBalance || currentBalance < 0 || isNaN(currentBalance) ?
                             <Skeleton width="82px" height="32px" />
                             :
-                            <span className="header-card-value text-nowrap">{fiatSymbol} {Number(currentBalance*fiatValue).toFixed(2)}</span>
+                            <span className="header-card-value text-nowrap">{fiatSymbol} {num_locale_format(Number(currentBalance*fiatValue),currentDecimals,currentDecimals) }</span>
                             }
                         </Col>
                         <Col md={4}>
@@ -80,7 +81,7 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
                             {!openTradeValue ?
                                 <Skeleton width="82px" height="32px" />
                                 :
-                                <span className="header-card-value text-nowrap">{fiatSymbol} {formatNumber(openTradeValue*fiatValue,2,3)}</span>
+                                <span className="header-card-value text-nowrap">{fiatSymbol} {num_locale_format((openTradeValue*fiatValue),currentDecimals,currentDecimals)}</span>
                             }
                         </Col>
                         <Col md={4}>
@@ -100,7 +101,8 @@ DashBoardHeader.propTypes = {
     currentBalance: PropTypes.number,
     profitOrLoss: PropTypes.number,
     fiatSymbol:PropTypes.string,
-    fiatValue:PropTypes.number
+    fiatValue:PropTypes.number,
+    currentDecimals:PropTypes.number
 };
 
 export default DashBoardHeader

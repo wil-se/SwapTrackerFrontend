@@ -12,6 +12,7 @@ import {getDashboardData} from 'utils/dashboardHelpers'
 import { setNewBalanceOverview, getTradeRows } from 'utils/dashboardHelpers';
 import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
 import { useWeb3React } from '@web3-react/core';
+import { useGetFiatDecimals } from 'store/hooks';
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
@@ -31,6 +32,7 @@ const Dashboard = () => {
     const currentName = useGetFiatName();
     const currentValues = useGetFiatValues();
     const currentSymbol = useGetFiatSymbol();
+    const currentDecimals = useGetFiatDecimals()
 
     const getTotalPriceVairation = async (coingeckoId) => {
         if(!coingeckoId) return 0;
@@ -131,11 +133,12 @@ const Dashboard = () => {
                 currentBalance={currentBalance}
                 profitOrLoss={profitOrLoss}
                 openTradeValue={openTradeValue}
+                currentDecimals={currentDecimals}
             />
             <DashBoardChart tier={tier} account={account}/>
             <Row className="pt-3">
                 <Col md={12} lg={12} xs={12}>
-                    <DashBoardOpenTrades fiatSymbol={currentSymbol} fiatValue={value} openedTrades={openedTrades} tradesFinded={tradesFinded} />
+                    <DashBoardOpenTrades fiatSymbol={currentSymbol} fiatValue={value} openedTrades={openedTrades} tradesFinded={tradesFinded} currentDecimals={currentDecimals} />
                 </Col>
             </Row>
         </MainContainer>

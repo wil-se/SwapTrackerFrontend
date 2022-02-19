@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Row, th, Button } from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom'
 import {num_format} from 'utils/walletHelpers';
+import { num_locale_format } from 'utils/walletHelpers';
 
 
 const DashboardOpenTradesTableRow = ({
@@ -21,7 +22,8 @@ const DashboardOpenTradesTableRow = ({
   tokenFrom,
   tokenTo,
   fiatValue,
-  fiatSymbol
+  fiatSymbol,
+  currentDecimals
 }) => {
     let navigation = useNavigate()
     const closeTrade = (tokenIn,tokenOut) => {
@@ -53,28 +55,28 @@ const DashboardOpenTradesTableRow = ({
           </th>
 
           <th className="text-center">
-            <p className="mb-0">{`${fiatSymbol} ${num_format(currentValue*fiatValue, 2, 5)}`}</p>
+            <p className="mb-0">{`${fiatSymbol} ${num_locale_format(currentValue*fiatValue, currentDecimals, currentDecimals)}`}</p>
             <div className="greyText">{amountIn} {tokenSymbolIn} | {amountOut.toFixed(7)} {tokenSymbol}</div>
           </th>
 
           <th className="text-center">
-            <p className="mb-0">{`${fiatSymbol} ${num_format(priceTo)}`}</p>
-            <div className="greyText">{num_format(amountOut)} {tokenSymbol} @{Number(priceTo).toFixed(7)}</div>
+            <p className="mb-0">{`${fiatSymbol} ${num_format((priceTo*fiatValue),currentDecimals,currentDecimals)}`}</p>
+            <div className="greyText">{num_format(amountOut)} {tokenSymbol} @{num_format((priceTo*fiatValue),currentDecimals,currentDecimals)}</div>
           </th>
           
           <th className="text-center">
-            <p className="mb-0">{`${fiatSymbol} ${(Number(currentPrice)*fiatValue).toFixed(7)}`}</p>
+            <p className="mb-0">{`${fiatSymbol} ${num_locale_format((Number(currentPrice)*fiatValue),currentDecimals,currentDecimals)}`}</p>
             <div className="greyText">{amountIn} {tokenSymbolIn} | {amountOut.toFixed(7)} {tokenSymbol}</div>
           </th>
 
           <th className="text-center on-center">
             {Math.sign(pl) === -1 ? 
               <div className="dashboard-pl-negative ">
-                {`${Number(pl).toFixed(6).toString().substring(0,1)} ${fiatSymbol} ${(fiatValue*Number(pl)).toFixed(6).toString().substring(1,pl.toString().length)}`}
+                {`${Number(pl).toFixed(6).toString().substring(0,1)} ${fiatSymbol} ${num_locale_format(fiatValue*Number(pl),currentDecimals,currentDecimals).toString().substring(1,pl.toString().length)}`}
               </div>
               :
               <div className="dashboard-pl-positive">
-                {`+ ${fiatSymbol} ${(fiatValue*Number(pl)).toFixed(6).toString()}`}
+                {`+ ${fiatSymbol} ${num_locale_format(fiatValue*Number(pl),currentDecimals,currentDecimals)}`}
               </div>
             }
           </th>
@@ -82,11 +84,11 @@ const DashboardOpenTradesTableRow = ({
           <th className="text-center on-center">
             {Math.sign(pl_perc)=== -1?
               <div className="dashboard-pl-negative">
-                {Number(pl_perc).toFixed(4)}%
+                {num_locale_format(Number(pl_perc),currentDecimals,currentDecimals) }%
               </div>
               :
               <div className="dashboard-pl-positive">
-                {Number(pl_perc).toFixed(4)}%
+                {num_locale_format(Number(pl_perc),currentDecimals,currentDecimals) }%
               </div>
           
             }
@@ -119,7 +121,8 @@ DashboardOpenTradesTableRow.propTypes = {
     tokenFrom: PropTypes.string,
     tokenTo: PropTypes.string,
     fiatValue: PropTypes.number,
-    fiatSymbol: PropTypes.string
+    fiatSymbol: PropTypes.string,
+    currentDecimals: PropTypes.number
 };
 
 export default DashboardOpenTradesTableRow
