@@ -202,7 +202,7 @@ export const num_format = (value, fix_min = 0, fix_max = 9) => {
     let fix = countDecimals(value);
     if(fix <= fix_min) fix = fix_min;
     if(fix >= fix_max) fix = fix_max;
-    return Number(value).toFixed(fix);
+    return Number(value).toLocaleString(undefined, {maximumFractionDigits: fix});
 }
 
 

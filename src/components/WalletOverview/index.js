@@ -223,10 +223,10 @@ export function WalletOverview(){
                           <h6 style={{fontStyle: "normal", fontWeight: 800, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
                       </Row>
                       <Row className="pl-4">
-                          <h1 style={{fontSize: 48, fontWeight: 900}}> {currentSymbol} {(walletTVL*(price > 0 ? price : 1)).toFixed(currentDecimals)} </h1>
+                          <h1 style={{fontSize: 48, fontWeight: 900}}> {currentSymbol} {num_format((walletTVL*(price > 0 ? price : 1)), currentDecimals, currentDecimals)} </h1>
                       </Row>
                       <Row className="pl-4">
-                          <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>{walletTVLBNB.toFixed(4)} BNB</h6>
+                          <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>{num_format(walletTVLBNB, 4, 4)} BNB</h6>
                       </Row>
                       </div>
                   </Col>

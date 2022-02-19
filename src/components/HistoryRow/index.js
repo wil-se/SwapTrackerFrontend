@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import { propTypes } from 'react-bootstrap/esm/Image';
 import * as CryptoIcons from '../../assets/icons';
 import {useNavigate} from 'react-router-dom'
+import {num_format} from 'utils/walletHelpers'
+
+
 const greyText = {color: "#8DA0B0", fontSize: 11}
 
 
@@ -60,17 +63,17 @@ export function HistoryRow({
 
           <th className="text-center">
             <p className="mb-0">{`${fiatSymbol} ${(Number(currentValue)*fiatValue).toFixed(3)}`}</p>
-            <div className="greyText">{amountOut.toFixed(7)} {tokenSymbol}</div>
+            <div className="greyText">{num_format(amountOut, 7, 7)} {tokenSymbol}</div>
           </th>
 
           <th className="text-center">
             <p className="mb-0">{`${fiatSymbol} ${(priceTo*fiatValue).toFixed(7)}`}</p>
-            <div className="greyText">{amountOut.toFixed(7)}</div>
+            <div className="greyText">{num_format(amountOut, 7, 7)}</div>
           </th>
 
           <th className="text-center">
             <p className="mb-0">{`${fiatSymbol} ${(currentPrice*fiatValue) > 1 ? (currentPrice*fiatValue).toFixed(4) : (currentPrice*fiatValue).toFixed(7)}`}</p>
-            <div className="greyText">{amountIn.toFixed(7)} {tokenSymbolIn} | {amountOut.toFixed(7)} {tokenSymbol}</div>
+            <div className="greyText">{num_format(amountIn, 7, 7)} {tokenSymbolIn} | {num_format(amountOut, 7, 7)} {tokenSymbol}</div>
           </th>
 
           <th className="text-center on-center">
