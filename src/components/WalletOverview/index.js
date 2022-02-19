@@ -180,7 +180,6 @@ export function WalletOverview(){
       wlltDist()
     }
 
-    console.log("FIAT Price length: %s", currentValues.length);
 
     if(!currentValues){
       setPrice(1);
