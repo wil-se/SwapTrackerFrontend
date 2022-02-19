@@ -54,8 +54,6 @@ export function CoinInfo(props) {
   const currentSymbol = useGetFiatSymbol();
   const currentDecimals = useGetFiatDecimals();
 
-  let navigation = useNavigate()
-
   useEffect(() => {
     getCoingeckoStats();
     if(Object.keys(currentValues).length === 0){
