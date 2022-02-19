@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import {callPost} from 'utils/swapTrackerServiceConnection'
+import {callPost,callGet} from 'utils/swapTrackerServiceConnection'
 import { useWeb3React } from '@web3-react/core';
 import useWalletConnectAuth from 'hooks/useWalletConnectAuth'
 import {useNavigate,useLocation} from 'react-router-dom'
@@ -9,6 +9,7 @@ const useAuthService = () => {
     const {account} = useWeb3React();
     const [user,setUser] = useState()
     const [tier,setTier] = useState()
+    const [profitOrLossOverview,setProfitOrLossOverview] = useState([])
     const { connector } = useWalletConnectAuth()
     const swapTrackerMediator = useSwapTrackerMediator(); 
     const navigation = useNavigate()
@@ -36,19 +37,29 @@ const useAuthService = () => {
     }
 
    
+    const getProfitsLosses = async (address) => {
+        console.log(address.toLowerCase())
+        const profLossList = await callGet("getProfitsLosses",address.toLowerCase())
+        console.log(profLossList?.data.data)
+        setProfitOrLossOverview(profLossList?.data.data)
+    }
 
     useEffect(() => {
         (async()=>{
           
             if(account){
+                await getProfitsLosses(account)
                 const resp = await callPost("createOrUpdateUser",{address:account.toLowerCase(), lastLogin:new Date()})
                 setUser(resp?.data.data)
-                setTierNoRedirect(account)
+                await setTierNoRedirect(account)
+                
+               
+                //setProfitOrLossOverview(respProfOrLoss?.data.data)
 
             } else if(connector.connected) {
                 const resp = await callPost("createOrUpdateUser",{address:connector._accounts[0].toLowerCase(), lastLogin:new Date()})
                 setUser(resp?.data.data);
-                setTierNoRedirect(connector._accounts[0].toLowerCase())
+                await setTierNoRedirect(connector._accounts[0].toLowerCase())
                
             }
             else{
@@ -69,7 +80,8 @@ const useAuthService = () => {
         callPost("updateUserTokenList",body)
     }
 
-    return {user,createOrUpdateUser,updateUserTokenList,tier,setTierNoRedirect,setTierWithRedirect}
+
+    return {user,createOrUpdateUser,updateUserTokenList,tier,setTierNoRedirect,setTierWithRedirect,profitOrLossOverview}
     
 }
 

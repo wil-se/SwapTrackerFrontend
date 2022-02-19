@@ -25,7 +25,7 @@ const defaultFrom = {
   };
   
 const DashBoardChart = ({tier,account}) => {
-    const { user } = useAuthService()
+    const { user, profitOrLossOverview } = useAuthService()
     const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
     const [selectedDayRange, setSelectedDayRange] = useState(defaultValue);  
     const [labelList,setLabelList] = useState([])
@@ -36,9 +36,9 @@ const DashBoardChart = ({tier,account}) => {
       if(selectedDayRange){ dateFilterArray = getDatesFromRange(selectedDayRange) } 
       let labelList = []
       let dataList = []
-     
-      if(user.balanceOverview && account){ 
-        user.balanceOverview.map((singleBalanceOverview)=>{
+     console.log("allora", profitOrLossOverview)
+      if(profitOrLossOverview && account){ 
+        profitOrLossOverview.map((singleBalanceOverview)=>{
           let date = new Date(Object.keys(singleBalanceOverview))
           if(selectedDayRange === defaultValue){
             let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 

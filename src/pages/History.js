@@ -76,18 +76,23 @@ const History = () => {
         }
       }
     }
-    (async () => {
-      if(user && account){
-        let tData = await getTradesData(user['address']);
-        let rData = await getHistoryRowsData(tData);           
-        setTradesRows(rData)
+    const timer = setTimeout(()=>{
 
-      }
-      else if(tier === 1000){
-        setTradesRows([])
-        await setTierWithRedirect(account)
-      }
-    })();
+      (async () => {
+        if(user && account){
+          let tData = await getTradesData(user['address']);
+          let rData = await getHistoryRowsData(tData);           
+          setTradesRows(rData)
+          
+        }
+        else if(tier === 1000){
+          console.log("qiui ",tier,account )
+          setTradesRows([])
+          
+        }
+      })();
+    },3000)
+    return () => clearTimeout(timer)
 
   }, [user,currentName, currentSymbol,tier])
 

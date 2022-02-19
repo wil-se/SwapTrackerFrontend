@@ -38,7 +38,7 @@ const TradeMainCard = ({tier}) => {
     const [slippageAmount,setSlippageAmount] = useState(5.0)
     const [deadlineAmount,setDeadlineAmount] = useState(20)
     const [disabledButton,setDisabledButton] = useState(true)
-    const [disabledInput,setDisabledInput] = useState(false)
+    const [disabledInput,setDisabledInput] = useState(true)
     const erc20Contract = useERC20(tokenSelectedIn?.address)
     const {path,getBalance} = useSwapInfo(tokenSelectedIn,tokenSelectedOut)
     const {wrap,unWrap,isWrap} = useWrap(tokenSelectedIn,tokenSelectedOut) 
@@ -66,6 +66,7 @@ const TradeMainCard = ({tier}) => {
         (async()=>{
             let bal = await getBalance(tokenSelectedIn,account,erc20Contract,web3)
             setBalance(bal)
+            tier === 1000 ? null : setDisabledInput(false) 
 
         })()
     },[account,tokenSelectedIn])

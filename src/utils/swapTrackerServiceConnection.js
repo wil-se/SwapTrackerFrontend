@@ -11,6 +11,10 @@ const api = axios.create({
 });
 
 export const callPost = (action,body) => {
-    return api.post(`/data/${action}`, body);
+    return api.post(`data/${action}`, body);
 } 
+
+export const callGet = async (action,address) => {
+  return await api.get(`data/${action}?user=${address.toLowerCase()}`)
+}
 
