@@ -123,6 +123,8 @@ const DashBoardChart = ({tier,account}) => {
                     <h3 className="dashboard-card-chart-title ml-2">Trades overview </h3>
                   </Col>
                   <Col md={6} lg={6} xs={12} className="justify-content-end d-flex">
+                  <a style={{cursor: 'pointer'}}>
+
                         <DatePicker
                             colorPrimary="#b6d7e4"
                             colorPrimaryLight="#1297a1"
@@ -130,6 +132,7 @@ const DashBoardChart = ({tier,account}) => {
                             onChange={setSelectedDayRange}
                             renderInput={dateRangeOutput}
                         />
+                  </a>
                   </Col>
                 </Row>
                 <Row>
