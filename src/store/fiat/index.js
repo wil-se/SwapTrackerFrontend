@@ -17,14 +17,19 @@ export const fetchFiatPrices = async () => {
     const response = await fetch(`${process.env.REACT_APP_SERVICE_URL}data/getFiats`).catch(console.log);
     if(response){
       const data = await response.json();
-      
-      let ethdata = await CoinGeckoClient.coins.fetch('ethereum', {});
-
-      data.data['19'] = {currency: "ETH", rate: 1/ethdata.data.market_data.current_price.usd};
-
-      return {
-        data: data,
-      };
+      if(data){
+        let ethdata = await CoinGeckoClient.coins.fetch('ethereum', {});  
+        if (ethdata){
+          data.data['19'] = {currency: "ETH", rate: 1/ethdata.data.market_data.current_price.usd};
+          return {
+            data: data,
+          }
+        }
+      } else {
+        return {
+          data: {},
+        }
+      }
     }
 };
 
