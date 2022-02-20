@@ -37,7 +37,7 @@ const DashBoardChart = ({tier,account}) => {
       let labelList = []
       let dataList = []
      console.log("allora", profitOrLossOverview)
-      if(profitOrLossOverview && account){ 
+      if(profitOrLossOverview && profitOrLossOverview.length !== 0 && account){ 
         profitOrLossOverview.map((singleBalanceOverview)=>{
           let date = new Date(Object.keys(singleBalanceOverview))
           if(selectedDayRange === defaultValue){
