@@ -116,8 +116,6 @@ const History = () => {
       )
     }
   },[selectedDayRange])
-
-  console.log("showClosedTrades: ", showClosedTrades)
   
   const dateRangeOutput = ({ ref }) => (
     <label className="history-date-range-output">
