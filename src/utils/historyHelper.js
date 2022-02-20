@@ -15,10 +15,11 @@ export const getHistoryRows = async (historyTrades) => {
 
       let createdAt;
       let createdAtDate = new Date(historyTrade.timestamp)
+      createdAtDate.setHours(0,0,0,0)
       let closedDate = historyTrade.closedDate ? new Date(historyTrade.closedDate) : null;
       closedDate = closedDate ? `${closedDate.getDate()}/${closedDate.getMonth()+1}/${closedDate.getFullYear()}` : null;
       createdAt = `${createdAtDate.getDate()}/${createdAtDate.getMonth()+1}/${createdAtDate.getFullYear()}`
-      let createdAtForFilter = moment(`${createdAtDate.getDate()}/${createdAtDate.getMonth()}/${createdAtDate.getFullYear()}`).unix()
+      let createdAtForFilter = moment(createdAtDate).unix()
       let tradeRow = {}
       const tokenContractOut = getBep20Contract(historyTrade.tokenTo)
       const tokenContractIn = getBep20Contract(historyTrade.tokenFrom)

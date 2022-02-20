@@ -78,6 +78,14 @@ const TradeModalTokenList = ({setOpenTokenListModalIn,setOpenTokenListModalOut, 
         }
     }
 
+    const setNewAmountOutForNewTokenOut = async (newTokenSelectedOut) => {
+        console.log(tokenSelectedOut.symbol , newTokenSelectedOut.symbol)
+        if(tokenSelectedOut.symbol !== newTokenSelectedOut.symbol){
+            const path = getPath(tokenSelectedIn,newTokenSelectedOut)
+            await getAmountOut(amountIn,path)
+        }
+    }
+
     const setNewAmountIn = async (newTokenSelectedOut) => {
         console.log(tokenSelectedOut.symbol , newTokenSelectedOut.symbol)
         if(tokenSelectedOut.symbol !== newTokenSelectedOut.symbol){
@@ -98,7 +106,7 @@ const TradeModalTokenList = ({setOpenTokenListModalIn,setOpenTokenListModalOut, 
             (
                 setTokenSelectedOut(token), 
                 setOpenTokenListModalOut(!openTokenListModalOut), 
-                await setNewAmountIn(token)
+                await setNewAmountOutForNewTokenOut(token)
             );
         
     }

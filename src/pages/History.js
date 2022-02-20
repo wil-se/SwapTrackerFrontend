@@ -41,8 +41,10 @@ const History = () => {
   const { user,tier } = useAuthService();
   const { getTrades } = useTrade();
   const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
-  const [selectedDayRange, setSelectedDayRange] = useState(defaultValue);  
-  const [tradesRows, setTradesRows] = useState([])
+  const [selectedDayRange, setSelectedDayRange] = useState(defaultValue); 
+
+  const [tradesRows, setTradesRows] = useState()
+  const [tradeRowsFilter,setTradeRowsFilter] = useState()
   const [value, setValue] = useState(0);
   const [noTrade,setNoTrade] = useState(false)
   const currentName = useGetFiatName();
@@ -58,7 +60,7 @@ const History = () => {
 
   const getHistoryRowsData = async (trds) => {
     let rowsData = await getHistoryRows(trds);
-    if(rowsData.length<1) setNoTrade(!noTrade)
+    
     return rowsData;
   }
 
@@ -84,6 +86,7 @@ const History = () => {
           let tData = await getTradesData(user['address']);
           let rData = await getHistoryRowsData(tData);           
           setTradesRows(rData)
+          setTradeRowsFilter(rData)
           
         }
         else if(tier === 1000){
@@ -93,20 +96,32 @@ const History = () => {
         }
       })();
     },3000)
+
+
     return () => clearTimeout(timer)
 
-  }, [user,currentName, currentSymbol,tier])
+
+
+  }, [user,currentName, currentSymbol,tier,account])
 
   useEffect(()=>{
+    
+    console.log(selectedDayRange)
     if(selectedDayRange?.from && selectedDayRange?.to && selectedDayRange !== defaultValue){
+      let localSelectedRangeFrom = {...selectedDayRange?.from}
+      let localSelectedRangeTo = {...selectedDayRange?.to}
+
       let label = `${MONTH_LABELS_CHART[selectedDayRange?.from.month].toUpperCase()} ${selectedDayRange?.from.day},${selectedDayRange?.from.year.toString().substring(2,4)} - ${MONTH_LABELS_CHART[selectedDayRange?.to.month].toUpperCase()} ${selectedDayRange?.to.day},${selectedDayRange?.to.year.toString().substring(2,4)}`
-      selectedDayRange.from.month = selectedDayRange.from.month -1 
-      selectedDayRange.to.month = selectedDayRange.to.month -1 
-      let dateFromMoment = moment(selectedDayRange.from).unix()
-      let dateToMoment = moment(selectedDayRange.to).unix()
       setSelectedDayRangeFormatted(label)
+      localSelectedRangeFrom.month = localSelectedRangeFrom.month -1
+      localSelectedRangeTo.month = localSelectedRangeTo.month -1
+      let dateFromMoment = moment(localSelectedRangeFrom).unix()
+      let dateToMoment = moment(localSelectedRangeTo).unix()
+      let dateMomentHuman = moment(localSelectedRangeFrom).format("LLLL")
+      let dateMomentHuman1 = moment(localSelectedRangeTo).format("LLLL")
       setTradesRows(
-        tradesRows.filter((trade)=>{
+        tradeRowsFilter.filter((trade)=>{
+          console.log("vediamo ",trade.tokenName,trade.createdAt, trade.createdAtForFilter, dateFromMoment, trade.createdAtForFilter , dateToMoment, trade.createdAtForFilter >= dateFromMoment && trade.createdAtForFilter <= dateToMoment)
           return(
             trade.createdAtForFilter >= dateFromMoment && trade.createdAtForFilter <= dateToMoment
           )    
@@ -141,8 +156,7 @@ const History = () => {
                 colorPrimaryLight="#1297a1"
                 value={selectedDayRange}
                 onChange={setSelectedDayRange}
-                renderInput={dateRangeOutput} // render a custom input
-                shouldHighlightWeekends
+                renderInput={dateRangeOutput} 
               />
               </a>
           </Col>
@@ -207,14 +221,41 @@ const History = () => {
                   </th>
                 </tr>
             </thead>
-            {noTrade ?
+            {!tradesRows ?
+              <tbody >
+                <tr className="text-center on-center justify-between">
+                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
+                <tr className="text-center on-center justify-between">
+                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
+                <tr className="text-center on-center justify-between">
+                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
+                <tr className="text-center on-center justify-between" >
+                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
+                <tr className="text-center on-center justify-between">
+                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
+                <tr className="text-center on-center justify-between">
+                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
+                <tr className="text-center on-center justify-between">
+                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
+                <tr className="text-center on-center justify-between" >
+                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                </tr >
+              </tbody>
+              : tradesRows.length === 0 ?
               <tbody>
                 <div className="dashboard-card-chart-no-data">
                     <h4>No trades </h4>
                 </div>
               </tbody>
               :
-            tradesRows.length < 1 && selectedDayRange === defaultValue && tier !== 1000 ?
+              tradesRows?.length < 1 && selectedDayRange === defaultValue && tier !== 1000 ?
               <tbody >
                 <tr className="text-center on-center justify-between">
                     <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
