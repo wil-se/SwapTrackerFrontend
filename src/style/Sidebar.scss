@@ -143,10 +143,11 @@
     align-items:center;
     text-align: center;
     .addressSection {
-      align-items:center;
       position:relative;
+      align-items:center;
+      justify-content: center;
       top:20px;
-      left:20%;
+
       img{
         margin-right: 5px;
         width:30px;
@@ -167,28 +168,45 @@
     .tierSection{
       position:relative;
       top:30px;
-      left:45%;
-      width:58px;
+      left:60px;
+      width:70%;
       height:19px;
       align-items:center;
       justify-content:center;
       
       .tierSubSection{
+
         display:flex;
         flex-direction: row;
         width:100%;
+        align-items:center;
         justify-content:space-between;
+        a{
+          text-align: center;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 19px;
+          text-transform: uppercase;
+          margin-right: 20px;
+        }
         
         h1{
           all:unset;
           text-align: center;
-          margin-left:8px;
           font-style: normal;
           font-weight: 800;
           font-size: 14px;
           line-height: 19px;
           text-transform: uppercase;
           color: #3B434A;
+        }
+
+        .iconSection{
+          margin-right: 25px;
+          h1{
+            margin-left:5px;
+          }
         }
       }
     
