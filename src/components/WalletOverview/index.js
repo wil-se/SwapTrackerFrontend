@@ -198,7 +198,7 @@ export function WalletOverview(){
       <Col md={12}>
         <Card className="wallet-overview-card w-100 mb-2 pl-2 pr-2 pt-0 pb-0">
           <Card.Body className="pr-4 pl-4">
-              <Row className="justify-content-start">
+              <Row>
                   <Col xs={12} md={4} style={{borderColor: "#ABC2D6"}} className="border-right border-md-1 border-0 pr-4" >
                       <div>
                       <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-3 border-bottom border-1 pt-4" style={{borderColor: "#ABC2D6"}}>
@@ -239,8 +239,7 @@ export function WalletOverview(){
                       
                   </Col>
 
-                  <Col xs={12} md={4} className="d-flex flex-column align-items-center justify-content-center">
-                    <div>
+                  <Col className="d-flex flex-column align-items-center justify-content-center pr-4">
                       <Row>
                           {
                             coin0.symbol !== "" ?
@@ -253,8 +252,6 @@ export function WalletOverview(){
                           <WalletOverviewCoinInfo coin={coin1} /> :
                           ""
                           }
-                      </Row>
-                      <Row>
                             {
                               coin2.symbol !== "" ?
                             <WalletOverviewCoinInfo coin={coin2} /> :
@@ -265,8 +262,6 @@ export function WalletOverview(){
                             <WalletOverviewCoinInfo coin={coin3} /> :
                             ""
                             }
-                      </Row>
-                      <Row>
                             {
                               coin4.symbol !== "" ?
                             <WalletOverviewCoinInfo coin={coin4} /> :
@@ -275,12 +270,9 @@ export function WalletOverview(){
                             {
                               Number(other) === 0 ?
                               "" :
-                          <Col className="m-2" style={{border: "1px solid #ACD8E6", borderRadius: 10}}>
                               <WalletOverviewOtherInfo otherPerc={other} />
-                          </Col>
                             }
                       </Row>
-                    </div>
                   </Col>
             </Row>
           </Card.Body>
