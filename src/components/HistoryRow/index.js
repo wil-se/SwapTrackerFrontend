@@ -110,9 +110,12 @@ export function HistoryRow({
         </th>
         
         <th className="text-center">
+          {
+            closedDate === "-" ? 
           <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo)}>
                 CLOSE TRADE
-          </Button>
+          </Button> : ""
+        }
         </th>
   </tr>
   </>
