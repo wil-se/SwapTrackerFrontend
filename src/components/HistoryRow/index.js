@@ -34,9 +34,10 @@ export function HistoryRow({
     
   let navigation = useNavigate()
   
-  const closeTrade = (tokenIn,tokenOut) => {
-    navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut}})
+  const closeTrade = (tokenIn,tokenOut,amIn,amOut) => {
+    navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut,amountIn:amIn,amountOut:amOut}})
   }
+
 
   const row = <>
   <tr className="">
@@ -112,7 +113,7 @@ export function HistoryRow({
         <th className="text-center">
           {
             closedDate === "-" ? 
-          <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo)}>
+          <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo,amountIn,amountOut)}>
                 CLOSE TRADE
           </Button> : ""
         }
