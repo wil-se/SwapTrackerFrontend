@@ -40,7 +40,7 @@ const Staking = () => {
         <Row className="d-flex justify-content-center mt-5">
           <Col md={9}>
             <h1 className="page-title">Pools</h1>
-            <Row>
+            <Row style={{marginTop: 20}}>
               {openedPools.map(pool => (
                 <Col md={6} key={pool.poolId} className="mb-4">
                   <PoolCard pool={pool} />

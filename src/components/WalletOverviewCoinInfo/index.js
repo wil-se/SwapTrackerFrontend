@@ -15,7 +15,8 @@ const coinBorder = {border: "1px solid #ACD8E6", borderRadius: 10}
 export function WalletOverviewCoinInfo(props){
   const { innerWidth: width, innerHeight: height } = window;
   return(
-    <Col xs={6} className="m-0" style={coinBorder}>
+    <Col xs={6} className="m-0 p-1">
+    <Col  style={coinBorder}> 
     <div className='py-2 pr-2'>
     {
         props.coin.symbol === "" ?
@@ -48,6 +49,7 @@ export function WalletOverviewCoinInfo(props){
             </Row>
     }
     </div>
+    </Col>
     </Col>
   )
 }

@@ -137,9 +137,9 @@ const SideBar = () => {
                             }
                         </Row>
                         <Row className="tierSection">
-                            <TierSection tier={tier}/>
+                            <TierSection tier={tier} style={{marginBottom: 100}}/>
                         </Row>    
-                        <hr className="address-under-line "/>
+                        <hr style={{marginTop: 70}} className="address-under-line "/>
                         <Row className="logoutSection" onClick={logout}>
                             <img src={logOutIcon}/>
                             <div className="logout-text">
