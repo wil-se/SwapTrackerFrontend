@@ -125,7 +125,7 @@ const TopNavbar = function () {
             </Dropdown.Toggle>
             <Dropdown.Menu className="dropdownmenucurrencies" style={{ width: 100, borderRadius: 10 }}>
               <Dropdown.Item onClick={() => console.log("CHANGE NETWORK")} className="align-items-center"><img className="img-fluid mr-1" src={BscLogo} /><span className="font-weight-bold mr-4">BSC</span></Dropdown.Item>
-              <Dropdown.Item onClick={() => console.log("CHANGE NETWORK")} className="align-items-center"><img className="img-fluid mr-1" src={CurrenciesIcons.default['ETH']} /><span className="font-weight-bold mr-4">ETH</span></Dropdown.Item>
+              <Dropdown.Item disabled onClick={() => console.log("CHANGE NETWORK")} className="align-items-center"><img className="img-fluid mr-1" src={CurrenciesIcons.default['ETH']} /><span className="font-weight-bold mr-4">ETH</span></Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         
