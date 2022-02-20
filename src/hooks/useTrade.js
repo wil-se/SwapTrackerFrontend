@@ -63,14 +63,19 @@ const useTrade = () => {
         let wbnb = WETH[ChainId.MAINNET]
         let tokenSelectedInRef;
         let tokenSelectedOutRef;
+        let amountIn;
+        let amountOut;
         if(!state){
             return;
         }
         
+        console.log(state)
         let tokenInContract = getBep20Contract(state?.tokenIn)
         let tokenOutContract = getBep20Contract(state?.tokenOut)
         
         if(tokenInContract._address && tokenOutContract._address){
+            amountIn = state?.amountOut
+            amountOut = state?.amountIn
             let decimalsTokenIn = await tokenInContract.methods.decimals().call();
             let decimalsTokenOut = await tokenOutContract.methods.decimals().call();
             let symbolTokenIn = await tokenInContract.methods.symbol().call();
@@ -122,7 +127,7 @@ const useTrade = () => {
 
         }
 
-        return {tokenSelectedInRef,tokenSelectedOutRef}
+        return {tokenSelectedInRef,tokenSelectedOutRef,amountIn,amountOut}
 
 
         

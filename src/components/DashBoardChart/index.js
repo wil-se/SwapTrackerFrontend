@@ -67,8 +67,6 @@ const DashBoardChart = ({tier,account}) => {
           console.log(e);
         }
         
-        labelList.unshift("0")
-        dataList.unshift("0")
         setLabelList(labelList)
         setDataList(dataList)
       }

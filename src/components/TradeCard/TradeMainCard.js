@@ -11,7 +11,7 @@ import TradeModalSettings from '../TradeModalSettings';
 import {usePancakeRouter,useERC20} from 'hooks/useContract';
 import {useSwapInfo,useWrap} from 'hooks/useSwapInfo'
 import {approve} from 'utils/callHelpers';
-import { useSwapTrackerMediator,useWBNBContract } from 'hooks/useContract';
+import { useSwapTrackerMediator } from 'hooks/useContract';
 import useNotification from 'hooks/useNotification'
 import useTrade from 'hooks/useTrade';
 import useWeb3 from 'hooks/useWeb3';
@@ -19,6 +19,7 @@ import {useLocation } from 'react-router-dom'
 import {BNB,WBNB,SWPTPre} from 'config'
 import { Col, Row,Card } from 'react-bootstrap';
 import { num_format } from 'utils/walletHelpers';
+import { getBep20Contract } from 'utils/contractHelpers';
 
 
 const TradeMainCard = ({tier}) => {
@@ -49,24 +50,31 @@ const TradeMainCard = ({tier}) => {
     useEffect(()=>{
         (async ()=>{
             if(state){
-                const {tokenSelectedInRef,tokenSelectedOutRef} = await getTokenSelected(state)
+                const {tokenSelectedInRef,tokenSelectedOutRef,amountIn,amountOut} = await getTokenSelected(state)
                 if(tokenSelectedOutRef){
-                    if(tokenSelectedInRef){
+                    if(tokenSelectedInRef && account){
+                        console.log(tokenSelectedInRef?.address,account)
+                        const contractIn = getBep20Contract(tokenSelectedInRef?.address)
+                        const allowance = await contractIn.methods.allowance(account,swapTrackerMediator._address).call();
+                        console.log(allowance)
+                        setAllowanceTokenIn(allowance)
                         setTokenSelectedIn(tokenSelectedInRef)
+                        setAmountIn(amountIn)
                     }
                     setTokenSelectedOut(tokenSelectedOutRef)
-                    setDisabledInput(false)
+                    setAmountOut(amountOut)
+                    setDisabledButton(false)
                 }
             }
 
         })()
-    },[state])
+    },[state,account])
 
     useEffect(()=>{
         (async()=>{
             let bal = await getBalance(tokenSelectedIn,account,erc20Contract,web3)
             setBalance(bal)
-            tier === 1000 ? null : setDisabledInput(false) 
+            tier === 1000 ? null :!state ? setDisabledInput(false) : null 
 
         })()
     },[account,tokenSelectedIn])

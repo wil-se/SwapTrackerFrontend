@@ -26,8 +26,8 @@ const DashboardOpenTradesTableRow = ({
   currentDecimals
 }) => {
     let navigation = useNavigate()
-    const closeTrade = (tokenIn,tokenOut) => {
-      navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut}})
+    const closeTrade = (tokenIn,tokenOut,amIn,amOut) => {
+      navigation('/trade',{state:{tokenIn:tokenIn,tokenOut:tokenOut,amountIn:amIn,amountOut:amOut}})
     }
 
     return (
@@ -56,17 +56,17 @@ const DashboardOpenTradesTableRow = ({
 
           <th className="text-center">
             <p className="mb-0">{`${fiatSymbol} ${num_locale_format(currentValue*fiatValue, currentDecimals, currentDecimals)}`}</p>
-            <div className="greyText">{amountIn} {tokenSymbolIn} | {amountOut.toFixed(7)} {tokenSymbol}</div>
+            <div className="greyText">{num_locale_format(amountOut, 7, 7)} {tokenSymbol}</div>
           </th>
 
           <th className="text-center">
-            <p className="mb-0">{`${fiatSymbol} ${num_format((priceTo*fiatValue),currentDecimals,currentDecimals)}`}</p>
-            <div className="greyText">{num_format(amountOut)} {tokenSymbol} @{num_format((priceTo*fiatValue),currentDecimals,currentDecimals)}</div>
+            <p className="mb-0">{`${fiatSymbol} ${num_locale_format((priceTo*fiatValue),currentDecimals,currentDecimals)}`}</p>
+            <div className="greyText">{num_locale_format(amountOut, 7, 7)}</div>
           </th>
           
           <th className="text-center">
             <p className="mb-0">{`${fiatSymbol} ${num_locale_format((Number(currentPrice)*fiatValue),currentDecimals,currentDecimals)}`}</p>
-            <div className="greyText">{amountIn} {tokenSymbolIn} | {amountOut.toFixed(7)} {tokenSymbol}</div>
+            <div className="greyText">{num_locale_format(amountIn, 7, 7)} {tokenSymbolIn} | {num_locale_format(amountOut, 7, 7)} {tokenSymbol}</div>
           </th>
 
           <th className="text-center on-center">
@@ -95,7 +95,7 @@ const DashboardOpenTradesTableRow = ({
           </th>
 
           <th className="text-center on-center">
-            <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo)}>
+            <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo,amountIn,amountOut)}>
               CLOSE TRADE
             </Button>
           </th>

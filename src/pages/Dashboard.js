@@ -61,9 +61,7 @@ const Dashboard = () => {
                 singleProfitOrLossPercetageNumerical = (item[1][1].shiftedBy(-18).toNumber()) * singlePercetage / 100
                 totalProfitOrLossPercetageNumerical += singleProfitOrLossPercetageNumerical
             })
-            )   
-       
-        //totalProfitOrLossPercetageFinal = totalProfitOrLossPercetageNumerical
+        )      
         setCurrentBalance(Number(totalBalance))
         setProfitOrLoss(Number(totalProfitOrLossPercetageNumerical));
         return totalProfitOrLossPercetageNumerical;
@@ -109,8 +107,7 @@ const Dashboard = () => {
                if(user && chainId){
                    await getWlltTVL();
                    if(walletTVL){
-                       let totalProfOrLoss = await wlltDist()
-                       await setNewBalanceOverview(user,totalProfOrLoss)
+                       await wlltDist()
                    }
                }
             }
