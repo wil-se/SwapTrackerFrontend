@@ -38,31 +38,35 @@ const DashBoardChart = ({tier,account}) => {
       let dataList = []
      console.log("allora", profitOrLossOverview)
       if(profitOrLossOverview && profitOrLossOverview.length !== 0 && account){ 
-        profitOrLossOverview.map((singleBalanceOverview)=>{
-          let date = new Date(Object.keys(singleBalanceOverview))
-          if(selectedDayRange === defaultValue){
-            let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
-            labelList.push(label)
-            dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
-            
-            return;
-          }
-          if(dateFilterArray && (date >= dateFilterArray[0] && date <= dateFilterArray[1])){
-            let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
-            labelList.push(label)
-            dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
-            
-      
-          }
-          else if(!dateFilterArray){
-            let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
-            
-            labelList.push(label)
-            dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
-           
-          }
-      
-        })
+        try{
+          profitOrLossOverview.map((singleBalanceOverview)=>{
+            let date = new Date(Object.keys(singleBalanceOverview))
+            if(selectedDayRange === defaultValue){
+              let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
+              labelList.push(label)
+              dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+              
+              return;
+            }
+            if(dateFilterArray && (date >= dateFilterArray[0] && date <= dateFilterArray[1])){
+              let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
+              labelList.push(label)
+              dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+              
+        
+            }
+            else if(!dateFilterArray){
+              let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
+              
+              labelList.push(label)
+              dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+             
+            }
+          })
+        } catch(e){
+          console.log(e);
+        }
+        
         labelList.unshift("0")
         dataList.unshift("0")
         setLabelList(labelList)
