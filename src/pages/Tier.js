@@ -36,10 +36,14 @@ const Tier = () => {
         <MainContainer>
         <>
           <h1 className="subheader-title">Tiers</h1>
-          <div className="d-flex flex-row mb-5 align-center">
-          <p className='' style={{color: "#8DA0B0", fontWeight: 800,marginRight:"10px"}}>Connect your wallet to use SwapTracker, you need SWPT tokens in your wallet in order to use all the features.</p>
-          <Button className="d-flex align-center"onClick={()=>window.open("https://pancakeswap.finance/swap?outputCurrency=0x01832e3346fd3a0d38ca589d836bd78d1de7030c")}>BUY SWPT</Button>
+          <div className="d-flex flex-row align-center ">
+          <p style={{color: "#8DA0B0", fontWeight: 800,marginRight:"10px"}}>Connect your wallet to use SwapTracker, you need SWPT tokens in your wallet in order to use all the features.</p>
           </div>
+          <Row style={{marginTop: 80}}>
+            <Col sx={12} className="text-center mb-2">
+            <Button className='tier-card-active' style={{width: 200, heigh: 80, fontSize: 20, marginBottom: 20}} onClick={()=>window.open("https://pancakeswap.finance/swap?outputCurrency=0x01832e3346fd3a0d38ca589d836bd78d1de7030c")}>BUY SWPT</Button>
+            </Col>
+          </Row>
           <Row className="pl-md-100 pr-md-100 pt-md-50">
             <Col md={4}>
               <Card className={`mb-5 text-center card-no-border ${isStarted ? "tier-card-active" : ""}`} style={{padding: 25}}>
