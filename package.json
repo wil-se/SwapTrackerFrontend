@@ -33,6 +33,7 @@
     "axios": "^0.24.0",
     "bignumber.js": "^9.0.1",
     "bootstrap": "^4.6.0",
+    "bootstrap-switch-button-react": "^1.2.0",
     "chart.js": "^3.7.0",
     "coingecko-api": "^1.0.10",
     "cryptocurrency-icons": "^0.18.0",

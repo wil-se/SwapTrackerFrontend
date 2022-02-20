@@ -16,6 +16,7 @@ import DatePicker from "react-modern-calendar-datepicker";
 import {MONTH_LABELS_CHART} from 'config/'
 import moment from 'moment'
 import Skeleton from 'react-loading-skeleton';
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 
 const defaultFrom = {
@@ -131,9 +132,10 @@ const History = () => {
     return (
         <MainContainer>
         <>
-        <Row className="d-flex ">
-          <Col md={12} lg={12} xs={12} className="justify-content-start">
+        <Row className="d-flex align-items-end mb-4">
+          <Col md={10} lg={10} xs={10} className="justify-content-start">
           <h1 className="subheader-title">History</h1>
+              <a style={{cursor: 'pointer'}}>
               <DatePicker
                 colorPrimary="#b6d7e4"
                 colorPrimaryLight="#1297a1"
@@ -142,7 +144,27 @@ const History = () => {
                 renderInput={dateRangeOutput} // render a custom input
                 shouldHighlightWeekends
               />
+              </a>
           </Col>
+          <Col  md={1} lg={1} xs={1} className="justify-content-end pr-0">
+          <BootstrapSwitchButton
+            checked={false}
+            onlabel='Show'
+            onstyle='primary'
+            offlabel='Hide'
+            offstyle='secondary'
+            style='ml-4'
+            width={80}
+            onChange={() => {console.log("changed")}}
+          />
+          </Col>
+
+          <Col  md={1} lg={1} xs={1} className="justify-content-start pl-0">
+          <p className='mb-1 mt-2'>closed trades</p>
+          </Col>
+
+          
+          
         </Row>
         <Row>
         <Col md={12} lg={12} xs={12}>
