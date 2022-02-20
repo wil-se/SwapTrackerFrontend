@@ -45,6 +45,7 @@ const History = () => {
   const [tradesRows, setTradesRows] = useState([])
   const [value, setValue] = useState(0);
   const [noTrade,setNoTrade] = useState(false)
+  const [showClosedTrades, setShowClosedTrades] = useState(true)
   const currentName = useGetFiatName();
   const currentValues = useGetFiatValues();
   const currentSymbol = useGetFiatSymbol();
@@ -115,6 +116,8 @@ const History = () => {
       )
     }
   },[selectedDayRange])
+
+  console.log("showClosedTrades: ", showClosedTrades)
   
   const dateRangeOutput = ({ ref }) => (
     <label className="history-date-range-output">
@@ -148,14 +151,14 @@ const History = () => {
           </Col>
           <Col  md={1} lg={1} xs={1} className="justify-content-end pr-0">
           <BootstrapSwitchButton
-            checked={false}
+            checked={showClosedTrades}
             onlabel='Show'
             onstyle='primary'
             offlabel='Hide'
             offstyle='secondary'
             style='ml-4'
             width={80}
-            onChange={() => {console.log("changed")}}
+            onChange={() => setShowClosedTrades(!showClosedTrades)}
           />
           </Col>
 
@@ -277,6 +280,7 @@ const History = () => {
                           tokenTo={trade.tokenTo}
                           fiatSymbol={currentSymbol}
                           fiatValue={value}
+                          show={showClosedTrades}
                         />
                     )
                   })
