@@ -152,7 +152,7 @@ const History = () => {
         <Row className="d-flex justify-content-between align-items-center mb-2">
           <Col md={10} lg={10} xs={10} className="d-flex align-items-center">
           <h1 className="m-100 subheader-title">History</h1>
-          <div className="ml-4 d-flex">
+          <div className="ml-4 d-flex" style={{cursor: "pointer"}}>
             <DatePicker
               colorPrimary="#b6d7e4"
               colorPrimaryLight="#e9f2f2"
@@ -189,13 +189,13 @@ const History = () => {
                   <th className=" text-center">
                     TOKEN NAME
                   </th>
-                  <th className=" text-center wide-td">
+                  <th className=" text-center">
                     CURRENT VALUE
                   </th>
-                  <th className=" text-center wide-td">
+                  <th className=" text-center">
                     OPEN AT
                   </th>
-                  <th className=" text-center wide-td">
+                  <th className=" text-center">
                     CURRENT PRICE
                   </th>
                   <th className=" text-center">
