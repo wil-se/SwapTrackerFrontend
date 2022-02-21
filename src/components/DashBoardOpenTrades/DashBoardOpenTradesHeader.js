@@ -14,7 +14,7 @@ const DashBoardOpenTradesHeader = () => {
                     <Link to="/history" className='text-nowrap'> See All </Link>
                 </Col>
             </Col>
-            <Col className="dashboard-card-open-trade-button d-flex justify-content-center justify-content-md-end" md={5} lg={4} xs={12}>
+            <Col className="dashboard-card-open-trade-button d-flex justify-content-center justify-content-md-end pr-2" md={5} lg={4} xs={12}>
                 <Link to="/trade" className='text-nowrap'> TRADE NOW </Link>
             </Col>
         </Row>
