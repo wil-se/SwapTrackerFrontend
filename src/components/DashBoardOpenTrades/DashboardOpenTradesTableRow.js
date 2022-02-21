@@ -72,11 +72,11 @@ const DashboardOpenTradesTableRow = ({
           <th className="text-center on-center">
             {Math.sign(pl) === -1 ? 
               <div className="dashboard-pl-negative ">
-                {`${Number(pl).toFixed(6).toString().substring(0,1)} ${fiatSymbol} ${num_locale_format(fiatValue*Number(pl),2,2).toString().substring(1,pl.toString().length)}`}
+                {`${Number(pl).toFixed(6).toString().substring(0,1)} ${fiatSymbol} ${num_format(fiatValue*Number(pl),2,2).toString().substring(1,pl.toString().length)}`}
               </div>
               :
               <div className="dashboard-pl-positive">
-                {`+ ${fiatSymbol} ${num_locale_format(fiatValue*Number(pl),2,2)}`}
+                {`+ ${fiatSymbol} ${num_format(fiatValue*Number(pl),2,2)}`}
               </div>
             }
           </th>
