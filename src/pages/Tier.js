@@ -47,45 +47,39 @@ const Tier = () => {
           <Row className="pl-md-100 pr-md-100 pt-md-50 justify-content-center">
             <Col lg={3} md={8}>
               <Card className={`mb-5 text-center card-no-border ${isStarted ? "tier-card-active" : ""}`} style={{padding: 25}}>
-                <div style={{marginLeft: 70, marginRight: 70}}>
                   <h4 className="font-weight-bold">STARTER</h4>
                   <Row style={{marginTop: 30}}><Col><img src={Stack0} /></Col></Row>
                   <Row style={{marginTop: -14, visibility: 'hidden'}}><Col><img src={Stack1} /></Col></Row>
                   <Row style={{marginBottom: 10, marginTop: -14, visibility: 'hidden'}}><Col><img src={Stack2} /></Col></Row>
                   <p className="font-weight-bold">Must hold 1.000.000 SWPT in your connected wallet</p>
-                </div>
                 <hr/>
-                <div style={{marginLeft: 90, marginRight: 90, marginTop: 30}}>
+                <div className="pt-3">
                   <p>All features available 1% transaction fee</p>
                 </div>
               </Card>
             </Col>
             <Col lg={3} md={8}>
               <Card className={`mb-5 text-center card-no-border ${isAdvanced ? "tier-card-active" : ""}`} style={{padding: 25}}>
-                <div style={{marginLeft: 70, marginRight: 70}}>
                   <h4 className="font-weight-bold">ADVANCED</h4>
                   <Row style={{marginTop: 30}}><Col><img src={Stack0} /></Col></Row>
                   <Row style={{marginTop: -14}}><Col><img src={Stack1} /></Col></Row>
                   <Row style={{marginBottom: 10, marginTop: -14, visibility: 'hidden'}}><Col><img src={Stack2} /></Col></Row>
                   <p className="font-weight-bold">Must hold 5.000.000 SWPT in your connected wallet</p>
-                </div>
                 <hr/>
-                <div style={{marginLeft: 90, marginRight: 90, marginTop: 30}}>
+                <div className="pt-3">
                   <p>All features available 0.5% transaction fee</p>
                 </div>
               </Card>
             </Col>
             <Col lg={3} md={8}>
               <Card className={`mb-5 text-center card-no-border ${isPro ? "tier-card-active" : ""}`} style={{padding: 25}}>
-              <div style={{marginLeft: 65, marginRight: 65}}>
                   <h4 className="font-weight-bold">PRO</h4>
                   <Row style={{marginTop: 30}}><Col><img src={Stack0} /></Col></Row>
                   <Row style={{marginTop: -14}}><Col><img src={Stack1} /></Col></Row>
                   <Row style={{marginBottom: 10, marginTop: -14}}><Col><img src={Stack2} /></Col></Row>
                   <p className="font-weight-bold">Must hold 10.000.000 SWPT in your connected wallet</p>
-                </div>
                 <hr/>
-                <div style={{marginLeft: 90, marginRight: 90, marginTop: 30}}>
+                <div className="pt-3">
                   <p>All features available 0% transaction fee</p>
                 </div>
               </Card>
