@@ -3,7 +3,7 @@ import { Card, Row, Col, Tooltip as TooltipBootstrap, OverlayTrigger } from 'rea
 import addressAvatarBig from '../../assets/icons/addressAvatarBig.png';
 import { Doughnut } from 'react-chartjs-2';
 import * as CryptoIcons from '../../assets/icons';
-import {walletDistribution,getWalletTVL, num_format} from 'utils/walletHelpers'
+import {walletDistribution,getWalletTVL, num_format, num_locale_format} from 'utils/walletHelpers'
 import useWeb3 from 'hooks/useWeb3';
 import useAuthService from 'hooks/useAuthService'
 import { Chart as ChartJS, Legend,Tooltip } from 'chart.js';
@@ -73,7 +73,7 @@ export function WalletOverview(){
         },
       },
       responsive: true,
-      maintainAspectRatio: true,
+      //maintainAspectRatio: true,
   })
 
   const getWlltTVL = async ()=>{
@@ -92,7 +92,9 @@ export function WalletOverview(){
     let count = 0;
     let other = 100;
     
-    for (const [key, value] of Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0];})) {
+    for (const [key, value] of Object.entries(wlltDist).sort(function(first, second){
+      return second[1][0] - first[1][0];
+    })) {
         
         cLabels.push(value[3].toUpperCase());
         cData.push(value[0]);
@@ -107,11 +109,26 @@ export function WalletOverview(){
         }
          
 
-        if(count === 0) {setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
-        if(count === 1) {setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
-        if(count === 2) {setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
-        if(count === 3) {setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
-        if(count === 4) {setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]}); other = other-Number(value[0])}
+        if(count === 0) {
+          setCoin0({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]});
+          other -= Number(value[0])
+        }
+        if(count === 1) {
+          setCoin1({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]});
+          other -= Number(value[0])
+        }
+        if(count === 2) {
+          setCoin2({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]});
+          other -= Number(value[0])
+        }
+        if(count === 3) {
+          setCoin3({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]});
+          other -= Number(value[0])
+        }
+        if(count === 4) {
+          setCoin4({symbol: value[3].toUpperCase(), perc: value[0].toFixed(3), name: data.data.name ?? value[3]});
+          other -= Number(value[0])
+        }
         count++;
     }
 
@@ -201,78 +218,78 @@ export function WalletOverview(){
         <Card className="wallet-overview-card w-100 mb-2 pl-2 pr-2 pt-0 pb-0">
           <Card.Body className="px-4 py-0">
               <Row>
-                  <Col xs={12} md={4} lg={4} style={{borderColor: "#ABC2D6"}} className="align-self-center border-right border-md-1 border-0 pr-4" >
+                  <Col xs={12} md={4} lg={4} className="align-self-center border-md-1 pr-4" style={{borderRight: '1px solid #ABC2D6'}}>
                       <div>
-                      <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-3 border-bottom border-1 pt-4" style={{borderColor: "#ABC2D6"}}>
-                          <Col xs={12} md={3} className="pr-0" >
+                      <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-3 pt-4" style={{borderBottom: '1px solid #ABC2D6'}}>
+                          <Col xs={12} md={4} lg={4} xl={3} className="pr-0 d-flex" >
                             <img src={addressAvatarBig} className="avatar"/>
-                          </Col>
-                          <Col xs={12} md={8} className="pr-0" >
-                          <div style={{fontSize: 24, fontWeight: 900,}}>
-                              {getShrunkWalletAddress(address)}
-                              <OverlayTrigger
-                                placement="bottom"
-                                delay={{ show: 150, hide: 400 }}
-                                overlay={renderTooltip}
-                              >
+                            <div style={{fontSize: 24, fontWeight: 700}} className="ml-3 d-flex align-self-center">
+                                {getShrunkWalletAddress(address)}
+                                <OverlayTrigger
+                                  placement="bottom"
+                                  delay={{ show: 150, hide: 400 }}
+                                  overlay={renderTooltip}
+                                >
                                 <a style={{cursor: "pointer"}} onClick={() => {navigator.clipboard.writeText(address)}}><img className="ml-2" style={{height: 15, width: 15}} src={CopyIcon} /></a>
-                              </OverlayTrigger>
-                          </div>
+                                </OverlayTrigger>
+                            </div>
                           </Col>
                       </Row>
-                      <Row className="pl-4 mt-3">
-                          <h6 style={{fontStyle: "normal", fontWeight: 800, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
-                      </Row>
-                      <Row className="pl-4">
-                          <h1 style={{fontSize: 48, fontWeight: 900}}> {currentSymbol} {num_format((walletTVL*(price > 0 ? price : 1)), currentDecimals, currentDecimals)} </h1>
-                      </Row>
-                      <Row className="pl-4">
-                          <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 800}}>{num_format(walletTVLBNB, 4, 4)} BNB</h6>
+                      <Row className="pl-4 mt-4 justify-content-center">
+                        <Col xs={11}>
+                          <h6 style={{fontStyle: "normal", fontWeight: 500, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
+                        </Col>
+                        <Col xs={11}>
+                          <h1 style={{fontSize: 48, fontWeight: 700}}> {currentSymbol} {num_locale_format((walletTVL*(price > 0 ? price : 1)), currentDecimals, currentDecimals)} </h1>
+                        </Col>
+                        <Col xs={11}>
+                          <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 500}}>{num_format(walletTVLBNB, 4, 4)} BNB</h6>
+                        </Col>
                       </Row>
                       </div>
                   </Col>
 
-                  <Col xs={12} md={4} lg={4} className="d-flex align-items-center justify-content-center">
+                  <Col xs={12} md={4} lg={3} className="d-flex align-items-center justify-content-center">
                   {
                     Object.keys(chartData).length === 0 ?
-                    <Skeleton width="160px" height="160px" style={{borderRadius:90}}/> :
-                    <Doughnut options={options} data={chartData}/>
+                      <Skeleton width="160px" height="160px" style={{borderRadius:90}}/>
+                    : <Doughnut options={options} data={chartData}/>
                   }
                       
                   </Col>
 
-                  <Col className="d-flex flex-column align-items-center justify-content-center pr-4">
-                      <Row>
+                  <Col className="d-flex flex-column align-items-center justify-content-center pr-4" md={12} lg={5}>
+                      <Row className="d-flex align-items-center">
                           {
                             coin0.symbol !== "" ?
-                          <WalletOverviewCoinInfo coin={coin0} /> :
+                          <WalletOverviewCoinInfo coin={coin0} withBorder={true}/> :
                             ""
                           }
                           
                           {
                             coin1.symbol !== "" ?
-                          <WalletOverviewCoinInfo coin={coin1} /> :
+                          <WalletOverviewCoinInfo coin={coin1} withBorder={true}/> :
                           ""
                           }
                             {
                               coin2.symbol !== "" ?
-                            <WalletOverviewCoinInfo coin={coin2} /> :
+                            <WalletOverviewCoinInfo coin={coin2} withBorder={true}/> :
                             ""
                             }
                             {
                               coin3.symbol !== "" ?
-                            <WalletOverviewCoinInfo coin={coin3} /> :
+                            <WalletOverviewCoinInfo coin={coin3} withBorder={true}/> :
                             ""
                             }
                             {
                               coin4.symbol !== "" ?
-                            <WalletOverviewCoinInfo coin={coin4} /> :
+                            <WalletOverviewCoinInfo coin={coin4} withBorder={true}/> :
                             ""
                             }
                             {
-                              Number(other) === 0 ?
-                              "" :
-                              <WalletOverviewOtherInfo otherPerc={other} />
+                              Number(other) > 0 ?
+                              <WalletOverviewOtherInfo otherPerc={other}/>
+                              : ""
                             }
                       </Row>
                   </Col>
