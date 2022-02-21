@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { propTypes } from 'react-bootstrap/esm/Image';
 import * as CryptoIcons from '../../assets/icons';
 import {useNavigate} from 'react-router-dom'
-import {num_format} from 'utils/walletHelpers'
+import {num_format, num_locale_format} from 'utils/walletHelpers'
 
 
 const greyText = {color: "#8DA0B0", fontSize: 11}
@@ -40,7 +40,7 @@ export function HistoryRow({
 
 
   const row = <>
-  <tr className="">
+  <tr>
         <td className="history-token-col">
           {CryptoIcons.default['_'+tokenSymbol.toLowerCase()] 
             ?
@@ -74,7 +74,7 @@ export function HistoryRow({
 
         <td className="text-center">
           <p className="mb-0">{`${fiatSymbol} ${(currentPrice*fiatValue) > 1 ? (currentPrice*fiatValue).toFixed(4) : (currentPrice*fiatValue).toFixed(7)}`}</p>
-          <div className="greyText">{num_format(amountIn, 7, 7)} {tokenSymbolIn} | {num_format(amountOut, 7, 7)} {tokenSymbol}</div>
+          <div className="greyText d-flex">{num_locale_format(amountIn, 7, 7)} {tokenSymbolIn} | {num_format(amountOut, 7, 7)} {tokenSymbol}</div>
         </td>
 
         <td className="text-center on-center">
