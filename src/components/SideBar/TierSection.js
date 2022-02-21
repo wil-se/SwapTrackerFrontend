@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import tierStarter from 'assets/icons/tier-starter.png';
 import tierAdvanced from 'assets/icons/tier-advanced.png';
 import tierPro from 'assets/icons/tier-pro.png';
-import { Row, Col } from 'react-bootstrap';
+import {Link} from "react-router-dom"
 
 
 const TierSection = ({tier}) => {
@@ -14,7 +14,7 @@ const TierSection = ({tier}) => {
             (
                 <div className="tierSubSection">
                     <p>Current plan:</p>
-                    <a href="/tiers">active plan</a>
+                    <Link to="tiers">active plan</Link>
                 </div>
             )  
             : tier === 10 ? 
