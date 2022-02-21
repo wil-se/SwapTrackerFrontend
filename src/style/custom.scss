@@ -10,6 +10,10 @@ a:hover {
   color: theme-color("primary");
 }
 
+.dropdown .btn {
+  border-radius: 12px!important;
+}
+
 .btn {
   padding: 8px 15px;
   font-size: 14px;

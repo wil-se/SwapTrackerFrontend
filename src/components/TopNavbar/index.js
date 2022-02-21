@@ -91,7 +91,7 @@ const TopNavbar = function () {
         }
 
           <Dropdown className="mx-2">
-            <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
+            <Dropdown.Toggle variant="currency" style={{height: 45}}>
             <img className="img-fluid mr-1" src={CurrenciesIcons.default[currency]} /> <span className="mr-4">{currency}</span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="dropdownmenucurrencies" style={{ width: 550, borderRadius: 10 }}>
