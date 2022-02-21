@@ -41,7 +41,7 @@ export function HistoryRow({
 
   const row = <>
   <tr>
-        <td className="history-token-col">
+        <td className="text-center history-token-col ">
           {CryptoIcons.default['_'+tokenSymbol.toLowerCase()] 
             ?
             <div className="history-token-icon">
@@ -53,7 +53,7 @@ export function HistoryRow({
             </div>
             
           }
-          <div className="history-token-symbol ml-3">
+          <div className="history-token-symbol">
             {tokenSymbol}
           </div>
         </td>
