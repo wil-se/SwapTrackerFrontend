@@ -1,14 +1,17 @@
 .history-table{
+
     table-layout: auto;
     width: 100%;
     thead{
         all:unset;
+
 
         tr{
             width:100%;
             border:unset;
             display:flex;
             justify-content:space-between;
+
             
                 th{
                     border:unset;
@@ -36,6 +39,7 @@
                 width:100%;
                 border: unset;
                 
+
                 
                 font-style: normal;
                     font-weight: normal;

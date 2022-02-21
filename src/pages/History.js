@@ -82,9 +82,10 @@ const History = () => {
       (async () => {
         if(user && account){
           let tData = await getTradesData(user['address']);
-          let rData = await getHistoryRowsData(tData);           
-          setTradesRows(rData)
-          setTradeRowsFilter(rData)
+          let rData = await getHistoryRowsData(tData);  
+          let sortedRData = rData?.sort((a,b)=> moment(b.createdAtForFilter)-moment(a.createdAtForFilter))         
+          setTradesRows(sortedRData)
+          setTradeRowsFilter(sortedRData)
           
         }
         else if(tier === 1000){
@@ -120,8 +121,6 @@ const History = () => {
       localSelectedRangeTo.month = localSelectedRangeTo.month -1
       let dateFromMoment = moment(localSelectedRangeFrom).unix()
       let dateToMoment = moment(localSelectedRangeTo).unix()
-      let dateMomentHuman = moment(localSelectedRangeFrom).format("LLLL")
-      let dateMomentHuman1 = moment(localSelectedRangeTo).format("LLLL")
       setTradesRows(
         tradeRowsFilter.filter((trade)=>{
           console.log("vediamo ",trade.tokenName,trade.createdAt, trade.createdAtForFilter, dateFromMoment, trade.createdAtForFilter , dateToMoment, trade.createdAtForFilter >= dateFromMoment && trade.createdAtForFilter <= dateToMoment)
