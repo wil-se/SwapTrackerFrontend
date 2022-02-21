@@ -42,14 +42,14 @@ a:hover {
 
   &-primary.disabled {
     color: $white;
-    background-color: $azure-primary;
-    border-color: $azure-primary;
+    background-color: #3B434A;
+    border-color: #3B434A;
   }
 
   &-primary:disabled {
     color: $white;
-    background-color: $azure-primary;
-    border-color: $azure-primary;
+    background-color: #3B434A;
+    border-color: #3B434A;
   }
 
   &-primary:hover {
