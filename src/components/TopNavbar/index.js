@@ -69,14 +69,14 @@ const TopNavbar = function () {
 
   return (
     <div id="sticky-wrapper" className="sticky-wrapper">
-      <nav className="navbar navbar-expand-md bg-faded cripto_nav pr-0">
+      <nav className="navbar navbar-expand-md bg-faded cripto_nav pr-0 fixed-top">
         
         <Row className="d-flex flex-row-reverse w-100">
         
         {
           (connector.connected || active) ?
           
-          <Dropdown className="ml-3" alignRight>
+          <Dropdown className="ml-4" alignRight>
             <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
             <label className="text-muted my-auto mx-3">{getShrunkWalletAddress(account)}</label>
             </Dropdown.Toggle>
@@ -86,10 +86,10 @@ const TopNavbar = function () {
           </Dropdown>
 
           :           
-          <Button className="ml-3" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
+          <Button className="ml-4" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
         }
 
-          <Dropdown className="ml-3">
+          <Dropdown className="mx-2">
             <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
             <img className="img-fluid mr-1" src={CurrenciesIcons.default[currency]} /> <span className="mr-4">{currency}</span>
             </Dropdown.Toggle>
@@ -119,7 +119,7 @@ const TopNavbar = function () {
             </Dropdown.Menu>
           </Dropdown>
 
-          <Dropdown className="float-right" alignRight>
+          <Dropdown className="mr-4" alignRight>
             <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
               <img className="img-fluid mr-1" src={BscLogo} /> <span className="mr-4">{network}</span>
             </Dropdown.Toggle>

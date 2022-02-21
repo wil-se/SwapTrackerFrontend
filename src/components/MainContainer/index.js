@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 
 const MainContainer = function ({ children }) {
   return (
-    <div className="main-container" style={{marginTop: -20}}>
+    <div className="container-fluid main-container">
         {children}
     </div>
   );

@@ -13,7 +13,7 @@ const TierSection = ({tier}) => {
             tier === 1000 ?
             (
                 <div className="tierSubSection">
-                    <Row><h1>Current plan:</h1></Row>
+                    <Row><p>Current plan:</p></Row>
                     <Row><a href="/tiers">active plan</a></Row>
                 </div>
             )  
@@ -21,12 +21,10 @@ const TierSection = ({tier}) => {
             (
                 <div className="tierSubSection">
 
-                <Row><Col className="mb-2" xs={12}><h1>Current plan:</h1></Col>
+                <Row><Col className="mb-2" xs={12}><p>Current plan:</p></Col>
                 <Col xs={12}><div className="iconSection">
                         <img src={tierStarter} width="20px" height="20px"/>
-                        <h1>
-                            starter
-                        </h1>
+                        <span> starter </span>
                     </div></Col>
                     </Row>
                 </div>
@@ -34,24 +32,20 @@ const TierSection = ({tier}) => {
             : tier === 5 ?
             (
                 <div className="tierSubSection">
-                     <h1>Current plan:</h1>
+                    <p>Current plan:</p>
                     <div className="iconSection">
                         <img src={tierAdvanced} width="20px" height="20px"/>
-                        <h1>
-                            advanced
-                        </h1>
+                        <span> advanced </span>
                     </div>    
                 </div>
             )
             : tier === 0 ?
             (
                 <div className="tierSubSection">
-                    <h1>Current plan:</h1>
+                    <p>Current plan:</p>
                     <div className="iconSection">
                         <img src={tierPro} width="20px" height="20px"/>
-                        <h1>
-                            pro
-                        </h1>
+                        <span> pro </span>
                     </div>
                 </div>
             )

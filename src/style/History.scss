@@ -31,7 +31,7 @@
             display:flex;
             justify-content:space-between;
             border-top:1px solid #ABC2D6;
-           th{
+           td{
                width:100%;
                border: unset;
                
@@ -45,6 +45,7 @@
                     color:#8DA0B0;
                     font-size: 11;
                     line-height: 15px;
+                    white-space: nowrap;
                 }
             }
         }
@@ -63,12 +64,14 @@
     font-style: normal;
     font-weight: normal;
     color: #F4002C;
+    white-space: nowrap;
 }
 
 .history-pl-positive{
     font-style: normal;
     font-weight: normal;
     color: #00CC83;
+    white-space: nowrap;
 }
 
 .history-token-col{
@@ -77,9 +80,7 @@
     align-items:center;
     justify-content:center;
     
-    .history-token-symbol{
-        min-width:60px;
-    }
+    
     .history-token-icon{
         width:25px;
         height:25px;

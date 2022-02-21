@@ -85,37 +85,37 @@ const SideBar = () => {
                     <div className="menu">
                         <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="/" className={splitLocation[1] === "" ? "link active-link" : "link"}>
-                                <Icon.HouseDoor/>
+                                <Icon.HouseDoor className="text-primary" />
                                 Dashboard
                             </Link>
                         </Row>
                         <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="wallet" className={splitLocation[1] === "wallet" ? "link active-link" : "link"}>
-                                <Icon.CreditCard2Back/>
+                                <Icon.CreditCard2Back className="text-primary"/>
                                 Wallet
                             </Link>
                         </Row>
                         <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="history" className={splitLocation[1] === "history" ? "link active-link" : "link"}>
-                                <Icon.ClockHistory/>
+                                <Icon.ClockHistory className="text-primary" />
                                 History
                             </Link>
                         </Row>
                         <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="trade" className={splitLocation[1] === "trade" ? "link active-link" : "link"}>
-                                <Icon.CurrencyExchange/>
+                                <Icon.CurrencyExchange className="text-primary"/>
                                 Trade
                             </Link>
                         </Row>
                         <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="staking" className={splitLocation[1] === "staking" ? "link active-link" : "link"}>
-                                <Icon.Stack/>
+                                <Icon.Stack className="text-primary" />
                                 Staking
                             </Link>
                         </Row>
                         <Row className="menu-item my-2" onClick={closeSideBar}>
                             <Link to="tiers" className={splitLocation[1] === "tiers" ? "link active-link" : "link"}>
-                                <Icon.LightningCharge/>
+                                <Icon.LightningCharge className="text-primary" />
                                 Tiers
                             </Link>
                         </Row>
@@ -136,15 +136,13 @@ const SideBar = () => {
                             </>
                             }
                         </Row>
-                        <Row className="tierSection">
-                            <TierSection tier={tier} style={{marginBottom: 100}}/>
+                        <Row className="tierSection mt-3 mb-2">
+                            <TierSection tier={tier}/>
                         </Row>    
-                        <hr style={{marginTop: 70}} className="address-under-line "/>
+                        <hr className="mt-5 address-under-line "/>
                         <Row className="logoutSection" onClick={logout}>
                             <img src={logOutIcon}/>
-                            <div className="logout-text">
-                                Log Out
-                            </div>
+                            <div className="logout-text"> Log Out </div>
                         </Row>
                     </Container>
 

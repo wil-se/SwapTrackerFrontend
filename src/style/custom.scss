@@ -1,6 +1,7 @@
 $body-bg: #fafcfd;
 
 $theme-colors: ("primary": $azure-primary);
+$theme-colors: ("dark": #3B434A);
 
 @import "~bootstrap/scss/bootstrap";
 @import 'assets/fonts/stylesheet.css';
@@ -29,10 +30,20 @@ a:hover {
     opacity: 0.65 !important;
   }
 
+  &:disabled {
+    opacity: 1!important;
+  }
+
   &-primary {
-    color: $white !important;
-    background-color: $azure-primary !important;
-    border-color: $azure-primary !important;
+    color: $white;
+    background-color: $azure-primary;
+    border-color: $azure-primary;
+  }
+
+  &-primary:hover {
+    color: $white;
+    background-color: $azure-primary;
+    border-color: $azure-primary;
   }
 
   &-currency {

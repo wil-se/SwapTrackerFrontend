@@ -41,7 +41,7 @@ export function HistoryRow({
 
   const row = <>
   <tr className="">
-        <th className="text-center history-token-col">
+        <td className="history-token-col">
           {CryptoIcons.default['_'+tokenSymbol.toLowerCase()] 
             ?
             <div className="history-token-icon">
@@ -53,31 +53,31 @@ export function HistoryRow({
             </div>
             
           }
-          <div className="history-token-symbol">
-          {tokenSymbol}
+          <div className="history-token-symbol ml-3">
+            {tokenSymbol}
           </div>
-        </th>
+        </td>
 
-        <th className="text-center on-center">
+        <td className="text-center on-center">
           {tokenName}
-        </th>
+        </td>
 
-        <th className="text-center">
+        <td className="text-center">
           <p className="mb-0">{`${fiatSymbol} ${(Number(currentValue)*fiatValue).toFixed(3)}`}</p>
           <div className="greyText">{num_format(amountOut, 7, 7)} {tokenSymbol}</div>
-        </th>
+        </td>
 
-        <th className="text-center">
+        <td className="text-center">
           <p className="mb-0">{`${fiatSymbol} ${(priceTo*fiatValue).toFixed(7)}`}</p>
           <div className="greyText">{num_format(amountOut, 7, 7)}</div>
-        </th>
+        </td>
 
-        <th className="text-center">
+        <td className="text-center">
           <p className="mb-0">{`${fiatSymbol} ${(currentPrice*fiatValue) > 1 ? (currentPrice*fiatValue).toFixed(4) : (currentPrice*fiatValue).toFixed(7)}`}</p>
           <div className="greyText">{num_format(amountIn, 7, 7)} {tokenSymbolIn} | {num_format(amountOut, 7, 7)} {tokenSymbol}</div>
-        </th>
+        </td>
 
-        <th className="text-center on-center">
+        <td className="text-center on-center">
           {Math.sign(pl) === -1 ? 
               <div className="history-pl-negative ">
                 {`${Number(pl).toFixed(4).toString().substring(0,1)} ${fiatSymbol} ${(fiatValue*Number(pl)).toFixed(4).toString().substring(1,pl.toString().length)}`}
@@ -87,9 +87,9 @@ export function HistoryRow({
                 {`+ ${fiatSymbol} ${(fiatValue*Number(pl)).toFixed(4).toString()}`}
               </div>
           }
-        </th>
+        </td>
 
-        <th className="text-center on-center">
+        <td className="text-center on-center">
           {Math.sign(pl_perc)=== -1?
             <div className="history-pl-negative">
               {pl_perc.toFixed(3)}%
@@ -100,24 +100,28 @@ export function HistoryRow({
             </div>
         
           }
-        </th>
+        </td>
 
-        <th className="text-center on-center">
+        <td className="text-center on-center">
           {openDate}
-        </th>
+        </td>
 
-        <th className="text-center on-center">
+        <td className="text-center on-center">
           {closedDate}
-        </th>
+        </td>
         
-        <th className="text-center">
+        <td className="text-center on-center">
           {
-            closedDate === "-" ? 
-          <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo,amountIn,amountOut)}>
-                CLOSE TRADE
-          </Button> : ""
+          closedDate === "-" ? 
+            <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo,amountIn,amountOut)} className="btn-block">
+                  CLOSE TRADE
+            </Button>
+            :
+            <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} className="btn btn-dark text-white btn-block" disabled>
+                  CLOSED
+            </Button> 
         }
-        </th>
+        </td>
   </tr>
   </>
 
