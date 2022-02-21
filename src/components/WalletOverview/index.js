@@ -125,25 +125,27 @@ export function WalletOverview(){
             label: '#',
             data: cData,
             backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
+              '#0C3459',
+              '#0F599B',
+              '#1E70B8',
+              '#42ACE2',
+              '#54C8F3',
+              '#C5E7E9',
+              '#95D6DC',
+              '#62C8CC',
+              '#3C8B97',
+              '#4297A5',
+              '#2F6F7B',
+              '#1B474D',
+              
             ],
             borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
+              '#FFFFFF',
             ],
             borderWidth: 1,
-            offset: 20,
-            radius: 100,
-            cutout: 90,
+            offset: 40,
+            radius: "70%",
+            cutout: 70,
           },
         ],
     })  
@@ -194,12 +196,12 @@ export function WalletOverview(){
 
   
   return(
-    <Row className="mb-2">
+    <Row style={{marginTop: 10}} className="mb-2">
       <Col md={12}>
         <Card className="wallet-overview-card w-100 mb-2 pl-2 pr-2 pt-0 pb-0">
-          <Card.Body className="pr-4 pl-4">
+          <Card.Body className="px-4 py-0">
               <Row>
-                  <Col xs={12} md={4} style={{borderColor: "#ABC2D6"}} className="border-right border-md-1 border-0 pr-4" >
+                  <Col xs={12} md={4} lg={4} style={{borderColor: "#ABC2D6"}} className="align-self-center border-right border-md-1 border-0 pr-4" >
                       <div>
                       <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-3 border-bottom border-1 pt-4" style={{borderColor: "#ABC2D6"}}>
                           <Col xs={12} md={3} className="pr-0" >
@@ -230,7 +232,7 @@ export function WalletOverview(){
                       </div>
                   </Col>
 
-                  <Col xs={12} md={4} lg={3} className="d-flex align-items-center justify-content-center">
+                  <Col xs={12} md={4} lg={4} className="d-flex align-items-center justify-content-center">
                   {
                     Object.keys(chartData).length === 0 ?
                     <Skeleton width="160px" height="160px" style={{borderRadius:90}}/> :

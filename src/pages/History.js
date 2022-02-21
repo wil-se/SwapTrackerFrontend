@@ -148,16 +148,17 @@ const History = () => {
     return (
         <MainContainer>
         <>
-        <Row className="d-flex align-items-end mb-4">
+        <h1 className="m-100 subheader-title">History</h1>
+        <Row style={{marginTop: 15}} className="d-flex align-items-end mb-4">
           <Col md={10} lg={10} xs={10} className="justify-content-start">
-          <h1 className="subheader-title">History</h1>
               <a style={{cursor: 'pointer'}}>
               <DatePicker
                 colorPrimary="#b6d7e4"
                 colorPrimaryLight="#1297a1"
                 value={selectedDayRange}
                 onChange={setSelectedDayRange}
-                renderInput={dateRangeOutput} 
+                renderInput={dateRangeOutput}
+                style={{marginTop: 10}} 
               />
               </a>
           </Col>
