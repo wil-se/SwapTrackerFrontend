@@ -36,9 +36,8 @@ export function CoinInfoList(){
     const dst = Object.entries(wlltDist).sort(function(first, second){return second[1][0] - first[1][0]});
 
     for (let i=0; i<dst.length; i++) {
-      //console.log("%s F(%s)  (%s)", dst[i][1][1].toNumber(), dst[i][1][1].shiftedBy(-Number(dst[i][1][5])).toFixed(18), dst[i][1][5]);
       wlltDistList.push(
-        <Col key={i} xs={12} md={6} className="px-3">
+        <Col key={i} xs={12} className="px-3">
           <CoinInfo 
             key={i} 
             setChartKeyFunction={setChartKey} 

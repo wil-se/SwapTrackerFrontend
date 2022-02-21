@@ -27,10 +27,9 @@ export function WalletOverviewCoinInfo(props){
                   <Col xs={5}>
                     <p className="mb-0 text-nowrap" style={{fontSize: 14, fontWeight: 600}}>{props.coin.symbol}</p>
                     <p className="mb-0 text-nowrap" style={{fontSize: 12, fontWeight: 400, opacity: 0.5}}>{props.coin.name}</p>
-                  </Col>
-                  <Col className="text-right pr-0">
                     <span className="text-nowrap" style={{fontSize: 14, fontWeight: 600}}>{props.coin.perc} %</span>
                   </Col>
+
                 </Row>
               : <Row className="addressSection align-items-center">
                   <Col xs={2} className="mr-3">
@@ -39,8 +38,6 @@ export function WalletOverviewCoinInfo(props){
                   <Col xs={5}>
                     <p className="mb-0 text-nowrap" style={{fontSize: 14, fontWeight: 600}}>{props.coin.symbol}</p>
                     <p className="mb-0 text-nowrap" style={{fontSize: 12, fontWeight: 400, opacity: 0.5}}>{props.coin.name}</p>
-                  </Col>
-                  <Col className="pr-0 text-right">
                     <span className="text-nowrap" style={{fontSize: 14, fontWeight: 600}}>{props.coin.perc} %</span>
                   </Col>
                 </Row>

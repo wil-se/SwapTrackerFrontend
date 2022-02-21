@@ -94,25 +94,29 @@ export function CoinInfo(props) {
               <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
             </Col>
             <Col md={4} xs={7} className="pt-3 pl-0 align-items-md-start align-items-center float-right text-right">
-
-                <div style={{position: "relative"}} className="previewchart">
-                  <TradingViewWidget 
-                    symbol={props.symbol.toUpperCase()+"USD"}
-                    // theme={Themes.DARK}
-                    locale="en"
-                    hide_top_toolbar={true}
-                    hide_legend={true}
-                    allow_symbol_change={false}
-                    hide_side_toolbar={true}
-                    style={"2"}
-                    width={140}
-                    height={80}
-                  />
-        
-                  <a style={{position: "absolute", right: 30, top: 0, width: 20, height: 20, backgroundColor: "#FFFFFF"}} onClick={() => {props.setModalShowFunction(true);props.setChartKeyFunction(prev => prev + 1);props.setCurrentSymbol(props.symbol);}}>
-                    <img style={{zIndex:9999, width: 20, height: 20, cursor: "pointer", marginRight: 10}} src={ArrowExpandModal}></img>
-                  </a>
-                </div>
+                {
+                  props.symbol !== 'SWPT'
+                  ? <div style={{position: "relative"}} className="previewchart">
+                      <TradingViewWidget 
+                        symbol={props.symbol.toUpperCase()+"USD"}
+                        // theme={Themes.DARK}
+                        locale="en"
+                        hide_top_toolbar={true}
+                        hide_legend={true}
+                        allow_symbol_change={false}
+                        hide_side_toolbar={true}
+                        style={"2"}
+                        width={140}
+                        height={80}
+                      />
+            
+                      <a style={{position: "absolute", right: 30, top: 0, width: 20, height: 20, backgroundColor: "#FFFFFF"}} onClick={() => {props.setModalShowFunction(true);props.setChartKeyFunction(prev => prev + 1);props.setCurrentSymbol(props.symbol);}}>
+                        <img style={{zIndex:9999, width: 20, height: 20, cursor: "pointer", marginRight: 10}} src={ArrowExpandModal}></img>
+                      </a>
+                    </div>
+                  : <></>
+                }
+                
             </Col>
           </Row>
         </Card.Body>

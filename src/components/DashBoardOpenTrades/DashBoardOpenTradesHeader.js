@@ -11,7 +11,7 @@ const DashBoardOpenTradesHeader = () => {
                     {/*<img src={infoIcon} /> */ }
                 </Col>
                 <Col md={3} lg={4} xs={4} className="d-flex">
-                    <Link to="/history" className='text-nowrap'> See All </Link>
+                    <Link to="/history" className='text-nowrap ml-5'> See All </Link>
                 </Col>
             </Col>
             <Col className="dashboard-card-open-trade-button d-flex justify-content-center justify-content-md-end pr-2" md={5} lg={4} xs={12}>

@@ -146,7 +146,7 @@ const DashBoardChart = ({tier,account}) => {
                     <DashBoardLineChart  labelList={labelList} dataList={dataList}/> 
                     :
                     <div className="dashboard-card-chart-no-data">
-                      <h1>No data chart</h1>
+                      <h4>No data chart</h4>
                     </div>
                   
                   }

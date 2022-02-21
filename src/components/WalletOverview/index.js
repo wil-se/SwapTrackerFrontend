@@ -222,7 +222,6 @@ export function WalletOverview(){
                       <div>
                       <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-3 pt-4" style={{borderBottom: '1px solid #ABC2D6'}}>
                           <Col xs={12} md={4} lg={4} xl={3} className="pr-0 d-flex" >
-                            <img src={addressAvatarBig} className="avatar"/>
                             <div style={{fontSize: 24, fontWeight: 700}} className="ml-3 d-flex align-self-center">
                                 {getShrunkWalletAddress(address)}
                                 <OverlayTrigger
@@ -262,28 +261,28 @@ export function WalletOverview(){
                       <Row className="d-flex align-items-center">
                           {
                             coin0.symbol !== "" ?
-                          <WalletOverviewCoinInfo coin={coin0} withBorder={true}/> :
+                          <WalletOverviewCoinInfo coin={coin0} withBorder={false}/> :
                             ""
                           }
                           
                           {
                             coin1.symbol !== "" ?
-                          <WalletOverviewCoinInfo coin={coin1} withBorder={true}/> :
+                          <WalletOverviewCoinInfo coin={coin1} withBorder={false}/> :
                           ""
                           }
                             {
                               coin2.symbol !== "" ?
-                            <WalletOverviewCoinInfo coin={coin2} withBorder={true}/> :
+                            <WalletOverviewCoinInfo coin={coin2} withBorder={false}/> :
                             ""
                             }
                             {
                               coin3.symbol !== "" ?
-                            <WalletOverviewCoinInfo coin={coin3} withBorder={true}/> :
+                            <WalletOverviewCoinInfo coin={coin3} withBorder={false}/> :
                             ""
                             }
                             {
                               coin4.symbol !== "" ?
-                            <WalletOverviewCoinInfo coin={coin4} withBorder={true}/> :
+                            <WalletOverviewCoinInfo coin={coin4} withBorder={false}/> :
                             ""
                             }
                             {

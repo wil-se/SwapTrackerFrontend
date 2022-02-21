@@ -1,3 +1,5 @@
+@import url('http://fonts.cdnfonts.com/css/avenir-lt-std');
+
 .sidebar-container {
   position: fixed;
   top: 0;
@@ -12,7 +14,7 @@
     height: 100%;
     
     font-size: 11px;
-    font-family: AvenirNext, sans-serif;
+    font-family: "Avenir LT Std", sans-serif;
     
     &::before {
       position: absolute;
