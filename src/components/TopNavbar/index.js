@@ -77,7 +77,7 @@ const TopNavbar = function () {
         {
           (connector.connected || active) ?
           
-          <Dropdown className="ml-4" alignRight>
+          <Dropdown className="ml-4 mr-2" alignRight>
             <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
             <label className="text-muted my-auto mx-3">{getShrunkWalletAddress(account)}</label>
             </Dropdown.Toggle>
