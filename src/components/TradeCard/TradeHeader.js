@@ -9,7 +9,6 @@ const TradeHeader = ({setOpenSettingsModal}) => {
                 <div className="info-section">
                     <div className="ex-section">
                         <h1 className="title-section">Exchange</h1>
-                        <img src={infoIcon} height="18px" width="18px"/>
                     </div>
                     <div className="trade-token-section">
                     Trade tokens in an instant 

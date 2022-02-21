@@ -54,17 +54,17 @@ const DashboardOpenTradesTableRow = ({
             {tokenName}
           </th>
 
-          <th className="text-center">
+          <th className="text-center wide-td">
             <p className="mb-0">{`${fiatSymbol} ${num_locale_format(currentValue*fiatValue, currentDecimals, currentDecimals)}`}</p>
             <div className="greyText">{num_locale_format(amountOut, 7, 7)} {tokenSymbol}</div>
           </th>
 
-          <th className="text-center">
+          <th className="text-center wide-td">
             <p className="mb-0">{`${fiatSymbol} ${num_locale_format((priceTo*fiatValue),currentDecimals,7)}`}</p>
             <div className="greyText">{num_locale_format(amountOut, 7, 7)}</div>
           </th>
           
-          <th className="text-center">
+          <th className="text-center wide-td">
             <p className="mb-0">{`${fiatSymbol} ${num_locale_format((Number(currentPrice)*fiatValue),currentDecimals,7)}`}</p>
             <div className="greyText">{num_locale_format(amountIn, 7, 7)} {tokenSymbolIn} | {num_locale_format(amountOut, 7, 7)} {tokenSymbol}</div>
           </th>

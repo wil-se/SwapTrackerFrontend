@@ -1,6 +1,6 @@
 import React, { useState,useEffect,useLayoutEffect } from 'react'
 import MainContainer from 'components/MainContainer'
-import { Card, Row, Col,Table } from 'react-bootstrap';
+import { Card, Row, Col,Table, Form } from 'react-bootstrap';
 import { HistoryRow } from 'components/HistoryRow';
 import useAuthService from 'hooks/useAuthService'
 import useTrade from 'hooks/useTrade';
@@ -149,45 +149,36 @@ const History = () => {
     return (
         <MainContainer>
         <>
-        <Row style={{marginTop: 15}} className="d-flex align-items-end mb-4">
-          <Col md={10} lg={10} xs={10} className="justify-content-start">
+        <Row className="d-flex justify-content-between align-items-center mb-2">
+          <Col md={10} lg={10} xs={10} className="d-flex align-items-center">
           <h1 className="m-100 subheader-title">History</h1>
-              <a style={{cursor: 'pointer'}}>
-              <DatePicker
-                colorPrimary="#b6d7e4"
-                colorPrimaryLight="#1297a1"
-                value={selectedDayRange}
-                onChange={setSelectedDayRange}
-                renderInput={dateRangeOutput}
-                style={{marginTop: 10}} 
-              />
-              </a>
+          <div className="ml-4 d-flex">
+            <DatePicker
+              colorPrimary="#b6d7e4"
+              colorPrimaryLight="#e9f2f2"
+              value={selectedDayRange}
+              onChange={setSelectedDayRange}
+              renderInput={dateRangeOutput}
+            />
+          </div>
+           
           </Col>
-          <Col  md={1} lg={1} xs={1} className="justify-content-end pr-0">
-          <BootstrapSwitchButton
-            checked={showClosedTrades}
-            onlabel='Show'
-            onstyle='primary'
-            offlabel='Hide'
-            offstyle='secondary'
-            style='ml-4'
-            width={80}
-            onChange={() => setShowClosedTrades(!showClosedTrades)}
-          />
+          <Col xs={2} className="pr-0">
+            <Form.Check 
+              type="switch"
+              id="custom-switch"
+              label="Hide closed Trades"
+              onChange={() => setShowClosedTrades(!showClosedTrades)}
+              colorPrimary="#b6d7e4"
+              className="align-self-end"
+            />
           </Col>
-
-          <Col  md={1} lg={1} xs={1} className="justify-content-start pl-0">
-          <p className='mb-1 mt-2'>closed trades</p>
-          </Col>
-
-          
-          
         </Row>
         <Row>
         <Col md={12} lg={12} xs={12}>
 
           <Card className="d-flex w-100 history-card">
-            <div className="table-responsive-sm">
+            <div className="table-responsive">
              <Table className="history-table">
                <thead>
                 <tr>
@@ -198,13 +189,13 @@ const History = () => {
                   <th className=" text-center">
                     TOKEN NAME
                   </th>
-                  <th className=" text-center">
+                  <th className=" text-center wide-td">
                     CURRENT VALUE
                   </th>
-                  <th className=" text-center">
+                  <th className=" text-center wide-td">
                     OPEN AT
                   </th>
-                  <th className=" text-center">
+                  <th className=" text-center wide-td">
                     CURRENT PRICE
                   </th>
                   <th className=" text-center">

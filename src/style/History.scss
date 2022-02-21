@@ -1,54 +1,68 @@
 .history-table{
-   thead{
-       all:unset;
-       tr{
-           width:100%;
-           border:unset;
-           display:flex;
-           justify-content:space-between;
-           
-            th{
-               border:unset;
-               width:100%;
-               align-items: center;
-               justify-self: center;
-               font-style: normal;
-               font-weight: normal;
-               font-size: 12px;
-               line-height: 19px;
-               color: #A0AEC0;
-               
-           }
-       }
-   }
 
-   tbody{
-       border:unset;
-       tr{
+    table-layout: auto;
+    width: 100%;
+    thead{
+        all:unset;
+
+
+        tr{
             width:100%;
             border:unset;
             display:flex;
             justify-content:space-between;
-            border-top:1px solid #ABC2D6;
-           td{
-               width:100%;
-              
-               
-               
-               font-style: normal;
-                font-weight: normal;
-                font-size: 12px;
-                line-height: 19px;
-                
-                .greyText{
-                    color:#8DA0B0;
-                    font-size: 11;
-                    line-height: 15px;
-                    white-space: nowrap;
-                }
+
+            
+                th{
+                    border:unset;
+                    width:100%;
+                    align-items: center;
+                    justify-self: center;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 19px;
+                    color: #A0AEC0;
             }
         }
     }
+
+    tbody{
+        border:unset;
+        tr{
+                width:100%;
+                border:unset;
+                display:flex;
+                justify-content:space-between;
+                border-top:1px solid #ABC2D6;
+            td{
+                width:100%;
+                border: unset;
+                
+
+                
+                font-style: normal;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 19px;
+                    
+                    .greyText{
+                        color:#8DA0B0;
+                        font-size: 11;
+                        line-height: 15px;
+                        white-space: nowrap;
+                    }
+                }
+            }
+    }
+}
+
+.wide-td {
+    min-width: 200px;
+}
+
+.btn-td {
+    min-width: 140px;
 }
 
 .on-center{   
@@ -103,7 +117,7 @@
     align-items: center;
     width:173px;
     height:35px;
-    background-color:white;
+    background-color:#FBFFFF;
     box-sizing: border-box;
     border-radius: 5px;
     img{
@@ -136,4 +150,10 @@
     border-radius: 5px;
     text-align: center;
     
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    background-color:#ABC2D6;
+    border-color: #ABC2D6;
 }

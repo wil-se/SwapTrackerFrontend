@@ -2,7 +2,8 @@ import React, { useState,useEffect } from 'react'
 import { Dropdown, Row, Col, Button } from 'react-bootstrap';
 import * as CurrenciesIcons from '../../assets/icons/currencies';
 import { DropdownItemCurrency } from '../DropdownItemCurrency';
-import BscLogo from '../../assets/icons/BSC.png'
+import BscLogo from '../../assets/icons/BSC.svg'
+import EthLogo from '../../assets/icons/ETHEREUM.svg'
 import { WalletModal } from 'components/WalletModal';
 import { useWeb3React } from '@web3-react/core';
 import WalletConnect from "@walletconnect/client";
@@ -124,8 +125,14 @@ const TopNavbar = function () {
               <img className="img-fluid mr-1" src={BscLogo} /> <span className="mr-4">{network}</span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="dropdownmenucurrencies" style={{ width: 100, borderRadius: 10 }}>
-              <Dropdown.Item onClick={() => console.log("CHANGE NETWORK")} className="align-items-center"><img className="img-fluid mr-1" src={BscLogo} /><span className="font-weight-bold mr-4">BSC</span></Dropdown.Item>
-              <Dropdown.Item disabled onClick={() => console.log("CHANGE NETWORK")} className="align-items-center"><img className="img-fluid mr-1" src={CurrenciesIcons.default['ETH']} /><span className="font-weight-bold mr-4">ETH</span></Dropdown.Item>
+              <Dropdown.Item onClick={() => {}} className="align-items-center">
+                <img className="img-fluid mr-1" src={BscLogo} />
+                <span className="font-weight-bold mr-4">BSC</span>
+              </Dropdown.Item>
+              <Dropdown.Item disabled onClick={() => {}} className="align-items-center">
+                <img className="img-fluid mr-1" src={EthLogo} />
+                <span className="font-weight-bold mr-4">ETH</span>
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         

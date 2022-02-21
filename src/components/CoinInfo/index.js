@@ -82,14 +82,14 @@ export function CoinInfo(props) {
               
             <Col md={3} xs={6} className="pt-3">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>holdings</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 20, fontWeight: 900}}>{currentSymbol} {num_format(props.holdingValue*value, 2, 4)}</span>
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 20, fontWeight: 700}}>{currentSymbol} {num_format(props.holdingValue*value, 2, 4)}</span>
               <span className="text-decoration-none" style={{color: "#8DA0B0", fontSize: 11}}>CURRENT PRICE</span>
-              <h5 className="mb-0 pt-0" style={{fontSize: 20, fontWeight: 900}}>{currentSymbol} {num_format(price*value, 2, 12)}</h5> 
+              <h5 className="mb-0 pt-0" style={{fontSize: 20, fontWeight: 700}}>{currentSymbol} {num_format(price*value, 2, 12)}</h5> 
             </Col>
 
             <Col md={3} xs={5} className="border-left border-1 pt-3 pr-0 text-center text-md-left">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>{props.symbol}</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 20, fontWeight: 900}}> {price > 1 ? num_format(props.holding, 5, 7) : num_format(props.holding, 2, 4)}</span> 
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 20, fontWeight: 700}}> {price > 1 ? num_format(props.holding, 5, 7) : num_format(props.holding, 2, 4)}</span> 
               <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
               <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
             </Col>

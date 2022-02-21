@@ -136,7 +136,7 @@ const SideBar = () => {
                             </>
                             }
                         </Row>
-                        <Row className="tierSection mt-2 ml-1 mb-2">
+                        <Row className="tierSection my-2 text-center">
                             <TierSection tier={tier}/>
                         </Row>    
                         <hr className=" address-under-line "/>

@@ -46,6 +46,12 @@ a:hover {
     border-color: $azure-primary;
   }
 
+  &-primary.btn-dark:hover {
+    color: $white;
+    background-color: #3B434A;
+    border-color: #3B434A;
+  }
+
   &-currency {
     color: #000000;
     background-color: #FBFFFF;
