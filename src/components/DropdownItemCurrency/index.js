@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 export function DropdownItemCurrency(props){
   return(
-    <Col xl={3} className="p-0"><Dropdown.Item className={"dropdownitemcurrency align-items-left"} onClick={() => props.onClickHandler(props.name, props.symbol)}><img className="img-fluid mr-3 p-1" src={CurrenciesIcons.default[props.name]} /><span className="font-weight-bold mr-2">{props.name}</span></Dropdown.Item></Col>
+    <Col xl={3} className="p-0"><Dropdown.Item className={"dropdownitemcurrency align-items-left"} onClick={() => props.onClickHandler(props.name, props.symbol)}><img style={{height: 36, width: 36}} className="img-fluid mr-3 p-1" src={CurrenciesIcons.default[props.name]} /><span className="font-weight-bold mr-2">{props.name}</span></Dropdown.Item></Col>
   )
 }
 

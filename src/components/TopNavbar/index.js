@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react'
 import { Dropdown, Row, Col, Button } from 'react-bootstrap';
 import * as CurrenciesIcons from '../../assets/icons/currencies';
 import { DropdownItemCurrency } from '../DropdownItemCurrency';
-import BscLogo from '../../assets/icons/BSC.png'
+import BscLogo from '../../assets/icons/BSC.svg'
 import { WalletModal } from 'components/WalletModal';
 import { useWeb3React } from '@web3-react/core';
 import WalletConnect from "@walletconnect/client";
