@@ -132,7 +132,7 @@ const Dashboard = () => {
                 openTradeValue={openTradeValue}
                 currentDecimals={currentDecimals}
             />
-            <DashBoardChart tier={tier} account={account}/>
+            <DashBoardChart tier={tier} account={account}  fiatValue={value}/>
             <Row className="pt-3">
                 <Col md={12} lg={12} xs={12}>
                     <DashBoardOpenTrades fiatSymbol={currentSymbol} fiatValue={value} openedTrades={openedTrades} tradesFinded={tradesFinded} currentDecimals={currentDecimals} />

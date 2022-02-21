@@ -17,7 +17,7 @@ import useTrade from 'hooks/useTrade';
 import useWeb3 from 'hooks/useWeb3';
 import {useLocation } from 'react-router-dom'
 import {BNB,WBNB,SWPTPre} from 'config'
-import { Col, Row,Card } from 'react-bootstrap';
+import { Col, Row,Card, Form } from 'react-bootstrap';
 import { num_format } from 'utils/walletHelpers';
 import { getBep20Contract } from 'utils/contractHelpers';
 
@@ -39,7 +39,9 @@ const TradeMainCard = ({tier}) => {
     const [slippageAmount,setSlippageAmount] = useState(5.0)
     const [deadlineAmount,setDeadlineAmount] = useState(20)
     const [disabledButton,setDisabledButton] = useState(true)
+    const [disabledButtonCloseTrade,setDisabledButtonCloseTrade] = useState(false)
     const [disabledInput,setDisabledInput] = useState(true)
+    const [saveTrade,setSaveTrade] = useState(true)
     const erc20Contract = useERC20(tokenSelectedIn?.address)
     const {path,getBalance} = useSwapInfo(tokenSelectedIn,tokenSelectedOut)
     const {wrap,unWrap,isWrap} = useWrap(tokenSelectedIn,tokenSelectedOut) 
@@ -64,6 +66,8 @@ const TradeMainCard = ({tier}) => {
                     setTokenSelectedOut(tokenSelectedOutRef)
                     setAmountOut(amountOut)
                     setDisabledButton(false)
+                    setSaveTrade(!saveTrade)
+                    setDisabledButtonCloseTrade(true)
                     setSlippageAmount(slippAmm)
                 }
             }
@@ -269,7 +273,7 @@ const TradeMainCard = ({tier}) => {
             getNotification(txSwap?.status || false)
             if(!disabledButton && txSwap){
                 setDisabledButton(false);
-                setTrade(txSwap,path)
+                setTrade(txSwap,path,saveTrade)
             }         
         }
         else if (tokenSelectedIn.symbol !== BNB.symbol && tokenSelectedOut.symbol !== BNB.symbol){
@@ -293,7 +297,7 @@ const TradeMainCard = ({tier}) => {
             getNotification(txSwap?.status || false)
              if(!disabledButton && txSwap){
                  setDisabledButton(false);
-                 setTrade(txSwap,path) 
+                 setTrade(txSwap,path,saveTrade) 
              }               
         }
         else if (tokenSelectedOut.symbol === BNB.symbol) {
@@ -317,7 +321,7 @@ const TradeMainCard = ({tier}) => {
             getNotification(txSwap?.status || false)
              if(!disabledButton && txSwap){
                  setDisabledButton(false);
-                 setTrade(txSwap,path)
+                 setTrade(txSwap,path,saveTrade)
 
             }               
         
@@ -357,7 +361,7 @@ const TradeMainCard = ({tier}) => {
                                 value={amountIn}
                                 onChange={getTokenAmountOut}
                                 />
-                            <button onClick={()=>setOpenTokenListModalIn(!openTokenListModalIn)}>
+                            <button onClick={()=>setOpenTokenListModalIn(!openTokenListModalIn)} disabled={disabledButtonCloseTrade}>
                                 {tokenSelectedIn ?
                                     (   <>
                                         <img className="icon-coin" src={tokenSelectedIn?.projectLink} />
@@ -405,7 +409,7 @@ const TradeMainCard = ({tier}) => {
                                 value={amountOut}
                                 onChange={getTokenAmountIn}
                                 />
-                            <button onClick={()=>setOpenTokenListModalOut(!openTokenListModalOut)}>
+                            <button onClick={()=>setOpenTokenListModalOut(!openTokenListModalOut)} disabled={disabledButtonCloseTrade}>
                                 {tokenSelectedOut ?
                                     (   <>
                                        
@@ -431,7 +435,20 @@ const TradeMainCard = ({tier}) => {
                             </button>
                         </div>
                     </div>
+                    <div style={{marginTop:"5px"}}>
+                        <Form.Check 
+                            checked={!saveTrade}
+                            type="switch"
+                            id="custom-switch"
+                            label="Don't mark this trade as a new open trade (SUGGESTED)"
+                            onChange={() => setSaveTrade(!saveTrade)}
+                            colorPrimary="#b6d7e4"
+                            className="align-self-start"
+                            />
+                    </div>
                 </div>
+               
+                
                 <div className="confirm-section">
                    
                     {   tier === 1000 ? 

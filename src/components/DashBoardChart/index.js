@@ -24,7 +24,7 @@ const defaultFrom = {
     to: defaultTo,
   };
   
-const DashBoardChart = ({tier,account}) => {
+const DashBoardChart = ({tier,account,fiatValue}) => {
     const { user, profitOrLossOverview } = useAuthService()
     const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
     const [selectedDayRange, setSelectedDayRange] = useState(defaultValue);  
@@ -44,14 +44,14 @@ const DashBoardChart = ({tier,account}) => {
             if(selectedDayRange === defaultValue){
               let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
               labelList.push(label)
-              dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+              dataList.push((singleBalanceOverview[Object.keys(singleBalanceOverview)]*fiatValue))
               
               return;
             }
             if(dateFilterArray && (date >= dateFilterArray[0] && date <= dateFilterArray[1])){
               let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
               labelList.push(label)
-              dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+              dataList.push((singleBalanceOverview[Object.keys(singleBalanceOverview)]*fiatValue))
               
         
             }
@@ -59,7 +59,7 @@ const DashBoardChart = ({tier,account}) => {
               let label = `${MONTH_LABELS_CHART[date.getMonth()+1]} ${date.getDate()}` 
               
               labelList.push(label)
-              dataList.push(singleBalanceOverview[Object.keys(singleBalanceOverview)])
+              dataList.push((singleBalanceOverview[Object.keys(singleBalanceOverview)]*fiatValue))
              
             }
           })
@@ -102,7 +102,7 @@ const DashBoardChart = ({tier,account}) => {
           }
       }
       
-      },[selectedDayRange, user,tier,account])
+      },[selectedDayRange, user,tier,account,fiatValue])
      
      
 
@@ -159,7 +159,8 @@ const DashBoardChart = ({tier,account}) => {
 
 DashBoardChart.propTypes = {
   tier: PropTypes.number,
-  account: PropTypes.string
+  account: PropTypes.string,
+  fiatValue: PropTypes.number
 };
 
 
