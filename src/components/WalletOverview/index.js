@@ -73,7 +73,7 @@ export function WalletOverview(){
         },
       },
       responsive: true,
-      //maintainAspectRatio: true,
+      maintainAspectRatio: true,
   })
 
   const getWlltTVL = async ()=>{

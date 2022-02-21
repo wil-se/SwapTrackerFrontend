@@ -138,3 +138,9 @@
     text-align: center;
     
 }
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    background-color:#ABC2D6;
+    border-color: #ABC2D6;
+}
