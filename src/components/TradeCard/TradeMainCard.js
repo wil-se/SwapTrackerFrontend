@@ -50,7 +50,7 @@ const TradeMainCard = ({tier}) => {
     useEffect(()=>{
         (async ()=>{
             if(state){
-                const {tokenSelectedInRef,tokenSelectedOutRef,amountIn,amountOut} = await getTokenSelected(state)
+                const {tokenSelectedInRef,tokenSelectedOutRef,amountIn,amountOut,slippAmm} = await getTokenSelected(state)
                 if(tokenSelectedOutRef){
                     if(tokenSelectedInRef && account){
                         console.log(tokenSelectedInRef?.address,account)
@@ -64,6 +64,7 @@ const TradeMainCard = ({tier}) => {
                     setTokenSelectedOut(tokenSelectedOutRef)
                     setAmountOut(amountOut)
                     setDisabledButton(false)
+                    setSlippageAmount(slippAmm)
                 }
             }
 
