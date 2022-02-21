@@ -150,13 +150,13 @@ const History = () => {
     return (
         <MainContainer>
         <>
-        <Row className="d-flex justify-content-between align-items-center mb-3">
+        <Row className="d-flex justify-content-between align-items-center mb-2">
           <Col md={10} lg={10} xs={10} className="d-flex align-items-center">
           <h1 className="m-100 subheader-title">History</h1>
           <div className="ml-4 d-flex">
             <DatePicker
               colorPrimary="#b6d7e4"
-              colorPrimaryLight="#1297a1"
+              colorPrimaryLight="#e9f2f2"
               value={selectedDayRange}
               onChange={setSelectedDayRange}
               renderInput={dateRangeOutput}
@@ -171,6 +171,7 @@ const History = () => {
               label="Hide closed Trades"
               onChange={() => setShowClosedTrades(!showClosedTrades)}
               colorPrimary="#b6d7e4"
+              className="align-self-end"
             />
           </Col>
         </Row>
