@@ -83,25 +83,27 @@ const TradeMainCard = ({tier}) => {
 
     
 
-    const getAmountOut = async (amIn,currPath) =>{
-        console.log("il patch all'onchange", currPath)
+    const getAmountOut = async (amIn,currPath,newTokenSelectedIn) =>{
         let currentPath = path;
+        let currentTokenIn = tokenSelectedIn
+
         if(isWrap){
             setAmountOut(Math.abs(amIn))
             return;
         }
-        if(currPath){
+        if(currPath && newTokenSelectedIn){
             currentPath = currPath 
+            currentTokenIn = newTokenSelectedIn
         }
 
         let amount = Math.abs(amIn)
-        console.log(tokenSelectedIn.symbol, currentPath)
-        let amountInShifted = new BigNumber(amount).shiftedBy(tokenSelectedIn.decimals);
+        let amountInShifted = new BigNumber(amount).shiftedBy(currentTokenIn.decimals);
         if(amountInShifted>0){
             let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted.toString(),currentPath).call().catch((e)=>console.log(e))
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
             setAllowanceTokenIn(allowance)
             if(amOut){
+               
                 let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber();
                 let amountOutDecimals = num_format(amoutOutFormatted,2,tokenSelectedOut.decimals)
                 setAmountOut(amountOutDecimals) 

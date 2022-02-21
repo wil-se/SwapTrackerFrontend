@@ -137,7 +137,6 @@ export const useSwapInfo = (inputCurrency,outputCurrency) => {
     }
 
     const getBalance = async (tokenIn,account,erc20Contract,web3) => {
-      console.log(tokenIn,account,erc20Contract,web3)
       let balance = 0;
       if(tokenIn && account && erc20Contract && web3){
         if(tokenIn.symbol === BNB.symbol){
@@ -149,7 +148,7 @@ export const useSwapInfo = (inputCurrency,outputCurrency) => {
           balance = new BigNumber(balance).shiftedBy(-1*parseInt(decimals)).toNumber()
         }
       }
-      console.log("u balance" , balance)
+      
       return balance
     }
 

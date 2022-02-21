@@ -1,8 +1,6 @@
 .history-table{
-    
    thead{
        all:unset;
-
        tr{
            width:100%;
            border:unset;
@@ -15,10 +13,11 @@
                align-items: center;
                justify-self: center;
                font-style: normal;
-                font-weight: normal;
-                font-size: 12px;
-                line-height: 19px;
-                color: #A0AEC0;
+               font-weight: normal;
+               font-size: 12px;
+               line-height: 19px;
+               color: #A0AEC0;
+               
            }
        }
    }
@@ -33,7 +32,7 @@
             border-top:1px solid #ABC2D6;
            td{
                width:100%;
-               border: unset;
+              
                
                
                font-style: normal;
