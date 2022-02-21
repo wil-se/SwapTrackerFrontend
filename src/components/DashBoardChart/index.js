@@ -80,7 +80,10 @@ const DashBoardChart = ({tier,account}) => {
     }
     
     useEffect(()=>{
-      console.log("parto qui?")
+      if(selectedDayRange === defaultValue){
+        let label = `${MONTH_LABELS_CHART[defaultValue?.from.month].toUpperCase()} ${defaultValue?.from.day},${defaultValue?.from.year.toString().substring(2,4)} - ${MONTH_LABELS_CHART[defaultValue?.to.month].toUpperCase()} ${defaultValue?.to.day},${defaultValue?.to.year.toString().substring(2,4)}`
+        setSelectedDayRangeFormatted(label)
+      }
       if(tier === 1000){
         return;
       }

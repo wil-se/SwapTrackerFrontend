@@ -106,8 +106,10 @@ const History = () => {
   }, [user,currentName, currentSymbol,tier,account])
 
   useEffect(()=>{
-    
-    console.log(selectedDayRange)
+    if(selectedDayRange === defaultValue){
+      let label = `${MONTH_LABELS_CHART[defaultValue?.from.month].toUpperCase()} ${defaultValue?.from.day},${defaultValue?.from.year.toString().substring(2,4)} - ${MONTH_LABELS_CHART[defaultValue?.to.month].toUpperCase()} ${defaultValue?.to.day},${defaultValue?.to.year.toString().substring(2,4)}`
+      setSelectedDayRangeFormatted(label)
+    }
     if(selectedDayRange?.from && selectedDayRange?.to && selectedDayRange !== defaultValue){
       let localSelectedRangeFrom = {...selectedDayRange?.from}
       let localSelectedRangeTo = {...selectedDayRange?.to}
