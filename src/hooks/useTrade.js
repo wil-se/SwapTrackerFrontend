@@ -11,8 +11,8 @@ const useTrade = () => {
     const {chainId} = useWeb3()
     
 
-    const setTrade = async (tradeTx,path) => {
-        
+    const setTrade = async (tradeTx,path,saveTrade) => {
+        console.log(saveTrade)
         let tradeEvent = tradeTx.events.Swap.returnValues
         let contractTokenIn = getBep20Contract(path[0])
         let contractTokenOut = getBep20Contract(path[path.length -1])
@@ -26,20 +26,23 @@ const useTrade = () => {
         let priceTokenOutBusdFormatted = new BigNumber(priceTokenOut).shiftedBy(-1*18).toNumber().toFixed(parseInt(decimalsTokenOut))
 
        
-        let tradeFormatted = {
-            txId: tradeTx?.transactionHash,
-            user: tradeTx?.from,
-            tokenFrom: path[0],
-            tokenTo: path[path.length -1],
-            amountIn: amountInFormatted,
-            amountOut: amountSwapped,
-            priceFrom: priceTokenInBusdFormatted,
-            priceTo: priceTokenOutBusdFormatted,
-            status:0,
-            timestamp:new Date()
-        }
-        
-        await callPost("insertOrUpdateTrade",tradeFormatted).then(resp=>{console.log(resp)}).catch(console.log);
+
+            let tradeFormatted = {
+                txId: tradeTx?.transactionHash,
+                user: tradeTx?.from,
+                tokenFrom: path[0],
+                tokenTo: path[path.length -1],
+                amountIn: amountInFormatted,
+                amountOut: amountSwapped,
+                priceFrom: priceTokenInBusdFormatted,
+                priceTo: priceTokenOutBusdFormatted,
+                status:0,
+                timestamp:new Date(),
+                store:saveTrade
+            }
+            
+            await callPost("insertOrUpdateTrade",tradeFormatted).then(resp=>{console.log(resp)}).catch(console.log);
+            
         
        
         const user = {

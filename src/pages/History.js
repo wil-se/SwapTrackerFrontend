@@ -176,7 +176,6 @@ const History = () => {
         </Row>
         <Row>
         <Col md={12} lg={12} xs={12}>
-
           <Card className="d-flex w-100 history-card">
             <div className="table-responsive">
              <Table className="history-table">
