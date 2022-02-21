@@ -38,9 +38,9 @@ const useAuthService = () => {
 
    
     const getProfitsLosses = async (address) => {
-        console.log(address.toLowerCase())
+       
         const profLossList = await callGet("getProfitsLosses",address.toLowerCase())
-        console.log(profLossList?.data.data)
+      
         setProfitOrLossOverview(profLossList?.data.data)
     }
 
