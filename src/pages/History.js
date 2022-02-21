@@ -178,7 +178,7 @@ const History = () => {
         <Col md={12} lg={12} xs={12}>
 
           <Card className="d-flex w-100 history-card">
-            <div className="table-responsive-sm">
+            <div className="table-responsive">
              <Table className="history-table">
                <thead>
                 <tr>
@@ -189,13 +189,13 @@ const History = () => {
                   <th className=" text-center">
                     TOKEN NAME
                   </th>
-                  <th className=" text-center">
+                  <th className=" text-center wide-td">
                     CURRENT VALUE
                   </th>
-                  <th className=" text-center">
+                  <th className=" text-center wide-td">
                     OPEN AT
                   </th>
-                  <th className=" text-center">
+                  <th className=" text-center wide-td">
                     CURRENT PRICE
                   </th>
                   <th className=" text-center">

@@ -62,17 +62,17 @@ export function HistoryRow({
           {tokenName}
         </td>
 
-        <td className="text-center">
+        <td className="text-center wide-td">
           <p className="mb-0">{`${fiatSymbol} ${(Number(currentValue)*fiatValue).toFixed(3)}`}</p>
           <div className="greyText">{num_format(amountOut, 7, 7)} {tokenSymbol}</div>
         </td>
 
-        <td className="text-center">
+        <td className="text-center wide-td">
           <p className="mb-0">{`${fiatSymbol} ${(priceTo*fiatValue).toFixed(7)}`}</p>
           <div className="greyText">{num_format(amountOut, 7, 7)}</div>
         </td>
 
-        <td className="text-center">
+        <td className="text-center wide-td">
           <p className="mb-0">{`${fiatSymbol} ${(currentPrice*fiatValue) > 1 ? (currentPrice*fiatValue).toFixed(4) : (currentPrice*fiatValue).toFixed(7)}`}</p>
           <div className="greyText d-flex">{num_locale_format(amountIn, 7, 7)} {tokenSymbolIn} | {num_format(amountOut, 7, 7)} {tokenSymbol}</div>
         </td>
@@ -110,7 +110,7 @@ export function HistoryRow({
           {closedDate}
         </td>
         
-        <td className="text-center on-center">
+        <td className="text-center on-center btn-td">
           {
           closedDate === "-" ? 
             <Button style={{fontSize: 12, paddingTop: 5, paddingBottom: 5}} onClick={()=>closeTrade(tokenFrom,tokenTo,amountIn,amountOut)} className="btn-block">

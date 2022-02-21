@@ -1,55 +1,64 @@
 .history-table{
+    table-layout: auto;
+    width: 100%;
+    thead{
+        all:unset;
 
-   thead{
-       all:unset;
-
-       tr{
-           width:100%;
-           border:unset;
-           display:flex;
-           justify-content:space-between;
-           
-            th{
-               border:unset;
-               width:100%;
-               align-items: center;
-               justify-self: center;
-               font-style: normal;
-                font-weight: normal;
-                font-size: 12px;
-                line-height: 19px;
-                color: #A0AEC0;
-           }
-       }
-   }
-
-   tbody{
-       border:unset;
-       tr{
+        tr{
             width:100%;
             border:unset;
             display:flex;
             justify-content:space-between;
-            border-top:1px solid #ABC2D6;
-           td{
-               width:100%;
-               border: unset;
-               
-               
-               font-style: normal;
-                font-weight: normal;
-                font-size: 12px;
-                line-height: 19px;
-                
-                .greyText{
-                    color:#8DA0B0;
-                    font-size: 11;
-                    line-height: 15px;
-                    white-space: nowrap;
-                }
+            
+                th{
+                    border:unset;
+                    width:100%;
+                    align-items: center;
+                    justify-self: center;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 19px;
+                    color: #A0AEC0;
             }
         }
     }
+
+    tbody{
+        border:unset;
+        tr{
+                width:100%;
+                border:unset;
+                display:flex;
+                justify-content:space-between;
+                border-top:1px solid #ABC2D6;
+            td{
+                width:100%;
+                border: unset;
+                
+                
+                font-style: normal;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 19px;
+                    
+                    .greyText{
+                        color:#8DA0B0;
+                        font-size: 11;
+                        line-height: 15px;
+                        white-space: nowrap;
+                    }
+                }
+            }
+    }
+}
+
+.wide-td {
+    min-width: 200px;
+}
+
+.btn-td {
+    min-width: 140px;
 }
 
 .on-center{   

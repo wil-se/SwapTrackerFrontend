@@ -9,13 +9,13 @@ const DashBoardOpenTradesTableHeader = () => {
                 <th className="text-center">
                 TOKEN NAME
                 </th>
-                <th className="text-center">
+                <th className="text-center wide-td">
                 CURRENT VALUE
                 </th>
-                <th className="text-center">
+                <th className="text-center wide-td">
                 OPEN AT
                 </th>
-                <th className="text-center">
+                <th className="text-center wide-td">
                 CURRENT PRICE
                 </th>
                 <th className="text-center">
