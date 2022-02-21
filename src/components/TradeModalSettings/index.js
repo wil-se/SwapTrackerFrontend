@@ -23,7 +23,6 @@ const TradeModalSettings = ({setOpenSettingsModal,setSlippageAmount,setDeadlineA
                     <Col className="slippage-row">
                         <Row className="slippage-title">
                             Slippage Tolerance
-                            <img src={slippageInfoIcon}/>
                         </Row>
                         <Row className="slippage-tags">
                             <div className="slippage-tags-item" onClick={()=>setSlippageAmount(0.1)}>
@@ -56,7 +55,6 @@ const TradeModalSettings = ({setOpenSettingsModal,setSlippageAmount,setDeadlineA
                         <Row className="tx-deadline-row">
                             <div className="tx-deadline-title">
                                 Tx deadline (mins)
-                                <img src={slippageInfoIcon}/>
                             </div>
                             <div className="tx-deadline-input">
                                 <input
