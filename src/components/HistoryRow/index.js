@@ -64,17 +64,17 @@ export function HistoryRow({
 
         <td className="text-center">
           <p className="mb-0">{`${fiatSymbol} ${(Number(currentValue)*fiatValue).toFixed(3)}`}</p>
-          <div className="greyText">{num_format(amountOut, 7, 7)} {tokenSymbol}</div>
+          <div className="greyText">{ currentPrice > 10 ? num_format(amountOut, 2, 7) : num_format(amountOut, 2, 3)} {tokenSymbol}</div>
         </td>
 
         <td className="text-center">
           <p className="mb-0">{`${fiatSymbol} ${(priceTo*fiatValue).toFixed(7)}`}</p>
-          <div className="greyText">{num_format(amountOut, 7, 7)} {tokenSymbol}</div>
+          <div className="greyText">{ currentPrice > 10 ? num_format(amountOut, 2, 7) : num_format(amountOut, 2, 3)} {tokenSymbol}</div>
         </td>
 
         <td className="text-center">
           <p className="mb-0">{`${fiatSymbol} ${(currentPrice*fiatValue) > 1 ? (currentPrice*fiatValue).toFixed(4) : (currentPrice*fiatValue).toFixed(7)}`}</p>
-          <div className="greyText">{num_format(amountOut, 7, 7)} {tokenSymbol}</div>
+          <div className="greyText">{ currentPrice > 10 ? num_format(amountOut, 2, 7) : num_format(amountOut, 2, 3)} {tokenSymbol}</div>
         </td>
 
         <td className="text-center on-center">
