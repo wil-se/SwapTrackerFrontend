@@ -144,6 +144,11 @@ const SideBar = () => {
                             <img src={logOutIcon}/>
                             <div className="logout-text"> Log Out </div>
                         </Row>
+                        <Row className="pt-5">
+                            <Col xs={12} className="text-center">
+                                <a className="text-muted" href="https://forms.gle/VJ9SdErGY36JXx4c6" rel="noreferrer" target="_blank">Report a bug</a>
+                            </Col>
+                        </Row>
                     </Container>
 
                     </div>

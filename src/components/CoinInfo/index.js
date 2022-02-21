@@ -74,8 +74,8 @@ export function CoinInfo(props) {
             <Col md={2} xs={6} className="pt-2 text-center">
                 {
                   CryptoIcons.default['_'+props.symbol.toLowerCase()] === undefined ?
-                  <img className="img-fluid" src={CryptoIcons.default['_generic']} style={{width: 60, height: 60}} />
-                  : <img className="img-fluid" src={CryptoIcons.default['_'+props.symbol.toLowerCase()]} style={{width: 60, height: 60}} />
+                  <img className="img-fluid mt-1" src={CryptoIcons.default['_generic']} style={{width: 60, height: 60}} />
+                  : <img className="img-fluid mt-1" src={CryptoIcons.default['_'+props.symbol.toLowerCase()]} style={{width: 60, height: 60}} />
                 }
                 <p className="font-weight-bold text-center pt-2 mb-0 text-nowrap"> {props.symbol.toUpperCase()} </p>
             </Col>
@@ -106,7 +106,7 @@ export function CoinInfo(props) {
                         allow_symbol_change={false}
                         hide_side_toolbar={true}
                         style={"2"}
-                        width={140}
+                        width={250}
                         height={80}
                       />
             
