@@ -65,6 +65,7 @@ const useTrade = () => {
         let tokenSelectedOutRef;
         let amountIn;
         let amountOut;
+        let slippAmm = 12
         if(!state){
             return;
         }
@@ -76,6 +77,7 @@ const useTrade = () => {
         if(tokenInContract._address && tokenOutContract._address){
             amountIn = state?.amountOut
             amountOut = state?.amountIn
+            
             let decimalsTokenIn = await tokenInContract.methods.decimals().call();
             let decimalsTokenOut = await tokenOutContract.methods.decimals().call();
             let symbolTokenIn = await tokenInContract.methods.symbol().call();
@@ -127,7 +129,7 @@ const useTrade = () => {
 
         }
 
-        return {tokenSelectedInRef,tokenSelectedOutRef,amountIn,amountOut}
+        return {tokenSelectedInRef,tokenSelectedOutRef,amountIn,amountOut,slippAmm}
 
 
         

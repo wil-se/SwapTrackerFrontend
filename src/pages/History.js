@@ -89,7 +89,7 @@ const History = () => {
           
         }
         else if(tier === 1000){
-          console.log("qiui ",tier,account)
+        
           setTradesRows([])
           
         }
