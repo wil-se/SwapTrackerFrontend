@@ -19,7 +19,7 @@ const Tier = () => {
         if(account){
           let tid = await swapTrackerMediator.methods.getTierFee(account).call().catch((e)=>console.log(e))
           tid = Number(tid)
-          !tid || tid === 1000 ?
+          tid === 1000 ?
           null
           : tid === 10 ?
           setIsStarted(true)
@@ -41,7 +41,7 @@ const Tier = () => {
           </div>
           <Row style={{marginTop: 60}}>
             <Col sx={12} className="text-center mb-2">
-            <Button className='tier-card-active' style={{width: 200, heigh: 80, fontSize: 20, marginBottom: 20}} onClick={()=>window.open("https://pancakeswap.finance/swap?outputCurrency=0x01832e3346fd3a0d38ca589d836bd78d1de7030c")}>BUY SWPT</Button>
+            <Button style={{width: 200, heigh: 80, fontSize: 20, marginBottom: 20}} onClick={()=>window.open("https://pancakeswap.finance/swap?outputCurrency=0x01832e3346fd3a0d38ca589d836bd78d1de7030c")}>BUY SWPT</Button>
             </Col>
           </Row>
           <Row className="pl-md-100 pr-md-100 pt-md-50">

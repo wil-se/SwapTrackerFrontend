@@ -60,23 +60,23 @@ const DashboardOpenTradesTableRow = ({
           </th>
 
           <th className="text-center">
-            <p className="mb-0">{`${fiatSymbol} ${num_locale_format((priceTo*fiatValue),currentDecimals,currentDecimals)}`}</p>
+            <p className="mb-0">{`${fiatSymbol} ${num_locale_format((priceTo*fiatValue),currentDecimals,7)}`}</p>
             <div className="greyText">{num_locale_format(amountOut, 7, 7)}</div>
           </th>
           
           <th className="text-center">
-            <p className="mb-0">{`${fiatSymbol} ${num_locale_format((Number(currentPrice)*fiatValue),currentDecimals,currentDecimals)}`}</p>
+            <p className="mb-0">{`${fiatSymbol} ${num_locale_format((Number(currentPrice)*fiatValue),currentDecimals,7)}`}</p>
             <div className="greyText">{num_locale_format(amountIn, 7, 7)} {tokenSymbolIn} | {num_locale_format(amountOut, 7, 7)} {tokenSymbol}</div>
           </th>
 
           <th className="text-center on-center">
             {Math.sign(pl) === -1 ? 
               <div className="dashboard-pl-negative ">
-                {`${Number(pl).toFixed(6).toString().substring(0,1)} ${fiatSymbol} ${num_locale_format(fiatValue*Number(pl),currentDecimals,currentDecimals).toString().substring(1,pl.toString().length)}`}
+                {`${Number(pl).toFixed(6).toString().substring(0,1)} ${fiatSymbol} ${num_locale_format(fiatValue*Number(pl),2,2).toString().substring(1,pl.toString().length)}`}
               </div>
               :
               <div className="dashboard-pl-positive">
-                {`+ ${fiatSymbol} ${num_locale_format(fiatValue*Number(pl),currentDecimals,currentDecimals)}`}
+                {`+ ${fiatSymbol} ${num_locale_format(fiatValue*Number(pl),2,2)}`}
               </div>
             }
           </th>
@@ -84,11 +84,11 @@ const DashboardOpenTradesTableRow = ({
           <th className="text-center on-center">
             {Math.sign(pl_perc)=== -1?
               <div className="dashboard-pl-negative">
-                {num_locale_format(Number(pl_perc),currentDecimals,currentDecimals) }%
+                {num_locale_format(Number(pl_perc),2,2) }%
               </div>
               :
               <div className="dashboard-pl-positive">
-                {num_locale_format(Number(pl_perc),currentDecimals,currentDecimals) }%
+                {num_locale_format(Number(pl_perc),2,2) }%
               </div>
           
             }

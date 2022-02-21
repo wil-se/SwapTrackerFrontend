@@ -13,20 +13,19 @@ const TierSection = ({tier}) => {
             tier === 1000 ?
             (
                 <div className="tierSubSection">
-                    <Row><p>Current plan:</p></Row>
-                    <Row><a href="/tiers">active plan</a></Row>
+                    <p>Current plan:</p>
+                    <a href="/tiers">active plan</a>
                 </div>
             )  
             : tier === 10 ? 
             (
                 <div className="tierSubSection">
-
-                <Row><Col className="mb-2" xs={12}><p>Current plan:</p></Col>
-                <Col xs={12}><div className="iconSection">
+                    <p>Current plan:</p>
+                    <div className="iconSection">
                         <img src={tierStarter} width="20px" height="20px"/>
                         <span> starter </span>
-                    </div></Col>
-                    </Row>
+                    </div>
+                    
                 </div>
             )
             : tier === 5 ?

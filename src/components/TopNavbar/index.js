@@ -69,9 +69,9 @@ const TopNavbar = function () {
 
   return (
     <div id="sticky-wrapper" className="sticky-wrapper">
-      <nav className="navbar navbar-expand-md bg-faded cripto_nav pr-0 fixed-top">
+      <nav className="navbar navbar-expand-md  cripto_nav pr-0 fixed-top" style={{backgroundColor:"#EEF3F4"}}>
         
-        <Row className="d-flex flex-row-reverse w-100">
+        <Row className="d-flex flex-row-reverse w-100 mr-4">
         
         {
           (connector.connected || active) ?

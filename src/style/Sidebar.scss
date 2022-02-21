@@ -4,7 +4,7 @@
   left: 0;
   width: 305px;
   height: 100vh;
-  z-index: 999;
+  z-index: 9999;
   
   
   background-color: #FBFFFF;
@@ -87,8 +87,7 @@
         cursor: pointer !important;
         vertical-align: middle;
         &:hover {
-          text-decoration: none;
-          font-size: 19px;
+          text-decoration: none; 
           line-height: 26px;
           color: #FBFFFF !important;
         }
@@ -129,6 +128,7 @@
     background-color:#B6D7E4;
     box-shadow: 0px 0px 23px -2px rgba(171, 194, 214, 0.6);
     color: #FBFFFF !important;
+    line-height: 26px;
     svg {
       color: white!important;
     }
@@ -140,7 +140,7 @@
     left:0;
     background-color:#FBFFFF;
     width:305px;
-    height: 200px;
+    height: 165px;
     justify-content:center;
     align-items:center;
     text-align: center;
@@ -178,12 +178,10 @@
       justify-content:center;
       
       .tierSubSection{
-
         display:flex;
         flex-direction: row;
         width:100%;
         align-items:center;
-        justify-content:space-between;
 
         a{
           text-align: center;
@@ -208,11 +206,13 @@
 
         span {
           font-size: 12px;
-          text-transform: capitalize;
+          font-weight: 700;
+          text-transform: uppercase;
+          
         }
 
         .iconSection{
-          margin-right: 25px;
+          margin-left: 5px;
           h1{
             margin-left:5px;
           }
@@ -225,6 +225,7 @@
       position:relative;
       top:32px;
       width:233.25px;
+      height:unset;
       border: 1px solid #ABC2D6;
     }
 
@@ -241,7 +242,7 @@
       }
       .logout-text{
         height:21.53px;
-        font-weight: 800;
+        font-weight: 500;
         font-size: 14px;
         font-style:normal;
         line-height: 19.12px;

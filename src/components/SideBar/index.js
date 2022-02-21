@@ -136,10 +136,10 @@ const SideBar = () => {
                             </>
                             }
                         </Row>
-                        <Row className="tierSection mt-3 mb-2">
+                        <Row className="tierSection mt-2 ml-1 mb-2">
                             <TierSection tier={tier}/>
                         </Row>    
-                        <hr className="mt-5 address-under-line "/>
+                        <hr className=" address-under-line "/>
                         <Row className="logoutSection" onClick={logout}>
                             <img src={logOutIcon}/>
                             <div className="logout-text"> Log Out </div>
