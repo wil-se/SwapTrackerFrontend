@@ -44,6 +44,18 @@ a:hover {
     border-color: $azure-primary;
   }
 
+  &-primary:focus {
+    color: $white;
+    background-color: $azure-primary;
+    border-color: $azure-primary;
+  }
+
+  &-primary:not(:disabled):not(.disabled):active {
+    color: $white;
+    background-color: $azure-primary;
+    border-color: $azure-primary;
+  }
+
   &-primary.disabled {
     color: $white;
     background-color: #3B434A;
