@@ -82,14 +82,13 @@ const DashboardOpenTradesTableRow = ({
           </th>
 
           <th className="text-center on-center">
-            {Math.sign(pl_perc)=== -1?
-              <div className="dashboard-pl-negative">
-                {num_locale_format(Number(pl_perc),2,2) }%
-              </div>
-              :
-              <div className="dashboard-pl-positive">
-                {num_locale_format(Number(pl_perc),2,2) }%
-              </div>
+            {Math.sign(pl_perc) === -1
+              ? <div className="dashboard-pl-negative">
+                  {num_format(Number(pl_perc),2,2) }%
+                </div>
+              : <div className="dashboard-pl-positive">
+                  {num_format(Number(pl_perc),2,2) }%
+                </div>
           
             }
           </th>
