@@ -125,11 +125,11 @@ const TopNavbar = function () {
               <img className="img-fluid mr-1" src={BscLogo} /> <span className="mr-4">{network}</span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="dropdownmenucurrencies" style={{ width: 100, borderRadius: 10 }}>
-              <Dropdown.Item onClick={() => {}} className="text-right pr-0">
+              <Dropdown.Item onClick={() => {}} className="text-center">
                 <img className="img-fluid mr-1" src={BscLogo} />
                 <span className="font-weight-bold mr-4">BSC</span>
               </Dropdown.Item>
-              <Dropdown.Item disabled onClick={() => {}} className="text-right pr-0">
+              <Dropdown.Item disabled onClick={() => {}} className="text-center">
                 <img className="img-fluid mr-1" src={EthLogo} />
                 <span className="font-weight-bold mr-4">ETH</span>
               </Dropdown.Item>
