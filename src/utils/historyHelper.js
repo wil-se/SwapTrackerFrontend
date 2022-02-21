@@ -15,8 +15,10 @@ export const getHistoryRows = async (historyTrades) => {
 
       let createdAt;
       let createdAtDate = new Date(historyTrade.timestamp)
+      let createdAtHours = moment(createdAtDate).format("hh:mm")
       createdAtDate.setHours(0,0,0,0)
       let closedDate = historyTrade.closedDate ? new Date(historyTrade.closedDate) : null;
+      let closedDateHours = closedDate ? moment(closedDate).format("hh:mm") : null;
       closedDate = closedDate ? `${closedDate.getDate()}/${closedDate.getMonth()+1}/${closedDate.getFullYear()}` : null;
       createdAt = `${createdAtDate.getDate()}/${createdAtDate.getMonth()+1}/${createdAtDate.getFullYear()}`
       let createdAtForFilter = moment(createdAtDate).unix()
@@ -43,9 +45,9 @@ export const getHistoryRows = async (historyTrades) => {
       tradeRow.pl_perc = ((tradeRow.currentValue - historyTrade.openAt) / historyTrade.openAt *100)
       tradeRow.tokenFrom = historyTrade.tokenFrom
       tradeRow.tokenTo = historyTrade.tokenTo
-      tradeRow.createdAt = createdAt
+      tradeRow.createdAt = `${createdAt} ${createdAtHours}`
       tradeRow.createdAtForFilter = createdAtForFilter
-      tradeRow.closedAt = closedDate ? closedDate : "-"
+      tradeRow.closedAt = closedDate ? `${closedDate} ${closedDateHours}` : "-"
       tradeRows.push(tradeRow)
     
   })

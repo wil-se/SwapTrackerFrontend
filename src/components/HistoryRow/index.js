@@ -80,7 +80,7 @@ export function HistoryRow({
         <td className="text-center on-center">
           {Math.sign(pl) === -1 ? 
               <div className="history-pl-negative ">
-                {`${Number(pl).toFixed(4).toString().substring(0,1)} ${fiatSymbol} ${(fiatValue*Number(pl)).toFixed(4).toString().substring(1,pl.toString().length)}`}
+                {`${Number(pl).toFixed(4).toString().substring(0,1)} ${fiatSymbol} ${(fiatValue*Number(pl)).toFixed(2).toString().substring(1,pl.toString().length)}`}
               </div>
             :
               <div className="history-pl-positive">
@@ -92,11 +92,11 @@ export function HistoryRow({
         <td className="text-center on-center">
           {Math.sign(pl_perc)=== -1?
             <div className="history-pl-negative">
-              {pl_perc.toFixed(3)}%
+              {pl_perc.toFixed(2)}%
             </div>
             :
             <div className="history-pl-positive">
-              {pl_perc.toFixed(3)}%
+              {pl_perc.toFixed(2)}%
             </div>
         
           }

@@ -5,9 +5,6 @@ import { HistoryRow } from 'components/HistoryRow';
 import useAuthService from 'hooks/useAuthService'
 import useTrade from 'hooks/useTrade';
 import {getHistoryRows} from 'utils/historyHelper';
-import { useSwapTrackerMediator } from 'hooks/useContract';
-import {useNavigate} from 'react-router-dom'
-import {getTier} from 'utils/walletHelpers'
 import { useWeb3React } from '@web3-react/core';
 import { useGetFiatName, useGetFiatValues, useGetFiatSymbol } from 'store/hooks';
 import calendar from 'assets/icons/calendar.svg';
@@ -150,9 +147,9 @@ const History = () => {
     return (
         <MainContainer>
         <>
-        <h1 className="m-100 subheader-title">History</h1>
         <Row style={{marginTop: 15}} className="d-flex align-items-end mb-4">
           <Col md={10} lg={10} xs={10} className="justify-content-start">
+          <h1 className="m-100 subheader-title">History</h1>
               <a style={{cursor: 'pointer'}}>
               <DatePicker
                 colorPrimary="#b6d7e4"
