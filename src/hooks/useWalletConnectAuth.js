@@ -1,26 +1,21 @@
 
-import WalletConnect from "@walletconnect/client";
-import QRCodeModal from "@walletconnect/qrcode-modal";
 import { useWeb3React, UnsupportedChainIdError,handleAccountsChanged } from '@web3-react/core';
 import { useCallback, useEffect, useRef } from 'react';
+import { ConnectorNames, connectorsByName } from 'utils/web3React';
 
-
-const connector = new WalletConnect({
-  bridge: "https://bridge.walletconnect.org", // Required
-  qrcodeModal: QRCodeModal,
-});
-
+const connector = connectorsByName[ConnectorNames.WalletConnect];
 
 const useWalletConnectAuth = () => {
   const { activate, deactivate } = useWeb3React();
   
   const walletConnectLogin = useCallback(() =>{
+    connector.enable()
     activate(connector, async error => {
        // Check if connection is already established
-       
        if (!connector.connected) {
           // create new session
-          connector.createSession();
+          
+           activate(connector);
         }
       
         // Subscribe to connection events
@@ -31,6 +26,7 @@ const useWalletConnectAuth = () => {
         
           // Get provided accounts and chainId
           const { accounts, chainId } = payload.params[0];
+          console.log(accounts, chainId)
         });
       
         connector.on("session_update", (error, payload) => {

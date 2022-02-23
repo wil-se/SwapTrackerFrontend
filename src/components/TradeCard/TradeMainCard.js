@@ -76,6 +76,7 @@ const TradeMainCard = ({tier}) => {
     },[state,account])
 
     useEffect(()=>{
+        console.log(web3,account);
         (async()=>{
             let bal = await getBalance(tokenSelectedIn,account,erc20Contract,web3)
             setBalance(bal)

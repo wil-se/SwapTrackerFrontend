@@ -13,7 +13,7 @@ import useWalletConnectAuth from 'hooks/useWalletConnectAuth'
 
 export function WalletModal(props){
   const { login } = useAuth();
-  const { walletConnectLogin, walletConnectLogout } = useWalletConnectAuth();
+  const { walletConnectLogin, walletConnectLogout,connector } = useWalletConnectAuth();
 
   return (
     <Modal
