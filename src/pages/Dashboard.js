@@ -17,9 +17,8 @@ const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
 const Dashboard = () => {
-    const { account } = useWeb3React();
     const { chainId, web3 } = useWeb3()
-    const { user,tier} = useAuthService()
+    const { user,tier, account} = useAuthService()
     const [walletTVL,setWalletTVL] = useState(0)
     const [currentBalance,setCurrentBalance] = useState(0)
     const [profitOrLoss,setProfitOrLoss] = useState(0)

@@ -6,7 +6,9 @@ import {useNavigate,useLocation} from 'react-router-dom'
 import { useSwapTrackerMediator } from 'hooks/useContract';
 
 const useAuthService = () => {
-    const {account} = useWeb3React();
+    var {account, active} = useWeb3React();
+    
+
     const [user,setUser] = useState()
     const [tier,setTier] = useState()
     const [profitOrLossOverview,setProfitOrLossOverview] = useState([])
@@ -14,6 +16,8 @@ const useAuthService = () => {
     const swapTrackerMediator = useSwapTrackerMediator(); 
     const navigation = useNavigate()
     const location = useLocation()
+    const [connected, setConnected] = useState(connector.connected || active)
+    
 
     const setTierNoRedirect = async (account) => {
         let tid = await swapTrackerMediator.methods.getTierFee(account).call()
@@ -57,9 +61,11 @@ const useAuthService = () => {
                 //setProfitOrLossOverview(respProfOrLoss?.data.data)
 
             } else if(connector.connected) {
-                const resp = await callPost("createOrUpdateUser",{address:connector._accounts[0].toLowerCase(), lastLogin:new Date()})
+                let account = connector._accounts[0]
+                console.log("account", account);
+                const resp = await callPost("createOrUpdateUser",{address: account.toLowerCase(), lastLogin:new Date()})
                 setUser(resp?.data.data);
-                await setTierNoRedirect(connector._accounts[0].toLowerCase())
+                await setTierNoRedirect(account.toLowerCase())
                
             }
             else{
@@ -81,7 +87,7 @@ const useAuthService = () => {
     }
 
 
-    return {user,createOrUpdateUser,updateUserTokenList,tier,setTierNoRedirect,setTierWithRedirect,profitOrLossOverview}
+    return {connected, account: active ? account : connector._accounts[0], user,createOrUpdateUser,updateUserTokenList,tier,setTierNoRedirect,setTierWithRedirect,profitOrLossOverview}
     
 }
 

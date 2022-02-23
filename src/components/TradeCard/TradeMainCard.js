@@ -20,11 +20,12 @@ import {BNB,WBNB,SWPTPre} from 'config'
 import { Col, Row,Card, Form } from 'react-bootstrap';
 import { num_format } from 'utils/walletHelpers';
 import { getBep20Contract } from 'utils/contractHelpers';
+import useAuthService from 'hooks/useAuthService';
 
 
 const TradeMainCard = ({tier}) => {
+    const {account} = useAuthService();
     const { state } = useLocation() 
-    const { account } = useWeb3React();
     const {web3} = useWeb3()
     const [pancakeRouterContract,] = useState(usePancakeRouter())
     const [amountIn,setAmountIn] = useState(0)

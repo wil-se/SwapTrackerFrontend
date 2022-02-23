@@ -18,6 +18,7 @@ import SideBar from 'components/SideBar';
 import useAuth from 'hooks/useAuth';
 import { fetchFiatPrices } from 'store/fiat';
 import { result } from 'lodash';
+import useAuthService from 'hooks/useAuthService';
 
 
 const TopNavbar = function () {
@@ -31,16 +32,16 @@ const TopNavbar = function () {
   
   const { slowRefresh, fastRefresh } = useRefresh();
   const {logout} = useAuth()
+  const { walletConnectLogout } = useWalletConnectAuth();
 
-
+  
   const handleCurrencyClick = (name, symbol) => {
     setCurrency(name);
     setSymbol(symbol);
   }
-  
-  const { active, account } = useWeb3React()
-  const { connector } = useWalletConnectAuth()
+  const {account, connected} = useAuthService();
 
+  
   const getPrices = async () => { 
     const data = await fetchFiatPrices();
     setValues(data.data.data);
@@ -58,6 +59,7 @@ const TopNavbar = function () {
 
   useEffect(() => {
     getPrices();
+    console.log("account", account);
   }, [slowRefresh]);
 
   useEffect(() => {
@@ -75,14 +77,14 @@ const TopNavbar = function () {
         <Row className="d-flex flex-row-reverse w-100 mr-2">
         
         {
-          (connector.connected || active) ?
+          (connected) ?
           
           <Dropdown className="ml-2" alignRight>
             <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
             <label className="text-muted my-auto mx-3">{getShrunkWalletAddress(account)}</label>
             </Dropdown.Toggle>
             <Dropdown.Menu className="dropdownmenucurrencies" style={{ borderRadius: 10 }}>
-                <Dropdown.Item onClick={logout} className="align-items-right"><span>Logout</span></Dropdown.Item>
+                <Dropdown.Item onClick={() => {logout(); walletConnectLogout();}} className="align-items-right"><span>Logout</span></Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
 

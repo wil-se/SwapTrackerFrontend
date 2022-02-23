@@ -19,16 +19,10 @@ BigNumber.config({
 const Staking = () => {
     useFetchPublicData();
     useFetchPriceList();
-    const { account } = useWeb3React();
-    const {setTierWithRedirect} = useAuthService()
+    const {account} = useAuthService()
     const pools = usePools(account);
   
     const openedPools = pools.filter(pool => pool).sort((a, b) => a.sortOrder - b.sortOrder);
-
-    useLayoutEffect(()=>{const timer = setTimeout(()=>{setTierWithRedirect(account)},2000); return () => clearTimeout(timer) },[account])
-
-    useEffect(()=>{const timer = setTimeout(()=>{setTierWithRedirect(account)},2000); return () => clearTimeout(timer)},[account])
-
 
 
     return (
