@@ -3,11 +3,15 @@ import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "@walletconnect/qrcode-modal";
 import { useWeb3React, UnsupportedChainIdError,handleAccountsChanged } from '@web3-react/core';
 import { useCallback, useEffect, useRef } from 'react';
-
+import getRpcUrl from 'utils/getRpcUrl';
+const RPC_URL = getRpcUrl();
 
 const connector = new WalletConnect({
   bridge: "https://bridge.walletconnect.org", // Required
   qrcodeModal: QRCodeModal,
+  rpc:{
+    56:RPC_URL
+  }
 });
 
 

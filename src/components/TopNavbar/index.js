@@ -18,6 +18,7 @@ import SideBar from 'components/SideBar';
 import useAuth from 'hooks/useAuth';
 import { fetchFiatPrices } from 'store/fiat';
 import { result } from 'lodash';
+import useAuthService from 'hooks/useAuthService';
 
 
 const TopNavbar = function () {
@@ -38,7 +39,8 @@ const TopNavbar = function () {
     setSymbol(symbol);
   }
   
-  const { active, account } = useWeb3React()
+  const { active} = useWeb3React()
+  const {account} = useAuthService()
   const { connector } = useWalletConnectAuth()
 
   const getPrices = async () => { 

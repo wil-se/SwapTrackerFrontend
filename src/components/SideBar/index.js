@@ -23,10 +23,10 @@ import { useLocation } from "react-router-dom";
 const SideBar = () => {
     useEagerConnect();
     useGoogleAnalytics();
-    const navigation = useNavigate();
-    const { account } = useWeb3React();
+   
+    
     const {logout} = useAuth()
-    const {createOrUpdateUser,tier} = useAuthService()
+    const {createOrUpdateUser,tier,account} = useAuthService()
     const [leftMobile,setLeftMobile] = useState()
     const pixel = useFacebookPixel();
     const ga = useGoogleAnalytics();
@@ -40,6 +40,7 @@ const SideBar = () => {
     const splitLocation = pathname.split("/");
 
     useEffect(() =>{
+       
         pixel.track('ViewContent', { content_name: window.location.pathname });
         ga.send({ hitType: "pageview", page: window.location.pathname });
         (async ()=>{
@@ -137,6 +138,7 @@ const SideBar = () => {
                             }
                         </Row>
                         <Row className="tierSection my-2 text-center">
+                            {console.log("tierr", tier)}
                             <TierSection tier={tier}/>
                         </Row>    
                         <hr className=" address-under-line "/>

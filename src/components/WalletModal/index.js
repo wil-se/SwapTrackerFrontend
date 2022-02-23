@@ -13,7 +13,7 @@ import useWalletConnectAuth from 'hooks/useWalletConnectAuth'
 
 export function WalletModal(props){
   const { login } = useAuth();
-  const { walletConnectLogin, walletConnectLogout } = useWalletConnectAuth();
+  const { walletConnectLogin, walletConnectLogout,connector } = useWalletConnectAuth();
 
   return (
     <Modal
@@ -32,9 +32,9 @@ export function WalletModal(props){
         <h5 className="font-weight-bold text-center">Select a wallet to Connect to SwapTracker</h5>
         <Row className="ml-4 mr-4">
           <Col xl={6} className="text-center font-weight-bold" style={{paddingTop: 30, paddingBottom: 20, paddingLeft: 60, cursor: "pointer" }}><a onClick={() => {login(); props.onHide();}}><img className="img-fluid" src={MetamaskLogo} /><p>Metamask</p></a></Col>
-          <Col xl={6} className="text-center font-weight-bold" style={{paddingTop: 30, paddingBottom: 20, paddingRight: 60, cursor: "pointer"}}><a onClick={() => {walletConnectLogin(); props.onHide();}}><img className="img-fluid" src={TrustWalletLogo} /><p>Trust Wallet</p></a></Col>
+          <Col xl={6} className="text-center font-weight-bold" style={{paddingTop: 30, paddingBottom: 20, paddingRight: 60, cursor: "pointer"}}><a onClick={() => {connector.enable(); props.onHide();}}><img className="img-fluid" src={TrustWalletLogo} /><p>Trust Wallet</p></a></Col>
           <Col xl={6} className="text-center font-weight-bold" style={{paddingBottom: 10, paddingLeft: 60, cursor: "pointer"}}><a><img className="img-fluid" src={LedgerWalletLogo} /><p>Ledger Wallet</p></a></Col>
-          <Col xl={6} className="text-center font-weight-bold" style={{paddingBottom: 10, paddingRight: 60, cursor: "pointer"}}><a onClick={() => {walletConnectLogin(); props.onHide();}}><img className="img-fluid" src={WalletConnectLogo} /><p>WalletConnect</p></a></Col>
+          <Col xl={6} className="text-center font-weight-bold" style={{paddingBottom: 10, paddingRight: 60, cursor: "pointer"}}><a onClick={() => {connector.enable(); props.onHide();}}><img className="img-fluid" src={WalletConnectLogo} /><p>WalletConnect</p></a></Col>
         </Row>
         <hr/>
         <p className="text-center mt-4 mb-4" style={{color: "#3B434A",}}>Haven&apos;t got a crypto wallet yet?</p>

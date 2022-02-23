@@ -6,7 +6,7 @@ import {useNavigate,useLocation} from 'react-router-dom'
 import { useSwapTrackerMediator } from 'hooks/useContract';
 
 const useAuthService = () => {
-    const {account} = useWeb3React();
+    const {account,active} = useWeb3React();
     const [user,setUser] = useState()
     const [tier,setTier] = useState()
     const [profitOrLossOverview,setProfitOrLossOverview] = useState([])
@@ -57,9 +57,9 @@ const useAuthService = () => {
                 //setProfitOrLossOverview(respProfOrLoss?.data.data)
 
             } else if(connector.connected) {
-                const resp = await callPost("createOrUpdateUser",{address:connector._accounts[0].toLowerCase(), lastLogin:new Date()})
+                const resp = await callPost("createOrUpdateUser",{address:connector.accounts[0].toLowerCase(), lastLogin:new Date()})
                 setUser(resp?.data.data);
-                await setTierNoRedirect(connector._accounts[0].toLowerCase())
+                await setTierNoRedirect(connector.accounts[0].toLowerCase())
                
             }
             else{
@@ -81,7 +81,7 @@ const useAuthService = () => {
     }
 
 
-    return {user,createOrUpdateUser,updateUserTokenList,tier,setTierNoRedirect,setTierWithRedirect,profitOrLossOverview}
+    return {user, account: active ? account : connector.accounts[0],createOrUpdateUser,updateUserTokenList,tier,setTierNoRedirect,setTierWithRedirect,profitOrLossOverview}
     
 }
 

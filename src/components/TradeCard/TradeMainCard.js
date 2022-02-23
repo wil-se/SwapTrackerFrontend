@@ -20,11 +20,12 @@ import {BNB,WBNB,SWPTPre} from 'config'
 import { Col, Row,Card, Form } from 'react-bootstrap';
 import { num_format } from 'utils/walletHelpers';
 import { getBep20Contract } from 'utils/contractHelpers';
+import useAuthService from 'hooks/useAuthService';
 
 
 const TradeMainCard = ({tier}) => {
     const { state } = useLocation() 
-    const { account } = useWeb3React();
+    const { account } = useAuthService();
     const {web3} = useWeb3()
     const [pancakeRouterContract,] = useState(usePancakeRouter())
     const [amountIn,setAmountIn] = useState(0)
@@ -260,7 +261,7 @@ const TradeMainCard = ({tier}) => {
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
 
             console.log(amountOutMinFormatted.toString(),path, amountInFormattedBN.toString(),tokenSelectedOut.decimals)
-            
+            console.log(account)
             const txSwap = await swapTrackerMediator.methods
                             .swapExactETHForTokens(amountOutMinFormatted.toString(),path)
                             .send({from:account,value:amountInFormattedBN.toString()})
