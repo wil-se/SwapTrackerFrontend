@@ -36,11 +36,11 @@ const Tier = () => {
         <>
           <h1 className="subheader-title">Tiers</h1>
           <div className="d-flex flex-row align-center ">
-          <p style={{color: "#8DA0B0", fontWeight: 400,marginRight:"10px"}}>Connect your wallet to use SwapTracker, you need SWPT tokens in your wallet in order to use all the features.</p>
+          <p style={{color: "#8DA0B0", fontWeight: 300,marginRight:"10px"}}>Connect your wallet to use SwapTracker, you need SWPT tokens in your wallet in order to use all the features.</p>
           </div>
           <Row style={{marginTop: 20}}>
             <Col sx={12} className="text-center mb-2">
-            <Button style={{width: 200, heigh: 80, fontSize: 20, marginBottom: 20}} onClick={()=>window.open("https://pancakeswap.finance/swap?outputCurrency=0x01832e3346fd3a0d38ca589d836bd78d1de7030c")}>BUY SWPT</Button>
+            <Button style={{width: 200, heigh: 80, fontSize: 20, marginBottom: 20,fontWeight:300}} onClick={()=>window.open("https://pancakeswap.finance/swap?outputCurrency=0x01832e3346fd3a0d38ca589d836bd78d1de7030c")}>BUY SWPT</Button>
             </Col>
           </Row>
           <Row className="pl-md-100 pr-md-100 pt-md-50 justify-content-center">
