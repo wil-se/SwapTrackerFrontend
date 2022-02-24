@@ -61,6 +61,12 @@
   .menu {
     padding: 32px;
 
+    @media only screen and (max-width:560px) {
+      height: 40vh;
+      overflow-y: auto;
+    }
+    
+
     &-item {
       display: flex;
       width:250px;
