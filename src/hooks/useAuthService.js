@@ -21,21 +21,24 @@ const useAuthService = () => {
     }
 
     const setTierWithRedirect = async (account) => {
-        console.log(account)
         if(account){
             let tid = await swapTrackerMediator.methods.getTierFee(account).call()
-            console.log(tid)
-                if(Number(tid) === 1000 ){
-                    navigation('/tiers')
-                }
+            console.log("Tier: ",tid)
+            if(Number(tid) >= 1000 ){
+                navigation('/tiers')
+            }else{
                 return Number(tid)
-        }
-        else{
+            }
+        }else{
             navigation('/tiers')
         }
-        
     }
 
+    const checkTierRedirect = async (tierFee) => {
+        if(Number(tierFee) >= 1000 ){
+            navigation('/tiers')
+        }
+    }
    
     const getProfitsLosses = async (address) => {
        
@@ -81,7 +84,7 @@ const useAuthService = () => {
     }
 
 
-    return {user,createOrUpdateUser,updateUserTokenList,tier,setTierNoRedirect,setTierWithRedirect,profitOrLossOverview}
+    return {user,createOrUpdateUser,updateUserTokenList,tier,setTierNoRedirect,setTierWithRedirect,profitOrLossOverview, checkTierRedirect}
     
 }
 

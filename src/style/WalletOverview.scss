@@ -3,3 +3,15 @@
   background-color: #FFFFFF;
   box-shadow: 0px 0px 23px -2px rgba(171, 194, 214, 0.6);
 }
+
+.previewchart > article > div, .previewchart > article > div > div  {
+  width: 250px!important;
+  height: 80px!important;
+}
+
+@media only screen and (max-width: 600px) {
+  .previewchart > article > div, .previewchart > article > div > div  {
+    width: 100px!important;
+    height: 125px!important;
+  }
+}

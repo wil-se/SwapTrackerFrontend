@@ -167,6 +167,16 @@ input[type=number] {
   color: #000000;
 }
 
+
+.dropdownmenu{
+  margin-top: 10;
+  width: 500;
+  border-radius: 10;
+  box-shadow: 0px 0px 26px -8px rgba(171, 194, 214, 0.66);
+  border-color: #FFFFFF;
+  background: #FFFFFF;
+}
+
 .dropdownmenucurrencies{
   margin-top: 10;
   width: 500;
@@ -174,6 +184,10 @@ input[type=number] {
   box-shadow: 0px 0px 26px -8px rgba(171, 194, 214, 0.66);
   border-color: #FFFFFF;
   background: #FFFFFF;
+  @media only screen and (max-width:800px){
+    overflow-y: auto;
+    height: 75vh
+  }
 }
 
 

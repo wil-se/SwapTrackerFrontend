@@ -163,7 +163,7 @@ const History = () => {
           </div>
            
           </Col>
-          <Col xs={2} className="pr-0">
+          <Col xs={12} md={2} className="pr-0 justify-content-end">
             <Form.Check 
               type="switch"
               id="custom-switch"

@@ -54,21 +54,6 @@
     height:35px;
   }
 
-  .sidebar-hamburger-icon{
-    display:none;
-    @media only screen and (max-width:800px){
-      display:block;
-      position:absolute;
-      top:0;
-      right:0;
-      transform: translate(-100%,60%);
-      cursor:pointer;
-      
-     
-    }
-  }
-
-
   .menu {
     padding: 32px;
 

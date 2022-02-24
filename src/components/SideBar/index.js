@@ -23,7 +23,6 @@ import { useLocation } from "react-router-dom";
 const SideBar = () => {
     useEagerConnect();
     useGoogleAnalytics();
-    const navigation = useNavigate();
     const { account } = useWeb3React();
     const {logout} = useAuth()
     const {createOrUpdateUser,tier} = useAuthService()
@@ -53,26 +52,24 @@ const SideBar = () => {
 
     const closeSideBar = () => {
         if(window.innerWidth > 790) return;
-
         leftMobile === "0" ? setLeftMobile("-100%") : setLeftMobile("0") 
-
     }
 
   
     return (
         <>
-                <Row>
-                    {leftMobile === "0"
-                    ?
-                        <Col className="sidebar-hamburger-icon" onClick={closeSideBar}>
-                            <Icon.XLg size={25} color="black"/>
-                        </Col>
-                    :
-                        <Col className="sidebar-hamburger-icon" onClick={closeSideBar}>
-                            <Icon.List size={25} color="black"/>
-                        </Col>
-                    }
-                </Row>
+            <Row>
+                {leftMobile === "0"
+                ?
+                    <Col xs={2} className="sidebar-hamburger-icon" onClick={closeSideBar}>
+                        <Icon.XLg size={25} color="black"/>
+                    </Col>
+                :
+                    <Col xs={2} className="sidebar-hamburger-icon" onClick={closeSideBar}>
+                        <Icon.List size={25} color="black"/>
+                    </Col>
+                }
+            </Row>
             <Container fluid className="sidebar-container" style={{left:leftMobile}}>
                 <div className="sidebar">
                     <Row className="logo align-items-center">
@@ -140,10 +137,15 @@ const SideBar = () => {
                             <TierSection tier={tier}/>
                         </Row>    
                         <hr className=" address-under-line "/>
-                        <Row className="logoutSection" onClick={logout}>
-                            <img src={logOutIcon}/>
-                            <div className="logout-text"> Log Out </div>
-                        </Row>
+                        {
+                            account
+                            ? <Row className="logoutSection" onClick={logout}>
+                                <img src={logOutIcon}/>
+                                <div className="logout-text"> Log Out </div>
+                            </Row>
+                            : <></>
+                        }
+                        
                         <Row className="pt-5">
                             <Col xs={12} className="text-center">
                                 <a className="text-muted" href="https://forms.gle/VJ9SdErGY36JXx4c6" rel="noreferrer" target="_blank">Report a bug</a>

@@ -22,7 +22,7 @@ function App() {
   return (
     <>
       <Container fluid>
-      {(window.innerWidth > 1260) ?
+      {(window.innerWidth > 1) ?
         <>
         <TopNavbar></TopNavbar>
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>

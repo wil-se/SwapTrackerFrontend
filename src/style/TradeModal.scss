@@ -4,8 +4,10 @@
     justify-content:center;
     align-items: center;
     left: calc(50% - 31px);
+    z-index: 10;
     @media only screen and (max-width:800px){
         right:5%;
+        left: 5%;
     }
     .trade-modal-card{
         display:flex;

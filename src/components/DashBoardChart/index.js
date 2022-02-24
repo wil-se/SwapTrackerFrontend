@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useLayoutEffect} from 'react'
 import {Row, Col} from 'react-bootstrap';
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker from "react-modern-calendar-datepicker";
@@ -10,22 +10,22 @@ import {getDatesFromRange} from 'utils/dashboardHelpers'
 import useAuthService from 'hooks/useAuthService'
 
 const defaultFrom = {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth(),
-    day: new Date().getDate(),
-  };
-  const defaultTo = {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth()+1,
-    day: new Date().getDate(),
-  };
-  const defaultValue = {
-    from: defaultFrom,
-    to: defaultTo,
-  };
+  year: new Date().getFullYear(),
+  month: new Date().getMonth(),
+  day: new Date().getDate()
+};
+const defaultTo = {
+  year: new Date().getFullYear(),
+  month: new Date().getMonth()+1,
+  day: new Date().getDate()
+};
+const defaultValue = {
+  from: defaultFrom,
+  to: defaultTo
+};
   
 const DashBoardChart = ({tier,account,fiatValue}) => {
-    const { user, profitOrLossOverview } = useAuthService()
+    const { user, profitOrLossOverview, checkTierRedirect } = useAuthService()
     const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
     const [selectedDayRange, setSelectedDayRange] = useState(defaultValue);  
     const [labelList,setLabelList] = useState([])
@@ -36,7 +36,6 @@ const DashBoardChart = ({tier,account,fiatValue}) => {
       if(selectedDayRange){ dateFilterArray = getDatesFromRange(selectedDayRange) } 
       let labelList = []
       let dataList = []
-     console.log("allora", profitOrLossOverview)
       if(profitOrLossOverview && profitOrLossOverview.length !== 0 && account){ 
         try{
           profitOrLossOverview.map((singleBalanceOverview)=>{
@@ -78,21 +77,28 @@ const DashBoardChart = ({tier,account,fiatValue}) => {
       
       
     }
-    
+
+    useLayoutEffect( () => {
+      const timer = setTimeout( ()=>{
+          checkTierRedirect(tier)
+      }, 2000);
+      return () => clearTimeout(timer);
+    },[tier])
+
     useEffect(()=>{
+
       if(selectedDayRange === defaultValue){
         let label = `${MONTH_LABELS_CHART[defaultValue?.from.month].toUpperCase()} ${defaultValue?.from.day},${defaultValue?.from.year.toString().substring(2,4)} - ${MONTH_LABELS_CHART[defaultValue?.to.month].toUpperCase()} ${defaultValue?.to.day},${defaultValue?.to.year.toString().substring(2,4)}`
         setSelectedDayRangeFormatted(label)
       }
-      if(tier === 1000){
+
+      if(tier >= 1000){
         return;
       }
-      else if(tier !== 1000 && selectedDayRange === defaultValue && user){
-        console.log("entro qui?", user)
 
+      else if(tier !== 1000 && selectedDayRange === defaultValue && user){
           getDataForChart()
           return;
-
       }
       else{
           if(selectedDayRange?.from && selectedDayRange?.to && selectedDayRange !== defaultValue){
@@ -109,17 +115,18 @@ const DashBoardChart = ({tier,account,fiatValue}) => {
 
 
     const dateRangeOutput = ({ ref }) => (
-        <label className="dashboard-date-range-output">
-            <img src={calendar}/>
-            <input
-                readOnly
-                ref={ref} // necessary
-                placeholder="Insert range date"
-                value={selectedDayRangeFormatted}
-                
-            />
-          </label>
-      )
+      <label className="dashboard-date-range-output">
+        <img src={calendar}/>
+        <input
+            readOnly
+            ref={ref} // necessary
+            placeholder="Insert range date"
+            value={selectedDayRangeFormatted}
+            
+        />
+      </label>
+    )
+
     return (
         <div className="dashboard-card-container">
             <div className="dashboard-card-subcontainer">
@@ -127,7 +134,7 @@ const DashBoardChart = ({tier,account,fiatValue}) => {
                   <Col md={6} lg={6} xs={12}>
                     <h3 className="dashboard-card-chart-title ml-2">Trades overview </h3>
                   </Col>
-                  <Col md={6} lg={6} xs={12} className="justify-content-end d-flex">
+                  <Col md={6} lg={6} xs={12} className="justify-content-md-end justify-content-center d-flex">
                   <a style={{cursor: 'pointer'}}>
 
                         <DatePicker

@@ -13,14 +13,14 @@ const TierSection = ({tier}) => {
             tier === 1000 ?
             (
                 <div className="tierSubSection">
-                    <p>Current plan:</p>
-                    <Link to="tiers">active plan</Link>
+                    <p className="text-nowrap">Current plan:</p>
+                    <Link to="tiers" className="text-nowrap ml-2 ">active plan</Link>
                 </div>
             )  
             : tier === 10 ? 
             (
                 <div className="tierSubSection">
-                    <p>Current plan:</p>
+                    <p className="text-nowrap">Current plan:</p>
                     <div className="iconSection">
                         <img src={tierStarter} width="20px" height="20px"/>
                         <span> starter </span>
@@ -31,7 +31,7 @@ const TierSection = ({tier}) => {
             : tier === 5 ?
             (
                 <div className="tierSubSection">
-                    <p>Current plan:</p>
+                    <p className="text-nowrap">Current plan:</p>
                     <div className="iconSection">
                         <img src={tierAdvanced} width="20px" height="20px"/>
                         <span> advanced </span>
@@ -41,7 +41,7 @@ const TierSection = ({tier}) => {
             : tier === 0 ?
             (
                 <div className="tierSubSection">
-                    <p>Current plan:</p>
+                    <p className="text-nowrap">Current plan:</p>
                     <div className="iconSection">
                         <img src={tierPro} width="20px" height="20px"/>
                         <span> pro </span>
