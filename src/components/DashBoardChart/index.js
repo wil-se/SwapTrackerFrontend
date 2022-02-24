@@ -25,7 +25,7 @@ const defaultValue = {
 };
   
 const DashBoardChart = ({tier,account,fiatValue}) => {
-    const { user, profitOrLossOverview, checkTierRedirect } = useAuthService()
+    const { user, profitOrLossOverview } = useAuthService()
     const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
     const [selectedDayRange, setSelectedDayRange] = useState(defaultValue);  
     const [labelList,setLabelList] = useState([])
@@ -77,13 +77,6 @@ const DashBoardChart = ({tier,account,fiatValue}) => {
       
       
     }
-
-    useLayoutEffect( () => {
-      const timer = setTimeout( ()=>{
-          checkTierRedirect(tier)
-      }, 2000);
-      return () => clearTimeout(timer);
-    },[tier])
 
     useEffect(()=>{
 
