@@ -221,7 +221,7 @@ export function WalletOverview(){
                   <Col xs={12} md={4} lg={4} className="align-self-center border-md-1 pr-4" style={{borderRight: '1px solid #ABC2D6'}}>
                       <div>
                       <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-3 pt-4" style={{borderBottom: '1px solid #ABC2D6'}}>
-                          <Col xs={12} md={4} lg={4} xl={3} className="pr-0 d-flex" >
+                          <Col xs={12} md={4} lg={4} xl={3} className="pr-0 d-flex pl-0 pl-md-4" >
                             <div style={{fontSize: 24, fontWeight: 700}} className="ml-md-3 d-flex align-self-center">
                                 {getShrunkWalletAddress(address)}
                                 <OverlayTrigger
