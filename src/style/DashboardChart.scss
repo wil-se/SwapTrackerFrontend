@@ -14,6 +14,7 @@
 }
 
 .dashboard-card-chart-title{ 
+    all:unset;
     font-style: normal;
     font-weight: 700;
     font-size: 24px;
@@ -44,9 +45,14 @@
     border: 0.75px solid #ABC2D6;
     box-sizing: border-box;
     border-radius: 5px;
+    cursor:pointer;
     img{
         all:unset;
         padding:11px 0 10px 14px;
+        @media only screen and (max-width:580px){
+            width:15px;
+            height:15px;
+        }
     }
     input{
         all:unset;
@@ -56,11 +62,37 @@
         font-size: 10px;
         line-height: 35px;
         color:#8DA0B0;
+        @media only screen and (max-width:580px){
+            font-size: 8px;
+            line-height: 30px;
+        }
+
+        
     }
+    @media only screen and (max-width:580px){
+        width:140px;
+        height:30px;
+    }
+   
 
 }
 
 .dashboard-card-header{
     display:flex;
     justify-content: space-between;
+    @media only screen and (max-width:580px){
+        flex-direction: row;
+    }
+}
+
+.dashboard-card-chart-title{
+    @media only screen and (max-width:580px){
+        max-width:55%;
+    }
+}
+
+.date-picker-mobile{
+    @media only screen and (max-width:580px){
+        max-width:40%;
+    }
 }

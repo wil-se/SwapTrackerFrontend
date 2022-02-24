@@ -6,7 +6,7 @@ import BscLogo from '../../assets/icons/BSC.svg'
 import EthLogo from '../../assets/icons/ETHEREUM.svg'
 import { WalletModal } from 'components/WalletModal';
 import { useWeb3React } from '@web3-react/core';
-
+import {Link} from 'react-router-dom';
 import useWalletConnectAuth from 'hooks/useWalletConnectAuth'
 import useRefresh from 'hooks/useRefresh';
 
@@ -66,11 +66,11 @@ const TopNavbar = function () {
 
   return (
     <div id="sticky-wrapper" className="sticky-wrapper">
-      <nav className="navbar navbar-expand-md cripto_nav pr-0 fixed-top py-3" style={{backgroundColor:"#EEF3F4"}}>
+      <nav className="navbar navbar-expand-md cripto_nav pr-0 fixed-top py-3" >
 
-        <a className="navbar-brand mx-auto d-block d-md-none" href="#">
+        <Link className="navbar-brand mx-auto d-block d-md-none" to="/">
           <img src="images/logo.svg" width="150"  alt="logo" />
-        </a>
+        </Link>
 
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>

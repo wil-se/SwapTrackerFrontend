@@ -52,6 +52,10 @@
     margin-left:35px;
     width:176px;
     height:35px;
+    @media only screen and (max-width:560px) {
+      display:none;
+      
+    }
   }
 
   .menu {
@@ -108,6 +112,10 @@
     width:374px;
     height:374px;
     overflow:hidden;
+    @media only screen and (max-width:560px) {
+      display:none;
+      
+    }
   }
 
   .active-link{
@@ -136,6 +144,10 @@
       align-items:center;
       justify-content: center;
       top:20px;
+      @media only screen and (max-width:560px) {
+        display:none;
+        
+      }
 
       img{
         margin-right: 5px;
@@ -163,6 +175,10 @@
       height:19px;
       align-items:center;
       justify-content:center;
+      @media only screen and (max-width:560px) {
+        display:none;
+        
+      }
       
       .tierSubSection{
         display:flex;
@@ -244,6 +260,75 @@
 .logo-under-line {
   width:233.25px;
   border: 1px solid #ABC2D6;
+}
+
+.currency-title{
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 15px;
+  color: #8DA0B0;
+  text-transform: uppercase;
+}
+
+.address-mobile{
+  font-style: normal;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.tier-section-mobile{
+  .tierSubSection{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    align-items:center;
+
+    a{
+      color:$azure-primary;
+      text-align: center;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 19px;
+      text-transform: uppercase;
+      margin-right: 20px;
+    }
+    
+    p {
+      all:unset;
+      text-align: center;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 19px;
+      text-transform: uppercase;
+      color: #3B434A;
+    }
+
+    span {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      
+    }
+
+    .iconSection{
+      margin-left: 5px;
+      h1{
+        margin-left:5px;
+      }
+    }
+  }
+}
+
+.toggle-currencies-mobile{
+  all:unset;
+  display:flex;
+  flex-direction: column;
+  margin-top: 65px;
+ 
 }
 
 @media (max-width: 991px) {

@@ -8,8 +8,8 @@ import {  Row,Table } from 'react-bootstrap';
 const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue,tradeFinded,currentDecimals}) => {
     
     return (
-        <div className="table-responsive">
-        <Table className="dashboard-table">
+        <div className="table-responsive dashboard-table" >
+        <Table >
             <thead >
             <DashBoardOpenTradesTableHeader/>
             </thead>

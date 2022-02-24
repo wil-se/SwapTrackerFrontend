@@ -131,20 +131,19 @@ const DashBoardChart = ({tier,account,fiatValue}) => {
         <div className="dashboard-card-container">
             <div className="dashboard-card-subcontainer">
                 <Row className="dashboard-card-header mb-2">
-                  <Col md={6} lg={6} xs={12}>
+                  <Col  className="dashboard-card-chart-title-mobile ">
                     <h3 className="dashboard-card-chart-title ml-2">Trades overview </h3>
                   </Col>
-                  <Col md={6} lg={6} xs={12} className="justify-content-md-end justify-content-center d-flex">
-                  <a style={{cursor: 'pointer'}}>
-
+                  <Col md={6} lg={6} xs={12} className="justify-content-md-end justify-content-center d-flex date-picker-mobile">
+                 
                         <DatePicker
                             colorPrimary="#b6d7e4"
-                            colorPrimaryLight="#1297a1"
+                            colorPrimaryLight="#e9f2f2"
                             value={selectedDayRange}
                             onChange={setSelectedDayRange}
                             renderInput={dateRangeOutput}
                         />
-                  </a>
+               
                   </Col>
                 </Row>
                 <Row>
