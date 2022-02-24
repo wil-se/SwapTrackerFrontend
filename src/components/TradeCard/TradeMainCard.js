@@ -440,7 +440,7 @@ const TradeMainCard = ({tier}) => {
                             checked={!saveTrade}
                             type="switch"
                             id="custom-switch"
-                            label="Don't mark this trade as a new open trade (SUGGESTED)"
+                            label={state ? "Don't mark this trade as a new open trade (SUGGESTED)" : "Just Swap Mode | Don't mark this trade as a new open trade"}
                             onChange={() => setSaveTrade(!saveTrade)}
                             colorPrimary="#b6d7e4"
                             className="align-self-start"
