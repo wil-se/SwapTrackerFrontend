@@ -142,7 +142,7 @@ const TopNavbar = function () {
               </Dropdown>
 
               :           
-              <Button className="ml-2 nav-link" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
+              <Button className="mr-3 ml-2 mt-2 nav-link" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
             }
             </li>
 
