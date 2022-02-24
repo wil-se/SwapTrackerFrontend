@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { Container, Row,Col,Dropdown } from 'react-bootstrap';
+import { Container, Row,Col,Dropdown,Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 //icons
 import logoGrande from '../../assets/icons/logoGrandeSidebar.png';
@@ -10,6 +10,7 @@ import EthLogo from '../../assets/icons/ETHEREUM.svg'
 import * as CurrenciesIcons from '../../assets/icons/currencies';
 //icons
 import { useWeb3React } from '@web3-react/core';
+import { WalletModal } from 'components/WalletModal';
 import useAuth from 'hooks/useAuth';
 import useEagerConnect from 'hooks/useEagerConnect';
 import { useFacebookPixel } from 'hooks/useFacebookPixel';
@@ -31,6 +32,7 @@ const SideBar = () => {
     const [network, setNetwork] = useState("BSC");
     const [values, setValues] = useState({});
     const [decimals, setDecimals] = useState(2)
+    const [modalShow, setModalShow] = useState(false);
     const { account } = useWeb3React();
     const {logout} = useAuth()
     const {createOrUpdateUser,tier} = useAuthService()
@@ -113,15 +115,22 @@ const SideBar = () => {
                     </Row>
 
                     <div className="toggle-currencies-mobile">
-                        <Row className="ml-4 mb-3 d-md-none">
+                        {account &&
+                        <Row className="ml-4 mb-2 d-md-none">
                             <h1 className="currency-title">account</h1>
                         </Row>
+                        }
                         <Row className="ml-4 mb-2 d-md-none">
-                            {account &&
+                            {account ?
                             <>
                             <div className="address-mobile">
                             {getShrunkWalletAddress(account)}
                             </div>
+                            </>
+                            :
+                            <>
+                            <Button className=" nav-link" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
+                            <WalletModal show={modalShow} onHide={() => setModalShow(false)}></WalletModal>
                             </>
                             }
                         </Row>

@@ -218,7 +218,7 @@ export function WalletOverview(){
         <Card className="wallet-overview-card w-100 mb-2 pl-2 pr-2 pt-0 pb-0">
           <Card.Body className="px-4 py-0">
               <Row>
-                  <Col xs={12} md={4} lg={4} className="align-self-center border-md-1 pr-4" style={{borderRight: '1px solid #ABC2D6'}}>
+                  <Col xs={12} md={4} lg={4} className="wallet-address align-self-center border-md-1 pr-4" style={{}}>
                       <div>
                       <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-3 pt-4" style={{borderBottom: '1px solid #ABC2D6'}}>
                           <Col xs={12} md={4} lg={4} xl={3} className="pr-0 d-flex pl-0 pl-md-4" >
@@ -234,7 +234,7 @@ export function WalletOverview(){
                             </div>
                           </Col>
                       </Row>
-                      <Row className="pl-md-4 mt-4 justify-content-center">
+                      <Row className="wallet-balance pl-md-4 mt-4 justify-content-center">
                         <Col xs={11}>
                           <h6 style={{fontStyle: "normal", fontWeight: 500, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
                         </Col>

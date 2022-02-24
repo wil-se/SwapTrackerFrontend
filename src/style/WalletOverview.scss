@@ -14,4 +14,27 @@
     width: 100px!important;
     height: 125px!important;
   }
+
+}
+
+.wallet-address{
+  border-right: 1px solid #ABC2D6;
+  @media only screen and (max-width: 600px) {
+    border-right:unset;
+  }
+
+}
+
+.wallet-balance{
+  @media only screen and (max-width: 600px) {
+    border-bottom: 1px solid #ABC2D6;
+    
+  }
+}
+
+.wallet-coin{
+  @media only screen and (min-width: 600px) {
+    border-left: 1px solid #ABC2D6;
+    
+  }
 }

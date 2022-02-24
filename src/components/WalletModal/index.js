@@ -1,19 +1,19 @@
-import React, { useState,useEffect } from 'react'
-import { Dropdown, Row, Col, Button, Modal } from 'react-bootstrap';
+import React from 'react'
+import { Row, Col, Button, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import MetamaskLogo from '../../assets/icons/METAMASK.png'
 import TrustWalletLogo from '../../assets/icons/TRUSTWALLET.png'
 import LedgerWalletLogo from '../../assets/icons/LEDGERWALLET.png'
 import WalletConnectLogo from '../../assets/icons/WALLETCONNECT.png'
-import useAuth from 'hooks/useAuth';
-import { ConnectorNames, connectorLocalStorageKey } from 'utils/web3React';
 
-import useWalletConnectAuth from 'hooks/useWalletConnectAuth'
+import useAuth from 'hooks/useAuth';
+import {ConnectorNames,connectorLocalStorageKey} from 'utils/web3React'
+
 
 
 export function WalletModal(props){
   const { login } = useAuth();
-  const { walletConnectLogin, walletConnectLogout } = useWalletConnectAuth();
+  
 
   return (
     <Modal
@@ -31,26 +31,24 @@ export function WalletModal(props){
       <Modal.Body>
         <h5 className="font-weight-bold text-center">Select a wallet to Connect to SwapTracker</h5>
         <Row className="ml-4 mr-4">
-          <Col xl={6} className="text-center font-weight-bold" style={{paddingTop: 30, paddingBottom: 20, paddingLeft: 60, cursor: "pointer" }}><a onClick={() => {
+          <Col xl={6} className="text-center font-weight-bold pt-4 pb-2 pl-md-4" style={{cursor: "pointer"}}><a onClick={() => {
             login(ConnectorNames.INJECTED);
             localStorage.setItem(connectorLocalStorageKey, ConnectorNames.INJECTED);
             props.onHide();
-            }}><img className="img-fluid" src={MetamaskLogo} /><p>Metamask</p></a>
-          </Col>
-          <Col xl={6} className="text-center font-weight-bold" style={{paddingTop: 30, paddingBottom: 20, paddingRight: 60, cursor: "pointer"}}><a onClick={() => {
+            }}><img className="img-fluid" src={MetamaskLogo} /><p>Metamask</p></a></Col>
+          <Col xl={6} className="text-center font-weight-bold pt-4 pb-2 pl-md-3" style={{cursor: "pointer"}}><a onClick={() => {
             login(ConnectorNames.WalletConnect);
             localStorage.setItem(connectorLocalStorageKey, ConnectorNames.WalletConnect);
             props.onHide();
-            }}><img className="img-fluid" src={TrustWalletLogo} /><p>Trust Wallet</p></a>
-          </Col>
-          <Col xl={6} className="text-center font-weight-bold" style={{paddingBottom: 10, paddingLeft: 60, cursor: "pointer"}}><a><img className="img-fluid" src={LedgerWalletLogo} /><p>Ledger Wallet</p></a></Col>
-          <Col xl={6} className="text-center font-weight-bold" style={{paddingBottom: 10, paddingRight: 60, cursor: "pointer"}}><a onClick={() => {
+            }}><img className="img-fluid" src={TrustWalletLogo} /><p>Trust Wallet</p></a></Col>
+          <Col xl={6} className="text-center font-weight-bold pt-3 pb-2 pl-md-4" style={{cursor: "pointer"}}><a><img className="img-fluid" src={LedgerWalletLogo} /><p>Ledger Wallet</p></a></Col>
+          <Col xl={6} className="text-center font-weight-bold pt-3 pb-2 pl-md-3" style={{cursor: "pointer"}}><a onClick={() => {
             login(ConnectorNames.WalletConnect);
             localStorage.setItem(connectorLocalStorageKey, ConnectorNames.WalletConnect);
             props.onHide();
-            }}><img className="img-fluid" src={WalletConnectLogo} /><p>WalletConnect</p></a>
-          </Col>
+            }}><img className="img-fluid" src={WalletConnectLogo} /><p>WalletConnect</p></a></Col>
         </Row>
+        
         <hr/>
         <p className="text-center mt-4 mb-4" style={{color: "#3B434A",}}>Haven&apos;t got a crypto wallet yet?</p>
         <Col className="text-center"><Button className="pl-5 pr-5">Learn How to Connect</Button></Col>
