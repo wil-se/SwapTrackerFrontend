@@ -96,12 +96,12 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
 }
 
 DashBoardHeader.propTypes = {
-    openTradeValue: PropTypes.string,
+    openTradeValue: PropTypes.number,
     currentBalance: PropTypes.number,
     profitOrLoss: PropTypes.number,
     fiatSymbol:PropTypes.string,
-    fiatValue:PropTypes.number,
-    currentDecimals:PropTypes.number
+    fiatValue: PropTypes.number,
+    currentDecimals: PropTypes.number
 };
 
 export default DashBoardHeader

@@ -119,25 +119,27 @@ const Dashboard = () => {
 
     return (
         <MainContainer>
-            <Row>
-                <Col md={12} lg={12} xs={12} className="justify-content-start">
-                    <h1 className="subheader-title">Dashboard</h1>
-                </Col>
-            </Row>
-            <DashBoardHeader 
-                fiatSymbol={currentSymbol}
-                fiatValue={value}
-                currentBalance={currentBalance}
-                profitOrLoss={profitOrLoss}
-                openTradeValue={openTradeValue}
-                currentDecimals={currentDecimals}
-            />
-            <DashBoardChart tier={tier} account={account}  fiatValue={value}/>
-            <Row className="pt-3">
-                <Col md={12} lg={12} xs={12}>
-                    <DashBoardOpenTrades fiatSymbol={currentSymbol} fiatValue={value} openedTrades={openedTrades} tradesFinded={tradesFinded} currentDecimals={currentDecimals} />
-                </Col>
-            </Row>
+            <>
+                <Row>
+                    <Col md={12} lg={12} xs={12} className="justify-content-start">
+                        <h1 className="subheader-title">Dashboard</h1>
+                    </Col>
+                </Row>
+                <DashBoardHeader 
+                    fiatSymbol={currentSymbol}
+                    fiatValue={value}
+                    currentBalance={currentBalance}
+                    profitOrLoss={profitOrLoss}
+                    openTradeValue={Number(openTradeValue)}
+                    currentDecimals={currentDecimals}
+                />
+                <DashBoardChart tier={tier} account={account}  fiatValue={value}/>
+                <Row className="pt-3">
+                    <Col md={12} lg={12} xs={12}>
+                        <DashBoardOpenTrades fiatSymbol={currentSymbol} fiatValue={value} openedTrades={openedTrades} tradesFinded={tradesFinded} currentDecimals={currentDecimals} />
+                    </Col>
+                </Row>
+            </>
         </MainContainer>
     )
 }
