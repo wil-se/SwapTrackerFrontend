@@ -19,46 +19,26 @@ import useAuthService from 'hooks/useAuthService';
 import TierSection from './TierSection';
 import { DropdownItemCurrency } from '../DropdownItemCurrency';
 import { useLocation } from "react-router-dom";
-import { useSetFiatSymbol, useSetFiatName, useSetFiatValues, useSetFiatDecimals } from 'store/hooks';
-import { fetchFiatPrices } from 'store/fiat';
 import useRefresh from 'hooks/useRefresh';
+import PropTypes from 'prop-types';
 
-const SideBar = () => {
+const SideBar = ({currency,network,handleCurrencyClick}) => {
     useEagerConnect();
     useGoogleAnalytics();
     const [leftMobile,setLeftMobile] = useState()
-    const [currency, setCurrency] = useState("USD");
-    const [symbol, setSymbol] = useState("$");
-    const [network, setNetwork] = useState("BSC");
-    const [values, setValues] = useState({});
-    const [decimals, setDecimals] = useState(2)
     const [modalShow, setModalShow] = useState(false);
     const { account } = useWeb3React();
     const {logout} = useAuth()
     const {createOrUpdateUser,tier} = useAuthService()
     const pixel = useFacebookPixel();
     const ga = useGoogleAnalytics();
-    const { slowRefresh, fastRefresh } = useRefresh();
 
 
     const getShrunkWalletAddress = (addr) => {
         return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
     }
 
-    const handleCurrencyClick = (name, symbol) => {
-        setCurrency(name);
-        setSymbol(symbol);
-    }
-
-    const getPrices = async () => { 
-        const data = await fetchFiatPrices();
-        setValues(data.data.data);
-    }
-
-    useSetFiatValues(values);
-    useSetFiatName(currency);
-    useSetFiatSymbol(symbol);
-    useSetFiatDecimals(decimals);
+  
 
     const location = useLocation();
     const { pathname } = location;
@@ -76,17 +56,7 @@ const SideBar = () => {
         
     },[account])
 
-    useEffect(() => {
-        getPrices();
-    }, [slowRefresh]);
-
-    useEffect(() => {
-        if(currency === "ETH" || currency === "BTC"){
-          setDecimals(7)
-        } else {
-          setDecimals(2)
-        }
-    }, [fastRefresh]);
+    
 
     const closeSideBar = () => {
         if(window.innerWidth > 790) return;
@@ -273,5 +243,14 @@ const SideBar = () => {
         </>
     );
 }
+
+SideBar.propTypes = {
+    values: PropTypes.object,
+    symbol: PropTypes.string,
+    currency: PropTypes.string,
+    handleCurrencyClick: PropTypes.func,
+    network: PropTypes.string
+
+};
 
 export default SideBar;

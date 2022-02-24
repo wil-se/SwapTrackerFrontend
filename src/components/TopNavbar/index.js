@@ -152,7 +152,7 @@ const TopNavbar = function () {
         </div>
 
       </nav>
-      <SideBar/>
+      <SideBar values={values} currency={currency} symbol={symbol} handleCurrencyClick={handleCurrencyClick} network={network} />
 
       <WalletModal show={modalShow} onHide={() => setModalShow(false)}></WalletModal>
     
