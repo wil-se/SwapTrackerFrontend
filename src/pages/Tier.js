@@ -19,14 +19,13 @@ const Tier = () => {
         if(account){
           let tid = await swapTrackerMediator.methods.getTierFee(account).call().catch((e)=>console.log(e))
           tid = Number(tid)
-          tid === 1000 ?
-          null
-          : tid === 10 ?
-          setIsStarted(true)
-          : tid === 5 ?
-          setIsAdvanced(true)
-          :
-          setIsPro(true)
+          tid >= 1000
+          ? null
+          : tid === 10
+            ? setIsStarted(true)
+            : tid === 5
+              ? setIsAdvanced(true)
+              : setIsPro(true)
         }
       })()
     },[account])

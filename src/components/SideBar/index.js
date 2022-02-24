@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row,Col } from 'react-bootstrap';
+import { Container, Row,Col,Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 //icons
 import logoGrande from '../../assets/icons/logoGrandeSidebar.png';
-import addressAvatar from '../../assets/icons/addressAvatar.png';
 import logOutIcon from '../../assets/icons/logOutIcon.png';
 import * as Icon from 'react-bootstrap-icons';
+import BscLogo from '../../assets/icons/BSC.svg'
+import EthLogo from '../../assets/icons/ETHEREUM.svg'
+import * as CurrenciesIcons from '../../assets/icons/currencies';
 //icons
 import { useWeb3React } from '@web3-react/core';
 import useAuth from 'hooks/useAuth';
@@ -14,25 +16,30 @@ import { useFacebookPixel } from 'hooks/useFacebookPixel';
 import { useGoogleAnalytics } from 'hooks/useGoogleAnalytics';
 import useAuthService from 'hooks/useAuthService';
 import TierSection from './TierSection';
-import { useSwapTrackerMediator } from 'hooks/useContract';
-import {useNavigate} from 'react-router-dom'
-import {getTier} from 'utils/walletHelpers'
+import { DropdownItemCurrency } from '../DropdownItemCurrency';
 import { useLocation } from "react-router-dom";
 
 
 const SideBar = () => {
     useEagerConnect();
     useGoogleAnalytics();
-    const navigation = useNavigate();
+    const [leftMobile,setLeftMobile] = useState()
+    const [currency, setCurrency] = useState("USD");
+    const [symbol, setSymbol] = useState("$");
+    const [network, setNetwork] = useState("BSC");
     const { account } = useWeb3React();
     const {logout} = useAuth()
     const {createOrUpdateUser,tier} = useAuthService()
-    const [leftMobile,setLeftMobile] = useState()
     const pixel = useFacebookPixel();
     const ga = useGoogleAnalytics();
 
     const getShrunkWalletAddress = (addr) => {
         return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
+    }
+
+    const handleCurrencyClick = (name, symbol) => {
+        setCurrency(name);
+        setSymbol(symbol);
     }
 
     const location = useLocation();
@@ -53,33 +60,100 @@ const SideBar = () => {
 
     const closeSideBar = () => {
         if(window.innerWidth > 790) return;
-
         leftMobile === "0" ? setLeftMobile("-100%") : setLeftMobile("0") 
-
     }
 
   
     return (
         <>
-                <Row>
-                    {leftMobile === "0"
-                    ?
-                        <Col className="sidebar-hamburger-icon" onClick={closeSideBar}>
-                            <Icon.XLg size={25} color="black"/>
-                        </Col>
-                    :
-                        <Col className="sidebar-hamburger-icon" onClick={closeSideBar}>
-                            <Icon.List size={25} color="black"/>
-                        </Col>
-                    }
-                </Row>
+            <Row>
+                {leftMobile === "0"
+                ?
+                    <Col xs={2} className="sidebar-hamburger-icon" onClick={closeSideBar}>
+                        <Icon.XLg size={25} color="#B6D7E4"/>
+                    </Col>
+                :
+                    <Col xs={2} className="sidebar-hamburger-icon" onClick={closeSideBar}>
+                        <Icon.List size={25} color="#B6D7E4"/>
+                    </Col>
+                }
+            </Row>
             <Container fluid className="sidebar-container" style={{left:leftMobile}}>
                 <div className="sidebar">
                     <Row className="logo align-items-center">
                         <img src="images/logo.svg" alt="logo" />
                     </Row>
 
-                    <Row className="mt-5">
+                    <div className="toggle-currencies-mobile">
+                        <Row className="ml-4 mb-3 d-md-none">
+                            <h1 className="currency-title">account</h1>
+                        </Row>
+                        <Row className="ml-4 mb-2 d-md-none">
+                            {account &&
+                            <>
+                            <div className="address-mobile">
+                            {getShrunkWalletAddress(account)}
+                            </div>
+                            </>
+                            }
+                        </Row>
+                        <Row className="tier-section-mobile ml-4 mb-4 d-md-none">
+                            <TierSection tier={tier}/>
+                        </Row>
+                        <Row className="ml-4 d-md-none">
+                            <h1 className="currency-title">currency</h1>
+                        </Row>
+                        <Row className=" d-md-none">
+                            <Dropdown className="nav-link" >
+                                <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
+                                <img className="img-fluid mr-1" src={BscLogo} /> <span className="mr-4">{network}</span>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu className="dropdownmenu" style={{ width: 100, borderRadius: 10 }}>
+                                <Dropdown.Item onClick={() => {}} className="text-center">
+                                    <img className="img-fluid mr-1" src={BscLogo} />
+                                    <span className="font-weight-bold mr-4">BSC</span>
+                                </Dropdown.Item>
+                                <Dropdown.Item disabled onClick={() => {}} className="text-center">
+                                    <img className="img-fluid mr-1" src={EthLogo} />
+                                    <span className="font-weight-bold mr-4">ETH</span>
+                                </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Row>
+                        <Row className=" d-md-none">
+                            <Dropdown className=" nav-link">
+                                <Dropdown.Toggle variant="currency" style={{height: 45}}>
+                                <img className="img-fluid mr-1" src={CurrenciesIcons.default[currency]} /> <span className="mr-4">{currency}</span>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu className="dropdownmenucurrencies" style={{ width: 550, borderRadius: 10 }}>
+                                    <Row>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"USD"} symbol={"$"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"EUR"} symbol={"€"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"CNY"} symbol={"¥"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"INR"} symbol={"₹"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"CAD"} symbol={"$"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"GBP"} symbol={"£"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"JPY"} symbol={"¥"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"RUB"} symbol={"₽"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"MXN"} symbol={"$"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"CHF"} symbol={"Fr"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"KRW"} symbol={"₩"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"TRY"} symbol={"₺"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"BRL"} symbol={"R$"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"SEK"} symbol={"kr"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"HKD"} symbol={"元"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"ETH"} symbol={"ETH"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"AUD"} symbol={"$"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"NOK"} symbol={"kr"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"SGD"} symbol={"$"}/>
+                                        <DropdownItemCurrency onClickHandler={handleCurrencyClick} name={"BTC"} symbol={"BTC"}/>
+                                    </Row>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Row>
+                    </div>
+
+                    <Row>
                         <hr className="logo-under-line "/>
                     </Row>
                     <div className="menu">
@@ -140,10 +214,15 @@ const SideBar = () => {
                             <TierSection tier={tier}/>
                         </Row>    
                         <hr className=" address-under-line "/>
-                        <Row className="logoutSection" onClick={logout}>
-                            <img src={logOutIcon}/>
-                            <div className="logout-text"> Log Out </div>
-                        </Row>
+                        {
+                            account
+                            ? <Row className="logoutSection" onClick={logout}>
+                                <img src={logOutIcon}/>
+                                <div className="logout-text"> Log Out </div>
+                            </Row>
+                            : <></>
+                        }
+                        
                         <Row className="pt-5">
                             <Col xs={12} className="text-center">
                                 <a className="text-muted" href="https://forms.gle/VJ9SdErGY36JXx4c6" rel="noreferrer" target="_blank">Report a bug</a>

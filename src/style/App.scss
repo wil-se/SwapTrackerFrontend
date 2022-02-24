@@ -25,7 +25,6 @@ body {
   background-color: #EEF3F4;
 }
 
-
 .bold {
   font-weight: bold;
 }
@@ -39,7 +38,7 @@ body {
 }
 
 .font-medium {
-  font-family: AvenirNext-Medium;
+  font-family: "Avenir LT Std", sans-serif;
 }
 
 .text-value {
@@ -102,4 +101,16 @@ hr{
 .currencies-row {
   margin-left: 0px !important;
   margin-right: 0px !important;
+}
+
+.sidebar-hamburger-icon {
+  display: none;
+  @media only screen and (max-width:560px){
+    z-index: 150!important;
+    display: block;
+    position: fixed;
+    top: 1.5rem;
+    cursor: pointer;
+    
+  }
 }

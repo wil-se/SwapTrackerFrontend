@@ -27,13 +27,17 @@ const useAuthService = () => {
                     navigation('/tiers')
                 }
                 return Number(tid)
-        }
-        else{
+            }
+        }else{
             navigation('/tiers')
         }
-        
     }
 
+    const checkTierRedirect = async (tierFee) => {
+        if(Number(tierFee) >= 1000 ){
+            navigation('/tiers')
+        }
+    }
    
     const getProfitsLosses = async (address) => {
        

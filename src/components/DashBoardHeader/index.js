@@ -14,7 +14,6 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
     const [classNames,setClassNames] = useState("header-card-value text-nowrap")
     
     useEffect(()=>{
-        console.log("vediamo ", fiatValue)
         let profitOrLossFixed = (profitOrLoss*fiatValue);
         Math.sign(profitOrLoss) === -1 
         ? 
@@ -57,7 +56,7 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
                 <Card className="header-card">
                 <div className="header-card-container">
                         <Col className="header-card-info" md={8}> 
-                            <h3 className="header-card-title mb-0">PROFIT (24H P/L)</h3>
+                            <h3 className="header-card-title mb-0 text-nowrap">PROFIT (24H P/L)</h3>
                             {!profitOrLoss ?
                                 <Skeleton width="82px" height="32px" />
                                 :

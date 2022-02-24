@@ -321,7 +321,7 @@ const TradeMainCard = ({tier}) => {
     }
     
     return (
-        <Row>
+        <Row className="mb-3">
             <Col>
                 <Card className="trade-main-card">
 
@@ -427,7 +427,7 @@ const TradeMainCard = ({tier}) => {
                             </button>
                         </div>
                     </div>
-                    <div style={{marginTop:"5px"}}>
+                    <div className="mt-3 mx-3 mx-md-0">
                         <Form.Check 
                             checked={!saveTrade}
                             type="switch"
@@ -441,7 +441,7 @@ const TradeMainCard = ({tier}) => {
                 </div>
                
                 
-                <div className="confirm-section">
+                <div className="confirm-section mx-2 mb-2">
                    
                     {   tier === 1000 ? 
                         <button className="confirm-button" disabled={true}>

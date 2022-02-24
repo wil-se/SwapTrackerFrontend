@@ -71,7 +71,7 @@ export function CoinInfo(props) {
       <Card className="wallet-overview-card" style={{marginBottom: 20}}>
         <Card.Body>
           <Row>
-            <Col md={2} xs={6} className="pt-2 text-center">
+            <Col md={2} xs={6} className="pt-2 text-center pl-0 pl-md-2">
                 {
                   CryptoIcons.default['_'+props.symbol.toLowerCase()] === undefined ?
                   <img className="img-fluid mt-1" src={CryptoIcons.default['_generic']} style={{width: 60, height: 60}} />
@@ -106,8 +106,7 @@ export function CoinInfo(props) {
                         allow_symbol_change={false}
                         hide_side_toolbar={true}
                         style={"2"}
-                        width={250}
-                        height={80}
+
                       />
             
                       <a style={{position: "absolute", right: 30, top: 0, width: 20, height: 20, backgroundColor: "#FFFFFF"}} onClick={() => {props.setModalShowFunction(true);props.setChartKeyFunction(prev => prev + 1);props.setCurrentSymbol(props.symbol);}}>
