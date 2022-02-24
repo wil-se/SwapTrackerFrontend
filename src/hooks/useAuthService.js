@@ -84,7 +84,6 @@ const useAuthService = () => {
         callPost("updateUserTokenList",body)
     }
 
-<<<<<<< HEAD
     return {
         user,
         createOrUpdateUser,
@@ -94,10 +93,6 @@ const useAuthService = () => {
         setTierWithRedirect,
         profitOrLossOverview
     }
-=======
-
-    return {user,createOrUpdateUser,updateUserTokenList,tier,setTierNoRedirect,setTierWithRedirect,profitOrLossOverview, checkTierRedirect}
->>>>>>> origin/responsive02
     
 }
 
