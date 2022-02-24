@@ -79,7 +79,7 @@ const TopNavbar = function () {
           <ul className="navbar-nav ml-auto">
 
             <li className="nav-item dropdown">
-              <Dropdown className="mt-2 mt-md-0 nav-link" alignRight>
+              <Dropdown className="mr-2 mt-2 mt-md-0 nav-link" alignRight>
                 <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
                   <img className="img-fluid mr-1" src={BscLogo} /> <span className="mr-4">{network}</span>
                 </Dropdown.Toggle>
@@ -132,7 +132,7 @@ const TopNavbar = function () {
             {
               (connector.connected || active) ?
               
-              <Dropdown className="ml-auto nav-link" alignRight>
+              <Dropdown className="ml-auto ml-md-2 nav-link" alignRight>
                 <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
                 <label className="text-muted my-auto mx-3">{getShrunkWalletAddress(account)}</label>
                 </Dropdown.Toggle>
@@ -142,7 +142,7 @@ const TopNavbar = function () {
               </Dropdown>
 
               :           
-              <Button className="ml-2 mt-2" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
+              <Button className="ml-2 nav-link" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
             }
             </li>
 
