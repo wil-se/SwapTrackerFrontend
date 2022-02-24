@@ -50,5 +50,5 @@ export function WalletOverviewCoinInfo(props){
 
 WalletOverviewCoinInfo.propTypes = {
   coin: PropTypes.any,
-  withBorder: Boolean
+  withBorder: PropTypes.bool
 };

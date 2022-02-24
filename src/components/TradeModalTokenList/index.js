@@ -156,8 +156,8 @@ TradeModalTokenList.propTypes = {
     openTokenListModalOut: PropTypes.bool,
     getAmountIn: PropTypes.func,
     getAmountOut: PropTypes.func,
-    amountIn: PropTypes.string,
-    amountOut: PropTypes.string
+    amountIn: PropTypes.number,
+    amountOut: PropTypes.number
 
 };
 

@@ -54,15 +54,15 @@ const TradeMainCard = ({tier}) => {
             if(state){
                 const {tokenSelectedInRef,tokenSelectedOutRef,amountIn,amountOut,slippAmm} = await getTokenSelected(state)
                 if(tokenSelectedOutRef){
+
                     if(tokenSelectedInRef && account){
-                        console.log(tokenSelectedInRef?.address,account)
                         const contractIn = getBep20Contract(tokenSelectedInRef?.address)
                         const allowance = await contractIn.methods.allowance(account,swapTrackerMediator._address).call();
-                        console.log(allowance)
                         setAllowanceTokenIn(allowance)
                         setTokenSelectedIn(tokenSelectedInRef)
                         setAmountIn(amountIn)
                     }
+
                     setTokenSelectedOut(tokenSelectedOutRef)
                     setAmountOut(amountOut)
                     setDisabledButton(false)
@@ -123,7 +123,7 @@ const TradeMainCard = ({tier}) => {
     } 
 
     const getAmountIn = async (amOut,currPath) => {
-        console.log("il patch all'onchange", currPath)
+        console.log("onchange", currPath)
         let currentPath = path;
         if(isWrap){
             setAmountIn(Math.abs(amOut))
@@ -139,11 +139,8 @@ const TradeMainCard = ({tier}) => {
             let amIn = await pancakeRouterContract.methods.getAmountsIn(amountInShifted.toString(),currentPath).call().catch((e)=>console.log(e))
             let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
             setAllowanceTokenIn(allowance)
-            // console.log("vediamo ", amIn, amIn[amIn.length-2], path)
-            console.log(allowance)
             if(amIn){
                 let amountIn = amIn.length > 2 ? amIn[0] : amIn[amIn.length-2]
-                // console.log(amountIn)
                 let amoutInFormatted = new BigNumber(amountIn).shiftedBy(-1*tokenSelectedIn.decimals).toNumber();
                 let amountInDecimals = num_format(amoutInFormatted,2,tokenSelectedIn.decimals)
                 
@@ -188,7 +185,7 @@ const TradeMainCard = ({tier}) => {
 
     const setAllowance = async () => {
         setDisabledButton(true)
-        await approve(erc20Contract,swapTrackerMediator._address,account);
+        await approve(erc20Contract, swapTrackerMediator._address, account).catch(console.log);
         setAllowanceTokenIn(ethers.constants.MaxUint256)
         getNotification(true)
         setDisabledButton(false)
@@ -201,7 +198,6 @@ const TradeMainCard = ({tier}) => {
             let amountInFormatted = new BigNumber(balanceTokenIn).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(7)
             if(balanceTokenIn>0){
                 let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceTokenIn,path).call().catch((e)=>console.log(e))
-                console.log(amOut,path)
                 let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(7);
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
@@ -258,8 +254,6 @@ const TradeMainCard = ({tier}) => {
                 amountOutMinFormatted = amountOutMinBN.shiftedBy(tokenSelectedOut.decimals)
             }
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
-
-            console.log(amountOutMinFormatted.toString(),path, amountInFormattedBN.toString(),tokenSelectedOut.decimals)
             
             const txSwap = await swapTrackerMediator.methods
                             .swapExactETHForTokens(amountOutMinFormatted.toString(),path)
@@ -316,13 +310,11 @@ const TradeMainCard = ({tier}) => {
                             .catch((e)=>{
                                 setDisabledButton(false) 
                                 console.warn(e)
-
                             })
             getNotification(txSwap?.status || false)
-             if(!disabledButton && txSwap){
+            if(!disabledButton && txSwap){
                  setDisabledButton(false);
                  setTrade(txSwap,path,saveTrade)
-
             }               
         
         }

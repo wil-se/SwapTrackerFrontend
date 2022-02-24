@@ -5,8 +5,8 @@ import MetamaskLogo from '../../assets/icons/METAMASK.png'
 import TrustWalletLogo from '../../assets/icons/TRUSTWALLET.png'
 import LedgerWalletLogo from '../../assets/icons/LEDGERWALLET.png'
 import WalletConnectLogo from '../../assets/icons/WALLETCONNECT.png'
-import { height } from 'dom-helpers';
 import useAuth from 'hooks/useAuth';
+import { ConnectorNames, connectorLocalStorageKey } from 'utils/web3React';
 
 import useWalletConnectAuth from 'hooks/useWalletConnectAuth'
 
@@ -31,10 +31,25 @@ export function WalletModal(props){
       <Modal.Body>
         <h5 className="font-weight-bold text-center">Select a wallet to Connect to SwapTracker</h5>
         <Row className="ml-4 mr-4">
-          <Col xl={6} className="text-center font-weight-bold" style={{paddingTop: 30, paddingBottom: 20, paddingLeft: 60, cursor: "pointer" }}><a onClick={() => {login(); props.onHide();}}><img className="img-fluid" src={MetamaskLogo} /><p>Metamask</p></a></Col>
-          <Col xl={6} className="text-center font-weight-bold" style={{paddingTop: 30, paddingBottom: 20, paddingRight: 60, cursor: "pointer"}}><a onClick={() => {walletConnectLogin(); props.onHide();}}><img className="img-fluid" src={TrustWalletLogo} /><p>Trust Wallet</p></a></Col>
+          <Col xl={6} className="text-center font-weight-bold" style={{paddingTop: 30, paddingBottom: 20, paddingLeft: 60, cursor: "pointer" }}><a onClick={() => {
+            login(ConnectorNames.INJECTED);
+            localStorage.setItem(connectorLocalStorageKey, ConnectorNames.INJECTED);
+            props.onHide();
+            }}><img className="img-fluid" src={MetamaskLogo} /><p>Metamask</p></a>
+          </Col>
+          <Col xl={6} className="text-center font-weight-bold" style={{paddingTop: 30, paddingBottom: 20, paddingRight: 60, cursor: "pointer"}}><a onClick={() => {
+            login(ConnectorNames.WalletConnect);
+            localStorage.setItem(connectorLocalStorageKey, ConnectorNames.WalletConnect);
+            props.onHide();
+            }}><img className="img-fluid" src={TrustWalletLogo} /><p>Trust Wallet</p></a>
+          </Col>
           <Col xl={6} className="text-center font-weight-bold" style={{paddingBottom: 10, paddingLeft: 60, cursor: "pointer"}}><a><img className="img-fluid" src={LedgerWalletLogo} /><p>Ledger Wallet</p></a></Col>
-          <Col xl={6} className="text-center font-weight-bold" style={{paddingBottom: 10, paddingRight: 60, cursor: "pointer"}}><a onClick={() => {walletConnectLogin(); props.onHide();}}><img className="img-fluid" src={WalletConnectLogo} /><p>WalletConnect</p></a></Col>
+          <Col xl={6} className="text-center font-weight-bold" style={{paddingBottom: 10, paddingRight: 60, cursor: "pointer"}}><a onClick={() => {
+            login(ConnectorNames.WalletConnect);
+            localStorage.setItem(connectorLocalStorageKey, ConnectorNames.WalletConnect);
+            props.onHide();
+            }}><img className="img-fluid" src={WalletConnectLogo} /><p>WalletConnect</p></a>
+          </Col>
         </Row>
         <hr/>
         <p className="text-center mt-4 mb-4" style={{color: "#3B434A",}}>Haven&apos;t got a crypto wallet yet?</p>
