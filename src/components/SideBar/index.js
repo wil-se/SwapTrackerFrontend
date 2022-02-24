@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { Container, Row,Col,Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 //icons
@@ -18,7 +18,9 @@ import useAuthService from 'hooks/useAuthService';
 import TierSection from './TierSection';
 import { DropdownItemCurrency } from '../DropdownItemCurrency';
 import { useLocation } from "react-router-dom";
-
+import { useSetFiatSymbol, useSetFiatName, useSetFiatValues, useSetFiatDecimals } from 'store/hooks';
+import { fetchFiatPrices } from 'store/fiat';
+import useRefresh from 'hooks/useRefresh';
 
 const SideBar = () => {
     useEagerConnect();
@@ -27,11 +29,15 @@ const SideBar = () => {
     const [currency, setCurrency] = useState("USD");
     const [symbol, setSymbol] = useState("$");
     const [network, setNetwork] = useState("BSC");
+    const [values, setValues] = useState({});
+    const [decimals, setDecimals] = useState(2)
     const { account } = useWeb3React();
     const {logout} = useAuth()
     const {createOrUpdateUser,tier} = useAuthService()
     const pixel = useFacebookPixel();
     const ga = useGoogleAnalytics();
+    const { slowRefresh, fastRefresh } = useRefresh();
+
 
     const getShrunkWalletAddress = (addr) => {
         return (addr && `${addr.substring(0,4)}.....${addr.substring(addr.length-11)}`)
@@ -41,6 +47,16 @@ const SideBar = () => {
         setCurrency(name);
         setSymbol(symbol);
     }
+
+    const getPrices = async () => { 
+        const data = await fetchFiatPrices();
+        setValues(data.data.data);
+    }
+
+    useSetFiatValues(values);
+    useSetFiatName(currency);
+    useSetFiatSymbol(symbol);
+    useSetFiatDecimals(decimals);
 
     const location = useLocation();
     const { pathname } = location;
@@ -57,6 +73,18 @@ const SideBar = () => {
         })()
         
     },[account])
+
+    useEffect(() => {
+        getPrices();
+    }, [slowRefresh]);
+
+    useEffect(() => {
+        if(currency === "ETH" || currency === "BTC"){
+          setDecimals(7)
+        } else {
+          setDecimals(2)
+        }
+    }, [fastRefresh]);
 
     const closeSideBar = () => {
         if(window.innerWidth > 790) return;

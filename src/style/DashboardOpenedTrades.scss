@@ -71,8 +71,30 @@
 
 .dashboard-card-open-trade-button{
 
-    a{
+    a{   
+        all:unset;
+        align-items:center;
+        background: #3B434A;
+        color:$white;
+        font-style: normal;
+        /*font-weight: 500;*/
+        font-size: 14px;
+        line-height: 38px;
+        border-radius: 5px;
+        width:123px;
+        height:38px;
+        text-align: center;
+        cursor:pointer;
+        @media only screen and (max-width:580px) {
+            display:none
+        }
         
+    }
+}
+
+.dashboard-card-open-trade-button-mobile{
+
+    a{   
         all:unset;
         align-items:center;
         background: #3B434A;
@@ -89,6 +111,7 @@
         
     }
 }
+
 
 .dashboard-table-container{
     width: 100%;
