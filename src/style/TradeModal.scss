@@ -114,6 +114,7 @@
     align-items: center;
     left: calc(50% - 31px);
     @media only screen and (max-width:800px){
+        left:unset;
         right:5%;
 
     }
@@ -123,6 +124,8 @@
         background-color:#FFFFFF;
         box-shadow: 0px 0px 23px -2px rgba(171, 194, 214, 0.6);
         border-radius: 10px;
+        
+
 
         .trade-modal-settings-subcontainer{
             padding:35px 38px 34px 38px;

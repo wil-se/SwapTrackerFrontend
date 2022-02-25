@@ -82,7 +82,7 @@ const TradeModalTokenList = ({setOpenTokenListModalIn,setOpenTokenListModalOut, 
       
         if(tokenSelectedOut.symbol !== newTokenSelectedOut.symbol){
             const path = getPath(tokenSelectedIn,newTokenSelectedOut)
-            await getAmountOut(amountIn,path,newTokenSelectedOut)
+            await getAmountOut(amountIn,path,newTokenSelectedOut,true)
         }
     }
 

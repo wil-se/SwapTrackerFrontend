@@ -25,12 +25,12 @@ const useAuthService = () => {
             let tid = await swapTrackerMediator.methods.getTierFee(account).call()
             console.log("Tier: ",tid)
             if(Number(tid) >= 1000 ){
-                navigation('/tiers')
+                navigation('/tiers',{state:{noTier:true}})
             }else{
                 return Number(tid)
             }
         }else{
-            navigation('/tiers')
+            navigation('/tiers',{state:{noTier:true}})
         }
     }
 

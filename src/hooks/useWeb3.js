@@ -13,13 +13,14 @@ const useWeb3 = () => {
     setChainId(chainId)
   }
   useEffect(() => {
+    
+    
     if (library !== refEth.current) {
       setweb3(library ? new Web3(library) : getWeb3NoAccount());
       refEth.current = library;
     }
     getChainId()
   }, [library]);
-
   return {web3,chainId};
 };
 
