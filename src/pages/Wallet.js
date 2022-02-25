@@ -17,12 +17,6 @@ const Wallet = () => {
     const { account } = useWeb3React();
 
    
-    useLayoutEffect( () => {
-        const timer = setTimeout( ()=>{
-            setTierWithRedirect(account)
-        }, 2000);
-        return () => clearTimeout(timer);
-    },[account])
 
     useEffect( () => {
         const timer = setTimeout(()=>{
