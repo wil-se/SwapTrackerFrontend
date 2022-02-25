@@ -27,7 +27,7 @@ const TradeMainCard = ({tier}) => {
     const { account } = useWeb3React();
     const {web3} = useWeb3()
     const [pancakeRouterContract,] = useState(usePancakeRouter())
-    const [amountIn,setAmountIn] = useState(0)
+    const [amountIn,setAmountIn] = useState()
     const [amountOut,setAmountOut] = useState(0)
     const [balance,setBalance] = useState(0)
     const [openSettingsModal,setOpenSettingsModal] = useState(false)
@@ -88,17 +88,23 @@ const TradeMainCard = ({tier}) => {
 
     
 
-    const getAmountOut = async (amIn,currPath,newTokenSelectedIn) =>{
+    const getAmountOut = async (amIn,currPath,newTokenSelected,isTokenOut) =>{
         let currentPath = path;
         let currentTokenIn = tokenSelectedIn
-
+        let currentTokenOut = tokenSelectedOut
         if(isWrap){
             setAmountOut(Math.abs(amIn))
             return;
         }
-        if(currPath && newTokenSelectedIn){
+        if(currPath && newTokenSelected && !isTokenOut){
+            
             currentPath = currPath 
-            currentTokenIn = newTokenSelectedIn
+            currentTokenIn = newTokenSelected
+        }
+        else if (currPath && newTokenSelected && isTokenOut){
+           
+            currentPath = currPath 
+            currentTokenOut = newTokenSelected
         }
 
         let amount = Math.abs(amIn)
@@ -109,8 +115,8 @@ const TradeMainCard = ({tier}) => {
             setAllowanceTokenIn(allowance)
             if(amOut){
                
-                let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(tokenSelectedOut.decimals)).toNumber();
-                let amountOutDecimals = num_format(amoutOutFormatted,2,tokenSelectedOut.decimals)
+                let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(currentTokenOut.decimals)).toNumber();
+                let amountOutDecimals = num_format(amoutOutFormatted,2,currentTokenOut.decimals)
                 setAmountOut(amountOutDecimals) 
 
             }
@@ -195,47 +201,53 @@ const TradeMainCard = ({tier}) => {
         if(tokenSelectedIn.symbol !== BNB.symbol && tokenSelectedIn.symbol !== WBNB.symbol){
             const balanceTokenIn = await erc20Contract.methods.balanceOf(account).call()
             const decimals = await erc20Contract.methods.decimals().call()
-            let amountInFormatted = new BigNumber(balanceTokenIn).shiftedBy(-1*parseInt(decimals)).toNumber().toFixed(7)
+            let amountInFormatted = new BigNumber(balanceTokenIn).shiftedBy(-1*parseInt(decimals)).toNumber()
+            let amountInDecimals = num_format(amountInFormatted,2,parseInt(decimals))
             if(balanceTokenIn>0){
                 let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceTokenIn,path).call().catch((e)=>console.log(e))
-                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(7);
+                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber();
+                let amountOutDecimals = num_format(amountOutFormatted,2,tokenSelectedOut.decimals)
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
                 amountOutFormatted.replace(',','.')
-                setAmountOut(Number(amountOutFormatted))
+                setAmountOut(amountOutDecimals)
             }
-            amountInFormatted.replace(',','.')
-            setAmountIn(Number(amountInFormatted))
+            
+            setAmountIn(amountInDecimals)
             setDisabledButton(false)
 
         }
         else if(tokenSelectedOut.symbol === WBNB.symbol && tokenSelectedIn.symbol === BNB.symbol){
             const balanceNativeIn = await web3.eth.getBalance(account)
-            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(7)
-            setAmountIn(Number(amountInFormatted))
-            setAmountOut(Number(amountInFormatted))
+            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber()
+            let amountInDecimals = num_format(amountInFormatted,2,18)
+            setAmountIn(amountInDecimals)
+            setAmountOut(amountInDecimals)
             setDisabledButton(false)
         }
         else if(tokenSelectedOut.symbol === BNB.symbol && tokenSelectedIn.symbol === WBNB.symbol){
             const balanceWNativeIn = await erc20Contract.methods.balanceOf(account).call()
-            let amountInFormatted = new BigNumber(balanceWNativeIn).shiftedBy(-1*18).toNumber().toFixed(7)
-            setAmountIn(Number(amountInFormatted))
-            setAmountOut(Number(amountInFormatted))
+            let amountInFormatted = new BigNumber(balanceWNativeIn).shiftedBy(-1*18).toNumber()
+            let amountInDecimals = num_format(amountInFormatted,2,18)
+            setAmountIn(amountInDecimals)
+            setAmountOut(amountInDecimals)
             setDisabledButton(false)
+
         }
         else {
             const balanceNativeIn = await web3.eth.getBalance(account)
-            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber().toFixed(7)
+            let amountInFormatted = new BigNumber(balanceNativeIn).shiftedBy(-1*18).toNumber()
+            let amountInDecimals = num_format(amountInFormatted,2,18)
             if(balanceNativeIn>0){
                 let amOut = await pancakeRouterContract.methods.getAmountsOut(balanceNativeIn,path).call().catch((e)=>console.log(e))
-                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber().toFixed(7);
+                let amountOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*tokenSelectedOut.decimals).toNumber();
+                let amountOutDecimals = num_format(amountOutFormatted,2,tokenSelectedOut.decimals)
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
-                amountOutFormatted.replace(',','.')
-                setAmountOut(amountOutFormatted)
+                setAmountOut(amountOutDecimals)
             }
-            amountInFormatted.replace(',','.')
-            setAmountIn(Number(amountInFormatted))
+          
+            setAmountIn(amountInDecimals)
             setDisabledButton(false)
         }
         
@@ -260,7 +272,7 @@ const TradeMainCard = ({tier}) => {
                             .send({from:account,value:amountInFormattedBN.toString()})
                             .catch((e)=>{
                                 setDisabledButton(false)
-                                console.warn(e)
+                               console.warn(e)
 
                             })
             

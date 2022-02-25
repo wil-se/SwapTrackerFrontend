@@ -3,9 +3,20 @@ import {toast} from 'react-toastify'
 
 const useNotification = () => {
 
-    const getNotification = (status) => {
-        if(status) {
+    const getNotification = (status,tierLabel) => {
+        if(status && !tierLabel) {
             toast.success('Transaction completed!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+        }
+        else if (status && tierLabel){
+            toast.error(tierLabel, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,

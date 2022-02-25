@@ -6,13 +6,16 @@ import Stack1 from '../assets/icons/stack1.png';
 import Stack2 from '../assets/icons/stack2.png';
 import {useSwapTrackerMediator} from 'hooks/useContract'
 import { useWeb3React } from '@web3-react/core';
-
+import {useLocation } from 'react-router-dom'
+import useNotification from 'hooks/useNotification'
 const Tier = () => {
+    const { state } = useLocation()
     const { account } = useWeb3React();
     const swapTrackerMediator = useSwapTrackerMediator()
     const [isStarted,setIsStarted] = useState(false)
     const [isAdvanced,setIsAdvanced] = useState(false)
     const [isPro,setIsPro] = useState(false)
+    const {getNotification} = useNotification()
     
     useEffect(()=>{
       (async ()=>{
@@ -21,14 +24,20 @@ const Tier = () => {
           tid = Number(tid)
           tid >= 1000
           ? null
-          : tid === 10
-            ? setIsStarted(true)
-            : tid === 5
-              ? setIsAdvanced(true)
-              : setIsPro(true)
+          : tid === 10? 
+          setIsStarted(true)
+          : tid === 5? 
+          setIsAdvanced(true)
+          : setIsPro(true)
         }
       })()
     },[account])
+
+    useEffect(()=>{
+      if(state){
+        getNotification(state.noTier,"You need at least Tier 1 in order to use SwapTracker")
+      }
+    },[state])
 
 
     return (

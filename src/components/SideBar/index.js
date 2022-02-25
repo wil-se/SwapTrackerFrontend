@@ -210,7 +210,7 @@ const SideBar = ({currency,network,handleCurrencyClick}) => {
                         <Row className="addressSection">
                             {account &&
                             <>
-                            {/* <img src={addressAvatar}/>     */}
+                         
                             <div className="address">
                             {getShrunkWalletAddress(account)}
                             </div>
@@ -230,7 +230,7 @@ const SideBar = ({currency,network,handleCurrencyClick}) => {
                             : <></>
                         }
                         
-                        <Row className="pt-5">
+                        <Row className="report-bug">
                             <Col xs={12} className="text-center">
                                 <a className="text-muted" href="https://forms.gle/VJ9SdErGY36JXx4c6" rel="noreferrer" target="_blank">Report a bug</a>
                             </Col>

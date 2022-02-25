@@ -93,7 +93,7 @@ const TopNavbar = function () {
                     <span className="font-weight-bold mr-4">ETH</span>
                   </Dropdown.Item>
                 </Dropdown.Menu>
-              </Dropdown>
+              </Dropdown> 
             </li>
             
             <li className="nav-item">
