@@ -61,7 +61,7 @@ const StakeModal = function ({ pool, action, stakingMax, stakingTokenPrice, show
           <div className="stake-token d-flex align-items-center">
             <div>{stakingToken.symbol}</div>
             <div className="ml-1" width="24px" height="24px">
-              <img src={`/images/tokens/${stakingToken.symbol}.png`} width="24px" height="24px" alt="icon" />
+              <img src={`/images/pools/0.png`} width="24px" height="24px" alt="icon" />
             </div>
           </div>
         </div>

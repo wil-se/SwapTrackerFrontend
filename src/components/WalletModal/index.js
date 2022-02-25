@@ -23,7 +23,7 @@ export function WalletModal(props){
       centered
       animation={false}
     >
-      <Modal.Header closeButton>
+      <Modal.Header closeButton className="wallet-modal-header">
         <Modal.Title id="contained-modal-title-vcenter" className="w-100 pt-4">
           <p className="text-center text-white">Connect Wallet</p>
         </Modal.Title>
