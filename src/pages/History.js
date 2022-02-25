@@ -174,7 +174,7 @@ const History = () => {
         </Row>
         <Row>
         <Col md={12} lg={12} xs={12}>
-          <Card className="d-flex w-100 history-card">
+          <Card className="d-flex w-100 history-card pb-2">
             <div className="table-responsive">
              <Table className="history-table">
                <thead>
@@ -243,7 +243,7 @@ const History = () => {
               : tradesRows.length === 0 ?
               <tbody>
                 <div className="dashboard-card-chart-no-data">
-                    <h4>No trades </h4>
+                    <h4 className="pt-2 pl-2 pl-md-0 text-md-center" style={{fontSize: 14}}>No trades </h4>
                 </div>
               </tbody>
               :

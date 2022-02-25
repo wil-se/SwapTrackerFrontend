@@ -20,11 +20,14 @@
     font-size: 24px;
     line-height: 33px;
     color: #2D3748;
-    
+
+    @media only screen and (max-width:580px){
+        font-size: 18px
+    }
 }
 
 .dashboard-card-chart-no-data{
-    margin-left: 45%;
+    /*margin-left: 45%;*/
     h1{
         font-style: normal;
         font-weight: 500;
@@ -82,12 +85,6 @@
     justify-content: space-between;
     @media only screen and (max-width:580px){
         flex-direction: row;
-    }
-}
-
-.dashboard-card-chart-title{
-    @media only screen and (max-width:580px){
-        max-width:55%;
     }
 }
 

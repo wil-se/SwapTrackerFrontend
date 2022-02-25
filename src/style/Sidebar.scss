@@ -73,6 +73,10 @@
       height: 61.2px;
       vertical-align: middle;
 
+      @media only screen and (max-width:560px) {
+        height: 40px;
+      }
+
       .link {
         width: 100%;
         color:#8DA0B0;
@@ -145,9 +149,12 @@
     justify-content:center;
     align-items:center;
     text-align: center;
-    @media only screen and (max-height:660px) {
+
+    @media only screen and (max-width:560px) {
       height:100px;
+      bottom: unset;
     }
+
     .addressSection {
       position:relative;
       align-items:center;

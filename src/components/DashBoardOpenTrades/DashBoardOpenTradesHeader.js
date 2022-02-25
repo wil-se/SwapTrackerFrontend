@@ -10,9 +10,7 @@ const DashBoardOpenTradesHeader = () => {
                     <h1 className="text-nowrap">Open Trades</h1>
                     {/*<img src={infoIcon} /> */ }
                 </Col>
-                <Col md={3} lg={4} xs={4} className="d-flex">
-                    <Link to="/history" className='text-nowrap ml-5'> See All </Link>
-                </Col>
+                
             </Col>
             <Col className="dashboard-card-open-trade-button d-flex justify-content-start pl-4 pl-md-0 justify-content-md-end pr-md-2" md={5} lg={4} xs={12}>
                 <Link to="/trade" className='text-nowrap'> TRADE NOW </Link>

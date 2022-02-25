@@ -25,10 +25,25 @@
 
 }
 
+.wallet-address-text {
+  font-size: 24px;
+  font-weight: 700;
+  @media only screen and (max-width: 600px) {
+    font-size: 18px;
+  }
+}
+
 .wallet-balance{
   @media only screen and (max-width: 600px) {
     border-bottom: 1px solid #ABC2D6;
-    
+  }
+
+  .balance {
+    font-size: 48px;
+    font-weight: 700;
+    @media only screen and (max-width: 600px) {
+      font-size: 32px;
+    }
   }
 }
 

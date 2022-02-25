@@ -11,4 +11,8 @@
     margin-left: 0;
     margin-right:15px;
     margin-bottom:10px;
+
+    @media only screen and (max-width:600px){
+        font-size: 2rem;
+    }
 }

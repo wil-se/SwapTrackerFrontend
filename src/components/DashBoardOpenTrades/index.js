@@ -9,7 +9,7 @@ const DashBoardOpenTrades = ({openedTrades,fiatSymbol,fiatValue,currentDecimals}
     
    
     return (
-        <Card className="d-flex w-100 dashboard-card">
+        <Card className="d-flex w-100 dashboard-card pb-2">
             <DashBoardOpenTradesHeader/>
             <DashBoardOpenTradesTable openedTrades={openedTrades} fiatSymbol={fiatSymbol} fiatValue={fiatValue} currentDecimals={currentDecimals}/>
             <Col className="dashboard-card-open-trade-button-mobile d-md-none d-flex justify-content-center pl-4 pl-md-0 pr-md-2 mt-4" md={5} lg={4} xs={12}>

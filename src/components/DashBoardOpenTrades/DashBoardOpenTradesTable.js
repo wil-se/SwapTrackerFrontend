@@ -33,7 +33,7 @@ const DashBoardOpenTradesTable = ({openedTrades, fiatSymbol,fiatValue,tradeFinde
             
             <tbody>
                 <div className="dashboard-card-chart-no-data">
-                    <h4>No open trades</h4>
+                    <h4 style={{fontSize: 14}} className="pt-2 pl-3 pl-md-0 text-md-center">No open trades</h4>
                 </div>
             </tbody>
             :

@@ -111,7 +111,7 @@ const SideBar = ({currency,network,handleCurrencyClick}) => {
                             <h1 className="currency-title">currency</h1>
                         </Row>
                         <Row className=" d-md-none">
-                            <Dropdown className="nav-link" >
+                            <Dropdown className="nav-link py-0" >
                                 <Dropdown.Toggle variant="currency" style={{borderRadius: 10, height: 45}}>
                                 <img className="img-fluid mr-1" src={BscLogo} /> <span className="mr-4">{network}</span>
                                 </Dropdown.Toggle>
@@ -129,7 +129,7 @@ const SideBar = ({currency,network,handleCurrencyClick}) => {
                             </Dropdown>
                         </Row>
                         <Row className=" d-md-none">
-                            <Dropdown className=" nav-link">
+                            <Dropdown className=" nav-link py-0">
                                 <Dropdown.Toggle variant="currency" style={{height: 45}}>
                                 <img className="img-fluid mr-1" src={CurrenciesIcons.default[currency]} /> <span className="mr-4">{currency}</span>
                                 </Dropdown.Toggle>

@@ -222,14 +222,14 @@ export function WalletOverview(){
                       <div>
                       <Row className="addressSection align-items-center ml-0 mb-3 pt-3 pb-3 pt-4" style={{borderBottom: '1px solid #ABC2D6'}}>
                           <Col xs={12} md={4} lg={4} xl={3} className="pr-0 d-flex pl-0 pl-md-4" >
-                            <div style={{fontSize: 24, fontWeight: 700}} className="ml-md-3 d-flex align-self-center">
+                            <div className="ml-md-3 d-flex align-self-center wallet-address-text">
                                 {getShrunkWalletAddress(address)}
                                 <OverlayTrigger
                                   placement="bottom"
                                   delay={{ show: 150, hide: 400 }}
                                   overlay={renderTooltip}
                                 >
-                                <a style={{cursor: "pointer"}} onClick={() => {navigator.clipboard.writeText(address)}}><img className="ml-2" style={{height: 15, width: 15}} src={CopyIcon} /></a>
+                                  <a style={{cursor: "pointer"}} onClick={() => {navigator.clipboard.writeText(address)}}><img className="ml-2" style={{height: 15, width: 15}} src={CopyIcon} /></a>
                                 </OverlayTrigger>
                             </div>
                           </Col>
@@ -239,7 +239,7 @@ export function WalletOverview(){
                           <h6 style={{fontStyle: "normal", fontWeight: 500, fontSize: 14, color: "#8DA0B0"}}>CURRENT BALANCE</h6>
                         </Col>
                         <Col xs={11}>
-                          <h1 style={{fontSize: 48, fontWeight: 700}}> {currentSymbol} {num_locale_format((walletTVL*(price > 0 ? price : 1)), currentDecimals, currentDecimals)} </h1>
+                          <h1 className="balance" > {currentSymbol} {num_locale_format((walletTVL*(price > 0 ? price : 1)), currentDecimals, currentDecimals)} </h1>
                         </Col>
                         <Col xs={11}>
                           <h6 style={{fontSize: 12, color: "#8DA0B0", fontWeight: 500}}>{num_format(walletTVLBNB, 4, 4)} BNB</h6>

@@ -32,7 +32,7 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
     ])
 
     return (
-        <Row className="py-3">
+        <Row className="py-2">
            <Col md={12} lg={4} className="mb-2 mb-lg-0">
                 <Card className="header-card d-flex justify-content-between">
                     <div className="header-card-container">

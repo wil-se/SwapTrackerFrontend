@@ -145,7 +145,7 @@ const DashBoardChart = ({tier,account,fiatValue}) => {
                     <DashBoardLineChart  labelList={labelList} dataList={dataList}/> 
                     :
                     <div className="dashboard-card-chart-no-data">
-                      <h4>No data chart</h4>
+                      <h4 className="pt-2 pl-4 pl-md-0 text-md-center" style={{fontSize: 14}}>No data chart</h4>
                     </div>
                   
                   }

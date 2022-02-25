@@ -37,7 +37,9 @@
         line-height: 33px;
         color:$black-title;
         margin-right: 14.41px;
-
+        @media only screen and (max-width:580px){
+            font-size: 18px;
+        }
     }
     img{
         margin-right:25px ;
