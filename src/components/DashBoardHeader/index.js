@@ -77,7 +77,7 @@ const DashBoardHeader = ({currentBalance,profitOrLoss,openTradeValue,fiatSymbol,
                     <div className="header-card-container">
                         <Col className="header-card-info" md={8}>
                             <h3 className="header-card-title mb-0 text-nowrap">OPEN TRADES VALUE</h3>
-                            {!openTradeValue ?
+                            {openTradeValue == null ?
                                 <Skeleton width="82px" height="32px" />
                                 :
                                 <span className="header-card-value text-nowrap">{fiatSymbol} {num_locale_format((openTradeValue*fiatValue),currentDecimals,currentDecimals)}</span>

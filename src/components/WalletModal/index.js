@@ -41,10 +41,14 @@ export function WalletModal(props){
             localStorage.setItem(connectorLocalStorageKey, ConnectorNames.WalletConnect);
             props.onHide();
             }}><img className="img-fluid" src={TrustWalletLogo} /><p>Trust Wallet</p></a></Col>
-          <Col xl={6} className="text-center font-weight-bold pt-3 pb-2 pl-md-4" style={{cursor: "pointer"}}><a><img className="img-fluid" src={LedgerWalletLogo} /><p>Ledger Wallet</p></a></Col>
+          <Col xl={6} className="text-center font-weight-bold pt-3 pb-2 pl-md-4" style={{cursor: "pointer"}}>
+            <a>
+              <img className="img-fluid" src={LedgerWalletLogo} /><p>Ledger Wallet</p>
+            </a>
+          </Col>
           <Col xl={6} className="text-center font-weight-bold pt-3 pb-2 pl-md-3" style={{cursor: "pointer"}}><a onClick={() => {
-            login(ConnectorNames.WalletConnect);
-            localStorage.setItem(connectorLocalStorageKey, ConnectorNames.WalletConnect);
+            login(ConnectorNames.INJECTED);
+            localStorage.setItem(connectorLocalStorageKey, ConnectorNames.INJECTED);
             props.onHide();
             }}><img className="img-fluid" src={WalletConnectLogo} /><p>WalletConnect</p></a></Col>
         </Row>

@@ -14,7 +14,7 @@ const TierSection = ({tier}) => {
             (
                 <div className="tierSubSection">
                     <p className="text-nowrap">Current plan:</p>
-                    <Link to="tiers" className="text-nowrap ml-2 ">active plan</Link>
+                    <Link to="tiers" className="text-nowrap ml-2" style={{fontSize: 12}}>active plan</Link>
                 </div>
             )  
             : tier === 10 ? 

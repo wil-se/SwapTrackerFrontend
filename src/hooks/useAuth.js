@@ -70,7 +70,7 @@ const useAuth = () => {
             }
             alert('Authorization Error: Please authorize to access your account');
           } else {
-            alert(`ASD ${error.name}: ${error.message}`);
+            alert(`${error.name}: ${error.message}`);
           }
         }
       })

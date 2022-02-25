@@ -120,6 +120,7 @@ const SideBar = ({currency,network,handleCurrencyClick}) => {
                                     <img className="img-fluid mr-1" src={BscLogo} />
                                     <span className="font-weight-bold mr-4">BSC</span>
                                 </Dropdown.Item>
+                                <Dropdown.Header className="text-center" style={{fontSize: 10}}>Coming Soon</Dropdown.Header>
                                 <Dropdown.Item disabled onClick={() => {}} className="text-center">
                                     <img className="img-fluid mr-1" src={EthLogo} />
                                     <span className="font-weight-bold mr-4">ETH</span>

@@ -23,7 +23,7 @@ const Dashboard = () => {
     const [walletTVL,setWalletTVL] = useState(0)
     const [currentBalance,setCurrentBalance] = useState(0)
     const [profitOrLoss,setProfitOrLoss] = useState(0)
-    const [openTradeValue,setOpenTradeValue] = useState(0)
+    const [openTradeValue,setOpenTradeValue] = useState(null)
     const [openedTrades,setOpenedTrades] = useState([])
     
     const [tradesFinded,setTradesFinded] = useState(false)
@@ -130,7 +130,7 @@ const Dashboard = () => {
                     fiatValue={value}
                     currentBalance={currentBalance}
                     profitOrLoss={profitOrLoss}
-                    openTradeValue={Number(openTradeValue)}
+                    openTradeValue={openTradeValue}
                     currentDecimals={currentDecimals}
                 />
                 <DashBoardChart tier={tier} account={account}  fiatValue={value}/>

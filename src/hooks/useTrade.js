@@ -60,6 +60,7 @@ const useTrade = () => {
         let trades = await callPost("getTrades",{address:account.toLowerCase()}).catch(console.log);
         if(trades)
             return trades.data?.data;
+        return [];
     }
 
     const getTokenSelected = async (state) => {
@@ -73,7 +74,6 @@ const useTrade = () => {
             return;
         }
         
-        console.log(state)
         let tokenInContract = getBep20Contract(state?.tokenIn)
         let tokenOutContract = getBep20Contract(state?.tokenOut)
         

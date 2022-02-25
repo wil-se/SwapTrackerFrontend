@@ -1,15 +1,13 @@
-import React,{useEffect, useLayoutEffect} from 'react'
+import React from 'react'
 import BigNumber from 'bignumber.js';
 import { useWeb3React } from '@web3-react/core';
 import { Col, Row } from 'react-bootstrap';
 import { usePools } from 'store/hooks';
 import { useFetchPublicData, useFetchPriceList } from 'store/hooks';
 
-import useEagerConnect from 'hooks/useEagerConnect';
 import MainContainer from 'components/MainContainer';
 import CardsSection from 'components/CardsSection';
 import PoolCard from 'components/PoolCard';
-import useAuthService from 'hooks/useAuthService';
 
 BigNumber.config({
     EXPONENTIAL_AT: 1000,
@@ -20,16 +18,9 @@ const Staking = () => {
     useFetchPublicData();
     useFetchPriceList();
     const { account } = useWeb3React();
-    const {setTierWithRedirect} = useAuthService()
     const pools = usePools(account);
   
     const openedPools = pools.filter(pool => pool).sort((a, b) => a.sortOrder - b.sortOrder);
-
-    useLayoutEffect(()=>{const timer = setTimeout(()=>{setTierWithRedirect(account)},2000); return () => clearTimeout(timer) },[account])
-
-    useEffect(()=>{const timer = setTimeout(()=>{setTierWithRedirect(account)},2000); return () => clearTimeout(timer)},[account])
-
-
 
     return (
         <MainContainer>

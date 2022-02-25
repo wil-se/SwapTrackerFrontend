@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import { Dropdown, Row, Col, Button } from 'react-bootstrap';
+import { Dropdown, Row, Button } from 'react-bootstrap';
 import * as CurrenciesIcons from '../../assets/icons/currencies';
 import { DropdownItemCurrency } from '../DropdownItemCurrency';
 import BscLogo from '../../assets/icons/BSC.svg'
@@ -88,9 +88,10 @@ const TopNavbar = function () {
                     <img className="img-fluid mr-1" src={BscLogo} />
                     <span className="font-weight-bold mr-4">BSC</span>
                   </Dropdown.Item>
+                  <Dropdown.Header className="text-center" style={{fontSize: 10}}>Coming Soon</Dropdown.Header>
                   <Dropdown.Item disabled onClick={() => {}} className="text-center">
-                    <img className="img-fluid mr-1" src={EthLogo} />
-                    <span className="font-weight-bold mr-4">ETH</span>
+                      <img className="img-fluid mr-1" src={EthLogo} />
+                      <span className="font-weight-bold mr-4">ETH</span>
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
@@ -128,7 +129,7 @@ const TopNavbar = function () {
               </Dropdown>
             </li>
 
-            <li className="nav-item mr-3">
+            <li className="nav-item mr-3 d-flex align-items-center">
             {
               (connector.connected || active) ?
               
@@ -142,7 +143,7 @@ const TopNavbar = function () {
               </Dropdown>
 
               :           
-              <Button className="mr-3 ml-2 mt-2 nav-link" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
+              <Button className="mr-3 ml-2 nav-link" variant="primary" onClick={() => setModalShow(true)}>Connect Wallet</Button>
             }
             </li>
 

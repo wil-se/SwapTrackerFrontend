@@ -13,7 +13,6 @@ import DatePicker from "react-modern-calendar-datepicker";
 import {MONTH_LABELS_CHART} from 'config/'
 import moment from 'moment'
 import Skeleton from 'react-loading-skeleton';
-import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 
 const defaultFrom = {
@@ -40,7 +39,7 @@ const History = () => {
   const [selectedDayRangeFormatted,setSelectedDayRangeFormatted] = useState("")
   const [selectedDayRange, setSelectedDayRange] = useState(defaultValue); 
 
-  const [tradesRows, setTradesRows] = useState()
+  const [tradesRows, setTradesRows] = useState(null)
   const [tradeRowsFilter,setTradeRowsFilter] = useState()
   const [value, setValue] = useState(0);
   const [noTrade,setNoTrade] = useState(false)
@@ -123,7 +122,6 @@ const History = () => {
       let dateToMoment = moment(localSelectedRangeTo).unix()
       setTradesRows(
         tradeRowsFilter.filter((trade)=>{
-          console.log("vediamo ",trade.tokenName,trade.createdAt, trade.createdAtForFilter, dateFromMoment, trade.createdAtForFilter , dateToMoment, trade.createdAtForFilter >= dateFromMoment && trade.createdAtForFilter <= dateToMoment)
           return(
             trade.createdAtForFilter >= dateFromMoment && trade.createdAtForFilter <= dateToMoment
           )    
@@ -213,34 +211,35 @@ const History = () => {
                     {"  "}
                   </th>
                 </tr>
-            </thead>
-            {!tradesRows ?
-              <tbody >
-                <tr className="text-center on-center justify-between">
-                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-                </tr >
-                <tr className="text-center on-center justify-between">
-                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-                </tr >
-                <tr className="text-center on-center justify-between">
-                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-                </tr >
-                <tr className="text-center on-center justify-between" >
-                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-                </tr >
-                <tr className="text-center on-center justify-between">
-                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-                </tr >
-                <tr className="text-center on-center justify-between">
-                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-                </tr >
-                <tr className="text-center on-center justify-between">
-                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-                </tr >
-                <tr className="text-center on-center justify-between" >
-                    <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
-                </tr >
-              </tbody>
+              </thead>
+            {
+              tradesRows === null ?
+                <tbody >
+                  <tr className="text-center on-center justify-between">
+                      <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                  </tr >
+                  <tr className="text-center on-center justify-between">
+                      <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                  </tr >
+                  <tr className="text-center on-center justify-between">
+                      <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                  </tr >
+                  <tr className="text-center on-center justify-between" >
+                      <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                  </tr >
+                  <tr className="text-center on-center justify-between">
+                      <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                  </tr >
+                  <tr className="text-center on-center justify-between">
+                      <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                  </tr >
+                  <tr className="text-center on-center justify-between">
+                      <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                  </tr >
+                  <tr className="text-center on-center justify-between" >
+                      <Skeleton duration="5" width="310px" height="32px" /> <Skeleton width="960px" height="32px" /> <Skeleton width="240px" height="32px"/>
+                  </tr >
+                </tbody>
               : tradesRows.length === 0 ?
               <tbody>
                 <div className="dashboard-card-chart-no-data">

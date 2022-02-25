@@ -70,8 +70,8 @@ export function CoinInfo(props) {
   return(
       <Card className="wallet-overview-card" style={{marginBottom: 20}}>
         <Card.Body>
-          <Row>
-            <Col md={2} xs={6} className="pt-2 text-center pl-0 pl-md-2">
+          <Row className="align-items-center d-flex">
+            <Col md={2} xs={6} className="text-center pl-0 pl-md-2">
                 {
                   CryptoIcons.default['_'+props.symbol.toLowerCase()] === undefined ?
                   <img className="img-fluid mt-1" src={CryptoIcons.default['_generic']} style={{width: 60, height: 60}} />
@@ -80,20 +80,20 @@ export function CoinInfo(props) {
                 <p className="font-weight-bold text-center pt-2 mb-0 text-nowrap"> {props.symbol.toUpperCase()} </p>
             </Col>
               
-            <Col md={3} xs={6} className="pt-3">
+            <Col md={3} xs={6}>
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>holdings</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 20, fontWeight: 700}}>{currentSymbol} {num_format(props.holdingValue*value, 2, 4)}</span>
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 18, fontWeight: 700}}>{currentSymbol} {num_format(props.holdingValue*value, 2, 4)}</span>
               <span className="text-decoration-none" style={{color: "#8DA0B0", fontSize: 11}}>CURRENT PRICE</span>
-              <h5 className="mb-0 pt-0" style={{fontSize: 20, fontWeight: 700}}>{currentSymbol} {num_format(price*value, 2, 12)}</h5> 
+              <h5 className="mb-0 pt-0" style={{fontSize: 18, fontWeight: 700}}>{currentSymbol} {num_format(price*value, 2, 12)}</h5> 
             </Col>
 
-            <Col md={3} xs={5} className="wallet-coin pt-3 pr-0 text-center text-md-left">
+            <Col md={3} xs={5} className="wallet-coin pr-0 text-center text-md-left">
               <span className="d-block text-decoration-none text-uppercase" style={{color: "#8DA0B0", fontSize: 11}}>{props.symbol}</span>
-              <span className="d-block text-decoration-none text-dark" style={{fontSize: 20, fontWeight: 700}}> {price > 1 ? num_format(props.holding, 5, 7) : num_format(props.holding, 2, 4)}</span> 
+              <span className="d-block text-decoration-none text-dark" style={{fontSize: 18, fontWeight: 700}}> {price > 1 ? num_format(props.holding, 5, 7) : num_format(props.holding, 2, 4)}</span> 
               <span style={{color: "#8DA0B0", fontSize: 11}}>24H VARIATION</span>
               <PriceVariation priceVariation={Number(priceVariation.toFixed(2))} />
             </Col>
-            <Col md={4} xs={7} className="pt-3 pl-0 align-items-md-start align-items-center float-right text-right">
+            <Col md={4} xs={7} className="pl-0 align-items-md-start align-items-center float-right text-right">
                 {
                   props.symbol !== 'SWPT'
                   ? <div style={{position: "relative"}} className="previewchart">
