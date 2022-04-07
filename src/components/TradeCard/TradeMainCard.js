@@ -290,7 +290,7 @@ const TradeMainCard = ({tier}) => {
                 amountOutMinFormatted = amountOutMinBN.shiftedBy(tokenSelectedOut.decimals)
             }
             let amountInFormattedBN = new BigNumber(amountIn).shiftedBy(tokenSelectedIn.decimals);
-
+            
             const txSwap = await swapTrackerMediator.methods
                             .swapExactTokensForTokens(amountInFormattedBN.toString(),amountOutMinFormatted.toString(),path)
                             .send({from:account})
