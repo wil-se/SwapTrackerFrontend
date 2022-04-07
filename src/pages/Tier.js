@@ -24,7 +24,7 @@ const Tier = () => {
           tid = Number(tid)
           tid >= 1000
           ? null
-          : tid === 10? 
+          : tid === 50? 
           setIsStarted(true)
           : tid === 5? 
           setIsAdvanced(true)

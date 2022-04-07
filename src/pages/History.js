@@ -62,10 +62,7 @@ const History = () => {
   }
 
   const { account } = useWeb3React();
-  const {setTierWithRedirect} = useAuthService()
-
-  useLayoutEffect(()=>{const timer = setTimeout(()=>{setTierWithRedirect(account)},2000); return () => clearTimeout(timer) },[account])
-
+  
   useEffect(() => {
     if(Object.keys(currentValues).length === 0){
       setValue(1)

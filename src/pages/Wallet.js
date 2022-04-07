@@ -13,17 +13,10 @@ ChartJS.register(ArcElement, Tooltip)
 
 
 const Wallet = () => {
-    const { setTierWithRedirect } = useAuthService()
     const { account } = useWeb3React();
 
    
 
-    useEffect( () => {
-        const timer = setTimeout(()=>{
-            setTierWithRedirect(account)
-        },2000);
-        return () => clearTimeout(timer)
-    },[account])
 
     return (
         <MainContainer>
