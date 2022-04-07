@@ -38,38 +38,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "router",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "tierToken",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amountIn",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tierFee",
-				"type": "uint256"
-			}
-		],
-		"name": "InvalidAmount",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address payable",
 				"name": "_to",
 				"type": "address"
@@ -79,6 +47,22 @@
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "router",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "tierTokenAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	},
 	{
 		"anonymous": false,
@@ -115,6 +99,19 @@
 			}
 		],
 		"name": "setProvider",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newreserve",
+				"type": "address"
+			}
+		],
+		"name": "setReserve",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
