@@ -79,7 +79,7 @@ const TradeMainCard = ({tier}) => {
         (async()=>{
             let bal = await getBalance(tokenSelectedIn,account,erc20Contract,web3)
             setBalance(bal)
-            tier === 1000 ? null :!state ? setDisabledInput(false) : null 
+            tier === 50 ? setDisabledInput(false) :!state ? setDisabledInput(false) : null 
 
         })()
     },[account,tokenSelectedIn])
@@ -209,7 +209,7 @@ const TradeMainCard = ({tier}) => {
                 let amountOutDecimals = num_format(amountOutFormatted,2,tokenSelectedOut.decimals)
                 let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
                 setAllowanceTokenIn(allowance)
-                amountOutFormatted.replace(',','.')
+               
                 setAmountOut(amountOutDecimals)
             }
             
@@ -455,11 +455,7 @@ const TradeMainCard = ({tier}) => {
                 
                 <div className="confirm-section mx-2 mb-2">
                    
-                    {   tier === 1000 ? 
-                        <button className="confirm-button" disabled={true}>
-                        You Need Tier 1
-                        </button>
-                        :
+                    {   
                         !allowanceTokenIn || (!amountIn || amountIn === 0) ? 
                         (
                             <button className="confirm-button" disabled={true}>

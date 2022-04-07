@@ -7,17 +7,12 @@ import {Link} from "react-router-dom"
 
 
 const TierSection = ({tier}) => {
+  
     return (  
         <>
           {
-            tier === 1000 ?
-            (
-                <div className="tierSubSection">
-                    <p className="text-nowrap">Current plan:</p>
-                    <Link to="tiers" className="text-nowrap ml-2" style={{fontSize: 12}}>active plan</Link>
-                </div>
-            )  
-            : tier === 10 ? 
+             
+            tier === 50 ? 
             (
                 <div className="tierSubSection">
                     <p className="text-nowrap">Current plan:</p>
