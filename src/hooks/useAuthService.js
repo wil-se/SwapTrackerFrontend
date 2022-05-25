@@ -23,7 +23,7 @@ const useAuthService = () => {
     const setTierWithRedirect = async (account) => {
         if(account){
             let tid = await swapTrackerMediator.methods.getTierFee(account).call()
-            console.log("Tier: ",tid)
+          
             if(Number(tid) >= 1000 ){
                 navigation('/tiers',{state:{noTier:true}})
             }else{

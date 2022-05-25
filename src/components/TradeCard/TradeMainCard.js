@@ -53,6 +53,7 @@ const TradeMainCard = ({tier}) => {
         (async ()=>{
             if(state){
                 const {tokenSelectedInRef,tokenSelectedOutRef,amountIn,amountOut,slippAmm} = await getTokenSelected(state)
+                const isSwapForETH = tokenSelectedInRef.symbol === BNB.symbol || tokenSelectedOutRef.symbol === BNB.symbol;
                 if(tokenSelectedOutRef){
 
                     if(tokenSelectedInRef && account){
@@ -64,7 +65,8 @@ const TradeMainCard = ({tier}) => {
                     }
 
                     setTokenSelectedOut(tokenSelectedOutRef)
-                    setAmountOut(amountOut)
+                    //setAmountOut(amountOut)
+                    isSwapForETH ? await getAmoutOutForCloseTrade(amountIn,[tokenSelectedInRef.address,tokenSelectedOutRef.address],tokenSelectedInRef,tokenSelectedOutRef) : await getAmoutOutForCloseTrade(amountIn,[tokenSelectedInRef.address, WBNB.address, tokenSelectedOutRef.address],tokenSelectedInRef,tokenSelectedOutRef);
                     setDisabledButton(false)
                     setSaveTrade(!saveTrade)
                     setDisabledButtonCloseTrade(true)
@@ -85,7 +87,27 @@ const TradeMainCard = ({tier}) => {
     },[account,tokenSelectedIn])
 
 
+    const getAmoutOutForCloseTrade = async (amIn,currentPath,currentTokenIn,currentTokenOut) => {
+    
+        let amount = Math.abs(amIn)
+        let amountInShifted = new BigNumber(amount).shiftedBy(currentTokenIn.decimals);
+        if(amountInShifted>0){
+            let amOut = await pancakeRouterContract.methods.getAmountsOut(amountInShifted.toString(),currentPath).call().catch((e)=>console.log(e))
+            let allowance = await erc20Contract.methods.allowance(account,swapTrackerMediator._address).call();
+            setAllowanceTokenIn(allowance)
+            if(amOut){
+            
+                let amoutOutFormatted = new BigNumber(amOut[amOut.length-1]).shiftedBy(-1*parseInt(currentTokenOut.decimals)).toNumber();
+                let amountOutDecimals = num_format(amoutOutFormatted,2,currentTokenOut.decimals)
+                setAmountOut(amountOutDecimals) 
 
+            }
+            else{
+                setAmountIn(0)
+            }
+
+        }
+    }
     
 
     const getAmountOut = async (amIn,currPath,newTokenSelected,isTokenOut) =>{
@@ -106,7 +128,7 @@ const TradeMainCard = ({tier}) => {
             currentPath = currPath 
             currentTokenOut = newTokenSelected
         }
-
+       
         let amount = Math.abs(amIn)
         let amountInShifted = new BigNumber(amount).shiftedBy(currentTokenIn.decimals);
         if(amountInShifted>0){
@@ -129,7 +151,7 @@ const TradeMainCard = ({tier}) => {
     } 
 
     const getAmountIn = async (amOut,currPath) => {
-        console.log("onchange", currPath)
+     
         let currentPath = path;
         if(isWrap){
             setAmountIn(Math.abs(amOut))

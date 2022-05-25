@@ -12,7 +12,7 @@ const useTrade = () => {
     
 
     const setTrade = async (tradeTx,path,saveTrade) => {
-        console.log(saveTrade)
+       
         let tradeEvent = tradeTx.events.Swap.returnValues
         let contractTokenIn = getBep20Contract(path[0])
         let contractTokenOut = getBep20Contract(path[path.length -1])
@@ -80,6 +80,7 @@ const useTrade = () => {
         if(tokenInContract._address && tokenOutContract._address){
             amountIn = state?.amountOut
             amountOut = state?.amountIn
+         
             
             let decimalsTokenIn = await tokenInContract.methods.decimals().call();
             let decimalsTokenOut = await tokenOutContract.methods.decimals().call();

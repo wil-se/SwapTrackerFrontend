@@ -29,7 +29,7 @@ export const usePancakePair = (address) => {
 
 export const useSwapTrackerMediator = () => {
   const {web3} = useWeb3();
-  console.log("SWMED:: ",process.env.REACT_APP_SWAPTRACKER_MEDIATOR.toLowerCase())
+ 
   return useMemo(()=> getSwapTrackerMediator(process.env.REACT_APP_SWAPTRACKER_MEDIATOR.toLowerCase(),web3), [web3]);
 }
 
